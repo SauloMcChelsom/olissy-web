@@ -1,0 +1,93 @@
+.container {
+  background-color: #fafafa;
+  height: calc( 100vh - 50px );
+}
+
+.login-box-body, .register-box-body {
+  background-color: #fafafa;
+  padding: 0px;
+}
+
+.font-olissy{
+  font-family: 'Clicker Script', cursive;
+  font-size: 90px;
+  font-weight: 100;
+  color: #000;
+  text-align: center;
+}
+
+.btn-alert{
+  margin-top: -5px;
+  border: 0px;
+  box-shadow: none;
+  color:#dd4b39;
+  font-weight: 600;
+  background: rgb(255, 255, 255);
+}
+
+input.ng-invalid.ng-touched{
+  border: 1px solid red;
+}
+
+input.ng-valid.ng-touched{
+  border: 1px solid #ccc;
+}
+
+@media only screen and (max-width: 600px) {
+  label {
+    max-width: 100%;
+    margin-bottom: 15px;
+    font-weight: 100;
+  }
+  .col-xs-4 {
+    width: 100%;
+  }
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #0095f6;
+  border-color: #0076c1;
+}
+
+.btn-primary:hover {
+  color: #fff;
+  background-color: #70c3f9;
+  border-color: #33a9f5;
+}
+
+.btn-google {
+  color: #fff;
+  background-color: #c71581;
+  border-color: #b31374;
+}
+
+.btn-google:hover {
+  color: #fff;
+  background-color: #c71581;
+  border-color: #b31374;
+}
+
+a {
+  color: #c71581;
+  text-decoration: none;
+}
+
+.box-body {
+  padding: 0px;
+}
+
+.callout {
+  border-left: 0px solid #eee;
+}
+
+.form-control {
+  color: #000;
+  border: 1px solid #ccc;
+}
+
+@media all and (max-width: 600px) {
+  input[type=checkbox] {
+    margin: 0px 0px 0px -20px;
+  }
+}

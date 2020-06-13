@@ -1,0 +1,198 @@
+.dropdown-menu a:hover {
+  background-color: transparent;
+}
+
+.dropdown-buscar-produto {
+  width: 100%;
+  z-index: 100;
+}
+
+.menu-item-info-box-text {
+  width: 100%;
+}
+
+label.filebutton {
+  overflow: hidden;
+  position: relative;
+}
+
+.filebutton2 {
+  z-index: 999;
+  line-height: 0;
+  opacity: 0;
+  filter: alpha(opacity = 0);
+  -ms-filter: "alpha(opacity=0)";
+  cursor: pointer;
+  _cursor: hand;
+}
+
+.form-control:focus {
+  box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0), 0 0 0px rgba(41, 42, 43, 0);
+}
+
+input.ng-invalid.ng-touched {
+  border: 1px solid red;
+}
+
+input.ng-valid.ng-touched {
+  border: 1px solid green;
+}
+
+select.ng-valid.ng-touched {
+  border: 1px solid green;
+}
+
+select.ng-invalid.ng-touched {
+  border: 1px solid red;
+}
+
+select.ng-pristine.ng-touched {
+  border: 1px solid red;
+}
+
+input.ng-valid.ng-touched.input-buscar-produto {
+  border: 1px solid #ccc;
+}
+
+input.ng-pristine.ng-touched.input-buscar-produto {
+  border: 1px solid #ccc;
+}
+
+input.ng-invalid.ng-touched.input-buscar-produto {
+  border: 1px solid #ccc;
+}
+
+select.ng-valid.ng-touched.select-buscar-por {
+  border: 1px solid #ccc;
+}
+
+select.ng-pristine.ng-touched.select-buscar-por {
+  border: 1px solid #ccc;
+}
+
+select.ng-invalid.ng-touched.select-buscar-por {
+  border: 1px solid #ccc;
+}
+
+select.ng-valid.ng-touched.select-em-venda {
+  border: 1px solid #ccc;
+}
+
+select.ng-pristine.ng-touched.select-em-venda {
+  border: 1px solid #ccc;
+}
+
+select.ng-invalid.ng-touched.select-em-venda {
+  border: 1px solid #ccc;
+}
+
+.card-mobile {
+  display: none;
+}
+
+@media only screen and (max-width: 690px) {
+  .card-desktop {
+    display: none;
+  }
+  .card-mobile {
+    display: initial;
+  }
+  .col-lg-1,
+  .col-lg-10,
+  .col-lg-11,
+  .col-lg-12,
+  .col-lg-2,
+  .col-lg-3,
+  .col-lg-4,
+  .col-lg-5,
+  .col-lg-6,
+  .col-lg-7,
+  .col-lg-8,
+  .col-lg-9,
+  .col-md-1,
+  .col-md-10,
+  .col-md-11,
+  .col-md-12,
+  .col-md-2,
+  .col-md-3,
+  .col-md-4,
+  .col-md-5,
+  .col-md-6,
+  .col-md-7,
+  .col-md-8,
+  .col-md-9,
+  .col-sm-1,
+  .col-sm-10,
+  .col-sm-11,
+  .col-sm-12,
+  .col-sm-2,
+  .col-sm-3,
+  .col-sm-4,
+  .col-sm-5,
+  .col-sm-6,
+  .col-sm-7,
+  .col-sm-8,
+  .col-sm-9,
+  .col-xs-1,
+  .col-xs-10,
+  .col-xs-11,
+  .col-xs-12,
+  .col-xs-2,
+  .col-xs-3,
+  .col-xs-4,
+  .col-xs-5,
+  .col-xs-6,
+  .col-xs-7,
+  .col-xs-8,
+  .col-xs-9 {
+    padding-right: 0px;
+    padding-left: 0px;
+  }
+}
+
+.btn-danger-mobile {
+  color: #fff;
+  background-color: #c71582;
+  border-color: #ffffff;
+  border: 2px solid #ffffff;
+}
+
+.btn-danger-mobile:hover {
+  background-color: #b31374;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #c71581;
+  border-color: #b31374;
+}
+
+.btn-primary:hover {
+  color: #fff;
+  background-color: #c71581;
+  border-color: #b31374;
+}
+
+.menu-item-info-box-detail {
+
+   margin-bottom: 0px;
+
+}
+
+.card{
+  width: 500px;
+  margin-top: 10px;
+  margin-bottom: 0px;
+}
+
+@media only screen and (max-width: 600px) {
+  .card{
+    width: 100%
+  }
+}
+
+.center {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+}

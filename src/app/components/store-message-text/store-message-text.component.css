@@ -1,0 +1,76 @@
+.direct-chat-text:after,
+.direct-chat-text:before {
+  border-right-color: transparent
+}
+.direct-chat-success .right > .direct-chat-text:after,
+.direct-chat-success .right > .direct-chat-text:before {
+  border-left-color: transparent
+}
+
+.direct-chat-timestamp {
+  color: #666;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.column-fixed{
+   position: fixed; 
+   width: 100%; 
+   z-index:2;
+   margin-left:15px;
+}
+
+  .head-mensagem-center-desktop{
+    display:flex;  
+    flex-direction: column;   
+    align-items: center; 
+    
+  }
+  
+   .msn-mensagem-center-desktop{
+    display:flex;  
+    flex-direction: column;   
+    align-items: initial; 
+  }
+  
+.footer-mensagem-center-desktop{
+   display:flex;  
+    flex-direction: column;   
+    align-items: center; 
+}
+
+@media only screen and (max-width: 600px){
+  .head-mensagem-center-desktop{
+    display:block;
+  }
+  .footer-mensagem-center-desktop{
+   display:block;
+  }
+  .column-fixed{
+   margin-left:0px;
+  }
+}
+
+@media only screen and (min-width: 759px){
+  .msn-mensagem-center-desktop{
+    align-items: center; 
+  }
+}
+
+@media only screen and (max-width: 770px){
+  .head-mensagem-center-desktop{
+    display:block;
+    align-items: initial; 
+  }
+  .footer-mensagem-center-desktop{
+   display:block;
+   align-items: initial; 
+  }
+  img {
+    vertical-align: middle;
+  }
+}

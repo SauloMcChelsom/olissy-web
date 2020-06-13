@@ -1,0 +1,151 @@
+<link href="https://fonts.googleapis.com/css?family=Thasadith&display=swap" rel="stylesheet">
+
+<div class="container not-select-text removerEspacoEntreCabecarioLoja">
+  <section class="content" style="padding: 0px 15px 0px 15px">
+    <div class="row">
+      <div class="col-xs-12 collumn-mobile center">
+        <div class="box box-solid" *ngFor="let store of store">
+          <div class="box-body wallpaper" [ngStyle]="{'background-image': 'url(' +store?.storePageImageUrl+  ')'}">
+            <div class="box-header with-border h" style=" padding-right: 0px; ">
+              <span class="font-thasadith">
+                <a [href]="store?.storeImageUrl" target="_blank">
+                  <img class="img-circle box-img-detail"  [src]="store?.storeImageUrl" />
+                  <span *ngIf="store?.storeOpenOrClosed  == true" class="storeOpen">
+                    <i class="fa fa-circle"></i>
+                  </span> 
+                  <span *ngIf="store?.storeOpenOrClosed  == false" class="storeClosed">
+                    <i class="fa fa-circle"></i>
+                  </span>
+                </a>
+              </span> 
+              <span class="font-thasadith border-icons-a">
+                <a class="nameStore">{{ store?.storeName }}&nbsp;<i class="fa fa-circle" style="font-size: 7px;"></i>&nbsp;<i style="color: #ccc; font-style: normal;">{{ store?.storeNeighborhood }}</i></a>
+              </span> 
+              <span class="pull-right border-icons-c" (click)="selectDisplayStoreInfo(store)" data-keyboard="false" data-toggle="modal" data-target="#displayStoreInfo">
+                <a style="font-size: 20px; color: #ccc; background-color: transparent; cursor: pointer;">
+                  <i class="fa  fa-ellipsis-h"></i>
+                </a>
+              </span> 
+            </div>
+            <div class="col-sm-12 col-xs-12 f">
+              <span class="border-icons-e"  *ngIf="isLogin == false">
+                <i class="fa fa-thumbs-o-up" style="color: #fff;font-size: 20px; cursor: pointer;"></i> 
+                <b style="color: #fff;cursor: pointer;"> {{ store.follow }} Seguidores</b>
+              </span>
+              
+              <span class="border-icons-e"  *ngIf="isLogin == true && react_user.status == 'react-empty'" (click)="createFollow(store)">
+                <i class="fa fa-thumbs-o-up" style="color: #fff;font-size: 20px; cursor: pointer;"></i> 
+                <b style="color: #fff;cursor: pointer;"> {{ store.follow }} Seguidores</b>
+              </span>
+
+              <span class="border-icons-e"  *ngIf="isLogin == true && react_user.status == 'react-full-black'" (click)="setFollowBlack(store)">
+                <i class="fa fa-thumbs-o-up" style="color: #fff;font-size: 20px; cursor: pointer;"></i> 
+                <b style="color: #fff;cursor: pointer;"> {{ store.follow }} Seguidores</b>
+              </span>
+              <span class="border-icons-e"  *ngIf="isLogin == true && react_user.status == 'react-full-grey'">
+                <i class="fa fa-thumbs-up" style="color:#999;font-size: 20px; cursor: pointer;"></i> 
+                <b style="color: #999;cursor: pointer;"> {{ store.follow }} Seguidores</b>
+              </span>
+              <span class="border-icons-e"  *ngIf="isLogin == true && react_user.status == 'react-full-blue'" (click)="setFollowBlue(store)">
+                <i class="fa fa-thumbs-up" style="color: #0994f7;font-size: 20px; cursor: pointer;"></i> 
+                <b style="color: #0994f7;cursor: pointer;"> {{ store.follow }} Seguidores</b>
+              </span>
+
+              <span class="border-icons-d" style="font-size: 20px; cursor: pointer;" (click)="message()">
+                <i class="fa fa-envelope" style="color: #fff;font-size: 20px; cursor: pointer;"></i>
+              </span>
+              <span class="pull-right border-icons-b">
+                <a style="font-size: 15px; color: #ccc; background-color: transparent; cursor: pointer;">
+                  <i class="fa fa-star"></i>{{  store.sale || 0 }} &nbsp; <i class="fa fa-tags"></i>{{ store?.productQuantity }}
+                </a>
+              </span>
+            </div>        
+          </div>
+          <div class="box-footer detail-footer">
+            <a class="pull-left" routerLinkActive="detail-active" [routerLink]="['store-product']">
+              Produtos
+            </a>
+            <a class="pull-right" routerLinkActive="detail-active" [routerLink]="['store-comment']">
+              Comentários
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+       <router-outlet></router-outlet>  
+    </div>
+  </section>
+</div>
+<form>
+  <div class="modal fade" id="displayStoreInfo">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="box-footer" style="border-top: 0px solid #f4f4f4;">
+            <div class="row">
+              <div class="form-group"> 
+                <div  style="display: flex; flex-direction: column;"> 
+                  <div *ngIf="TaxaDelivery[0].rule" class="alert" style="background-color: #ffc900cf; color: #f6f6f6; text-shadow: 1px 1px #777;">{{ TaxaDelivery[0].description }}</div>
+                  <div *ngIf="TaxaDelivery[1].rule" class="alert" style="background-color: #2cce2fd1; color: #f6f6f6;text-shadow: 1px 1px #777;">{{ TaxaDelivery[1].description }}</div>              
+                  <div *ngIf="TaxaDelivery[2].rule" class="alert" style="background-color: #0994f7;color: #f6f6f6;text-shadow: 1px 1px #777;">{{ TaxaDelivery[2].description }}</div>
+                  <div *ngIf="TaxaDelivery[3].rule" class="alert" style="background-color: #ff6451;color: #f6f6f6;text-shadow: 1px 1px #777;">{{ TaxaDelivery[3].description }}</div>             
+                </div>
+              </div>
+              <div class="col-sm-4 border-right">
+                <div class="description-block">
+                  <h5 class="description-header">Loja</h5>
+                  <span class="description-text">
+                    {{ displayStoreInfo?.storeName }}
+                    <br>
+                  </span>
+                </div>
+              </div>
+              <div class="col-sm-4 border-right">
+                <div class="description-block">
+                  <h5 class="description-header">Contatos</h5>
+                  <span class="description-text" style="text-transform: none;">
+                    {{ displayStoreInfo?.storeEmail }}
+                    <br>
+                  </span>
+                  <span class="description-text">
+                    {{ displayStoreInfo?.storeCellPhone | mask: '(00) 0 0000-0000' }}
+                    <br>
+                  </span>
+                  <span class="description-text">
+                    {{ displayStoreInfo?.storeTelephone | mask: '(00) 0000-0000'}}
+                  </span>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="description-block">
+                  <h5 class="description-header">
+                    Endereço
+                  </h5>
+                  <span class="description-text">
+                    {{ displayStoreInfo?.storeCity }}
+                    <br>
+                  </span>
+                  <span class="description-text">
+                    {{ displayStoreInfo?.storeNeighborhood }}
+                    <br>
+                  </span>
+                  <span class="description-text">
+                    {{ displayStoreInfo?.storeStreet }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Ocultar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>  
+
+
+

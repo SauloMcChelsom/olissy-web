@@ -1,0 +1,286 @@
+<link href="https://fonts.googleapis.com/css?family=Thasadith&display=swap" rel="stylesheet">
+<div class="container"> 
+  <div *ngFor="let product of result.product" >
+    <div *ngFor="let store of result.store"class="col-md-12 col-xs-12 center" style="top: 0px; margin-bottom: 0px">
+      <div *ngIf="store.FOREIGN_KEY == product.FOREIGN_KEY" class="menu-item-info-box card" style="cursor: pointer">
+
+        <div   class="box-header with-border" style="padding: 5px 0px 0px 5px;">
+          <div class="user-block">
+            <div style="display:flex; flex-wrap: nowrap; justify-content: space-between; align-items:baseline; margin-top: 10px;margin-bottom: 5px;">
+              <span [routerLink]="['/store-page',store?.FOREIGN_KEY]">
+                <img class="img-circle" [src]="store?.storeImageUrl" alt="User Image">
+                <span *ngIf="store?.storeOpenOrClosed  == true" class="storeOpen">
+                  <i class="fa fa-circle"></i>
+                </span> 
+                <span *ngIf="store?.storeOpenOrClosed  == false" class="storeClosed">
+                  <i class="fa fa-circle"></i>
+                </span> 
+                <span class="username" style="position: relative; top: -15px; line-height: 11px; display:flex; 	flex-direction: column;">
+                  <a class="nameStore">{{ store?.storeName }}&nbsp;<i class="fa fa-circle" style="font-size: 7px;"></i>&nbsp;<i style="color: #777; font-style: normal;">{{ store?.storeNeighborhood }}</i></a>
+                </span>
+                <span class="username" style="position: relative; top: -10px; line-height: 11px; display:flex; 	flex-direction: row;"> 
+                  <i *ngIf="store.negotiateRateLivery.status" class="fa fa-circle" style="font-size: 15px; margin-right: 15px; color: #ffc900cf;"></i>
+                  <i *ngIf="store.onlyInNeighborhood.status" class="fa fa-circle" style="font-size: 15px; margin-right: 15px; color: #2cce2fd1;"></i>
+                  <i *ngIf="store.deliveryFreeAbove.status" class="fa fa-circle" style="font-size: 15px; margin-right: 15px; color: #0994f7;"></i>
+                  <i *ngIf="store.deliveryBy.status" class="fa fa-circle" style="font-size: 15px; margin-right: 15px; color: #ff6451;"></i>
+                </span>
+              </span>
+              <span class="pull-right" style="margin-right: 15px;">
+                <span class="username" (click)="selectDisplayStoreInfo(store)" data-keyboard="false" data-toggle="modal" data-target="#displayStoreInfo" style="position: relative; top: 5px; width: 10px">
+                  <a class="nameStore" style="font-size: 20px">
+                    <i class="fa fa-ellipsis-h" style="color: #777;"></i>
+                  </a>
+                </span>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div *ngFor="let productDB of result.productDataBase">
+          <div *ngIf="productDB.PRIMARY_KEY == product.PRIMARY_KEY_PRODUCT_DB && store.FOREIGN_KEY == product.FOREIGN_KEY" class="col-md-12 col-xs-12" style="padding-top: 0px; padding-bottom: 5px;">
+            <span *ngIf="product.description" (click)="setDescription(false, product.index)" class="menu-item-info-box-text">
+              {{productDB.productName}}
+            </span>  
+            <span *ngIf="!product.description" (click)="setDescription(true, product.index)" class="menu-item-info-box-text" style="white-space: normal">
+              {{productDB.productName}}
+            </span> 
+            <div *ngIf="!product.description" style="margin: 0px 0px 10px 5px;">
+                <span class="menu-item-info-box-detail" style="width:100%;">
+                  <label style="width:100%; font-weight: normal;">
+                    <p style="margin-bottom: 0px;">
+                      <b>Sessão: </b>{{ productDB?.productSession }}
+                    </p>
+                  </label>
+                </span>
+                <span class="menu-item-info-box-detail" style="width:100%;">
+                  <label style="width:100%; font-weight: normal;">
+                    <p style="margin-bottom: 0px;">
+                      <b>Categoria: </b>{{ productDB?.productCategory }}
+                    </p>
+                  </label>
+                </span>
+                <span class="menu-item-info-box-detail" style="width:100%;">
+                  <label style="width:100%; font-weight: normal;">
+                    <p style="margin-bottom: 0px;">
+                      <b>Tipo: </b>{{ productDB?.productType }}
+                    </p>
+                  </label>
+                </span>
+                <span class="menu-item-info-box-detail" style="width:100%;">
+                  <label style="width:100%; font-weight: normal;">
+                    <p style="margin-bottom: 0px;">
+                      <b>Generico: </b>{{ productDB?.andGeneric }}
+                    </p>
+                  </label>
+                </span>
+                <span class="menu-item-info-box-detail" style="width:100%;">
+                  <label style="width:100%; font-weight: normal;">
+                    <p style="margin-bottom: 0px;">
+                      <b>Fornecedor: </b>{{ productDB?.provider }}
+                    </p>
+                  </label>
+                </span>
+              <h5 style="margin-top: 0px;">
+                <div [innerHTML]="productDB?.productDescription"></div>
+              </h5>
+            </div> 
+            <div id="carousel-example-generic" class="carousel slide imagemMobile" data-interval="false">
+              <div class="carousel-inner">
+                <div class="item active">
+                  <a [href]="productDB.productImageUrl" target="_blank">
+                    <img [src]="productDB.productImageUrl || ''" style="width: 100%" alt="Photo" alt="Photo">
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div *ngFor="let productDB of result.productDataBase" >
+          <div *ngIf="productDB.PRIMARY_KEY == product.PRIMARY_KEY_PRODUCT_DB && store.FOREIGN_KEY == product.FOREIGN_KEY">
+            <div style="margin: 5px 5px 5px 5px; padding:0px 0px 0px 0px ;">
+              <div class="row" style="margin-left: 0px; margin-right: 0px;">
+                <span class="menu-item-info-box-price font" style="font-size: 25px; color:#000">
+                  {{ product.productPrice | currency: 'BRL'}}
+                  <span style="font-size: 12px; background-color: #2cce2fd1; border-radius: 10px; color: aliceblue; color: #ffffff;padding: 5px; top: -20px; position: relative;">
+                    <b>
+                      {{ product.productQuantities }} Unidades
+                    </b>
+                  </span>
+                </span>
+                <button type="button" (click)="purchase(productDB, product)" class="btn btn-default btn-xs pull-right font" style="font-size: 25px;border-radius: 0px; border: 0px solid #EE3233; background: #fff; color:#000">
+                  <b>Comprar</b>
+                </button>
+              </div>
+            </div>
+            <div class="container-react-user">
+              <div *ngIf="!LOGIN" class="container-love">
+                <i class="fa  fa-heart-o" style="font-size: 24px; margin-right: 3px; color: #555;"></i>
+                <b *ngIf="product.love == 0">Amar</b>   
+                <b *ngIf="product.love > 0">{{ product.love }}</b> 
+              </div>
+              <div *ngIf="reactLoading && LOGIN" (click)="setLove(product)" class="container-love">
+                <i *ngIf="!product.react" class="fa  fa-heart-o" style="font-size: 24px; margin-right: 3px; color: #555;"></i>
+                <i *ngIf="product.react" class="fa  fa-heart" style="font-size: 24px; margin-right: 3px; color: #ff6451;"></i>
+                <b *ngIf="product.love == 0">Amar</b>   
+                <b *ngIf="product.love > 0">{{ product.love }}</b> 
+              </div> 
+              <div *ngIf="!reactLoading" class="container-love" >
+                <i class="fa fa-heart" style="font-size: 24px; margin-right: 3px; color: #999999ba;"></i>
+                <b *ngIf="product.love == 0">Amar</b>   
+                <b *ngIf="product.love > 0">{{ product.love }}</b> 
+              </div> 
+              <div class="container-commit" (click)="setComment(product.PRIMARY_KEY)" data-keyboard="false" data-toggle="modal" data-target="#displayComment">        
+                <i class="fa  fa-comment-o" style="font-size: 24px; margin-right: 3px; color: #555;"></i>
+                <b *ngIf="product.comment == 0 || product.comment == null ">Comentar</b>   
+                <b *ngIf="product.comment > 0">{{ product.comment }}</b> 
+              </div>
+              <div class="container-cart">
+                <i class="fa  fa-star-o" style="font-size: 24px; margin-right: 3px; color: #555;"></i>
+                <b *ngIf="product.sale == 0">Vendido</b>   
+                <b *ngIf="product.sale > 0">{{ product.sale }}</b>  
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="col-md-12 col-xs-12 center" style="top: 0px; margin-bottom: 0px">
+    <div class="col-md-12 col-xs-12 card" style="padding-bottom: 0px; padding-right: 0px; padding-left: 0px;" *ngIf="loading">
+      <button type="submit" class="btn btn-primary btn-block btn-flat btn-mais" (click)="loadingPlusProduct()">
+        Carregar mais
+      </button>
+    </div>
+    <div class="row" *ngIf="!loading">
+      <div class="login-logo">
+        <i class="fa fa-refresh fa-spin fa-2x"></i>
+      </div>
+    </div>
+  </div>
+  <form>
+    <div class="modal fade" id="displayStoreInfo">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="box-footer" style="border-top: 0px solid #f4f4f4;">
+              <div class="row">
+                <div class="form-group"> 
+                  <div  style="display: flex; flex-direction: column;"> 
+                    <div *ngIf="TaxaDelivery[0].rule" class="alert" style="background-color: #ffc900cf; color: #f6f6f6; text-shadow: 1px 1px #777;">{{ TaxaDelivery[0].description }}</div>
+                    <div *ngIf="TaxaDelivery[1].rule" class="alert" style="background-color: #2cce2fd1; color: #f6f6f6;text-shadow: 1px 1px #777;">{{ TaxaDelivery[1].description }}</div>              
+                    <div *ngIf="TaxaDelivery[2].rule" class="alert" style="background-color: #0994f7;color: #f6f6f6;text-shadow: 1px 1px #777;">{{ TaxaDelivery[2].description }}</div>
+                    <div *ngIf="TaxaDelivery[3].rule" class="alert" style="background-color: #ff6451;color: #f6f6f6;text-shadow: 1px 1px #777;">{{ TaxaDelivery[3].description }}</div>             
+                  </div>
+                </div>
+                <div class="col-sm-4 border-right">
+                  <div class="description-block">
+                    <h5 class="description-header">Loja</h5>
+                    <span class="description-text">
+                      {{ displayStoreInfo?.storeName }}
+                      <br>
+                    </span>
+                  </div>
+                </div>
+                <div class="col-sm-4 border-right">
+                  <div class="description-block">
+                    <h5 class="description-header">Contatos</h5>
+                    <span class="description-text" style="text-transform: none;">
+                      {{ displayStoreInfo?.storeEmail }}
+                      <br>
+                    </span>
+                    <span class="description-text">
+                      {{ displayStoreInfo?.storeCellPhone | mask: '(00) 0 0000-0000' }}
+                      <br>
+                    </span>
+                    <span class="description-text">
+                      {{ displayStoreInfo?.storeTelephone | mask: '(00) 0000-0000'}}
+                    </span>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="description-block">
+                    <h5 class="description-header">
+                      Endereço
+                    </h5>
+                    <span class="description-text">
+                      {{ displayStoreInfo?.storeCity }}
+                      <br>
+                    </span>
+                    <span class="description-text">
+                      {{ displayStoreInfo?.storeNeighborhood }}
+                      <br>
+                    </span>
+                    <span class="description-text">
+                      {{ displayStoreInfo?.storeStreet }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Ocultar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>  
+  <form>
+    <div class="modal fade mobile" id="displayComment">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="row" *ngIf="comments.status">
+            <div class="login-logo">
+              <i class="fa fa-refresh fa-spin fa-2x" style="margin-top: 20px;"></i>
+            </div>
+          </div>
+          <div  *ngIf="!comments.status" class="modal-header" style=" background-color: #C71585">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true"><i class="fa fa-fw fa-close"></i></span></button>
+            <h4 class="modal-title" style="color: #fff;">{{ this.comments.post.length }} Comentarios</h4>
+          </div>
+          <div *ngIf="comments.post.length != 0" id="content" style="background-color: #fff; padding: 0px 10px 0px 10px;">
+            <div class="box-primary direct-chat direct-chat-success box-body" >
+              <div class="row msn-mensagem-center-desktop">
+                <div *ngFor="let comment of comments.post" style="margin-bottom:0px;">
+                  <div  class="direct-chat-msg">
+                    <img class="direct-chat-img" [src]="comment.commentImageUrl">
+                    <div class="direct-chat-text" style="background: #f0f2f5; color: #000; border: 1px solid #f0f2f5; font-size: 16px; ">
+                      <span class="direct-chat-name pull-left"> {{ comment.commentName }} </span>
+                      <span class="direct-chat-name pull-right" style=" font-size: 12px; font-weight: normal; color: #65676b;"> {{ comment.commentDate | formatterDateForFriend  }} </span><br>
+                      {{ comment.commentText }}
+                    </div>
+                  </div>
+                </div>  
+              </div>
+            </div>
+          </div>
+          <div *ngIf="!comments.status" class="modal-footer" style="padding: 0px; text-align: start; border-top: 0px solid #e5e5e5;background-color: #d2d6de;">
+            <div *ngIf="comments.post.length != 0" class="box box-default collapsed-box box-solid" style="cursor: pointer; margin-bottom: 0px; box-shadow: none;">
+              <div class="box-header with-border">
+                <div *ngIf="commentPlus" class="box-title" (click)="setCommentPlus()" style="align-items: center; display: flex; justify-content: center;">
+                  Mais Comentarios
+                </div>
+                <div *ngIf="!commentPlus" class="box-title" style="align-items: center; display: flex; justify-content: center;">
+                  <i class="fa fa-refresh fa-spin fa-1x"></i>
+                </div>
+              </div>
+            </div>
+            <form *ngIf="LOGIN" [formGroup]="formularioComentario" style="margin: 5px 2px 5px 4px; background-color: #d2d6de;">
+              <!-- <div class="img-responsive img-circle img-sm pull-right" style="margin-right: 10px;"> 
+                <button type="button" (click)="publicarComentario()" class="btn btn-default btn-xs">
+                  <i class="fa  fa-send-o" style="font-size: 25px"></i>
+                </button>
+              </div> -->
+              <div class="img-push">
+                <input type="text" formControlName="commentText" class="form-control input-sm" (keyup.enter)="publicarComentario()" placeholder="Comente Você Também ...">
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

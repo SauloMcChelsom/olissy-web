@@ -1,0 +1,241 @@
+<div class="container">
+    <section class="invoice box box-widget" id="print-section" style="margin: 20px 0px 10px 0px;">
+        <div class="row ">
+            <div class="col-sm-12 col-xs-12" style="display: flex; flex-wrap: nowrap;  justify-content: center;">
+                <span *ngIf="userType == 1"><img class="box-img-detail img-circle" [src]="order?.storeImageUrl" style="margin-bottom: 60px;"/></span>
+                <span *ngIf="userType == 2"><img class="box-img-detail img-circle" [src]="order?.clientImageUrl" style="margin-bottom: 60px;"/></span>
+            </div> 
+        </div>
+        <div class="row invoice-info">
+        <div class="col-sm-4 invoice-col">
+            <strong>Loja</strong>
+            <address>
+            {{ order?.storeName }}<br />
+            {{ order?.storeCity }} {{ order?.storeNeighborhood }} {{ order?.storeStreet }}<br />        
+            {{ order?.storeCellPhone | mask: '(00) 0 0000-0000'  }} <br /> 
+            {{ order?.storeCNPJ | mask: '00.000.000/0000-00' }} <br /> 
+            {{ order?.storeEmail }} 
+            </address>
+        </div>
+        <div class="col-sm-4 invoice-col">
+            <strong>Cliente</strong>
+            <address>
+            {{ order?.clientName }} {{ order?.clientLastName }}<br />
+            {{ order?.clientAddressFull }}<br />
+            {{ order?.clientCellPhone | mask: '(00) 0 0000-0000' }}<br />
+            </address>
+        </div>
+        <div class="col-sm-4 invoice-col">
+            <b>COD:</b> {{ order?.PRIMARY_KEY }}<br />
+            <b>Pagamento:</b> {{ methodPaymentInPortugues(order?.clientMethodPayment) }}<br />
+            <b>Estado:</b> {{ order?.orderState }} 
+        </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-6 col-xs-12">
+                <span class="lead">Itens do Pedido:</span>
+            </div>
+        </div>      
+        <div class="row">
+            <div class="col-xs-12 table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Qtd</th>
+                            <th>Produto</th>
+                            <th>valor</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let product of order?.product">
+                        <tr (click)="setProduct(product)" data-keyboard="false" data-toggle="modal" data-target="#selecionadoProdutoCadastrar"  >
+                            <td>{{ product.quantities }}</td>
+                            <td>{{ product.productName }}</td>
+                            <td>{{ product.productPriceOrigin }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-xs-12">
+                <span class="lead">Observações:</span>
+                <div class="text-muted well well-sm no-shadow" style="margin-top: 0px;">
+                    <div *ngIf="order?.clientMethodPayment == 'money'">
+                        # Informação do troco:
+                        <small>
+                            <b>
+                                {{  order?.informChange }}
+                            </b>
+                        </small>
+                    </div>
+                    <div>
+                        # data do pedido 
+                        <small>
+                            <b>
+                                {{ formatDataOrder(order?.orderDate) }}
+                            </b>
+                        </small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 col-xs-12">
+                <span class="lead">Montantes</span>
+                <div class="table-responsive">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th style="width:50%">Subtotal:</th>
+                                <td class="text-right">{{ order?.totalOrderValue - order?.taxing }}</td>
+                            </tr>
+                            <tr>
+                                <th>Tax (0.0%)</th>
+                                <td class="text-right">0.0</td>
+                            </tr>
+                            <tr>
+                                <th>Plataforma:</th>
+                                <td class="text-right">{{ order?.taxing }}</td>
+                            </tr>
+                            <tr>
+                                <th>Entrega:</th>
+                                <td class="text-right">0.0</td>
+                            </tr>
+                            <tr>
+                                <th>Total:</th>
+                                <td class="text-right">{{ order?.totalOrderValue }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- CLIENYE -->
+        <div *ngIf="userType == 1" class="row no-print">
+            <div class="col-xs-12">
+                <a class="btn btn-default pull-left" [routerLink]="['/client-order']">
+                    <i class="fa fa fa-reply"></i> Voltar
+                </a>
+                <div *ngIf="order?.orderState == 'Entregando'">
+                    <button type="button" class="btn btn-info pull-right" (click)="macarComoFinalizado()">
+                        Finalizar
+                    </button>
+                </div>
+                <div *ngIf=" order?.orderState != 'Entregando' && order?.orderState != 'Finalizado' && userType == 1">
+                    <button type="button" class="btn btn-danger pull-right" (click)="Desistir()">
+                        Desistir
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- LOJA -->
+        <div *ngIf="userType == 2" class="row no-print">
+            <div class="col-xs-12">
+                <a [routerLink]="['/store-order']" class="btn btn-default pull-left">
+                    <i class="fa fa fa-reply"></i> Voltar
+                </a>
+                <div *ngIf="order?.orderState == 'Enviado' ">
+                    <button type="button" class="btn btn-warning pull-right" (click)="macarComoEmProcessamento()">
+                        Em processamento
+                    </button>
+                </div>
+                <div *ngIf="order?.orderState == 'Em processamento' ">
+                    <button type="button" class="btn btn-info pull-right" (click)="macarComoEntregar()">
+                        Entragar
+                    </button>
+                </div>
+                <div *ngIf="order?.orderState == 'Finalizado' ||  order?.orderState == 'Desistência'">
+                    <button *ngIf="buttonRemoverPedido" type="button" class="btn btn-danger pull-right" (click)="RemoverPedido(order)">  
+                        Finalizar 
+                    </button>
+                    <button *ngIf="!buttonRemoverPedido" type="button" class="btn btn-danger pull-right btn-finish">  
+                        <div >
+                             <i class="fa fa-refresh fa-spin fa-1x"></i>
+                        </div> 
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <form  novalidate>
+        <div class="modal fade" id="selecionadoProdutoCadastrar">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title">
+                        Informações do produto
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                        <div *ngIf="loading" class="col-md-12 col-xs-12 center" style="top: 5px; margin-bottom: 50px">
+                            <div class="row">
+                                <div class="login-logo">
+                                <i class="fa fa-refresh fa-spin fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div *ngIf="!loading">
+                            <span class="menu-item-info-box-detail" style="width:100%;">
+                                <img class="img-responsive center-block" style="margin-bottom: 15px"  [src]="product?.productImageUrl"   width="300" alt="User Avatar">
+                            </span>
+                            <span class="menu-item-info-box-detail" style="width:100%;">
+                                <label style="width:100%; font-weight: normal;">
+                                <p style="margin-bottom: 0px;">
+                                    <b>Produto:</b> {{ product?.productName }}
+                                </p>
+                                </label>
+                            </span>
+                            <span class="menu-item-info-box-detail" style="width:100%;">
+                                <label style="width:100%; font-weight: normal;">
+                                <p style="margin-bottom: 0px;">
+                                    <b>Sessão: </b>{{ product?.productSession }}
+                                </p>
+                                </label>
+                            </span>
+                            <span class="menu-item-info-box-detail" style="width:100%;">
+                                <label style="width:100%; font-weight: normal;">
+                                <p style="margin-bottom: 0px;">
+                                    <b>Categoria: </b>{{ product?.productCategory }}
+                                </p>
+                                </label>
+                            </span>
+                            <span class="menu-item-info-box-detail" style="width:100%;">
+                                <label style="width:100%; font-weight: normal;">
+                                <p style="margin-bottom: 0px;">
+                                    <b>Tipo: </b>{{ product?.productType }}
+                                </p>
+                                </label>
+                            </span>
+                            <span class="menu-item-info-box-detail" style="width:100%;">
+                                <label style="width:100%; font-weight: normal;">
+                                <p style="margin-bottom: 0px;">
+                                    <b>Generico: </b>{{ product?.andGeneric }}
+                                </p>
+                                </label>
+                            </span>
+                            <span class="menu-item-info-box-detail" style="width:100%;">
+                                <label style="width:100%; font-weight: normal;">
+                                <p style="margin-bottom: 0px;">
+                                    <b>Fornecedor: </b>{{ product?.provider }}
+                                </p>
+                                </label>
+                            </span>
+                            <span class="menu-item-info-box-detail" style="width:100%;">
+                                <label style="width:100%; font-weight: normal;">
+                                    <div [innerHTML]="product?.productDescription"> </div>
+                                </label>
+                            </span>
+                        </div>
+                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning pull-rigth" data-dismiss="modal">
+                        Ocultar Informaçāo
+                    </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

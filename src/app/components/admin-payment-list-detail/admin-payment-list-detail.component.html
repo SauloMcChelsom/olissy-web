@@ -1,0 +1,138 @@
+<div class="container">
+  <section class="paymentDetail box box-widget" id="print-section">
+    <div class="row ">
+      <div class="col-xs-12">
+        <h2 class="page-header">
+          <i class="fa fa-globe"></i>
+          {{  paymentDetail.storeName }}
+          <small class="pull-right">
+            id: {{ paymentDetail.PRIMARY_KEY }}
+          </small>
+        </h2>
+      </div>
+    </div>
+    <div class="row  paymentDetail-info">
+      <div class="col-sm-4  paymentDetail-col">
+        <strong>Loja</strong>
+        <address>
+          {{  paymentDetail.storeName }}<br />
+          {{  paymentDetail.storeCity }}<br />
+          {{  paymentDetail.storeStreet }}<br />
+          {{  paymentDetail.storeNeighborhood }}<br />
+          {{  paymentDetail.storeCellPhone | mask: '(00) 0 0000-0000'}}<br>
+          {{  paymentDetail.storeEmail }}
+        </address>
+      </div>
+      <div class="col-sm-4  paymentDetail-col">
+        <strong>Plataforma</strong>
+        <address>
+          {{  paymentDetail.plataformaName }} <br />
+          {{  paymentDetail.plataformaCity }}
+          {{  paymentDetail.plataformaStreet }}<br />
+          {{  paymentDetail.plataformaNeighborhood }}<br />
+          {{  paymentDetail.plataformaCellPhone | mask: '(00) 0000-0000'}}<br />
+          {{  paymentDetail.plataformaEmail }}
+        </address>
+      </div>
+      <div class="col-sm-4  paymentDetail-col">
+        <b>Data da Abertura:</b> {{  formatterDateForPayment(paymentDetail.openPaymentDay) }}<br />
+        <b>Data do Pagamento:</b> {{  formatterDateForPayment(paymentDetail.inPaymentDay) }}<br />
+        <b>Data de vencimento:</b> {{  formatterDateForPayment(paymentDetail.latePaymentDay) }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Data</th>
+              <th>Cliente</th>
+              <th>valor</th>
+            </tr>
+          </thead>
+          <tbody *ngFor="let  client of listOrderClient.orders">
+            <tr>
+              <td>{{  formatterDateForPayment(client.data) }}</td>
+              <td>{{  client.name }}</td>
+              <td>{{  client.price | currency: "BRL" }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="order-list">
+      <button type="button" class="btn btn-order btn-block btn-social" (click)="showMoreOrders()">
+        <i class="fa  fa-sort-desc"></i> {{ listOrderClient.start + 1 }} - {{paymentDetail.client.length }} Pedidos
+      </button>
+    </div>
+    <div class="row" style="margin-bottom: 40px;">
+      <div class="col-md-6 col-xs-12">
+        <p class="lead">Observações:</p>
+        <p *ngIf="paymentDetail.statusPayment == 'openPayment' " class="text-muted well well-sm no-shadow info-box-icon-open" style="margin-top: 10px;">
+          # Este pagamento esta em <b> aberto</b><br />
+          # Data da abertura : <b> {{  formatterDateForPayment(paymentDetail.openPaymentDay) }}</b><br />
+          # Data do Dia : <b> {{  formatterDateForPayment(today()) }}</b><br />
+          # Data de fechamento : <b> {{  formatterDateForPayment(paymentDetail.inPaymentDay) }}</b><br />
+          # valor do pagamento <b>{{  paymentDetail.totalPayment | currency: "BRL" }}</b>
+        </p>
+        <p *ngIf="paymentDetail.statusPayment == 'inPayment' " class="text-muted well well-sm no-shadow info-box-icon-inPayment" style="margin-top: 10px;">
+          # Este pagamento esta liberado<br />
+          # Data de pagamento : <b> {{  formatterDateForPayment(paymentDetail.inPaymentDay) }}</b><br />
+          # Data de vencimento : <b> {{  formatterDateForPayment(paymentDetail.latePaymentDay) }}</b><br />
+        </p>
+        <p *ngIf="paymentDetail.statusPayment == 'receivedPayment' " class="text-muted well well-sm no-shadow info-box-icon-paid" style="margin-top: 10px;">
+          # Este pagamento foi <b>PAGO</b><br />
+          # Data do pagamento : <b> {{  formatterDateForPayment(paymentDetail.receivedPaymentDay) }}</b><br />
+          # valor do pagamento <b>{{  paymentDetail.totalPayment | currency: "BRL" }}</b>
+        </p>
+        <p *ngIf="paymentDetail.statusPayment == 'latePayment' " class="text-muted well well-sm no-shadow info-box-icon-delay" style="margin-top: 10px;">
+          # Este pagamento esta em <b>ATRASO</b><br />
+          # Data de vencimento : <b> {{  formatterDateForPayment(paymentDetail.latePaymentDay) }}</b><br />
+        </p>
+      </div>
+      <div class="col-md-6 col-xs-12">
+        <p class="lead">Montantes</p>
+        <div class="table-responsive">
+          <table class="table">
+            <tbody>
+              <tr>
+                <th style="width:50%">Banco:</th>
+                <td class="text-right">{{  paymentDetail.bank }}</td>
+              </tr>
+              <tr>
+                <th>Agencia</th>
+                <td class="text-right">{{ paymentDetail.agency }}</td>
+              </tr>
+              <tr>
+                <th>Conta:</th>
+                <td class="text-right">{{ paymentDetail.account }}</td>
+              </tr>
+              <tr>
+                <th>vencimento:</th>
+                <td class="text-right">{{ formatterDateForPayment(paymentDetail.latePaymentDay) }}</td>
+              </tr>
+              <tr>
+                <th>Total:</th>
+                <td class="text-right">{{  paymentDetail.totalPayment | currency: "BRL" }}</td>
+              </tr>
+            </tbody>
+          </table> 
+        </div>
+      </div>
+    </div>
+
+    <div class="row no-print">
+      <div class="col-xs-12">
+        <a [routerLink]="['/admin-payment-list', '123456']" class="btn btn-default pull-left">
+          <i class="fa fa-reply"></i> voltar
+        </a>
+        <div>
+          <button type="button" (click)="registerPayment()" class="btn btn-success pull-right">
+            <i class="fa fa-check"></i> Registrar Pagamento
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+  

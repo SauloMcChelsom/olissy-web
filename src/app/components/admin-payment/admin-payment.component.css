@@ -1,0 +1,119 @@
+.center {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+}
+
+.div-start-new-open{
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.btn-start-new-open{
+    padding: 15px 55px 15px 55px;
+    font-size: 20px;
+}
+
+a{
+    cursor: pointer;
+    text-decoration:none;
+    color: #000
+}
+  
+a:hover{
+    color: rgb(15, 139, 21)
+}
+
+.btn-primary  {
+  color: #fff;
+  background-color: #c71581;
+  border-color: #b31374;
+}
+
+.btn-primary:hover {
+  color: #fff;
+  background-color: #c71581;
+  border-color: #b31374;
+}
+
+.info-box-icon{
+    border-top-left-radius: 2px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 2px;
+    display: flex;
+    flex-direction: column;
+    float: left;
+    height: 90px;
+    width: 120px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 95px;
+    
+}
+  
+  .info-box-icon-open{
+    background: #337ab7;
+    color: #fff;
+  }
+  
+  .info-box-text-open{
+    color: #337ab7;
+  }
+  
+  .info-box-icon-inPayment{
+    background: #dcb503;
+    color: #fff;
+  }
+  
+  .info-box-text-inPayment{
+    color: #dcb503;
+  }
+  
+  .info-box-icon-paid{
+    background: #00b361;
+    color: #fff;
+  }
+  
+  .info-box-text-paid{
+    color: #00b361;
+  }
+  
+  .info-box-icon-delay{
+    background: red;
+    color: #fff;
+  }
+  
+  .info-box-text-delay{
+    color: red;
+  }
+
+  .info-box-content{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+  }
+  
+  .info-box-number {
+    font-weight: bold;
+    font-size: 12px;
+  }
+  
+  .info-box-text {
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform: initial;
+  }
+
+  .box-start{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .box-end{
+    padding-top: 7px;
+  }

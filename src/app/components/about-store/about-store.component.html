@@ -1,0 +1,98 @@
+<div class="container">
+  <div class="box box-widget widget-user" style="margin-top: 20px">
+    <div class="box-header with-border">
+      <span (click)="historyNavigateBack()" class="linkCabecarioVoltraEstrela" style="cursor: pointer;">
+        <i class="fa fa-reply"></i> Voltar
+      </span>
+      <span class="pull-right">
+        <i class="fa fa-thumbs-o-up"></i>
+        {{ formStores.controls.follow.value }}
+      </span>
+    </div>
+    <div class="widget-user-header bg-aqua-active" style="background: url('https://adminlte.io/themes/AdminLTE/dist/img/photo2.png') center center;">
+      <h3 class="widget-user-username">
+        {{ formStores.controls.storeName.value }}
+      </h3>
+      <h5 class="widget-user-desc">
+        {{ formStores.controls.storeCategory.value }}
+      </h5>
+    </div>
+    <div class="widget-user-image">
+      <img class="img-circle" [src]="formStores.controls.imageDisplay.value" alt="User Avatar" />
+    </div>
+    <div class="box-footer">
+      <div class="row">
+        <div class="col-sm-4 border-right">
+          <div class="description-block">
+            <h5 class="description-header">Loja</h5>
+            <span class="description-text">
+              {{ formStores.controls.storeName.value }}<br/>
+            </span>
+            <span class="description-text">
+              {{ formStores.controls.storeCategory.value }}
+            </span>
+          </div>
+        </div>
+        <div class="col-sm-4 border-right">
+          <div class="description-block">
+            <h5 class="description-header">Contatos</h5>
+            <span class="description-text" style="text-transform: none;">
+              {{ formStores.controls.storeEmail.value }}<br/>
+            </span>
+            <span class="description-text">
+              {{ formStores.controls.storeCellPhone.value | mask: "(00) 0 0000-0000" }} -
+            </span>
+            <span class="description-text">
+              {{ formStores.controls.storeTelephone.value | mask: "(00) 0000-0000"}}
+            </span>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="description-block">
+            <h5 class="description-header">Endereço</h5>
+            <span class="description-text">
+              {{ formStores.controls.storeCity.value }}
+            </span>
+            <span class="description-text">
+              {{ formStores.controls.storeNeighborhood.value }}
+            </span>
+            <span class="description-text">
+              {{ formStores.controls.storeStreet.value }}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="box box-widget">
+    <div class="box-body">
+      <div class="row">
+        <div class="col-sm-4 border-right">
+          <div class="description-block">
+            <h5 class="description-header">Seguidores</h5>
+            <span class="description-text">
+              {{ formStores.controls.follow.value }}
+            </span>
+          </div>
+        </div>
+        <div class="col-sm-4 border-right">
+          <div class="description-block">
+            <h5 class="description-header">Vendas</h5>
+            <span class="description-text">{{ quantiyOfSales }}<br /></span>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <div class="description-block">
+            <h5 class="description-header">Produtos</h5>
+            <span class="description-text">{{ quantityOfProducts }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="box box-widget">
+    <div class="box-body">
+      <p>{{ formStores.controls.storeAbout.value }}</p>
+    </div>
+  </div>
+</div>

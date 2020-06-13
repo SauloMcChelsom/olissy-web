@@ -1,0 +1,288 @@
+<div class="container">
+  <br>
+    <!--<mt-pesquisa [boscar_por]='token.uid'></mt-pesquisa>
+    <mt-pesquisa [boscar_por]='token.uid' (produtos_Output)="produtos_Input($event)"></mt-pesquisa>-->
+  <br>
+  <div *ngFor="let product of result.product" >
+    <div *ngFor="let productDB of result.productDataBase">
+      <div *ngIf="productDB.PRIMARY_KEY == product.PRIMARY_KEY_PRODUCT_DB">
+        <div (click)="SelecionarProdutoAtualizar(product, productDB)" class="col-md-12 col-xs-12 center" style="top: 25px; margin-bottom: 0px">
+          <div class="menu-item-info-box card">
+            <div class="col-md-12 col-xs-12" style="background-color: #c71582; padding-bottom: 5px;">
+              <div style="display:flex; flex-wrap: nowrap; justify-content: space-between; align-items:baseline;">
+                <span style="color: #fff; font-size: 14px; font-family: Arial, Helvetica, sans-serif; margin-left: 9px;">
+                  em venda: {{ product.productForSale }}
+                </span>
+                <button type="button" class="btn btn-danger pull-right btn-danger-mobile" style="margin-right:5px; margin-top: 5px; " data-backdrop="static" (click)="selecionarProdutoDeletar(product, productDB)" data-keyboard="false" data-toggle="modal" data-target="#excluir">
+                  Excluir
+                </button>
+              </div>
+            </div>
+            <div class="col-md-12 col-xs-12" data-keyboard="false" data-backdrop="static" data-toggle="modal" data-target="#atualizar" style="padding-top: 0px; padding-bottom: 5px;">
+              <div id="carousel-example-generic" class="carousel slide imagemMobile" data-interval="false">
+                <div class="carousel-inner">
+                  <div class="item active">
+                    <img [src]="productDB.productImageUrl || ''" style="width: 100%" alt="Photo" alt="Photo">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="margin: 5px 5px 10px 5px; padding:0px 0px 10px 0px ;" data-keyboard="false" data-backdrop="static" data-toggle="modal" data-target="#atualizar">
+              <span class="menu-item-info-box-text">
+                {{productDB.productName}}
+              </span>
+              <a class="produtos">
+                <span class="menu-item-info-box-text" style="font-size: 14px; font-weight: normal; text-transform: none;">
+                  {{ productDB?.productSession }}, {{ productDB?.productType }} <b>marca {{ productDB?.provider }}</b> generico? <b>{{ productDB?.andGeneric }}</b>
+                </span>
+              </a>
+              <div class="row" style="margin-left: 0px; margin-right: 0px;">
+                <span class="menu-item-info-box-price">
+                  {{ product.productPrice | currency: 'BRL'}}
+                </span>
+                <button type="button" class="btn btn-default btn-xs pull-right" style="font-size: 16px; border-radius: 5px; border: 0px; background: #fff; color:#666">
+                  <i class="fa fa-shopping-cart"></i>
+                  <b style="font-weight: 700;">&nbsp;{{product.productQuantities}}</b>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div  class="col-md-12 col-xs-12 center" style="top: 5px; margin-bottom: 50px">
+    <div *ngIf="loading" class="col-md-12 col-xs-12 card" style="padding-bottom: 30px; padding-right: 0px; padding-left: 0px;" >
+      <button type="submit" class="btn btn-primary btn-block btn-flat btn-mais" (click)="loadingPlusProduct()">
+        Carregar mais
+      </button>
+    </div>
+    <div class="row" *ngIf="!loading">
+      <div class="login-logo">
+        <i class="fa fa-refresh fa-spin fa-2x"></i>
+      </div>
+    </div>
+  </div>
+
+  <form [formGroup]="formularioAtualizar" (ngSubmit)="atualizarItem()">
+    <div class="modal fade" id="atualizar">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title">
+              Atualizar Produto
+            </h4>
+          </div>
+          <div class="modal-body">
+            <span class="menu-item-info-box-detail" style="width:100%;">
+                <img class="img-responsive center-block" style="margin-bottom: 15px"  [src]="this.formularioAtualizar.controls['productImageUrl'].value"   width="300" alt="User Avatar">
+            </span>
+            <span class="menu-item-info-box-detail" style="width:100%;">
+              <label style="width:100%; font-weight: normal;">
+                <p style="margin-bottom: 0px;">
+                  <b>Produto: </b>{{ this.formularioAtualizar.controls['productName'].value }}
+                </p>
+              </label>
+            </span>
+            <span class="menu-item-info-box-detail" style="width:100%;">
+              <label style="width:100%; font-weight: normal;">
+                <p style="margin-bottom: 0px;">
+                  <b>Sessão: </b>{{ this.formularioAtualizar.controls['productSession'].value }}
+                </p>
+              </label>
+            </span>
+            <span class="menu-item-info-box-detail" style="width:100%;">
+              <label style="width:100%; font-weight: normal;">
+                <p style="margin-bottom: 0px;">
+                  <b>Categoria: </b>{{ this.formularioAtualizar.controls['productCategory'].value }}
+                </p>
+              </label>
+            </span>
+            <span class="menu-item-info-box-detail" style="width:100%;">
+              <label style="width:100%; font-weight: normal;">
+                <p style="margin-bottom: 0px;">
+                  <b>Tipo: </b>{{ this.formularioAtualizar.controls['productType'].value }}
+                </p>
+              </label>
+            </span>
+            <span class="menu-item-info-box-detail" style="width:100%;">
+              <label style="width:100%; font-weight: normal;">
+                <p style="margin-bottom: 0px;">
+                  <b>Generico: </b>{{ this.formularioAtualizar.controls['andGeneric'].value }}
+                </p>
+              </label>
+            </span>
+            <span class="menu-item-info-box-detail" style="width:100%;">
+              <label style="width:100%; font-weight: normal;">
+                <p style="margin-bottom: 0px;">
+                  <b>Fornecedor: </b>{{ this.formularioAtualizar.controls['provider'].value }}
+                </p>
+              </label>
+            </span>
+            <span class="menu-item-info-box-detail" style="width:100%;">
+              <label style="width:100%; font-weight: normal;">
+                <div [innerHTML]="this.formularioAtualizar.controls['productDescription'].value"></div>
+              </label>
+            </span>
+            <span class="menu-item-info-box-detail" style="width:100%;">
+              <label style="width:100%;">
+                Preco
+                <input type="text"class="form-control" [imask]="currencyMask" [unmask]="true"  style="font-weight: 500;" autocomplete="off" formControlName="productPrice">
+              </label>
+              <span class="help-block" style="color:green" *ngIf="this.formularioAtualizar.controls['productPrice'].valid && (this.formularioAtualizar.controls['productPrice'].dirty || this.formularioAtualizar.controls['productPrice'].touched)">
+                <i class="fa fa-check"></i>
+                Ok
+              </span>
+              <span class="help-block" style="color:red" *ngIf="this.formularioAtualizar.controls['productPrice'].invalid && (this.formularioAtualizar.controls['productPrice'].dirty || this.formularioAtualizar.controls['productPrice'].touched)">
+                <i class="fa fa-remove"></i>
+                Campo Obrigatorio
+              </span>
+            </span>
+            <span class="menu-item-info-box-detail" style="width:100%;">
+              <label style="width:100%;">
+                Quantidades
+                <input type="number" min="1" class="form-control"  style="font-weight: 500;" autocomplete="off" formControlName="productQuantities">
+              </label>
+              <span class="help-block" style="color:green" *ngIf="this.formularioAtualizar.controls['productQuantities'].valid && (this.formularioAtualizar.controls['productQuantities'].dirty || this.formularioAtualizar.controls['productQuantities'].touched)">
+                <i class="fa fa-check"></i>
+                Ok
+              </span>
+              <span class="help-block" style="color:red" *ngIf="this.formularioAtualizar.controls['productQuantities'].invalid && (this.formularioAtualizar.controls['productQuantities'].dirty || this.formularioAtualizar.controls['productQuantities'].touched)">
+                <i class="fa fa-remove"></i>
+                Campo Obrigatorio
+              </span>
+            </span>
+            <span class="menu-item-info-box-detail" style="width:100%;">
+              <label>
+                Publicar pra venda?
+              </label>
+              <select class="form-control" formControlName="productForSale">
+                <option  value="null" disabled hidden>
+                  << Em Vendas? >>
+                </option>
+                <option *ngFor="let emVendas of emVendas" [value]="emVendas">
+                  {{ emVendas }}
+                </option>
+              </select>
+              <span class="help-block" style="color:green" *ngIf="this.formularioAtualizar.controls['productForSale'].valid && (this.formularioAtualizar.controls['productForSale'].dirty || this.formularioAtualizar.controls['productForSale'].touched)">
+                <i class="fa fa-check"></i>
+                Ok
+              </span>
+              <span class="help-block" style="color:red" *ngIf="this.formularioAtualizar.controls['productForSale'].invalid && (this.formularioAtualizar.controls['productForSale'].dirty || this.formularioAtualizar.controls['productForSale'].touched)">
+                <i class="fa fa-remove"></i>
+                Campo Obrigatorio
+              </span>
+            </span>
+          </div>
+          <div class="modal-footer">
+            <button type="button" (click)="cancelarAtualizaProduto()" class="btn btn-default pull-left" data-dismiss="modal">
+              Cancelar
+            </button>
+            <button type="submit" class="btn btn-primary">
+              Savar Atualização
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <form [formGroup]="formularioDeletar" (ngSubmit)="DeletarItem()">
+    <div class="modal fade" id="excluir">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title">Excluir Produto</h4>
+          </div>
+          <div class="modal-body">
+            <span class="menu-item-info-box-detail" style="width:100%;">
+              <img class="img-responsive center-block" style="margin-bottom: 15px"  [src]="this.formularioDeletar.controls['productImageUrl'].value"   width="300" alt="User Avatar">
+            </span>
+            <span class="menu-item-info-box-detail" style="width:100%;">
+              <label style="width:100%; font-weight: normal;">
+                <p style="margin-bottom: 0px;">
+                  <b>Produto: </b>{{ this.formularioDeletar.controls['productName'].value }}
+                </p>
+              </label>
+            </span>
+            <span class="menu-item-info-box-detail" style="width:100%;">
+              <label style="width:100%; font-weight: normal;">
+                <p style="margin-bottom: 0px;">
+                  <b>Sessão: </b>{{ this.formularioDeletar.controls['productSession'].value }}
+                </p>
+              </label>
+            </span>
+            <span class="menu-item-info-box-detail" style="width:100%;">
+              <label style="width:100%; font-weight: normal;">
+                <p style="margin-bottom: 0px;">
+                  <b>Categoria: </b>{{ this.formularioDeletar.controls['productCategory'].value }}
+                </p>
+              </label>
+            </span>
+            <span class="menu-item-info-box-detail" style="width:100%;">
+              <label style="width:100%; font-weight: normal;">
+                <p style="margin-bottom: 0px;">
+                  <b>Tipo: </b>{{ this.formularioDeletar.controls['productType'].value }}
+                </p>
+              </label>
+            </span>
+            <span class="menu-item-info-box-detail" style="width:100%;">
+              <label style="width:100%; font-weight: normal;">
+                <p style="margin-bottom: 0px;">
+                  <b>Generico: </b>{{ this.formularioDeletar.controls['andGeneric'].value }}
+                </p>
+              </label>
+            </span>
+            <span class="menu-item-info-box-detail" style="width:100%;">
+              <label style="width:100%; font-weight: normal;">
+                <p style="margin-bottom: 0px;">
+                  <b>Fornecedor: </b>{{ this.formularioDeletar.controls['provider'].value }}
+                </p>
+              </label>
+            </span>
+            <span class="menu-item-info-box-detail" style="width:100%;">
+              <label style="width:100%; font-weight: normal;">
+                <div [innerHTML]="this.formularioDeletar.controls['productDescription'].value "></div>
+              </label>
+            </span>
+            <span class="menu-item-info-box-detail" style="width:100%;">
+              <label style="width:100%; font-weight: normal;">
+                <p style="margin-bottom: 0px;">
+                  <b>Preço: </b>{{ this.formularioDeletar.controls['productPrice'].value | currency: 'BRL'}}
+                </p>
+              </label>
+            </span>
+            <span class="menu-item-info-box-detail" style="width:100%;">
+              <label style="width:100%; font-weight: normal;">
+                <p style="margin-bottom: 0px;">
+                  <b>Quantidades: </b>{{ this.formularioDeletar.controls['productQuantities'].value }}
+                </p>
+              </label>
+            </span>
+            <span class="menu-item-info-box-detail" style="width:100%;">
+              <label style="width:100%; font-weight: normal;">
+                <p style="margin-bottom: 0px;">
+                  <b>Publicar pra venda: </b>{{ this.formularioDeletar.controls['productForSale'].value }}
+                </p>
+              </label>
+            </span>
+          </div>
+          <div class="modal-footer">
+            <button type="button" (click)="cancelarDeleteProduto()" class="btn btn-default pull-left" data-dismiss="modal">
+              Cancelar
+            </button>
+            <button type="submit" class="btn btn-danger">
+              Excluir Produto
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>  

@@ -1,0 +1,8 @@
+@media only screen and (max-width: 600px) {
+  .jumbotron p {
+    font-size: 14px;
+  }
+  .jumbotron h2 {
+    font-size: 30px;
+  }
+}

@@ -1,0 +1,55 @@
+.users-list>div img {
+  border-radius: 0%;
+  max-width: 100px;
+}
+.abra-sua-loja{
+  position: relative;
+}
+
+.welcome-jumbotron p {
+  margin-bottom: 20px;
+}
+
+
+@media screen and (min-width: 768px) {
+  .jumbotron-abra-sua-loja {
+    padding-right: 0px;
+    padding-left: 0px;
+  }
+}
+
+.jumbotron-abra-sua-loja {
+  border: 1px solid rgb(224, 224, 224);
+}
+
+
+a:focus, a:hover {
+  color: #444;
+  text-decoration: none;
+}
+a:hover, a:active, a:focus {
+  outline: none;
+  text-decoration: none;
+  color: #444;
+}
+
+@media only screen and (max-width: 890px) {
+  .abra-sua-loja{
+    display: flex;
+    flex-direction: column ;
+    justify-content: center;
+    align-items: center;
+  }
+  .welcome-jumbotron p {
+    font-size: 14px;
+  }
+}
+
+@media all and (max-width: 600px) {
+  .content {
+    padding: 0px;
+  }
+  .jumbotron {
+    margin-bottom: 0px;
+  }
+}

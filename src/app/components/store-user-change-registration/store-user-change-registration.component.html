@@ -1,0 +1,375 @@
+<div class="container">
+  <div class="box box-primary margin-top-box" *ngIf="!loading">
+    <div class="box-body box-profile">
+      <img class="profile-user-img img-responsive img-circle" [src]="formularioCliente.controls.imageDisplay.value" alt="User profile picture"/>
+      <label class="text-muted text-center" style="width:100%;">
+        Alterar Imagem
+        <span hidden>
+          <input type="file" (change)="uploadFileAtualizar($event)" />
+        </span>
+      </label>
+      <ul class="list-group list-group-unbordered">
+        <form [formGroup]="formularioCliente" novalidate>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Nome</label>
+            <input
+              type="text"
+              class="form-control"
+              autocomplete="off"
+              formControlName="clientName"
+              required
+              placeholder="Enter Nome"
+            />
+            <span
+              class="help-block"
+              style="color:green"
+              *ngIf="
+                this.formularioCliente.controls['clientName'].valid &&
+                (this.formularioCliente.controls['clientName'].dirty ||
+                this.formularioCliente.controls['clientName'].touched)
+              "
+            ><i class="fa fa-check"></i>Ok
+            </span>
+            <span
+              class="help-block"
+              style="color:red"
+              *ngIf="
+                this.formularioCliente.controls['clientName'].invalid &&
+                (this.formularioCliente.controls['clientName'].dirty ||
+                this.formularioCliente.controls['clientName'].touched)
+              "
+            ><i class="fa fa-remove"></i>Campo Obrigatorio
+            </span>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Sobrenome</label>
+            <input
+              type="text"
+              class="form-control"
+              autocomplete="off"
+              formControlName="clientLastName"
+              required
+              placeholder="Enter Sobrenome"
+            />
+            <span
+              class="help-block"
+              style="color:green"
+              *ngIf="
+                this.formularioCliente.controls['clientLastName'].valid &&
+                (this.formularioCliente.controls['clientLastName'].dirty ||
+                this.formularioCliente.controls['clientLastName'].touched)
+              "
+            ><i class="fa fa-check"></i>Ok
+            </span>
+            <span
+              class="help-block"
+              style="color:red"
+              *ngIf="
+                this.formularioCliente.controls['clientLastName'].invalid &&
+                (this.formularioCliente.controls['clientLastName'].dirty ||
+                this.formularioCliente.controls['clientLastName'].touched)
+              "
+            ><i class="fa fa-remove"></i> Campo Obrigatorio
+            </span>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">email</label>
+            <input
+              disabled
+              type="text"
+              class="form-control"
+              autocomplete="off"
+              formControlName="clientEmail"
+              required
+              placeholder="Enter email"
+            />
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">nascimento</label>
+            <input
+              type="text"
+              class="form-control"
+              [imask]="timestampMask"
+              [unmask]="true"
+              minlength="10"
+              required
+              autocomplete="off"
+              formControlName="clientBirth"
+              placeholder="Enter nascimento"
+            />
+            <span
+              class="help-block"
+              style="color:green"
+              *ngIf="
+                this.formularioCliente.controls['clientBirth'].valid &&
+                (this.formularioCliente.controls['clientBirth'].dirty ||
+                this.formularioCliente.controls['clientBirth'].touched)
+              "
+            ><i class="fa fa-check"></i>Ok
+            </span>
+            <span
+              class="help-block"
+              style="color:red"
+              *ngIf="
+                this.formularioCliente.controls['clientBirth'].invalid &&
+                (this.formularioCliente.controls['clientBirth'].dirty ||
+                this.formularioCliente.controls['clientBirth'].touched)
+              "
+            ><i class="fa fa-remove"></i>Campo Obrigatorio
+            </span>
+          </div>
+          <div class="form-group">
+            <b>sexo</b>
+            <div class="radio">
+              <label>
+                <input
+                  type="radio"
+                  name="clientSex"
+                  value="m"
+                  required
+                  formControlName="clientSex"
+                />
+                Masculino
+              </label>
+            </div>
+            <div class="radio">
+              <label>
+                <input
+                  type="radio"
+                  name="clientSex"
+                  value="f"
+                  required
+                  formControlName="clientSex"
+                />
+                Feminino
+              </label>
+            </div>
+            <span
+              class="help-block"
+              style="color:green"
+              *ngIf="
+                this.formularioCliente.controls['clientSex'].valid &&
+                (this.formularioCliente.controls['clientSex'].dirty ||
+                this.formularioCliente.controls['clientSex'].touched)
+              "
+            ><i class="fa fa-check"></i> Ok
+            </span>
+            <span
+              class="help-block"
+              style="color:red"
+              *ngIf="
+                this.formularioCliente.controls['clientSex'].invalid &&
+                (this.formularioCliente.controls['clientSex'].dirty ||
+                this.formularioCliente.controls['clientSex'].touched)
+              "
+            ><i class="fa fa-remove"></i>Campo Obrigatorio
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label for="cep">
+              CEP
+            </label>
+            <input
+              type="text"
+              class="form-control"
+              (keyup)="setCep($event.target.value)"
+              autocomplete="off"
+              [imask]="cepMask"
+              [unmask]="true"
+              minlength="8"
+              formControlName="clientCEP"
+              placeholder="Enter cep"
+            />
+            <span
+              class="help-block"
+              style="color:green"
+              *ngIf="
+                this.formularioCliente.controls['clientCEP'].valid &&
+                (this.formularioCliente.controls['clientCEP'].dirty ||
+                this.formularioCliente.controls['clientCEP'].touched)
+              "><i class="fa fa-check"></i>Ok
+            </span>
+          </div>
+          <div class="form-group">
+            <label for="state">
+              Estados
+            </label>
+            <select formControlName="clientState" (change)="setState($event.target.value)" class="form-control" required>
+              <option *ngFor="let state of states" [value]="state.sigla">
+                {{ state.nome }}
+              </option>
+            </select>
+            <span
+              class="help-block"
+              style="color:green"
+              *ngIf="
+                this.formularioCliente.controls['clientState'].valid &&
+                (this.formularioCliente.controls['clientState'].dirty ||
+                this.formularioCliente.controls['clientState'].touched)
+              "><i class="fa fa-check"></i>Ok
+            </span>
+            <span
+              class="help-block"
+              style="color:red"
+              *ngIf="
+                this.formularioCliente.controls['clientState'].invalid &&
+                (this.formularioCliente.controls['clientState'].dirty ||
+                this.formularioCliente.controls['clientState'].touched)
+              "><i class="fa fa-remove"></i>Campo Obrigatorio
+            </span>
+          </div> 
+          <div class="form-group">
+            <label for="exampleInputEmail1">
+              cidade
+            </label>
+            <select formControlName="clientCity" class="form-control" required>
+              <option *ngFor="let city of citys"[value]="city">
+                {{ city }}
+              </option>
+            </select>
+            <span 
+              class="help-block"
+              style="color:green"
+              *ngIf="
+                this.formularioCliente.controls['clientCity'].valid &&
+                (this.formularioCliente.controls['clientCity'].dirty ||
+                this.formularioCliente.controls['clientCity'].touched)
+              "><i class="fa fa-check"></i>Ok
+            </span>
+            <span
+              class="help-block"
+              style="color:red"
+              *ngIf="
+                this.formularioCliente.controls['clientCity'].invalid &&
+                (this.formularioCliente.controls['clientCity'].dirty ||
+                this.formularioCliente.controls['clientCity'].touched)
+              "><i class="fa fa-remove"></i>Campo Obrigatorio
+            </span>
+          </div>
+
+          <div class="form-group">
+            <label for="exampleInputEmail1">bairro</label>
+            <input
+              type="text"
+              class="form-control"
+              autocomplete="off"
+              required
+              formControlName="clientNeighborhood"
+              placeholder="Enter bairro"
+            />
+            <span
+              class="help-block"
+              style="color:green"
+              *ngIf="
+                this.formularioCliente.controls['clientNeighborhood'].valid &&
+                (this.formularioCliente.controls['clientNeighborhood'].dirty ||
+                this.formularioCliente.controls['clientNeighborhood'].touched)
+              "
+            ><i class="fa fa-check"></i>Ok
+            </span>
+            <span
+              class="help-block"
+              style="color:red"
+              *ngIf="
+                this.formularioCliente.controls['clientNeighborhood'].invalid &&
+                (this.formularioCliente.controls['clientNeighborhood'].dirty ||
+                this.formularioCliente.controls['clientNeighborhood'].touched)
+              "
+            ><i class="fa fa-remove"></i>Campo Obrigatorio
+            </span>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">rua</label>
+            <input
+              type="text"
+              class="form-control"
+              autocomplete="off"
+              required
+              formControlName="clientStreet"
+              placeholder="Enter rua"
+            />
+            <span
+              class="help-block"
+              style="color:green"
+              *ngIf="
+                this.formularioCliente.controls['clientStreet'].valid &&
+                (this.formularioCliente.controls['clientStreet'].dirty ||
+                this.formularioCliente.controls['clientStreet'].touched)
+              "
+            ><i class="fa fa-check"></i>Ok
+            </span>
+            <span
+              class="help-block"
+              style="color:red"
+              *ngIf="
+                this.formularioCliente.controls['clientStreet'].invalid &&
+                (this.formularioCliente.controls['clientStreet'].dirty ||
+                this.formularioCliente.controls['clientStreet'].touched)
+              "
+            ><i class="fa fa-remove"></i>Campo Obrigatorio
+            </span>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">celular</label>
+            <input
+              type="text"
+              class="form-control"
+              autocomplete="off"
+              required
+              [imask]="cellPhoneMask"
+              [unmask]="true"
+              minlength="11"
+              formControlName="clientCellPhone"
+              placeholder="Enter celular"
+            />
+            <span
+              class="help-block"
+              style="color:green"
+              *ngIf="
+                this.formularioCliente.controls['clientCellPhone'].valid &&
+                (this.formularioCliente.controls['clientCellPhone'].dirty ||
+                this.formularioCliente.controls['clientCellPhone'].touched)
+              "
+            ><i class="fa fa-check"></i>Ok
+            </span>
+            <span
+              class="help-block"
+              style="color:red"
+              *ngIf="
+                this.formularioCliente.controls['clientCellPhone'].invalid &&
+                (this.formularioCliente.controls['clientCellPhone'].dirty ||
+                this.formularioCliente.controls['clientCellPhone'].touched)
+              "
+            ><i class="fa fa-remove"></i>Campo Obrigatorio
+            </span>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">telefone</label>
+            <input
+              type="text"
+              class="form-control"
+              autocomplete="off"
+              [imask]="phoneMask"
+              [unmask]="true"
+              minlength="10"
+              formControlName="clientTelephone"
+              placeholder="Enter telefone"
+            />
+          </div>
+        </form>
+      </ul>
+      <button (click)="alterarCadastroCliente()"  class="btn btn-primary btn-block" >
+        <b>Alterar Cadastro</b>
+      </button>
+    </div>
+  </div>
+  <div *ngIf="loading">
+    <div class="login-logo">Aguarde</div>
+    <div class="row">
+      <div class="login-logo">
+        <i class="fa fa-refresh fa-spin fa-2x"></i>
+      </div>
+    </div>
+  </div>
+</div>

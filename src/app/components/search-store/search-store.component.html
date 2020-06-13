@@ -1,0 +1,124 @@
+
+<form>
+    <div class="col-md-12 col-xs-12 query-mobile">
+      <div class="col-md-12 col-xs-12 form-group has-feedback has-search">
+        <span class="glyphicon glyphicon-search form-control-feedback"></span>
+        <span class="col-md-12 col-xs-12 clearable">
+          <input
+            type="text"
+            (keyup)="SearchBySuggestions($event.target.value, $event)"
+            (keyup.enter)="searchByTyping($event.target.value, $event)"
+            class="form-control"
+            placeholder="Pesquise seu produto"
+            autocomplete="off"
+            id="input-buscar-produto"
+          />
+          <i class="btn-clear-text fa  fa-times-circle" (click)="clearTextSearch()"></i>
+        </span>
+      </div>
+      <div class="input-group col-md-12 col-xs-12" style="margin: 0px;">
+        <div *ngIf="digite">
+          <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+            <div class="info-box" style=" box-shadow: 0 0px 0px rgba(0,0,0,0.1); ">
+              <span class="info-box-icon" style="margin-left: -20px;background-color: transparent ">
+                <i class="fa fa-fw fa-search fa-2x" style="margin-left: 15px;"></i>
+              </span>
+              <div class="info-box-content">
+                <span>
+                  <b>
+                    Digite {{ Digite_tres_ou_mais_caracteres_total }} ou mais caracteres
+                  </b>
+                </span>
+                <br />
+                <span>
+                  Caracteres que podem ser usados, para que possamos exibir resultados para você
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="enter">
+          <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+            <div class="info-box" style=" box-shadow: 0 0px 0px rgba(0,0,0,0.1); ">
+              <span class="info-box-icon" style="margin-left: -20px;background-color: transparent ">
+                <i class="fa fa-fw fa-search fa-2x" style="margin-left: 15px;"></i>
+              </span>
+              <div class="info-box-content">
+                <span>
+                  <b>
+                    Pressione a tecla ENTER para exibir resultados
+                  </b>
+                </span>
+                <br />
+                <span>
+                  Pesquise por palavra-chave
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="aguarde">
+          <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+            <div class="info-box" style=" box-shadow: 0 0px 0px rgba(0,0,0,0.1); ">
+              <span class="info-box-icon" style="background-color: transparent ">
+                <i class="fa fa-refresh fa-spin fa-2x" style="margin-left: 15px;"></i>
+              </span>
+              <div class="info-box-content">
+                <span>
+                  <b>
+                    Aguarde... Alguns instantes os resultados serão carregado
+                  </b>
+                </span>
+                <br />
+                <span>
+                  Exclua alguns refinamentos de busca para que possamos exibir resultados para você
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="desculpe">
+          <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+            <div class="info-box" style=" box-shadow: 0 0px 0px rgba(0,0,0,0.1); ">
+              <span class="info-box-icon" style="margin-left: -16px;background-color: transparent ">
+                <i class="fa fa-fw fa-search fa-2x" style="margin-left: 15px;"></i>
+              </span>
+              <div class="info-box-content">
+                <span>
+                  <b>
+                    Desculpe! Não encontramos resultados para a sua busca
+                  </b>
+                </span>
+                <br />
+                <span>
+                  Exclua alguns refinamentos de busca para que possamos exibir resultados para você
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="produto" class="dropdown-buscar-produto">
+          <div *ngFor="let suggested of suggestedProductList" class="list-product-search" (click)="selectSuggestion(suggested)">
+            <div class="col-md-12 col-xs-12 col-sm-12 col-lg-12">
+              <div class="info-box" style=" box-shadow: 0 0px 0px rgba(0,0,0,0.1);  display: initial;">
+                <span class="info-box-icon" style="background-color: #fff;">
+                  <img [src]="suggested.productImageUrl" style=" margin-top: 0px;" width="100%"/>
+                </span>
+                <div class="info-box-content">
+                  <span class="info-box-number">
+                    {{ suggested.productName }}
+                  </span>
+                  <span class="info-box-text">
+                    {{ suggested.productType }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="suggestedProductList.length >= 2" style="margin-top: 10px;">
+        <button type="button" class="btn btn-default btn-block" (click)="selectAllSuggestion()">Selecionar todas</button>
+      </div> 
+    </div>
+  </form>

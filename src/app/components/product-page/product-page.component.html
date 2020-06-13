@@ -1,0 +1,424 @@
+<div *ngIf="displayLoadingProduct" class="container">
+  <div class="box box-widget col-md-8 col-xs-12" style="margin-top: 30px; padding-right: 0px; padding-left: 0px;  ">
+    <div class="box-header with-border ">
+      <div class="user-block">
+        <div style="display:flex; flex-wrap: nowrap; justify-content: space-between; align-items:baseline;">
+          <span [routerLink]="[LINK_RETURN]">
+            <img class="img-circle" [src]="store?.storeImageUrl"alt="User Image">
+            <span class="username" style="position: relative; top: 9px; line-height: 11px; display:flex; 	flex-direction: column;">
+              <a class="nameStore" style="width: 100%;">{{ store?.storeName }}</a>
+              <a *ngIf="store?.storeOpenOrClosed  == true" style="font-size:12px" class="text-success"><i class="fa fa-circle text-success" style="font-size:9px"></i> Aberto</a>
+              <a *ngIf="store?.storeOpenOrClosed  == false" style="font-size:12px" class="text-danger"><i class="fa fa-circle text-danger" style="font-size:9px"></i> Fechado</a>
+            </span>
+          </span>
+          <span class="pull-right" style="margin-right: 10px;">
+            <span class="username" (click)="selectDisplayStoreInfo(store)" data-keyboard="false" data-toggle="modal" data-target="#displayStoreInfo" style="position: relative; top: 14px; width: 35px">
+              <a class="nameStore" style="font-size: 25px">
+                <i class="fa  fa-info-circle"></i>
+              </a>
+            </span>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="box-body">
+      <div id="carousel-example-generic" class="carousel slide" data-interval="false">
+        <div class="carousel-inner">
+          <div class="item active">
+            <img [src]="product?.productImageUrl" alt="Photo" alt="Photo">
+          </div>
+        </div>
+        <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+          <span class="fa fa-angle-left"></span>
+        </a>
+        <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+          <span class="fa fa-angle-right"></span>
+        </a>
+      </div>
+      <div class="conteudo-item">
+        <button
+          *ngIf="love_status == true && UserIsLogged == false"
+          type="button"
+          (click)="amar()"
+          class="btn btn-default btn-xs"
+          data-keyboard="false"
+          data-toggle="modal"
+          data-target="#modalNaoLogado"
+        >
+          <i class="fa fa-heart-o"></i>
+          {{ love }} amar
+        </button>
+        <button
+          *ngIf="love_status == false && UserIsLogged == false"
+          type="button"
+          (click)="amar()"
+          class="btn btn-default btn-xs"
+          data-keyboard="false"
+          data-toggle="modal"
+          data-target="#modalNaoLogado"
+        >
+          <i class="fa fa-heart-o"></i>
+          {{ love }} amar
+        </button>
+        <button
+          *ngIf="love_status == false && UserIsLogged == true"
+          type="button"
+          (click)="amar()"
+          class="btn btn-default btn-xs"
+        >
+          <i class="fa fa-heart-o"></i>
+          {{ love }} amar
+        </button>
+        <button
+          *ngIf="love_status == true && UserIsLogged == true"
+          type="button"
+          (click)="amar()"
+          class="btn btn-default btn-xs"
+        >
+          <i class="fa fa-heart"></i>
+          {{ love }} amar
+        </button>
+          &nbsp;
+        <button
+          *ngIf="follow_status == true && UserIsLogged == false"
+          type="button"
+          (click)="amar()"
+          class="btn btn-default btn-xs"
+          data-keyboard="false"
+          data-toggle="modal"
+          data-target="#modalNaoLogado"
+        >
+          <i class="fa fa-heart-o"></i>
+          {{ follow }} seguir
+        </button>
+        <button
+          *ngIf="follow_status == false && UserIsLogged == false"
+          type="button"
+          class="btn btn-default btn-xs"
+          (click)="seguir()"
+          data-keyboard="false"
+          data-toggle="modal"
+          data-target="#modalNaoLogado"
+        >
+          <i class="fa fa-thumbs-o-up"></i>
+          {{ follow }} seguir
+        </button>
+        <button
+          *ngIf="follow_status == false && UserIsLogged == true"
+          type="button"
+          class="btn btn-default btn-xs"
+          (click)="seguir()"
+        >
+          <i class="fa fa-thumbs-o-up"></i>
+          {{ follow }} seguir
+        </button>
+        <button
+          *ngIf="follow_status == true && UserIsLogged == true"
+          type="button"
+          class="btn btn-default btn-xs"
+          (click)="seguir()"
+        >
+          <i class="fa fa-thumbs-up"></i>
+          {{ follow }} seguir
+        </button>
+        <span class="pull-right text-muted">
+          <span [ngClass]="{'visualizaram': view_status == true}">
+            <i class="fa fa-eye"></i>
+            {{ view }}
+          </span>
+          &nbsp;
+          <span [ngClass]="{'vendas': sale_status == true}">
+            <i class="fa  fa-bell-o"></i>
+            {{ sale }}
+          </span>
+        </span>
+        <div class="productName-mobile">
+          <h3 style="margin-top: 10px; margin-bottom: 0px; color: black">
+              <b>{{ product?.productName }}</b>
+          </h3>
+            <span class="menu-item-info-box-detail" style="width:100%;">
+              <label style="width:100%; font-weight: normal;">
+                <p style="margin-bottom: 0px;">
+                  <b>Sessão: </b>{{ product?.productSession }}
+                </p>
+              </label>
+            </span>
+            <span class="menu-item-info-box-detail" style="width:100%;">
+              <label style="width:100%; font-weight: normal;">
+                <p style="margin-bottom: 0px;">
+                  <b>Categoria: </b>{{ product?.productCategory }}
+                </p>
+              </label>
+            </span>
+            <span class="menu-item-info-box-detail" style="width:100%;">
+              <label style="width:100%; font-weight: normal;">
+                <p style="margin-bottom: 0px;">
+                  <b>Tipo: </b>{{ product?.productType }}
+                </p>
+              </label>
+            </span>
+            <span class="menu-item-info-box-detail" style="width:100%;">
+              <label style="width:100%; font-weight: normal;">
+                <p style="margin-bottom: 0px;">
+                  <b>Generico: </b>{{ product?.andGeneric }}
+                </p>
+              </label>
+            </span>
+            <span class="menu-item-info-box-detail" style="width:100%;">
+              <label style="width:100%; font-weight: normal;">
+                <p style="margin-bottom: 0px;">
+                  <b>Fornecedor: </b>{{ product?.provider }}
+                </p>
+              </label>
+            </span>
+          <h5 style="margin-top: 0px;">
+            <div [innerHTML]="product?.productDescription"></div>
+          </h5>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="box box-widget col-md-3 col-xs-12 collumn-mobile" style="margin-top: 30px; padding-left: 0px; padding-right: 0px;">
+    <div class="box box-solid">
+      <div class="box-header">
+        <i class="fa fa-shopping-cart"></i>
+        <h3 class="box-title">Carrinho</h3>
+      </div>
+      <div class="box-body">
+        <div class="table-responsive">
+          <table class="table" style="margin: 0">
+            <tbody>
+              <tr>
+                <th>Valor</th>
+                <td class="text-right">
+                  {{ product?.productPrice | currency: 'BRL'}}
+                </td>
+              </tr>
+              <tr>
+                <th>Total:</th>
+                <td class="text-right">
+                  {{ product?.productPrice  | currency: 'BRL'}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="box-footer">
+        <a [routerLink]="['/complete-orders' , product?.FOREIGN_KEY]" class="btn btn-success" style="width: 100%">
+          Completar para o envio 
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="box box-widget col-md-3 col-xs-12 collumn-mobile coment-mobile" style="margin-top: 30px; margin-bottom: 30px; padding-left: 0px; padding-right: 0px;">
+    <div class="box box-default collapsed-box box-solid" style="border-color: #C71585; background-color: #C71585;">
+      <div class="box-header with-border" style="background-color: #C71585; color: white">
+        <h6 class="box-title pull-right">
+          {{ comments.length }} comentarios
+        </h6>
+      </div>
+    </div>
+    <div class="box-footer">
+      <form [formGroup]="formularioComentario">
+        <div *ngIf="this.formularioComentario.controls['commentText'].value" class="img-responsive img-circle img-sm pull-right" style="margin-right: 10px;">
+          <button
+            *ngIf="UserIsLogged == false"
+            type="button"
+            (click)="publicarComentarioClick()"
+            class="btn btn-default btn-xs"
+            data-keyboard="false"
+            data-toggle="modal"
+            data-target="#modalNaoLogado"
+          >
+            <i class="fa  fa-send-o" style="font-size: 25px"></i>
+          </button>
+          <button
+            *ngIf="UserIsLogged == true"
+            type="button"
+            (click)="publicarComentarioClick()"
+            class="btn btn-default btn-xs"
+          >
+            <i class="fa  fa-send-o" style="font-size: 25px"></i>
+          </button>
+        </div>
+        <div class="img-push">
+          <input
+            type="text"
+            *ngIf="UserIsLogged == false"
+            formControlName="commentText"
+            (keyup.enter)="publicarComentarioEnter()"
+            class="form-control input-sm"
+            placeholder="Comente Você Também ..."
+          >
+          <input
+            type="text"
+            *ngIf="UserIsLogged == true"
+            formControlName="commentText"
+            (keyup.enter)="publicarComentarioEnter()"
+            class="form-control input-sm"
+            placeholder="Comente Você Também ..."
+          >
+        </div>
+      </form>
+    </div>
+    <div *ngFor="let comment of comments" class="box-footer box-comments" style="border-top: 1px solid #eadae0;">
+      <div class="box-comment">
+        <img class="img-circle img-sm" [src]="comment?.commentImageUrl" alt="User Image">
+        <div class="comment-text">
+          <span class="username">
+            {{ comment.commentName }}
+            <span class="text-muted pull-right">
+              {{ formatHours(comment.commentDate) }}
+            </span>
+          </span>
+          {{ comment.commentText }}
+        </div>
+      </div>
+    </div>
+    <div class="box box-default collapsed-box box-solid" (click)="loadingPlusProduct()" *ngIf="loading  && comments.length != 0">
+      <div class="box-header with-border">
+        <h6 class="box-title" style="align-items: center; display: flex; justify-content: center;">
+          Mais Comentarios
+        </h6>
+      </div>
+    </div>
+  </div>
+  <div class="box box-widget col-md-8 coment-desktop" style="margin-top: 30px; margin-bottom: 30px;  padding-left: 0px; padding-right: 0px;">
+    <div class="box box-default collapsed-box box-solid" style="border-color: #C71585; background-color: #C71585;">
+      <div class="box-header with-border" style="background-color: #C71585; color: white">
+        <h6 class="box-title pull-right">{{ comments.length }} comentarios</h6>
+      </div>
+    </div>
+    <div class="box-footer">
+      <form [formGroup]="formularioComentario">
+        <div *ngIf="this.formularioComentario.controls['commentText'].value" class="img-responsive img-circle img-sm pull-right" style="margin-right: 10px;">
+          <button
+            *ngIf="UserIsLogged == false"
+            type="button"
+            (click)="publicarComentarioClick()"
+            class="btn btn-default btn-xs"
+            data-keyboard="false"
+            data-toggle="modal"
+            data-target="#modalNaoLogado"
+          >
+            <i class="fa  fa-send-o" style="font-size: 25px"></i>
+          </button>
+          <button
+            *ngIf="UserIsLogged == true"
+            type="button"
+            (click)="publicarComentarioClick()"
+            class="btn btn-default btn-xs"
+          >
+            <i class="fa  fa-send-o" style="font-size: 25px"></i>
+          </button>
+        </div>
+        <div class="img-push">
+          <input
+            type="text"
+            *ngIf="UserIsLogged == false"
+            formControlName="commentText"
+            (keyup.enter)="publicarComentarioEnter()"
+            class="form-control input-sm"
+            placeholder="Comente Você Também ..."
+          >
+          <input
+            type="text"
+            *ngIf="UserIsLogged == true"
+            formControlName="commentText"
+            (keyup.enter)="publicarComentarioEnter()"
+            class="form-control input-sm"
+            placeholder="Comente Você Também ..."
+          >
+        </div>
+      </form>
+    </div>
+    <div *ngFor="let comment of comments" class="box-footer box-comments" style="border-top: 1px solid #eadae0;">
+      <div class="box-comment">
+        <img class="img-circle img-sm" [src]="comment?.commentImageUrl" alt="User Image">
+        <div class="comment-text">
+          <span class="username">
+            {{ comment.commentName }}
+            <span class="text-muted pull-right">
+              {{ formatHours(comment.commentDate) }}
+            </span>
+          </span>
+          {{ comment.commentText }}
+        </div>
+      </div>
+    </div>
+    <div class="box box-default collapsed-box box-solid" style="cursor: pointer" (click)="loadingPlusProduct()" *ngIf="loading  && comments.length != 0">
+      <div class="box-header with-border">
+        <h6 class="box-title" style="align-items: center; display: flex; justify-content: center;">
+          Mais Comentarios
+        </h6>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="!loading  && comments.length != 0">
+    <div class="login-logo">
+      <i class="fa fa-refresh fa-spin fa-2x"></i>
+    </div>
+  </div>
+  <mt-modal-nao-logado [tipo_mensagem]='modal_nao_logado'></mt-modal-nao-logado>
+  <form>
+    <div class="modal fade" id="displayStoreInfo">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="box-footer" style="border-top: 0px solid #f4f4f4;">
+              <div class="row">
+                <div class="col-sm-4 border-right">
+                  <div class="description-block">
+                    <h5 class="description-header">Loja</h5>
+                    <span class="description-text">
+                      {{ displayStoreInfo?.storeName }}
+                      <br>
+                    </span>
+                  </div>
+                  </div>
+                <div class="col-sm-4 border-right">
+                  <div class="description-block">
+                    <h5 class="description-header">Contatos</h5>
+                    <span class="description-text" style="text-transform: none;">
+                      {{ displayStoreInfo?.storeEmail }}
+                      <br>
+                    </span>
+                    <span class="description-text">
+                      {{ displayStoreInfo?.storeCellPhone | mask: '(00) 0 0000-0000' }}
+                      <br>
+                    </span>
+                    <span class="description-text">
+                      {{ displayStoreInfo?.storeTelephone | mask: '(00) 0000-0000'}}
+                    </span>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="description-block">
+                    <h5 class="description-header">
+                      Endereço
+                    </h5>
+                    <span class="description-text">
+                      {{ displayStoreInfo?.storeCity }}
+                      <br>
+                    </span>
+                    <span class="description-text">
+                      {{ displayStoreInfo?.storeNeighborhood }}
+                      <br>
+                    </span>
+                    <span class="description-text">
+                      {{ displayStoreInfo?.storeStreet }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+

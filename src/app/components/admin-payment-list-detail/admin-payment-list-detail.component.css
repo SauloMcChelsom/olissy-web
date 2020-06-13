@@ -1,0 +1,92 @@
+@media only screen and (max-width: 600px) {
+    .page-header {
+      margin-top: 15px;
+    }
+  }  
+  
+  @media only screen and (min-width: 0px) {
+    #print-section{
+      margin: 20px 0px 30px 0px
+    }
+  
+  }
+  
+  @media only screen and (min-width: 600px) {
+    #print-section{
+      margin: 30px 0px 30px 0px
+    }
+  
+  } 
+  
+  @media only screen and (min-width: 700px) {
+    #print-section{
+      margin: 30px 0px 30px 0px
+    }
+  
+  }
+  
+  @media only screen and (min-width: 900px) {
+    #print-section{
+      margin: 50px 0px 50px 0px
+    }
+  
+  }
+  
+  @media only screen and (min-width: 1000px) {
+    #print-section{
+      margin: 70px 0px 10px 0px
+    }
+  
+  }
+  
+  #print-section{
+    padding: 20px;
+  }
+  
+  .table {
+     margin-bottom: 0px; 
+  }
+  
+  .btn-order {
+    background-color: #777;
+    color: #f9fafc;
+    border-color: #777;
+    border-radius: 0px;
+  }
+  
+  .btn-social>:first-child {
+    line-height: 25px;
+  }
+  
+  .order-list{
+    margin: 0px 0px 50px 0px;
+  }
+  
+  .lead {
+    margin-bottom: 0px;
+  }
+  
+  .info-box-icon-open{
+    background-color: #337ab7;
+    color: #fff;
+    border: 1px solid #113c61;
+  }
+  
+  .info-box-icon-inPayment{
+    background-color: #e2db02;
+    color: #3c4003;
+    border: 1px solid #ceb314;
+  }
+  
+  
+  .info-box-icon-paid{
+    background-color: #00b361;
+    color: #fff;
+    border: 1px solid #087509;
+  }
+  
+  .info-box-icon-delay{
+    background-color: red;
+    color: #fff;
+    border: 1px solid #941202;
+  }

@@ -1,0 +1,149 @@
+<header class="main-header">
+  <nav class="navbar navbar-static-top">
+    <a class="sidebar-toggle" data-toggle="push-menu" role="button" style="font-size: 20px;padding-top: 18px;">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </a>
+    <div class="navbar-custom-menu">
+      <ul class="nav navbar-nav">
+        <li *ngIf="url == '/' " routerLinkActive="active">
+          <a data-keyboard="false" data-toggle="modal" data-target="#displaySearch"  style="font-size: 20px;padding-top: 22px;">
+            <i class="fa fa-search"></i>
+          </a>
+        </li>
+        <li *ngIf="url == '/store-product-registration' " routerLinkActive="active">
+          <a data-keyboard="false" data-toggle="modal" data-target="#displaySearch-store-product-registration"  style="font-size: 20px;padding-top: 22px;">
+            <i class="fa fa-search"></i>
+          </a>
+        </li>
+        <li *ngIf="url == '/store-product-record' " routerLinkActive="active">
+          <a data-keyboard="false" data-toggle="modal" data-target="#displaySearch-store-product-record"  style="font-size: 20px;padding-top: 22px;">
+            <i class="fa fa-search"></i>
+          </a>
+        </li>
+        <li routerLinkActive="active">
+          <a routerLink="/product" style="font-size: 22px;padding-top: 22px;">
+            <i class="fa fa-home"></i>
+          </a>
+        </li>
+        <li routerLinkActive="active" class="dropdown messages-menu">
+          <a routerLink="/store-message-contact" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 20px;padding-top: 22px;">
+            <i class="fa fa-envelope"></i>
+            <span class="label label-success" *ngIf="newMessage?.length">
+              {{ newMessage?.length }}  
+            </span>
+          </a> 
+        </li>
+        <li routerLinkActive="active" class="dropdown notifications-menu" style="border: 0px solid #ddd;">
+          <a routerLink="/store-order" class="dropdown-toggle" data-toggle="dropdown" style="font-size: 20px;padding-top: 22px;">
+            <i class="fa fa-bell"></i>
+            <span class="label label-success" *ngIf="pedidos?.length">
+              {{ pedidos?.length }}
+            </span>
+          </a>
+        </li>
+        <li class="dropdown user user-menu">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" style="padding-top: 22px;">
+            <img [src]="store.storeImageUrl" class="user-image" alt="User Image" />
+            <span class="hidden-xs"> 
+              {{ store.storeName }}
+            </span>
+          </a>
+          <ul class="dropdown-menu" style="left: initial; width: 250px">
+            <li class="user-header">
+              <img [src]="store.storeImageUrl" class="img-circle" width="50" alt="User Image"/>
+              <p>
+                {{ store.storeName }}
+                <small>
+                  {{ store.storeCategory }}
+                </small>
+              </p>
+            </li>
+            <li class="user-body">
+              <div class="row">
+                <div class="col-xs-4 text-center">
+                  <i class="fa fa-thumbs-up"></i>
+                  {{ store.follow }}
+                </div>
+                <div class="col-xs-4 text-center">
+                  <i class="fa fa-star"></i>
+                  {{ store.sale }}
+                </div>
+                <div class="col-xs-4 text-center">
+                  <i class="fa fa-tags"></i>
+                  {{ store.productQuantity }}
+                </div>
+              </div>
+            </li>
+            <li class="user-footer">
+              <div class="pull-left">
+                <a (click)="storeOpenOrClosed()" class="btn btn-default btn-flat">
+                  <a *ngIf="store?.storeOpenOrClosed  == true" style="font-size:12px; color: #666; background: transparent;"><i class="fa fa-circle" style="font-size:9px; color: #2cce2fd1;"></i> Aberto</a>
+                  <a *ngIf="store?.storeOpenOrClosed  == false" style="font-size:12px; color: #666; background: transparent;"><i class="fa fa-circle" style="font-size:9px; color: #ff6451;"></i> Fechado</a>
+                </a> 
+              </div>
+              <div class="pull-right">
+                <a (click)="SignOut()" class="btn btn-default btn-flat">
+                  Deslogar
+                </a>
+              </div>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+<form>
+  <div *ngIf="url == '/' " class="modal fade" id="displaySearch">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="box-footer" style="border-top: 0px;">
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+               <search-product (searchProductDB_Output)="searchProductDB_Output($event)"></search-product>
+              </div>
+            </div>  
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<form> 
+  <div *ngIf="url == '/store-product-registration' " class="modal fade" id="displaySearch-store-product-registration">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="box-footer" style="border-top: 0px; padding:0px">
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+               <search-store-product-registration (searchProductDB_Output)="searchProductDB_Output($event)"></search-store-product-registration>
+              </div>
+            </div>  
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<form>
+  <div *ngIf="url == '/store-product-record' " class="modal fade" id="displaySearch-store-product-record">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="box-footer" style="border-top: 0px; padding:0px">
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+               <search-store-product-record (searchProductDB_Output)="searchProductDB_Output($event)"></search-store-product-record>
+              </div>
+            </div>  
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form> 
