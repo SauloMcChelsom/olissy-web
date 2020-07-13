@@ -57,11 +57,21 @@ git merge test
 
 ssh-keygen
 
-git remote add origin https://github.com/caifnet/olissy.git
--criar origem no servido com login/senha
+C:\Users\saulo/.ssh/
 
-git clone git@github.com:caifnet/olissy.git
--fazer uma copiar do servido local
+copy id_rsa.pub
+
+https://github.com/settings/keys
+
+click em [New SSH key]
+
+add id_rsa.pub
+
+git clone git@github.com:olissy/olissy-web.git
+-clonar do servidor para o local
+
+git remote add origin https://github.com/olissy/olissy.git
+-criar origem no servido com login/senha
 
 git pull origin master
 -buscar arquivo no servidor, para seu local
@@ -127,6 +137,8 @@ ng generate class      minha-classe
 ng generate interface  minha-interface
 ng generate enum       meu-enum
 
+ng generate module component/product --route component/product --module app.module
+
 ng new my-app --style=sass
 ng new my-app --style=less
 ng new my-app --style=stylus
@@ -180,3 +192,26 @@ copy C:\Users\maelli\Music\olissy-web\firebase.json C:\Users\maelli\Music\olissy
 
 firebase deploy 
 
+
+-------- typescript -----------
+
+npm install -g typescript
+#instalar typescript
+
+tsc --init
+#criar arquivo de conf "tsconfig.json"
+
+tsc index.ts
+#comando p/ copilar
+
+tsc --build tsconfig.json ./src/index.ts
+#comando p/ copilar com configuracao em "tsconfig.json"
+
+OU apenes tsc para copilar sem frag so configurar o tsconfig "apenas cmd e nao power shell"
+tsc
+
+node index.js
+#comando p/ executar
+
+npm init
+#criar arquivo package.json

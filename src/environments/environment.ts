@@ -1,19 +1,19 @@
-// This file can be replaced during build by using the `fileReplacements` array.
-// `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
-// The list of file replacements can be found in `angular.json`.
-
 export const environment = {
-  production: false,
-  ambiente: "desenvolvimento",
-  apiOlissyMongoDB:"https://olissy.herokuapp.com/product"
-  
+  heroku:{  
+    production: false,
+    ambiente: "desenvolvimento",
+    url:"http://localhost:8080/product"
+  },
+  firebase:{
+    apiKey: "AIzaSyBM-5cjSIPv4nXWC212FpzqytZMFSfpRbM",
+    authDomain: "olissy-test.firebaseapp.com",
+    databaseURL: "https://olissy-test.firebaseio.com",
+    projectId: "olissy-test",
+    storageBucket: "olissy-test.appspot.com",
+    messagingSenderId: "570789449096",
+    appId: "1:570789449096:web:0f4eaabda63c16af0dbe3d",
+    measurementId: "G-6FVX18CBQJ"
+  }
 };
 
-/*apiOlissyMongoDB:"http://localhost:8080/product"
- * For easier debugging in development mode, you can import the following file
- * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
- *
- * This import should be commented out in production mode because it will have a negative impact
- * on performance if an error is thrown.
- */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+ 

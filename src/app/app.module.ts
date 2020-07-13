@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { olissyWebKey }   from './private'
+import { environment } from '../environments/environment';
 
 
 import { NgxMaskModule } from 'ngx-mask';
@@ -45,7 +45,7 @@ import { SearchStoreComponent } from './components/search-store/search-store.com
   ],
   imports: [
     NgxMaskModule.forRoot(),
-    AngularFireModule.initializeApp(olissyWebKey),
+    AngularFireModule.initializeApp(environment.firebase),
     IMaskModule,
     AngularFireAuthModule,
     AngularFireDatabaseModule,
