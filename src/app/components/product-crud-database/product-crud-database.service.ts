@@ -14,7 +14,7 @@ export class ProductCrudDatabaseService {
 
   constructor(private db: AngularFirestore, private http: HttpClient){}
 
-  private url = environment.apiOlissyMongoDB
+  private url = environment.heroku.url
 
   public async createNewProvider(provider) {
     await this.db.collection("provider").add(provider)

@@ -36,12 +36,15 @@ export class AuthService {
 
   public registration(usuario: any): any {
     return firebase.auth().createUserWithEmailAndPassword(usuario.userEmail, usuario.password).then(resposta => {
+      console.log(resposta)
         delete usuario.password;
         delete usuario.retypePassword;
         usuario.FOREIGN_KEY = resposta.user.uid;
         this.create_usuario('user', usuario);
         this.create_cliente('client', usuario);
         this.create_store('store', usuario);
+      }).catch(res=>{
+        console.log(res)
       });
   }
 

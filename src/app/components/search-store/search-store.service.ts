@@ -11,7 +11,7 @@ export class SearchStoreService {
 
   constructor(private http: HttpClient, private db: AngularFirestore){}
 
-  private url = environment.apiOlissyMongoDB
+  private url = environment.heroku.url
 
   public searchProductsByRegex(search: string) {
     return this.http.get<any>(this.url + '/regex/?text=' + search);

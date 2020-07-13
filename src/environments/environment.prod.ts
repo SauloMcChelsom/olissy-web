@@ -1,7 +1,7 @@
 export const environment = {
+  production: true,
+  ambiente: "prod",
   heroku:{  
-    production: false,
-    ambiente: "desenvolvimento",
     url:"https://olissy.herokuapp.com/product"
   },
   firebase:{

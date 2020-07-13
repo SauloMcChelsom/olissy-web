@@ -23,8 +23,8 @@ export class AboutStoreComponent implements OnInit, OnDestroy {
   public FOREIGN_KEY_STORE: any = '';
 
   public formStores: FormGroup = new FormGroup({
-    'FOREIGN_KEY':new FormControl(null),
     'PRIMARY_KEY':new FormControl(null),
+    'FOREIGN_KEY_USER':new FormControl(null),
     'storeRating':new FormControl(0),
     'follow':new FormControl(0),
     'storeImagePath': new FormControl(null),
@@ -55,7 +55,7 @@ export class AboutStoreComponent implements OnInit, OnDestroy {
 
       this.formStores.patchValue({
         FOREIGN_KEY: user[0].FOREIGN_KEY,
-        PRIMARY_KEY: user[0].PRIMARY_KEY,
+        FOREIGN_KEY_USER: user[0].FOREIGN_KEY_USER,
         imageDisplay: user[0].storeImageUrl,
         imageNew: user[0].storeImageUrl,
         storeImagePath: user[0].storeImagePath,

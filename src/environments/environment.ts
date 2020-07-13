@@ -1,18 +1,18 @@
 export const environment = {
+  production: false,
+  ambiente: "dev",
   heroku:{  
-    production: false,
-    ambiente: "desenvolvimento",
     url:"http://localhost:8080/product"
   },
   firebase:{
-    apiKey: "AIzaSyBM-5cjSIPv4nXWC212FpzqytZMFSfpRbM",
-    authDomain: "olissy-test.firebaseapp.com",
-    databaseURL: "https://olissy-test.firebaseio.com",
-    projectId: "olissy-test",
-    storageBucket: "olissy-test.appspot.com",
-    messagingSenderId: "570789449096",
-    appId: "1:570789449096:web:0f4eaabda63c16af0dbe3d",
-    measurementId: "G-6FVX18CBQJ"
+    apiKey: "AIzaSyDRWpn-yAXQxofx0Fv344-V2i6gawuqsK4",
+    authDomain: "olissy-web-test.firebaseapp.com",
+    databaseURL: "https://olissy-web-test.firebaseio.com",
+    projectId: "olissy-web-test",
+    storageBucket: "olissy-web-test.appspot.com",
+    messagingSenderId: "941580432173",
+    appId: "1:941580432173:web:29f63e3e7ba88f850219a4",
+    measurementId: "G-5DNYVHQPG4"
   }
 };
 
