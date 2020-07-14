@@ -17,7 +17,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   public formulario: FormGroup = new FormGroup({
     'PRIMARY_KEY': new FormControl(null),
-    'FOREIGN_KEY': new FormControl(null),
     'userName': new FormControl(null ,Validators.required),
     'userEmail': new FormControl(null ,Validators.required),
     'password': new FormControl(null ,Validators.required),
@@ -84,7 +83,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       this.mensagem.mensagem = ""
       this.mensagem.status = false
       this.Cadastro()
-    }
+    } 
   }
 
   public Cadastro(){
@@ -94,9 +93,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
         this.mensagem.status = false
         this.mensagem.loading = true
         this.authService.login(false,   this.formulario.get('userEmail').value, this.formulario.get('password').value).then((resposta)=>{
-          this.formulario.reset
-          this.appService.router_app_componet = 'cliente'
-          this.router_navigator.navigate(['/product']);
+          //this.formulario.reset
+          //this.appService.router_app_componet = 'cliente'
+          //this.router_navigator.navigate(['/product']);
       })
     }).catch((resposta)=>{
       if(resposta.code == "auth/invalid-email"){

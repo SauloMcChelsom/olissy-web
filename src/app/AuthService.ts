@@ -36,23 +36,19 @@ export class AuthService {
 
   public registration(usuario: any): any {
     return firebase.auth().createUserWithEmailAndPassword(usuario.userEmail, usuario.password).then(resposta => {
-      console.log(resposta)
-        delete usuario.password;
-        delete usuario.retypePassword;
-        usuario.FOREIGN_KEY = resposta.user.uid;
-        this.create_usuario('user', usuario);
-        this.create_cliente('client', usuario);
-        this.create_store('store', usuario);
-      }).catch(res=>{
-        console.log(res)
-      });
+      delete usuario.password;
+      delete usuario.retypePassword;
+      usuario.FOREIGN_KEY_UID = resposta.user.uid;
+
+      this.create_usuario('user', usuario)
+    })
   }
 
   public create_store(collection, data) {
-    const store: store = {
-      FOREIGN_KEY: data.FOREIGN_KEY,
-      productQuantity:0,
+    const store = {
       PRIMARY_KEY: '',
+      FOREIGN_KEY_USER: data.PRIMARY_KEY,
+      productQuantity:0,
       storeAbout: '',
       storeCategory: '',
       storeDeliveryEstimate: '',
@@ -80,14 +76,17 @@ export class AuthService {
     return new Promise<any>((resolve, reject) => {
       this.db.collection(collection).add(data).then(res => {
         this.update(collection, res.id, { PRIMARY_KEY: res.id });
+        data.PRIMARY_KEY = res.id
+        this.create_cliente('client', data);
+        this.create_store('store', data);
       },err => reject(err));
     });
   }
-
+ 
   public create_cliente(collection, data) {
-    const cliente: client = {
-      FOREIGN_KEY: data.FOREIGN_KEY,
+    const cliente = {
       PRIMARY_KEY: '',
+      FOREIGN_KEY_USER: data.PRIMARY_KEY,
       clientNeighborhood: '',
       clientCellPhone: '',
       clientCity: '',
