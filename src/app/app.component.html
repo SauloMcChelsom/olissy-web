@@ -1,16 +1,12 @@
  <body class="skin-red fixed sidebar-mini sidebar-mini-expand-feature sidebar-collapse">
   <div class="wrapper">
-    <app-client-header *ngIf="tela == 'cliente'"></app-client-header>
-    <app-store-header *ngIf="tela == 'comercio'"></app-store-header>
-    <app-user-header *ngIf="tela == 'usuario'"></app-user-header>
+    <app-header-user></app-header-user>
     <aside class="main-sidebar" style="padding-top: 50px;">
       <section class="sidebar">
-        <app-client-column *ngIf="tela == 'cliente'"></app-client-column>
-        <app-user-column *ngIf="tela == 'usuario'"></app-user-column>
-        <app-store-column *ngIf="tela == 'comercio'"></app-store-column>
+        <app-column-user></app-column-user>
       </section>
     </aside>
-    <div class="content-wrapper" [ngStyle]="url && {'background-color': '#fafafa'}"> 
+    <div class="content-wrapper"> 
       <router-outlet></router-outlet>
     </div>
     <div class="control-sidebar-bg"></div>

@@ -13,35 +13,18 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { AngularFirestore } from '@angular/fire/firestore';
 
 import { AppComponent } from './app.component';
-import { AppService } from './app.service';
 import { AppRoute } from './app.route';
-import { AuthService } from './AuthService';
+///import { AuthService } from './AuthService';
 
-import { ClientColumnComponent } from './components/client-column/client-column.component';
-import { ClientHeaderComponent } from './components/client-header/client-header.component';
-import { StoreColumnComponent } from './components/store-column/store-column.component';
-import { StoreHeaderComponent } from './components/store-header/store-header.component';
-import { UserColumnComponent } from './components/user-column/user-column.component';
-import { UserHeaderComponent } from './components/user-header/user-header.component';
-import { SearchStoreProductRegistrationComponent } from './components/search-store-product-registration/search-store-product-registration.component';
-import { SearchStoreProductRecordComponent } from './components/search-store-product-record/search-store-product-record.component';
-import { SearchProductComponent } from './components/search-product/search-product.component';
-import { SearchStoreComponent } from './components/search-store/search-store.component';
+import { ColumnUserComponent } from './page/user/column/column-user/column-user.component'
+import { HeaderUserComponent } from './page/user/header/header-user/header-user.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    ClientColumnComponent,
-    ClientHeaderComponent,
-    StoreColumnComponent,
-    StoreHeaderComponent,
-    UserColumnComponent,
-    UserHeaderComponent,
-    SearchStoreProductRegistrationComponent,
-    SearchStoreProductRecordComponent,
-    SearchProductComponent,
-    SearchStoreComponent
+    ColumnUserComponent,
+    HeaderUserComponent
   ],
   imports: [
     NgxMaskModule.forRoot(),
@@ -55,7 +38,7 @@ import { SearchStoreComponent } from './components/search-store/search-store.com
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [AppService, AngularFirestore, AuthService],
+  providers: [AngularFirestore],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

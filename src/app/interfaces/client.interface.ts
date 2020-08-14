@@ -1,16 +1,16 @@
 export interface ClientInterface {
-  PRIMARY_KEY: string;
-  FOREIGN_KEY_USER: string;
-  neighborhood: string;
-  cellPhone: string;
-  city: string;
-  email: string;
-  imagePath: string;
-  tmageUrl:string;
-  birth: string;
-  name: string;
-  street: string;
-  sex: string;
-  lastName: string;
-  telephone: string;
+  PRIMARY_KEY?: string;
+  FOREIGN_KEY_USER?: string;
+  clientNeighborhood?: string;
+  clientCellPhone?: string;
+  clientCity?: string;
+  clientEmail?: string;
+  clientImagePath?: string;
+  clientImageUrl?:string;
+  clientBirth?: string;
+  clientName?: string;
+  clientStreet?: string;
+  clientSex?: string;
+  clientLastName?: string;
+  clientTelephone?: string;
 }

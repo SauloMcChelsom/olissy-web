@@ -6,46 +6,543 @@
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-
   "icons": [
     {
-      "src": "./icons/icon-72x72.png",
-      "sizes": "72x72",
-      "type": "image/png"
-    },
-    {
-      "src": "./icons/icon-96x96.png",
-      "sizes": "96x96",
-      "type": "image/png"
-    },
-    {
-      "src": "./icons/icon-128x128.png",
-      "sizes": "128x128",
-      "type": "image/png"
-    },
-    {
-      "src": "./icons/icon-144x144.png",
+      "src": "./icons/Android Icons/144x144.png",
       "sizes": "144x144",
       "type": "image/png"
     },
     {
-      "src": "./icons/icon-152x152.png",
-      "sizes": "152x152",
-      "type": "image/png"
-    },
-    {
-      "src": "./icons/icon-192x192.png",
+      "src": "./icons/Android Icons/192x192.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "./icons/icon-384x384.png",
-      "sizes": "384x384",
+      "src": "./icons/Android Icons/48x48.png",
+      "sizes": "48x48",
       "type": "image/png"
     },
     {
-      "src": "./icons/icon-512x512.png",
+      "src": "./icons/Android Icons/72x72.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Android Icons/96x96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    
+    
+    
+    {
+      "src": "./icons/Android Image/hdpi.png",
+      "sizes": "1104x1149",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Android Image/ldpi.png",
+      "sizes": "552x575",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Android Image/mdpi.png",
+      "sizes": "736x766",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Android Image/xhdpi.png",
+      "sizes": "1472x1532",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Android Image/xxhdpi.png",
+      "sizes": "2208x2298",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Android Image/xxxhdpi.png",
+      "sizes": "2944x3064",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/AppIcon.appiconset/AppleWatch-Icon-24@2x.png",
+      "sizes": "48x48",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/AppIcon.appiconset/AppleWatch-Icon-27.5@2x.png",
+      "sizes": "55x55",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/AppIcon.appiconset/AppleWatch-Icon-29@2x.png",
+      "sizes": "58x58",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/AppIcon.appiconset/AppleWatch-Icon-29@3x.png",
+      "sizes": "87x87",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/AppIcon.appiconset/AppleWatch-Icon-40@2x.png",
+      "sizes": "80x80",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/AppIcon.appiconset/AppleWatch-Icon-44@2x.png",
+      "sizes": "88x88",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/AppIcon.appiconset/AppleWatch-Icon-86@2x.png",
+      "sizes": "172x172",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/AppIcon.appiconset/AppleWatch-Icon-98@2x.png",
+      "sizes": "196x196",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/AppIcon.appiconset/Icon-20.png",
+      "sizes": "20x20",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/AppIcon.appiconset/Icon-20@2x.png",
+      "sizes": "40x40",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/AppIcon.appiconset/Icon-20@3x.png",
+      "sizes": "60x60",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/AppIcon.appiconset/Icon-29.png",
+      "sizes": "29x29",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/AppIcon.appiconset/Icon-29@2x.png",
+      "sizes": "58x58",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/AppIcon.appiconset/Icon-29@3x.png",
+      "sizes": "87x87",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/AppIcon.appiconset/Icon-40.png",
+      "sizes": "40x40",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/AppIcon.appiconset/Icon-40@2x.png",
+      "sizes": "80x80",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/AppIcon.appiconset/Icon-40@3x.png",
+      "sizes": "120x120",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/AppIcon.appiconset/Icon-50.png",
+      "sizes": "50x50",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/AppIcon.appiconset/Icon-50@2x.png",
+      "sizes": "100x100",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/AppIcon.appiconset/Icon-57.png",
+      "sizes": "57x57",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/AppIcon.appiconset/Icon-57@2x.png",
+      "sizes": "114x114",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/AppIcon.appiconset/Icon-60@2x.png",
+      "sizes": "120x120",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/AppIcon.appiconset/Icon-60@3x.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/AppIcon.appiconset/Icon-72.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/AppIcon.appiconset/Icon-72@2x.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/AppIcon.appiconset/Icon-76.png",
+      "sizes": "76x76",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/AppIcon.appiconset/Icon-76@2x.png",
+      "sizes": "152x152",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/AppIcon.appiconset/Icon-83.5@2x.png",
+      "sizes": "167x167",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/AppIcon.appiconset/iTunesArtwork-1024.png",
+      "sizes": "1024x1024",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Chrome Store/128x128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Chrome Store/16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Chrome Store/48x48.png",
+      "sizes": "48x48",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Favicons/favicon-114x114.png",
+      "sizes": "114x114",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Favicons/favicon-120x120.png",
+      "sizes": "120x120",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Favicons/favicon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Favicons/favicon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Favicons/favicon-150x150.png",
+      "sizes": "150x150",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Favicons/favicon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Favicons/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Favicons/favicon-180x180.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Favicons/favicon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Favicons/favicon-196x196.png",
+      "sizes": "196x196",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Favicons/favicon-24x24.png",
+      "sizes": "24x24",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Favicons/favicon-310x310.png",
+      "sizes": "310x310",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Favicons/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Favicons/favicon-48x48.png",
+      "sizes": "48x48",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Favicons/favicon-57x57.png",
+      "sizes": "57x57",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Favicons/favicon-60x60.png",
+      "sizes": "60x60",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Favicons/favicon-64x64.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Favicons/favicon-70x70.png",
+      "sizes": "70x70",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Favicons/favicon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Favicons/favicon-76x76.png",
+      "sizes": "76x76",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Favicons/favicon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    { 
+      "src": "./icons/Firefox/48x48.png", 
+      "sizes": "48x48", 
+      "type": "image/png" 
+    },
+    { 
+      "src": "./icons/Firefox/96x96.png", 
+      "sizes": "96x96", 
+      "type": "image/png" 
+    },
+    {
+      "src": "./icons/iOS Image/logo@1x.png",
+      "sizes": "981x1021",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/iOS Image/logo@2x.png",
+      "sizes": "1963x2043",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/iOS Image/logo@3x.png",
+      "sizes": "2944x3064",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/MacOS.appiconset/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/MacOS.appiconset/icon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/MacOS.appiconset/icon-256x256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/MacOS.appiconset/icon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/MacOS.appiconset/icon-512x512.png",
       "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/MacOS.appiconset/icon-64x64.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Windows/Square150x150Logo.scale-100.png",
+      "sizes": "150x150",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Windows/Square150x150Logo.scale-125.png",
+      "sizes": "188x188",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Windows/Square150x150Logo.scale-150.png",
+      "sizes": "225x225",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Windows/Square150x150Logo.scale-200.png",
+      "sizes": "300x300",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Windows/Square150x150Logo.scale-400.png",
+      "sizes": "600x600",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Windows/Square310x310Logo.scale-100.png",
+      "sizes": "310x310",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Windows/Square310x310Logo.scale-125.png",
+      "sizes": "388x388",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Windows/Square310x310Logo.scale-150.png",
+      "sizes": "465x465",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Windows/Square310x310Logo.scale-200.png",
+      "sizes": "620x620",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Windows/Square310x310Logo.scale-400.png",
+      "sizes": "1240x1240",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Windows/Square44x44Logo.targetsize-16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Windows/Square44x44Logo.targetsize-20.png",
+      "sizes": "20x20",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Windows/Square44x44Logo.targetsize-24.png",
+      "sizes": "24x24",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Windows/Square44x44Logo.targetsize-256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Windows/Square44x44Logo.targetsize-30.png",
+      "sizes": "30x30",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Windows/Square44x44Logo.targetsize-32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Windows/Square44x44Logo.targetsize-36.png",
+      "sizes": "36x36",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Windows/Square44x44Logo.targetsize-40.png",
+      "sizes": "40x40",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Windows/Square44x44Logo.targetsize-48.png",
+      "sizes": "48x48",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Windows/Square44x44Logo.targetsize-60.png",
+      "sizes": "60x60",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Windows/Square44x44Logo.targetsize-64.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Windows/Square44x44Logo.targetsize-72.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Windows/Square44x44Logo.targetsize-80.png",
+      "sizes": "80x80",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Windows/Square44x44Logo.targetsize-96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Windows/Square71x71Logo.scale-100.png",
+      "sizes": "71x71",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Windows/Square71x71Logo.scale-125.png",
+      "sizes": "89x89",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Windows/Square71x71Logo.scale-150.png",
+      "sizes": "107x107",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Windows/Square71x71Logo.scale-200.png",
+      "sizes": "142x142",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Windows/Square71x71Logo.scale-400.png",
+      "sizes": "284x284",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Windows/StoreLogo.scale-150.png",
+      "sizes": "150x150",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Windows/StoreLogo.scale-300.png",
+      "sizes": "300x300",
+      "type": "image/png"
+    },
+    {
+      "src": "./icons/Windows/StoreLogo.scale-71.png",
+      "sizes": "71x71",
       "type": "image/png"
     }
   ]
