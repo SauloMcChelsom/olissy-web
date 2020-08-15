@@ -9,6 +9,8 @@ import { AppService } from '../../app.service'
 import { ProductService } from './product.service'
 import { DataService } from "../../data.service";
 
+
+
 @Component({
   selector: 'app-product',
   templateUrl: './product.component.html',
