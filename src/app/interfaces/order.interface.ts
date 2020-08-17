@@ -1,5 +1,6 @@
 export interface OrderInterface {
-  indexDay?: string;
+  AUTOINCREMENT?: Date;
+  DATE?: Date;
   PRIMARY_KEY?: string;
   FOREIGN_KEY_STORE?: string;
   FOREIGN_KEY_CLIENT?: string;
@@ -20,9 +21,7 @@ export interface OrderInterface {
   storeCNPJ?: string;
   storeCellPhone?: string;
   storeCity?: string;
-  storeDeliveryEstimate?: string;
   storeEmail?: string;
-  storeHours?: string;
   storeImageUrl?: string;
   storeName?: string;
   storeNeighborhood?: string;
@@ -31,15 +30,6 @@ export interface OrderInterface {
   taxaDelivery?: number;
   taxing?: number;
   totalOrderValue?: number;
-  orderDate?: string;
-  note:[
-    {
-      FOREIGN_KEY_USER?: string;
-      name?: string
-      text?: string
-      view?: boolean
-    }
-  ]
   product:[
     {
       FOREIGN_KEY_USER?: string;
@@ -47,6 +37,14 @@ export interface OrderInterface {
       FOREIGN_KEY_STORE?: string;
       productName?: string;
       productPrice?: number;
+    }
+  ]
+  note:[
+    {
+      FOREIGN_KEY_USER?: string;
+      name?: string
+      text?: string
+      view?: boolean
     }
   ]
 }

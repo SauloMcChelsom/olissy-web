@@ -1,9 +1,15 @@
 export interface BookInterface {
-  indexDay?: string;
+ AUTOINCREMENT?: Date;
   /**
-   * Descrição:
-   * exemplo:
-   */
+  * Descrição:
+  * exemplo:
+  */
+
+  DATE?: Date;
+  /**
+  * Descrição:
+  * exemplo:
+  */
 
   PRIMARY_KEY?: string;
   /**

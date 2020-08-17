@@ -1,5 +1,6 @@
 export interface CompanyInterface {
-  indexDay?: string;
+  AUTOINCREMENT?: Date;
+  DATE?: Date;
   companyName?: string;
   companyNameQuery?: string;
 }

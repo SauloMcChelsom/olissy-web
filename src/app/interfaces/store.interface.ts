@@ -1,10 +1,10 @@
 export interface StoreInterface {
-  indexDay?: string;
+  AUTOINCREMENT?: Date;
+  DATE?: Date;
   PRIMARY_KEY?: string;
   FOREIGN_KEY_USER?: string;
   productQuantity?: number;
   storeAbout?: string;
-  storeCategory?: string;
   storeImagePath?: string;
   storeImageUrl?: string;
   storeName?: string;
@@ -15,6 +15,7 @@ export interface StoreInterface {
   storeCellPhone?: string;
   storeEmail?: string;
   storeTelephone?: string;
+  storeHours?: string;
   sale?: number;
   storeCEP?: string;
   storeCNPJ?: string;

@@ -1,7 +1,8 @@
 export interface PaymentInterface {
-  indexDay?: string;
+  AUTOINCREMENT?: Date;
+  DATE?: Date;
   PRIMARY_KEY?: string;
-  FOREIGN_KEY_PAYMENT?: string;
+  FOREIGN_KEY_BOOK?: string;
   FOREIGN_KEY_STORE?: string;
   statusPayment?: string;
   storeName ?: string;
@@ -29,7 +30,7 @@ export interface PaymentInterface {
   client:[
     {
       FOREIGN_KEY_INVOICE?: string;
-      data?: string;
+      date?: string;
       name?: string;
       price?: number;
     }

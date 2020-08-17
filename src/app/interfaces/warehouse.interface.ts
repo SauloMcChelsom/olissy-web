@@ -1,5 +1,6 @@
 export interface WarehouseInterface {
-  indexDay?: string;
+  AUTOINCREMENT?: Date;
+  DATE?: Date;
   PRIMARY_KEY?: string;
   productImageUrl?: string;
   productImagePath?: string;
@@ -16,7 +17,6 @@ export interface WarehouseInterface {
   productTypeQuery?: string;
   productNameQuery?: string;
   productDescriptionQuery?: string;
-  productDateRegister?: string;
   andGeneric?: boolean;
   company?: string;
 }

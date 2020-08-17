@@ -1,5 +1,6 @@
 export interface InvoiceInterface{
-  indexDay?: string;
+  AUTOINCREMENT?: Date;
+  DATE?: Date;
   PRIMARY_KEY?: string;
   FOREIGN_KEY_CLIENT?: string;
   FOREIGN_KEY_STORE?: string;
@@ -14,8 +15,20 @@ export interface InvoiceInterface{
   clientNeighborhood?: string;
   clientStreet?: string;
   informChange?: string;//informa o troco
-  orderDate?: string;
   orderState?: string;
+  rateOfDelivery?: string;
+  rateOfDeliveryDescription?: string;
+  storeCNPJ?: string;
+  storeCellPhone?: string;
+  storeCity?: string;
+  storeEmail?: string;
+  storeImageUrl?: string;
+  storeName?: string;
+  storeNeighborhood?: string;
+  storeStreet?: string;
+  taxaDelivery?: number;
+  taxing?: string;
+  totalOrderValue?: number;
   product:[
     {
       FOREIGN_KEY_USER?: string;
@@ -25,18 +38,4 @@ export interface InvoiceInterface{
       productPrice?: number;
     }
   ]
-  rateOfDelivery?: string;
-  rateOfDeliveryDescription?: string;
-  storeCNPJ?: string;
-  storeCellPhone?: string;
-  storeCity?: string;
-  storeDeliveryEstimate?: string;
-  storeEmail?: string;
-  storeHours?: string;
-  storeImageUrl?: string;
-  storeName?: string;
-  storeNeighborhood?: string;
-  storeStreet?: string;
-  taxing?: string;
-  totalOrderValue?: number;
 }

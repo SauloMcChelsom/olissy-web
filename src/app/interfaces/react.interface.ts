@@ -1,5 +1,6 @@
 export interface ReactInterface {
-  indexDay?: string;
+  AUTOINCREMENT?: Date;
+  DATE?: Date;
   PRIMARY_KEY?: string;
   FOREIGN_KEY_USER?: string;
   product:[
