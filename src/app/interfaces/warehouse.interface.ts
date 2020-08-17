@@ -1,4 +1,5 @@
-export interface WarehoseInterface {
+export interface WarehouseInterface {
+  indexDay?: string;
   PRIMARY_KEY?: string;
   productImageUrl?: string;
   productImagePath?: string;
@@ -6,7 +7,7 @@ export interface WarehoseInterface {
   imageDisplay?: string;
   productName?: string;
   productDescription?: string;
-  productPrice?: string;
+  productPrice?: number;
   productSession?: string;
   productCategory?: string;
   productType?: string;

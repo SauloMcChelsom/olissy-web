@@ -1,4 +1,5 @@
 export interface ClientInterface {
+  indexDay?: string;
   PRIMARY_KEY?: string;
   FOREIGN_KEY_USER?: string;
   clientNeighborhood?: string;
@@ -13,4 +14,7 @@ export interface ClientInterface {
   clientSex?: string;
   clientLastName?: string;
   clientTelephone?: string;
+  clientCEP?: string;
+  clientCountry?: string;
+  clientState?: string;
 }

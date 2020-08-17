@@ -1,35 +1,87 @@
 export interface BookInterface {
+  indexDay?: string;
+  /**
+   * Descrição:
+   * exemplo:
+   */
+
   PRIMARY_KEY?: string;
-  FOREIGN_KEY_PAYMENT?: string;
-  FOREIGN_KEY_STORE?: string;
+  /**
+   * Descrição:
+   * exemplo:
+   */
+
   statusPayment?: string;
-  storeName ?: string;
-  imageUrlStore?: string;
+  /**
+   * Descrição:
+   * exemplo:
+   */
+  
   openPaymentDay?: string;
+  /**
+   * Descrição:
+   * exemplo:
+   */
+  
+  closedPaymentDay?: string;
+  /**
+   * Descrição:
+   * exemplo:
+   */
+  
   inPaymentDay?: string;
+  /**
+   * Descrição:
+   * exemplo:
+   */
+  
   receivedPaymentDay?: string;
+  /**
+   * Descrição:
+   * exemplo:
+   */
+  
   latePaymentDay?: string;
-  totalPayment?: string;
-  storeCity?: string;
-  storeStreet?: string;
-  storeNeighborhood?: string;
-  storeCellPhone?: string;
-  storeEmail?: string;
-  plataformaName?: string;
-  plataformaCity?: string;
-  bank?: string;
-  agency?: string;
-  account?: string;
-  plataformaStreet?: string;
-  plataformaNeighborhood?: string;
-  plataformaCellPhone?: string;
-  plataformaEmail?: string;
-  client:[
+  /**
+   * Descrição:
+   * exemplo:
+   */
+  
+  listStore?:[
     {
-      PRIMARY_KEY?: string;
-      data?: string;
-      name?: string;
-      price?: string;
+      FOREIGN_KEY_STORE?: string,
+      FOREIGN_KEY_PAYMENT?: string,
     }
-  ]
+  ];
+
+  value?: number;
+  /**
+   * Descrição:
+   * exemplo:
+   */
+  
+  openPaymentStore?: number;
+  /**
+   * Descrição:
+   * exemplo:
+   */
+  
+  receivedPaymentStore?: number;
+  /**
+   * Descrição:
+   * exemplo:
+   */
+  
+  InPaymentStore?: number;
+  /**
+   * Descrição:
+   * exemplo:
+   */
+  
+  latePaymentStore?: number;
+  /**
+   * Descrição:
+   * exemplo:
+   */
+  
 }

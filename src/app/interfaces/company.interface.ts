@@ -1,3 +1,5 @@
 export interface CompanyInterface {
-  company?: string;
+  indexDay?: string;
+  companyName?: string;
+  companyNameQuery?: string;
 }

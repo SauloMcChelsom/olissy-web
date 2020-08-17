@@ -15,7 +15,7 @@ import { OrderService } from '../service/order.service';
 import { PaymentService } from '../service/payment.service';
 import { ProductService } from '../service/product.service';
 import { ReactService } from '../service/react.service';
-import { WarehoseService } from '../service/warehose.service';
+import { WarehouseService } from '../service/warehouse.service';
 
 import { UserInterface } from '../interfaces/user.interface';
 import { ClientInterface } from '../interfaces/client.interface';
@@ -29,7 +29,7 @@ import { OrderInterface } from '../interfaces/order.interface';
 import { PaymentInterface } from '../interfaces/payment.interface';
 import { ProductInterface } from '../interfaces/product.interface';
 import { ReactInterface } from '../interfaces/react.interface';
-import { WarehoseInterface } from '../interfaces/warehose.interface';
+import { WarehouseInterface } from '../interfaces/warehouse.interface';
 
 export { UserInterface as User }
 export { ClientInterface as Client }

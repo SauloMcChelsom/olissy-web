@@ -1,4 +1,5 @@
 export interface UserInterface {
+  indexDay?: string;
   PRIMARY_KEY?: string;
   FOREIGN_KEY_UID?: string;
   password?: string;

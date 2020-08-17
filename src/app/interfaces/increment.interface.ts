@@ -1,5 +1,6 @@
 export interface IncrementInterface {
   store?: number;
-  product?: number;
+  warehouse?: number;
+  client?: number;
   user?: number;
 }

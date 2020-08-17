@@ -1,4 +1,5 @@
 export interface ContactInterface {
+  indexDay?: string;
   PRIMARY_KEY?: string;
   MY_FOREIGN_KEY_USER?: string;
   FRIEND_FOREIGN_KEY_USER?: string;
