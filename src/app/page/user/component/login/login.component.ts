@@ -3,7 +3,7 @@ import { FormGroup, FormControl, Validators  }  from '@angular/forms';
 import { Router } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { Core, User } from '../../../../shared/core';
+import { Core } from '../../../../shared/core';
 
 @Component({
   selector: 'mt-login',

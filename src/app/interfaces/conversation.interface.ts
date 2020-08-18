@@ -1,17 +1,17 @@
 export interface ConversationInterface {
-  AUTOINCREMENT?: Date;
-  DATE?: Date;
-  PRIMARY_KEY?: string;
-  COMPOSITE_KEY_OF_MY_FRIEND?: string;
+  AUTOINCREMENT: Date;
+  DATE: Date;
+  PRIMARY_KEY: string;
+  COMPOSITE_KEY_OF_MY_FRIEND: string;
 
-  PRIMARY?:{
+  PRIMARY:{
     FOREIGN_KEY_USER:string,
     name:string,
     photo:string,
     view:boolean,
   }
 
-  SECONDARY?:{
+  SECONDARY:{
     FOREIGN_KEY_USER:string,
     name:string,
     photo:string,
@@ -20,12 +20,12 @@ export interface ConversationInterface {
 
   message: [
     {
-      FOREIGN_KEY_USER?: string;
-      date?: string;
-      name?: string;
-      photo?: string;
-      text?: string;
-      view?: boolean;
+      FOREIGN_KEY_USER: string;
+      date: string;
+      name: string;
+      photo: string;
+      text: string;
+      view: boolean;
     }
   ]
 }

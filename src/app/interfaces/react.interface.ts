@@ -1,19 +1,19 @@
 export interface ReactInterface {
-  AUTOINCREMENT?: Date;
-  DATE?: Date;
-  PRIMARY_KEY?: string;
-  FOREIGN_KEY_USER?: string;
+  AUTOINCREMENT: Date;
+  DATE: Date;
+  PRIMARY_KEY: string;
+  FOREIGN_KEY_USER: string;
   product:[
     {
-      FOREIGN_KEY_PRODUCT?: string;
-      react?: boolean;
+      FOREIGN_KEY_PRODUCT: string;
+      react: boolean;
     }
   ]
 
   store:[
     {
-      FOREIGN_KEY_STORE?: string;
-      react?: boolean;
+      FOREIGN_KEY_STORE: string;
+      react: boolean;
     }
   ]
 

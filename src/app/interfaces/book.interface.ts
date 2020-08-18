@@ -1,93 +1,94 @@
 export interface BookInterface {
- AUTOINCREMENT?: Date;
+ AUTOINCREMENT: Date;
   /**
   * Descrição:
   * exemplo:
   */
 
-  DATE?: Date;
+  DATE: Date;
   /**
   * Descrição:
   * exemplo:
   */
 
-  PRIMARY_KEY?: string;
+  PRIMARY_KEY: string;
   /**
-   * Descrição:
-   * exemplo:
-   */
+  * Descrição:
+  * exemplo:
+  */
 
-  statusPayment?: string;
+  statusPayment: string;
   /**
-   * Descrição:
-   * exemplo:
-   */
+  * Descrição:
+  * exemplo:
+  */
   
-  openPaymentDay?: string;
+  openPaymentDay: string;
   /**
-   * Descrição:
-   * exemplo:
-   */
+  * Descrição:
+  * exemplo:
+  */
   
-  closedPaymentDay?: string;
+  closedPaymentDay: string;
   /**
-   * Descrição:
-   * exemplo:
-   */
+  * Descrição:
+  * exemplo:
+  */
   
-  inPaymentDay?: string;
+  inPaymentDay: string;
   /**
-   * Descrição:
-   * exemplo:
-   */
+  * Descrição:
+  * exemplo:
+  */
   
-  receivedPaymentDay?: string;
+  receivedPaymentDay: string;
   /**
-   * Descrição:
-   * exemplo:
-   */
+  * Descrição:
+  * exemplo:
+  */
   
-  latePaymentDay?: string;
+  latePaymentDay: string;
   /**
-   * Descrição:
-   * exemplo:
-   */
+  * Descrição:
+  * exemplo:
+  */
   
-  listStore?:[
+  listStore:[
     {
-      FOREIGN_KEY_STORE?: string,
-      FOREIGN_KEY_PAYMENT?: string,
+      FOREIGN_KEY_STORE: string,
+      FOREIGN_KEY_PAYMENT: string,
     }
   ];
+  
 
-  value?: number;
+  totalValueOfAllStore: number;
   /**
-   * Descrição:
-   * exemplo:
-   */
+  * Descrição:
+  * exemplo:
+  */
   
-  openPaymentStore?: number;
+  openPaymentStore: number;
   /**
-   * Descrição:
-   * exemplo:
-   */
+  * Descrição:
+  * exemplo:
+  */
   
-  receivedPaymentStore?: number;
+  receivedPaymentStore: number;
   /**
-   * Descrição:
-   * exemplo:
-   */
+  * Descrição:
+  * exemplo:
+  */
   
-  InPaymentStore?: number;
+  InPaymentStore: number;
   /**
-   * Descrição:
-   * exemplo:
-   */
+  * Descrição:
+  * exemplo:
+  */
   
-  latePaymentStore?: number;
+  latePaymentStore: number;
   /**
-   * Descrição:
-   * exemplo:
-   */
+  * Descrição:
+  * exemplo:
+  */
   
 }
