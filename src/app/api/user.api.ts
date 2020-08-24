@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Observer } from 'rxjs';
 
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
@@ -18,7 +18,7 @@ export class UserApi {
   constructor(private http: HttpClient, private afAuth: AngularFireAuth, private db: AngularFirestore){}
 
   public getUserByUid(user: User){
-    return this.http.get<User>('/')
+    return this.db.collection('user', ref =>ref.where('FOREIGN_KEY_UID', '==', user.FOREIGN_KEY_UID)).valueChanges()
   }
 
   public delUserByUid(user: User){
@@ -30,36 +30,40 @@ export class UserApi {
   } 
 
   public getUserByEmail(user: User){
-    return this.db.collection('user', ref =>ref.where('userEmail', '==', user.userEmail)).valueChanges()
+    return this.db.collection('user', ref =>ref.where('email', '==', user.email)).valueChanges()
   }
 
-  public async signInWithEmailAndPassword(user: User) {
-    if(true){
-      return await this.afAuth.auth.signInWithEmailAndPassword(user.userEmail, user.password);
-    }else{
-      return await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(async () => {
-        return await firebase.auth().signInWithEmailAndPassword(user.userEmail, user.password);
-      });
-    }
-  }
-
-  public async authenticationByGoogle() {
-    return await this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider()).then((res: any) => {
-      console.log(res)
-    });
-  }
-
-  public async createNewUser(user: User){
-    await this.google(user).then(user => user)
+  public async createNewUserWithPopup(user: User){
+    user.AUTOINCREMENT = firebase.firestore.FieldValue.serverTimestamp()
+    user.DATE = new Date().toString()
+    
     await this.firebase(user).then(user => user)
     await this.update('user', user.PRIMARY_KEY, { PRIMARY_KEY: user.PRIMARY_KEY })
     return user
   }
 
-  public async google(user: User){
-    await firebase.auth().createUserWithEmailAndPassword(user.userEmail, user.password).then(res => {
-      delete user.password;
-      delete user.retypePassword;
+  public async signInWithPopup() {
+    return await this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider())
+  }
+
+  public async createNewUserWithEmailAndPassword(user: User){
+    user.AUTOINCREMENT = firebase.firestore.FieldValue.serverTimestamp()
+    user.DATE = new Date().toString()
+
+    await this.createUserWithEmailAndPassword(user)
+    await this.firebase(user).then(user => user)
+    await this.update('user', user.PRIMARY_KEY, { PRIMARY_KEY: user.PRIMARY_KEY })
+    return user
+  }
+
+  public async signInWithEmailAndPassword(user: User) {
+    return await this.afAuth.auth.signInWithEmailAndPassword(user.email, user.password)
+  }
+
+  public async createUserWithEmailAndPassword(user: User){
+    await firebase.auth().createUserWithEmailAndPassword(user.email, user.password).then(res => {
+      user.password = null
+      user.retypePassword = null
       user.FOREIGN_KEY_UID = res.user.uid
     })
     return user
@@ -76,12 +80,15 @@ export class UserApi {
     return this.db.collection(collection).doc(pk).update(data);
   }
 
-  public async isLogged() {
-    await firebase.auth().onAuthStateChanged((auth) => {console.log(auth)});
+  public  isLogged() {
+    return new Observable((observer: Observer<any>) => {
+      firebase.auth().onAuthStateChanged((user: any) => {
+        observer.next(user);
+      });
+    });
   }
 
   public async logout() {
-    await localStorage.removeItem('user');
     return await this.afAuth.auth.signOut();
   }
 }

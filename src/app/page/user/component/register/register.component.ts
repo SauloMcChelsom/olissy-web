@@ -1,7 +1,15 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators  }  from '@angular/forms';
 import { Router } from '@angular/router';
+
+import firebase from '@firebase/app';
+import '@firebase/storage';
+
 import { Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators'
+
 import { Core, User, Client } from '../../../../shared/core';
 
 @Component({
@@ -10,18 +18,23 @@ import { Core, User, Client } from '../../../../shared/core';
   styleUrls: ['./register.component.css']
 }) 
 
-export class RegisterComponent implements OnDestroy {
+export class RegisterComponent implements OnInit, OnDestroy {
 
   private unsubscribe$ = new Subject();
 
+  public avatar:string = null
+
   public userForm: FormGroup = new FormGroup({
-    'PRIMARY_KEY': new FormControl(null),
-    'userName': new FormControl('saulo' ,Validators.required),
-    'userEmail': new FormControl(null ,Validators.required),
-    'password': new FormControl(null ,Validators.required),
-    'retypePassword': new FormControl('123456789' ,Validators.required),
-    'userType': new FormControl(1),
-    'userTerms': new FormControl(true ,Validators.required)
+    AUTOINCREMENT: new FormControl(null),
+    DATE:  new FormControl(null),
+    PRIMARY_KEY:  new FormControl(null),
+    FOREIGN_KEY_UID:  new FormControl(null),
+    name: new FormControl('saulo' ,Validators.required),
+    email: new FormControl('saulo@gmail.com' ,Validators.required),
+    password: new FormControl('123456789' ,Validators.required),
+    retypePassword: new FormControl('123456789' ,Validators.required),
+    type: new FormControl(1),
+    terms: new FormControl(true ,Validators.required)
   })
 
   public active = {
@@ -34,15 +47,30 @@ export class RegisterComponent implements OnDestroy {
 
   constructor(
     private core:Core,
-    private redirectPageFor: Router
+    private redirectPageFor: Router,
   ){}
 
+  public ngOnInit(){
+    this.setAvatar()
+  }
+
+  private async setAvatar(){
+    const avatar =  localStorage.getItem('avatar')
+    if(avatar){
+      this.avatar = avatar
+    }else{
+      var storage = firebase.storage();
+      await storage.ref('plataform/avatar.png').getDownloadURL().then(url => this.avatar = url )
+      localStorage.setItem('avatar', this.avatar)
+    }
+  }
+  
   public validateForm(){
-    this.userForm.get('userName').markAsTouched()
-    this.userForm.get('userEmail').markAsTouched()
+    this.userForm.get('name').markAsTouched()
+    this.userForm.get('email').markAsTouched()
     this.userForm.get('password').markAsTouched()
     this.userForm.get('retypePassword').markAsTouched()
-    this.userForm.get('userTerms').markAsTouched()
+    this.userForm.get('terms').markAsTouched()
 
     if(this.userForm.value.retypePassword != this.userForm.value.password || (this.userForm.value.retypePassword == null || this.userForm.value.password == null)){
       this.active.text = "Senhas não são identicas"
@@ -52,12 +80,12 @@ export class RegisterComponent implements OnDestroy {
       this.active.formIsValid = true
     }
 
-    if(!this.userForm.value.userName){
+    if(!this.userForm.value.name){
       this.active.text = "O Campo NOME é Obrigatorio"
       this.active.message = true
     }
 
-    if(!this.userForm.value.userEmail){
+    if(!this.userForm.value.email){
       this.active.text = "O Campo E-MAIL é Obrigatorio"
       this.active.message = true
     }
@@ -71,41 +99,41 @@ export class RegisterComponent implements OnDestroy {
   }
 
   public async verifyEemailExisted(){
-    this.core.user.userEmail = this.userForm.value.userEmail
+    this.core.user.email = this.userForm.value.email
     this.core.user.password = this.userForm.value.password
-    this.core.user.userType = 1
+    this.core.user.name = this.userForm.value.name
+    this.core.user.terms = true
+    this.core.user.type = 1
     
     let emailExisted = null
-    await this.core.userService().getUserByEmailInApi(this.core.user).toPromise().then( v => emailExisted  ).catch(()=>emailExisted = null)
+    await this.core.userService().getUserByEmailInApi(this.core.user).pipe(takeUntil(this.unsubscribe$),take(1), map(v => emailExisted = v) ).toPromise()
 
-    console.log(emailExisted)
-
-    if(emailExisted){
-      this.active.text = "E-MAIL ja em uso" 
+    if(Object.keys(emailExisted).length == 0){
+      this.createNewUser()
+    }else{
+      this.active.text = `email ${ this.core.user.email} ja em uso`
       this.active.message = true
       this.active.loading = false
       this.active.form = true
-    }else{
-      this.createNewUser()
     }
   }
 
   public async createNewUser(){
     let newUser:User
-    await this.core.userService().createNewUserInApi(this.core.user).then( v => newUser = v )
+    await this.core.userService().createNewUserWithEmailAndPasswordInApi(this.core.user).then( v => newUser = v )
 
-    
-    this.core.client.clientName = this.userForm.value.userName
+    this.core.client.name = this.userForm.value.name
     this.core.client.FOREIGN_KEY_USER = newUser.PRIMARY_KEY
 
     let newClient:Client
+    this.core.client.imageIconUrl = this.avatar
     await this.core.clientService().createNewClientInApi(this.core.client).then( v => newClient = v )
 
     this.core.userService().setUserInState([newUser])
     this.core.clientService().setClientInState([newClient])
     
     this.core.view.user = "client"
-    this.redirectPageFor.navigate(['/product'])
+    this.redirectPageFor.navigate(['/home'])
     
   }
 
@@ -113,4 +141,4 @@ export class RegisterComponent implements OnDestroy {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }
-}
+} 

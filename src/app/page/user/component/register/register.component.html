@@ -27,7 +27,7 @@
         <div class="form-group has-feedback">
           <input
             type="text"
-            formControlName="userName"
+            formControlName="name"
             required
             autocomplete="off"
             class="form-control"
@@ -37,7 +37,7 @@
         <div class="form-group has-feedback">
           <input
             type="email"
-            formControlName="userEmail"
+            formControlName="email"
             required
             autocomplete="off"
             class="form-control"
@@ -68,7 +68,7 @@
           <div class="col-xs-8">
             <div class="icheck">
               <label class="chk" style="margin-bottom: 5px;">
-                <input type="checkbox" formControlName="userTerms" required />
+                <input type="checkbox" formControlName="terms" required />
                 Eu aceito os
                 <a data-keyboard="false" data-toggle="modal" data-target="#termsModal" style="font-weight: 700;">termos</a>
               </label>
@@ -76,9 +76,9 @@
                 class="help-block"
                 style="color:green"
                 *ngIf="
-                  this.userForm.controls['userTerms'].valid &&
-                  (this.userForm.controls['userTerms'].dirty ||
-                  this.userForm.controls['userTerms'].touched)
+                  this.userForm.controls['terms'].valid &&
+                  (this.userForm.controls['terms'].dirty ||
+                  this.userForm.controls['terms'].touched)
                 "
               >
                 <i class="fa fa-check"></i>Ok
@@ -87,9 +87,9 @@
                 class="help-block"
                 style="color:red"
                 *ngIf="
-                  this.userForm.controls['userTerms'].invalid &&
-                  (this.userForm.controls['userTerms'].dirty ||
-                  this.userForm.controls['userTerms'].touched)
+                  this.userForm.controls['terms'].invalid &&
+                  (this.userForm.controls['terms'].dirty ||
+                  this.userForm.controls['terms'].touched)
                 "
               >
                 <i class="fa fa-remove"></i>Campo TERMOS é Obrigatorio

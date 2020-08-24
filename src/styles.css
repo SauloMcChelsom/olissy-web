@@ -426,6 +426,46 @@ blockquote {
 
 */
 
+a{
+  text-decoration:none;
+}
+
+a:link{
+  text-decoration:none;
+}
+
+a.nounderline:link{
+  text-decoration:none;
+}
+
+a:hover{
+  text-decoration:none;
+}
+
+span:focus,
+div:focus,
+a:focus,
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+  outline: none;
+  outline-width: 0;
+}
+
+.btn.active.focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn:active:focus, .btn:focus {
+  outline: 0px auto -webkit-focus-ring-color;
+  outline-offset: 0px;
+}
+
+@media (max-width: 767px){
+  .fixed .content-wrapper, .fixed .right-side {
+    padding-top: 30px;
+  }
+}
+
+
+
 /* header */
 .skin-red .main-header .navbar {
   background-color: #ec2490;
@@ -452,7 +492,7 @@ blockquote {
 
 /* background color */
 .content-wrapper {
-  background-color: #d9e6f9;
+  background-color: #d4dded;
 }
 
 .container{

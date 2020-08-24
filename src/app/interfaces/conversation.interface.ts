@@ -1,6 +1,6 @@
 export interface ConversationInterface {
-  AUTOINCREMENT: Date;
-  DATE: Date;
+  AUTOINCREMENT: any;
+  DATE: string;
   PRIMARY_KEY: string;
   COMPOSITE_KEY_OF_MY_FRIEND: string;
 

@@ -44,7 +44,7 @@ export class StoreService {
     this.state.addStore()
   }
 
-  public PutStoreInState(){
+  public putStoreInState(){
     return this.state.PutStore()
   }
 

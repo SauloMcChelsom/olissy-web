@@ -1,6 +1,6 @@
 export interface ContactInterface {
-  AUTOINCREMENT: Date;
-  DATE: Date;
+  AUTOINCREMENT: any;
+  DATE: string;
   PRIMARY_KEY: string;
   MY_FOREIGN_KEY_USER: string;
   FRIEND_FOREIGN_KEY_USER: string;

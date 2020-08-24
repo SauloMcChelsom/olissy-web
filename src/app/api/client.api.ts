@@ -27,20 +27,23 @@ export class ClientApi {
   } 
 
   public getClientByForeignKeyUser(client: Client){
-    return this.db.collection('client', ref =>ref.where('PRIMARY_KEY', '==', client.FOREIGN_KEY_USER)).valueChanges()
+    return this.db.collection('client', ref =>ref.where('FOREIGN_KEY_USER', '==', client.FOREIGN_KEY_USER)).valueChanges()
   }
 
   public async createNewClient(client: Client){
-    client.clientImageUrl = '/assets/plataform/avatar.png'
-    await this.db.collection('client').add(client).then((res: any) => client = res);
+    client.AUTOINCREMENT = firebase.firestore.FieldValue.serverTimestamp()
+    client.DATE = new Date().toString()
+
+    await this.db.collection('client').add(client).then((res: any) => client.PRIMARY_KEY = res.id);
     await this.update('client', client.PRIMARY_KEY, { PRIMARY_KEY: client.PRIMARY_KEY })
-    //await this.clientOfQuantity()
+    await this.clientOfQuantity()
     return client
   }
 
   public async clientOfQuantity() {
+    //criar manualmente
     const increment = firebase.firestore.FieldValue.increment(1);
-    await this.db.collection('countOf').doc("0FPh9yLyy34ldMYC8l8t").update({ client : increment })
+    await this.db.collection('increment').doc("00").update({ client : increment })
   }
 
   public update(collection, pk, data: any) {

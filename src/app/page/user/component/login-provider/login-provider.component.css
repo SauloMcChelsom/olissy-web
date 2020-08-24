@@ -1,0 +1,45 @@
+.container {
+  background-color: #d4dded;
+}
+
+.font-olissy{
+  font-family: 'Clicker Script', cursive;
+  font-size: 120px;
+  font-weight: 100;
+  color: #ec2490;
+  text-align: center;
+}
+
+.content-button{
+ /* width: 400px;
+  display: flex; 
+  flex-direction: column; 
+  align-items: flex-end; 
+  justify-content: end; */
+}
+
+.btn-primary {
+  color: #292929;
+  background-color: #fff;
+  border-color: #a8a8a8;
+  border-radius: 5px;
+  display: flex; 
+  flex-direction: row; 
+  align-items: center; 
+  justify-content: center; 
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 15px;
+}
+
+.btn-primary:hover {
+  color: #fff;
+  background-color: #0095f6;
+  border-color: #0076c1;
+}
+
+.btn-primary.active.focus, .btn-primary.active:focus, .btn-primary.active:hover, .btn-primary:active.focus, .btn-primary:active:focus, .btn-primary:active:hover, .open>.dropdown-toggle.btn-primary.focus, .open>.dropdown-toggle.btn-primary:focus, .open>.dropdown-toggle.btn-primary:hover {
+  color: #fff;
+  background-color: #70c3f9;
+  border-color: #33a9f5;
+}

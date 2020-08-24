@@ -1,6 +1,6 @@
 export interface PaymentInterface {
-  AUTOINCREMENT: Date;
-  DATE: Date;
+  AUTOINCREMENT: any;
+  DATE: string;
   PRIMARY_KEY: string;
   FOREIGN_KEY_BOOK: string;
   FOREIGN_KEY_STORE: string;

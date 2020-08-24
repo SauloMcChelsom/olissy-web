@@ -1,6 +1,6 @@
 export interface CompanyInterface {
-  AUTOINCREMENT: Date;
-  DATE: Date;
+  AUTOINCREMENT: any;
+  DATE: string;
   name: string;
   nameSearch: string;
 }

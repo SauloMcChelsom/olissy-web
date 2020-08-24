@@ -20,8 +20,12 @@ export class UserService {
     return this.api.getUserByUid(user)
   }
 
-  public createNewUserInApi(user: User){
-    return this.api.createNewUser(user)
+  public createNewUserWithPopupInApi(user: User){
+    return this.api.createNewUserWithPopup(user)
+  }
+
+  public createNewUserWithEmailAndPasswordInApi(user: User){
+    return this.api.createNewUserWithEmailAndPassword(user)
   }
 
   public putUserByUidInApi(user: User){
@@ -30,6 +34,18 @@ export class UserService {
 
   public delUserByUidInApi(user: User){
     return this.api.delUserByUid(user)
+  }
+
+  public isLoggedInApi(){
+    return this.api.isLogged()
+  }
+
+  public logoutInApi() {
+    return this.api.logout()
+  }
+
+  public signInWithPopupInApi(){
+    return this.api.signInWithPopup()
   }
 
   public  pullUserInState(){
@@ -48,12 +64,11 @@ export class UserService {
     this.state.addUser()
   }
 
-  public PutUserInState(){
+  public putUserInState(){
     return this.state.PutUser()
   }
 
   public delUserInState(){
     return this.state.delUser()
   }
-
 }

@@ -1,6 +1,6 @@
 export interface WarehouseInterface {
-  AUTOINCREMENT: Date;
-  DATE: Date;
+  AUTOINCREMENT: any;
+  DATE: string;
   PRIMARY_KEY: string;
   productImageUrl: string[];
   productImagePath: string[];

@@ -1,6 +1,6 @@
 export interface InvoiceInterface{
-  AUTOINCREMENT: Date;
-  DATE: Date;
+  AUTOINCREMENT: any;
+  DATE: string;
   PRIMARY_KEY: string;
   FOREIGN_KEY_CLIENT: string;
   FOREIGN_KEY_STORE: string;

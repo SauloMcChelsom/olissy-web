@@ -1,6 +1,6 @@
 export interface UserInterface {
-  AUTOINCREMENT: Date;
-  DATE: Date;
+  AUTOINCREMENT: any;
+  DATE: string;
   PRIMARY_KEY: string;
   FOREIGN_KEY_UID: string;
   password: string;

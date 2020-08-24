@@ -1,6 +1,6 @@
 export interface ProductInterface {
-  AUTOINCREMENT: Date;
-  DATE: Date;
+  AUTOINCREMENT: any;
+  DATE: string;
   PRIMARY_KEY: string;
   FOREIGN_KEY_USER: string;
   FOREIGN_KEY_WAREHOUSE: string;
