@@ -44,7 +44,7 @@ export class BookService {
     this.state.addBook()
   }
 
-  public PutBookInState(){
+  public putBookInState(){
     return this.state.PutBook()
   }
 

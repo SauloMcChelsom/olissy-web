@@ -44,7 +44,7 @@ export class ClientService {
     this.state.addClient()
   }
 
-  public PutClientInState(){
+  public putClientInState(){
     return this.state.PutClient()
   }
 

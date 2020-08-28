@@ -44,7 +44,7 @@ export class InvoiceService {
     this.state.addInvoice()
   }
 
-  public PutInvoiceInState(){
+  public putInvoiceInState(){
     return this.state.PutInvoice()
   }
 

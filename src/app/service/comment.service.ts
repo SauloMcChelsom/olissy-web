@@ -44,7 +44,7 @@ export class CommentService {
     this.state.addComment()
   }
 
-  public PutCommentInState(){
+  public putCommentInState(){
     return this.state.PutComment()
   }
 

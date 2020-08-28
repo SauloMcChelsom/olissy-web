@@ -2,10 +2,8 @@ export interface WarehouseInterface {
   AUTOINCREMENT: any;
   DATE: string;
   PRIMARY_KEY: string;
-  productImageUrl: string[];
-  productImagePath: string[];
-  imageNew: string[];
-  imageDisplay: string[];
+  imageUrl: string[];
+  imagePath: string[];
   price: number;
   name: string;
   description: string;

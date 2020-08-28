@@ -44,7 +44,7 @@ export class PaymentService {
     this.state.addPayment()
   }
 
-  public PutPaymentInState(){
+  public putPaymentInState(){
     return this.state.PutPayment()
   }
 

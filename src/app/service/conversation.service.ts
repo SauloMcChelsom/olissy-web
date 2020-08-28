@@ -44,7 +44,7 @@ export class ConversationService {
     this.state.addConversation()
   }
 
-  public PutConversationInState(){
+  public putConversationInState(){
     return this.state.PutConversation()
   }
 

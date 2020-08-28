@@ -47,7 +47,7 @@ export class AppComponent {
       await this.core.clientService().getClientByForeignKeyUserInApi(this.core.client).pipe(take(1), map( (v:any) => this.core.client = v[0]) ).toPromise()
       this.core.clientService().setClientInState([this.core.client])
       this.core.view.user = "client"
-      this.redirectPageFor.navigate(['/home'])
+      //this.redirectPageFor.navigate(['/home'])
     }
 
     if(this.core.user.type == 2){
@@ -55,7 +55,7 @@ export class AppComponent {
       await this.core.storeService().getStoreByForeignKeyUserInApi(this.core.store).pipe(take(1), map( (v:any) => this.core.store = v[0]) ).toPromise()
       this.core.storeService().setStoreInState(this.core.store)
       this.core.view.user = "store"
-      this.redirectPageFor.navigate(['/home'])
+      //this.redirectPageFor.navigate(['/home'])
     }
   }
 

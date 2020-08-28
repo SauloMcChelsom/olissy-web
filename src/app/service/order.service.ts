@@ -44,7 +44,7 @@ export class OrderService {
     this.state.addOrder()
   }
 
-  public PutOrderInState(){
+  public putOrderInState(){
     return this.state.PutOrder()
   }
 

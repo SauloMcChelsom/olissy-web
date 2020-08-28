@@ -44,7 +44,7 @@ export class ProductService {
     this.state.addProduct()
   }
 
-  public PutProductInState(){
+  public putProductInState(){
     return this.state.PutProduct()
   }
 

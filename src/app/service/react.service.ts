@@ -44,7 +44,7 @@ export class ReactService {
     this.state.addReact()
   }
 
-  public PutReactInState(){
+  public putReactInState(){
     return this.state.PutReact()
   }
 

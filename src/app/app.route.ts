@@ -23,6 +23,10 @@ export const ROUTES: Routes = [
     path: 'registerTest',
     loadChildren: () => import('./page/user/component/register/register.module').then(m => m.RegisterModule) 
   },
+  {
+    path: 'warehouse',
+    loadChildren: () => import('./page/admin/component/warehouse/warehouse.module').then(m => m.WarehouseModule) 
+  },
 ];
 
 @NgModule({

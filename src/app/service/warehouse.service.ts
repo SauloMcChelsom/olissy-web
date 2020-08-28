@@ -28,6 +28,10 @@ export class WarehouseService {
     return this.api.delWarehouseByUid(warehouse)
   }
 
+  public sendImagemStorageInApi(name:string, image: Blob | Uint8Array | ArrayBuffer){
+    return this.api.sendImagemStorage(name, image)
+  }
+
   public pullWarehouseInState(){
     return this.state.pullWarehouse()
   }

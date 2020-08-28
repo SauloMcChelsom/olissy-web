@@ -44,7 +44,7 @@ export class ContactService {
     this.state.addContact()
   }
 
-  public PutContactInState(){
+  public putContactInState(){
     return this.state.PutContact()
   }
 

@@ -1,0 +1,213 @@
+<div class="container">
+    <div class="col-md-12 col-xs-12" style="bottom: 10px; margin-top: 25px">
+      <button type="submit" class="btn btn-success col-md-12 col-xs-12" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#createNewCompany" style="height: 60px; font-size: 16px;z-index: 1;">
+        <b>Novo fornecedor</b>
+      </button>
+    </div>
+
+    <form [formGroup]="werehouseForm" novalidate>
+      <div class="modal-body">
+        <span class="menu-item-info-box-detail" style="width:100%;">
+          <img class="img-responsive center-block" autocomplete="off"  style="margin-bottom: 15px"  [src]="imageDisplay" width="120" alt="User Avatar">
+          <label class="filebutton" style="width:100%;"> 
+            <div class="widget-user-image" >
+              <div style="width:100%;  padding: 15px;" class="btn btn-default">
+                <b>
+                  Inserir Imagems
+                </b>
+              </div>
+            </div>
+            <span hidden>
+              <input type="file" class="filebutton2" (change)="uploadImage($event)"/>
+            </span>
+          </label>
+        </span>
+        <span class="menu-item-info-box-detail" style="width:100%;">
+          <label style="width:100%;">
+            Nome
+            <input type="text" class="form-control" autocomplete="off" id="name" style="width:100%;" formControlName="name" required>
+            <span class="help-block" style="color:green" *ngIf="this.werehouseForm.controls['name'].valid && (this.werehouseForm.controls['name'].dirty || this.werehouseForm.controls['name'].touched)">
+              <i class="fa fa-check"></i>
+              Ok
+            </span>
+            <span class="help-block" style="color:red" *ngIf="this.werehouseForm.controls['name'].invalid && (this.werehouseForm.controls['name'].dirty || this.werehouseForm.controls['name'].touched)">
+              <i class="fa fa-remove"></i>
+              Campo Obrigatorio
+            </span>
+          </label>
+        </span>
+        <span class="menu-item-info-box-detail" style="width:100%;">
+          <label style="width:100%;">
+            Descricao
+            <div class="col-md-12 col-xs-12" style="padding-left: 0px;padding-right: 0px;">
+              <button type="submit" class="btn col-md-12 col-xs-12" data-toggle="modal" data-target="#editDescription">
+                <b>Click para inserir Descrição do produto</b>
+              </button>
+            </div>
+          </label>
+          <div class="reset-test-descricao-produto" [innerHTML]="this.werehouseForm.controls['description'].value"></div>
+        </span>
+        <span class="menu-item-info-box-detail" style="width:100%;">
+          <label style="width:100%;">
+            Preco
+            <input type="text"class="form-control" [imask]="currencyMask" [unmask]="true"  style="font-weight: 500;" autocomplete="off" formControlName="price">
+            <span class="help-block" style="color:green" *ngIf="werehouseForm.controls.price.valid && (werehouseForm.controls.price.dirty || werehouseForm.controls.price.touched)">
+              <i class="fa fa-check"></i>
+              Ok
+            </span>
+            <span class="help-block" style="color:red" *ngIf="werehouseForm.controls.price.invalid && (werehouseForm.controls.price.dirty || werehouseForm.controls.price.touched)">
+              <i class="fa fa-remove"></i>
+              Campo Obrigatorio
+            </span>
+          </label>
+        </span>
+
+        <span class="menu-item-info-box-detail" style="width:100%;">
+          <label>
+            sessão
+          </label>
+          <select class="form-control" formControlName="session">
+            <option  value="null" disabled hidden>
+              << sessão >>
+            </option>
+            <option *ngFor="let object of werehouseType">
+              <div *ngFor="let session of object | keyvalue">
+                {{  session.key }} 
+              </div>
+            </option>
+          </select>
+        </span>
+     
+        <div *ngFor="let object of werehouseType">
+          <div *ngIf="object[werehouseForm.controls.session.value]">
+            <span class="menu-item-info-box-detail" style="width:100%;">
+              <label>
+                categoria
+              </label>
+              <select class="form-control" formControlName="category">
+                <option  value="null" disabled hidden>
+                  << categoria >>
+                </option>
+                <option *ngFor="let session of  object[werehouseForm.controls.session.value]">
+                  <div *ngFor="let category of session | keyvalue">
+                    {{  category.key }} 
+                  </div>
+                </option>
+              </select>
+            </span>
+            <div *ngFor="let session of  object[werehouseForm.controls.session.value]">
+              <div *ngIf="session[werehouseForm.controls.category.value]">
+                <span class="menu-item-info-box-detail" style="width:100%;">
+                  <label>
+                    Tipo
+                  </label>
+                  <select class="form-control" formControlName="type">
+                    <option  value="null" disabled hidden>
+                      << Tipo >>
+                    </option>
+                    <option *ngFor="let type of  session[werehouseForm.controls.category.value]">
+                      {{  type.productType }} 
+                    </option>
+                  </select>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <span class="menu-item-info-box-detail" style="width:100%;">
+          <label>
+            Fornecedor
+          </label>
+          <select class="form-control" formControlName="company">
+            <option  value="null" disabled hidden>
+              << Fornecedor? >>
+            </option>
+            <option *ngFor="let provider of companyList | async" [value]="provider.name">
+              {{ provider.name }}
+            </option>
+          </select>
+        </span>
+        <label>
+          Remedio é Generico?
+        </label>
+        <select class="form-control" formControlName="andGeneric" >
+          <option  value="null" disabled hidden>
+            << Remedio é Generico? >>
+          </option>
+          <option  *ngFor="let andGeneric of andGeneric" [value]="andGeneric">
+            {{ andGeneric }}
+          </option>
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button type="button" (click)="createNewItemInWerehouse()" class="btn btn-success" >
+          Cadastar Produto
+        </button>
+      </div>
+    </form>
+    <form novalidate>
+      <div class="modal fade" id="createNewCompany">
+        <div class="modal-dialog">
+          <div class="modal-content" style="padding: 10px;">
+            <div class="modal-header" style="border-bottom: 0px; padding-left: 0px;">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <h4 class="modal-title">
+                Novo fornecedor
+              </h4>
+            </div>
+            <div class="modal-body">
+              <span class="menu-item-info-box-detail" style="width:100%;">
+                <label style="width:100%;">
+                  Nome do fornecedor
+                  <input type="text" class="form-control" #providerName autocomplete="off" id="providerName" style="width:100%;" required>
+                </label>
+              </span>
+              <label>
+              Lista de Fornecedor jas <b>Cadastrado</b>
+              </label>
+              <select class="form-control" >
+                <option *ngFor="let provider of companyList | async">
+                  {{ provider.name }}
+                </option>
+              </select>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default pull-left" data-dismiss="modal">
+                Cancelar
+              </button>
+              <button type="button" (click)="createNewCompany(providerName.value)" class="btn btn-success" data-dismiss="modal">
+                Cadastar
+              </button>
+          </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <form novalidate>
+      <div class="modal fade" id="editDescription">
+        <div class="modal-dialog">
+          <div class="modal-content" style="padding: 10px;">
+            <div class="modal-body">
+              <form>
+                <textarea #descriptionProduct class="textarea" placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+              </form> 
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default pull-left" data-dismiss="modal">
+                Cancelar
+              </button>
+              <button type="button" class="btn btn-default pull-left" data-dismiss="modal">
+                Limpar
+              </button>
+              <button type="button" (click)="setEditDescription(descriptionProduct.value)" class="btn btn-success" data-dismiss="modal">
+                Salvar
+              </button>
+          </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>

@@ -9,6 +9,7 @@ import { StoreService } from '../service/store.service';
 import { BookService } from '../service/book.service';
 import { CommentService } from '../service/comment.service';
 import { ContactService } from '../service/contact.service';
+import { CompanyService } from '../service/company.service';
 import { ConversationService } from '../service/conversation.service';
 import { InvoiceService } from '../service/invoice.service';
 import { OrderService } from '../service/order.service';
@@ -22,6 +23,7 @@ import { ClientInterface } from '../interfaces/client.interface';
 import { StoreInterface } from '../interfaces/store.interface';
 import { BookInterface } from '../interfaces/book.interface';
 import { CommentInterface } from '../interfaces/comment.interface';
+import { CompanyInterface } from '../interfaces/company.interface';
 import { ContactInterface } from '../interfaces/contact.interface';
 import { ConversationInterface } from '../interfaces/conversation.interface';
 import { InvoiceInterface } from '../interfaces/invoice.interface';
@@ -34,6 +36,7 @@ import { WarehouseInterface } from '../interfaces/warehouse.interface';
 export { UserInterface as User }
 export { ClientInterface as Client }
 export { StoreInterface as Store }
+export { CompanyInterface as Company }
 
 
 @Injectable({providedIn: 'root'})
@@ -43,6 +46,8 @@ export class Core {
     private _userService:UserService,
     private _clientService:ClientService,
     private _storeService:StoreService,
+    private _companyService:CompanyService,
+    private _warehouseService:WarehouseService,
     private redirectPageFor: Router
   ){}
 
@@ -128,6 +133,32 @@ export class Core {
     street: '',
   }
 
+  public company:CompanyInterface = {
+    AUTOINCREMENT: new Date(),
+    PRIMARY_KEY: '',
+    DATE: '',
+    name: '',
+    nameSearch: '',
+  }
+
+  public warehouse:WarehouseInterface = {
+    AUTOINCREMENT: new Date(),
+    PRIMARY_KEY: '',
+    DATE:'',
+    andGeneric: false,
+    category: '',
+    company: '',
+    description: '',
+    descriptionForSearch: '',
+    imagePath: [],
+    imageUrl: [],
+    name: '',
+    nameForSearch: '',
+    price: 0,
+    session: '',
+    type: '',
+  }
+
   public userService(): UserService{
     return this._userService
   }
@@ -138,6 +169,14 @@ export class Core {
 
   public storeService(): StoreService{
     return this._storeService
+  }
+
+  public companyService(): CompanyService{
+    return this._companyService
+  }
+
+  public warehouseService(): WarehouseService{
+    return this._warehouseService
   }
   
 } 
