@@ -17,6 +17,15 @@ export class WarehouseComponent implements OnInit {
 
   public werehouseType = werehouseType
 
+  public active:any = {
+    screenRegistering:false,
+    screenForm:true,
+    loading:false,
+    message:false,
+    text: '',
+    log:[]
+  }
+
   public imageNew: Blob | Uint8Array | ArrayBuffer
 
   public imageDisplay:any = localStorage.getItem('imageDisplay')
@@ -57,11 +66,10 @@ export class WarehouseComponent implements OnInit {
     private core:Core
   ){}
 
-  ngOnInit() {
+  public ngOnInit() {
     this.setImageDisplay()
     this.startEditorOfDescription()
   }
-
 
   private async setImageDisplay(){
     if(!localStorage.getItem('imageDisplay')){
@@ -70,7 +78,7 @@ export class WarehouseComponent implements OnInit {
     this.imageDisplay = localStorage.getItem('imageDisplay')
   }
 
-  createNewCompany(name){
+  public createNewCompany(name){
     this.core.company.name = name
     this.core.company.nameSearch = this.removeAccent(name.trim())
     this.core.companyService().getCompanyByName(this.core.company).subscribe((company)=>{
@@ -81,6 +89,14 @@ export class WarehouseComponent implements OnInit {
   }
 
   public createNewItemInWerehouse(){
+    this.active = {
+      screenRegistering:true,
+      loading:true,
+      screenForm:false,
+      message:false,
+      text: '',
+      log:''
+    }
     const data = new Date()
     const nameOfImage = `werehouse/${data.getFullYear()}${data.getMonth()+1}${data.getDate()}${data.getHours()}${data.getMinutes()}${data.getSeconds()}${data.getMilliseconds()}.jpg`
 
@@ -106,8 +122,6 @@ export class WarehouseComponent implements OnInit {
       company: this.werehouseForm.get('company').value,
     }
 
-    console.log(this.core.warehouse)
-    
     this.core.warehouseService().sendImagemStorageInApi(nameOfImage, this.imageNew).then(async (url:any)=>{
 
       this.core.warehouse.imageUrl[0] = await url
@@ -116,7 +130,14 @@ export class WarehouseComponent implements OnInit {
         await creating
         this.werehouseForm.reset()
         this.setImageDisplay()
-        console.log(creating)
+        this.active = {
+          screenRegistering:true,
+          screenForm:false,
+          loading:false,
+          message:true,
+          text: 'Produto criado com sucesso',
+          log:creating
+        }
       })
     })
   }
@@ -132,16 +153,27 @@ export class WarehouseComponent implements OnInit {
     return text;
   }
 
-  startEditorOfDescription(){
+  public startEditorOfDescription(){
     $(function () {
       $('.textarea').wysihtml5()
     })
   }
 
-  setEditDescription(DescricaoProduto){
+  public setEditDescription(DescricaoProduto){
     this.werehouseForm.patchValue({
       description: DescricaoProduto
     })
+  }
+
+  public comeBack(){
+    this.active = {
+      screenRegistering:false,
+      screenForm:true,
+      loading:false,
+      message:false,
+      text: '',
+      log:''
+    }  
   }
 
   public uploadImage(event: Event){

@@ -37,6 +37,7 @@ export { UserInterface as User }
 export { ClientInterface as Client }
 export { StoreInterface as Store }
 export { CompanyInterface as Company }
+export { WarehouseInterface as Warehouse }
 
 
 @Injectable({providedIn: 'root'})

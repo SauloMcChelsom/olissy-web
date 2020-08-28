@@ -1,12 +1,57 @@
-.reset-test-descricao-produto{
+  .reset-test-descricao-produto{
     font-size: 14px;
     font-weight: normal;
   }
+
   .modal-body {
     padding-left: 0px;
     padding-right: 0px;
   }
+
   .modal-footer {
     padding-left: 0px;
     padding-right: 0px;
   }
+
+  .container{
+    bottom: 10px; 
+    margin-top: 40px;
+
+  }
+
+  .form-control, .btn {
+    height: 45px;
+    margin-bottom: 15px;
+  }
+
+  .editDescription {
+    background-color: #90b7f6;
+    color: #17499a;
+  }
+
+  .btn-createNewItemInWerehouse{
+    background-color: #0095f6;
+    border-color: #0076c1;
+    width:100%;
+    height: 60px;
+  }
+
+  .btn-createNewItemInWerehouse:hover {
+    color: #fff;
+    background-color: #0095f6;
+    border-color: #0076c1;
+  }
+
+  .callout.callout-danger {
+    border-color: #4CAF50;
+  }
+
+  .bg-red, .callout.callout-danger, .alert-danger, .alert-error, .label-danger, .modal-danger .modal-body {
+    background-color: #4CAF50 !important;
+  }
+
+  pre {
+  color: #4caf50;
+  border: 1px solid #000;
+  background-color: #272727;
+ }

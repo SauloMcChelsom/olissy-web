@@ -1,5 +1,5 @@
 .container {
-  background-color: #d4dded;
+  background-color: transparent;
 }
 
 .font-olissy{
@@ -8,14 +8,6 @@
   font-weight: 100;
   color: #ec2490;
   text-align: center;
-}
-
-.content-button{
- /* width: 400px;
-  display: flex; 
-  flex-direction: column; 
-  align-items: flex-end; 
-  justify-content: end; */
 }
 
 .btn-primary {

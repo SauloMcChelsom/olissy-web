@@ -8,32 +8,31 @@
     </aside>
     <div class="content-wrapper"> 
       <router-outlet></router-outlet>
-    </div>
-    <div class="container" style="background-color: #d4dded;"> 
+    </div> <!----
+    <div class="container">
       <section class="content" >
-      <div>
-        <h2><b>view</b></h2>
         <div>
-          <pre>{{ view | json }}</pre>
+          <h2><b>view</b></h2>
+          <div>
+            <pre>{{ view | json }}</pre>
+          </div>
         </div>
-      </div>
-    
-      <div>
-        <h2><b>user</b></h2>
-        <div *ngFor="let user of user$ | async">
-          <pre>{{ user | json }}</pre>
+      
+        <div>
+          <h2><b>user</b></h2>
+          <div *ngFor="let user of user$ | async">
+            <pre>{{ user | json }}</pre>
+          </div>
         </div>
-      </div>
 
-      <div>
-        <h2><b>client</b></h2>
-        <div *ngFor="let client of client$ | async">
-          <pre>{{ client | json }}</pre>
+        <div>
+          <h2><b>client</b></h2>
+          <div *ngFor="let client of client$ | async">
+            <pre>{{ client | json }}</pre>
+          </div>
         </div>
-      </div>
-    
-    </section>
-    </div>
+      </section>
+    </div> --->
     <div class="control-sidebar-bg"></div>
   </div>
 </body>

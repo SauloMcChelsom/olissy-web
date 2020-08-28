@@ -1,17 +1,45 @@
-<div class="container">
-    <div class="col-md-12 col-xs-12" style="bottom: 10px; margin-top: 25px">
-      <button type="submit" class="btn btn-success col-md-12 col-xs-12" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#createNewCompany" style="height: 60px; font-size: 16px;z-index: 1;">
-        <b>Novo fornecedor</b>
+<div *ngIf="active.screenRegistering" class="container">
+  <section class="content login-content" style="margin-bottom: 70% auto; padding-left: 0px; padding-right: 0px;">
+    <div class="login-logo" *ngIf="active.loading">
+      Aguarde Efetuando Cadastro
+    </div>
+    <div class="row" *ngIf="active.loading">
+      <div class="login-logo">
+        <i class="fa fa-refresh fa-spin fa-2x"></i>
+      </div>
+    </div>
+    <div class="box-body" *ngIf="active.message">
+      <div class="callout callout-danger">
+        <h4>
+          Sucesso!
+        </h4>
+        <p>
+          {{ active.text }}
+        </p>
+        <div>
+          <pre>{{ active.log | json }}</pre>
+        </div>
+      </div>
+      <button type="button" (click)="comeBack()" class="btn btn-success btn-createNewItemInWerehouse" >
+        Voltar
       </button>
     </div>
-
-    <form [formGroup]="werehouseForm" novalidate>
-      <div class="modal-body">
+  </section>
+</div>
+<div *ngIf="active.screenForm" class="container">
+  <div class="col-md-12 col-sm-12 col-xs-12">
+    <button type="submit" style="width:100%; height: 60px; font-size: 16px; z-index: 1;" class="btn btn-success" data-backdrop="static" data-keyboard="false" data-toggle="modal" data-target="#createNewCompany">
+      <b>Novo Empresa</b>
+    </button>
+  </div>
+  <form [formGroup]="werehouseForm" novalidate>
+    <div class="modal-body">
+      <div class="col-md-12 col-sm-12 col-xs-12">
         <span class="menu-item-info-box-detail" style="width:100%;">
-          <img class="img-responsive center-block" autocomplete="off"  style="margin-bottom: 15px"  [src]="imageDisplay" width="120" alt="User Avatar">
+          <img class="img-responsive center-block" autocomplete="off" style="margin-bottom: 15px"  [src]="imageDisplay" width="200" alt="User Avatar">
           <label class="filebutton" style="width:100%;"> 
             <div class="widget-user-image" >
-              <div style="width:100%;  padding: 15px;" class="btn btn-default">
+              <div style="width:100%; height: 60px; padding: 20px; background-color: #f1f1f1;" class="btn btn-default">
                 <b>
                   Inserir Imagems
                 </b>
@@ -22,6 +50,8 @@
             </span>
           </label>
         </span>
+      </div>
+      <div class="col-md-12 col-sm-12 col-xs-12">
         <span class="menu-item-info-box-detail" style="width:100%;">
           <label style="width:100%;">
             Nome
@@ -36,17 +66,21 @@
             </span>
           </label>
         </span>
+      </div>
+      <div class="col-md-12 col-sm-12 col-xs-12">
         <span class="menu-item-info-box-detail" style="width:100%;">
           <label style="width:100%;">
             Descricao
             <div class="col-md-12 col-xs-12" style="padding-left: 0px;padding-right: 0px;">
-              <button type="submit" class="btn col-md-12 col-xs-12" data-toggle="modal" data-target="#editDescription">
+              <button type="submit" class="btn col-md-12 col-xs-12 editDescription" data-toggle="modal" data-target="#editDescription">
                 <b>Click para inserir Descrição do produto</b>
               </button>
             </div>
           </label>
           <div class="reset-test-descricao-produto" [innerHTML]="this.werehouseForm.controls['description'].value"></div>
         </span>
+      </div>
+      <div class="col-md-12 col-sm-12 col-xs-12">
         <span class="menu-item-info-box-detail" style="width:100%;">
           <label style="width:100%;">
             Preco
@@ -61,7 +95,8 @@
             </span>
           </label>
         </span>
-
+      </div>
+      <div class="col-md-12 col-sm-12 col-xs-12">
         <span class="menu-item-info-box-detail" style="width:100%;">
           <label>
             sessão
@@ -77,7 +112,8 @@
             </option>
           </select>
         </span>
-     
+      </div>
+      <div class="col-md-12 col-sm-12 col-xs-12">
         <div *ngFor="let object of werehouseType">
           <div *ngIf="object[werehouseForm.controls.session.value]">
             <span class="menu-item-info-box-detail" style="width:100%;">
@@ -114,7 +150,8 @@
             </div>
           </div>
         </div>
-
+      </div>
+      <div class="col-md-12 col-sm-12 col-xs-12">
         <span class="menu-item-info-box-detail" style="width:100%;">
           <label>
             Fornecedor
@@ -128,6 +165,8 @@
             </option>
           </select>
         </span>
+      </div>
+      <div class="col-md-12 col-sm-12 col-xs-12">
         <label>
           Remedio é Generico?
         </label>
@@ -140,74 +179,77 @@
           </option>
         </select>
       </div>
-      <div class="modal-footer">
-        <button type="button" (click)="createNewItemInWerehouse()" class="btn btn-success" >
+    </div>
+    <div class="modal-footer" >
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <button type="button" (click)="createNewItemInWerehouse()" class="btn btn-success btn-createNewItemInWerehouse" >
           Cadastar Produto
         </button>
       </div>
-    </form>
-    <form novalidate>
-      <div class="modal fade" id="createNewCompany">
-        <div class="modal-dialog">
-          <div class="modal-content" style="padding: 10px;">
-            <div class="modal-header" style="border-bottom: 0px; padding-left: 0px;">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-              <h4 class="modal-title">
-                Novo fornecedor
-              </h4>
-            </div>
-            <div class="modal-body">
-              <span class="menu-item-info-box-detail" style="width:100%;">
-                <label style="width:100%;">
-                  Nome do fornecedor
-                  <input type="text" class="form-control" #providerName autocomplete="off" id="providerName" style="width:100%;" required>
-                </label>
-              </span>
-              <label>
-              Lista de Fornecedor jas <b>Cadastrado</b>
+    </div>
+  </form>
+  <form novalidate>
+    <div class="modal fade" id="createNewCompany">
+      <div class="modal-dialog">
+        <div class="modal-content" style="padding: 10px;">
+          <div class="modal-header" style="border-bottom: 0px; padding-left: 0px;">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title">
+              Novo fornecedor
+            </h4>
+          </div>
+          <div class="modal-body">
+            <span class="menu-item-info-box-detail" style="width:100%;">
+              <label style="width:100%;">
+                Nome do fornecedor
+                <input type="text" class="form-control" #providerName autocomplete="off" id="providerName" style="width:100%;" required>
               </label>
-              <select class="form-control" >
-                <option *ngFor="let provider of companyList | async">
-                  {{ provider.name }}
-                </option>
-              </select>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default pull-left" data-dismiss="modal">
-                Cancelar
-              </button>
-              <button type="button" (click)="createNewCompany(providerName.value)" class="btn btn-success" data-dismiss="modal">
-                Cadastar
-              </button>
+            </span>
+            <label>
+            Lista de Fornecedor jas <b>Cadastrado</b>
+            </label>
+            <select class="form-control" >
+              <option *ngFor="let provider of companyList | async">
+                {{ provider.name }}
+              </option>
+            </select>
           </div>
-          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">
+              Cancelar
+            </button>
+            <button type="button" (click)="createNewCompany(providerName.value)" class="btn btn-success" data-dismiss="modal">
+              Cadastar
+            </button>
+        </div>
         </div>
       </div>
-    </form>
-    <form novalidate>
-      <div class="modal fade" id="editDescription">
-        <div class="modal-dialog">
-          <div class="modal-content" style="padding: 10px;">
-            <div class="modal-body">
-              <form>
-                <textarea #descriptionProduct class="textarea" placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
-              </form> 
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default pull-left" data-dismiss="modal">
-                Cancelar
-              </button>
-              <button type="button" class="btn btn-default pull-left" data-dismiss="modal">
-                Limpar
-              </button>
-              <button type="button" (click)="setEditDescription(descriptionProduct.value)" class="btn btn-success" data-dismiss="modal">
-                Salvar
-              </button>
+    </div>
+  </form>
+  <form novalidate>
+    <div class="modal fade" id="editDescription">
+      <div class="modal-dialog">
+        <div class="modal-content" style="padding: 10px;">
+          <div class="modal-body">
+            <form>
+              <textarea #descriptionProduct class="textarea" placeholder="Place some text here" style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;"></textarea>
+            </form> 
           </div>
-          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">
+              Cancelar
+            </button>
+            <button type="button" class="btn btn-default pull-left" data-dismiss="modal">
+              Limpar
+            </button>
+            <button type="button" (click)="setEditDescription(descriptionProduct.value)" class="btn btn-success" data-dismiss="modal">
+              Salvar
+            </button>
+        </div>
         </div>
       </div>
-    </form>
-  </div>
+    </div>
+  </form>
+</div>

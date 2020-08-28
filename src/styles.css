@@ -468,36 +468,72 @@ button:focus {
 
 /* header */
 .skin-red .main-header .navbar {
-  background-color: #ec2490;
+  background-color: #fbfbfb;
+  box-shadow: 5px 0px 5px 0px rgba(0,0,0,0.75);
 }
 
 .skin-red .main-header .navbar .sidebar-toggle:hover {
   background-color: #f78fbe;
 }
 
+.skin-red .main-header .navbar .nav>li>a {
+  color: #000;
+}
+
+.skin-red .main-header .navbar .nav>li>a:hover, .skin-red .main-header .navbar .nav>li>a:active, .skin-red .main-header .navbar .nav>li>a:focus, .skin-red .main-header .navbar .nav .open>a, .skin-red .main-header .navbar .nav .open>a:hover, .skin-red .main-header .navbar .nav .open>a:focus, .skin-red .main-header .navbar .nav>.active>a {
+  background: rgb(251 251 251);
+  color: #cc247e;
+}
+
+.skin-red .main-header .navbar .sidebar-toggle {
+  color: #000;
+}
+
+.skin-red .main-header .navbar .sidebar-toggle:hover {
+  color: #000;
+  background: rgb(251 251 251);
+}
+
+
 /* column */
 .skin-red .wrapper, .skin-red .main-sidebar, .skin-red .left-side {
-  background-color: #ec2490;
+  background-color: #fbfbfb;
+  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
 }
+
 .skin-red .sidebar-menu>li.active>a {
-  border-left-color: #fff;
+  border-left-color: #cc247e;
 }
 .skin-red .sidebar-menu>li:hover>a, .skin-red .sidebar-menu>li.active>a, .skin-red .sidebar-menu>li.menu-open>a {
-  color: #fff;
-  background: #cc247e;
+  color: #cc247e;
+  background: #fbfbfb;
 }
+
 .skin-red .sidebar a {
-  color: #f78fbe;
+  color: #000;
 }
 
 /* background color */
 .content-wrapper {
-  background-color: #d4dded;
+  background-color: #fff;
+}
+
+.skin-red .sidebar-menu>li>.treeview-menu {
+  margin: 0 1px;
+  background: #f2f2f2;
+}
+
+.skin-red .sidebar-menu .treeview-menu>li>a {
+  color: #000;
+}
+
+.skin-red .sidebar-menu .treeview-menu>li.active>a, .skin-red .sidebar-menu .treeview-menu>li>a:hover {
+  color: #cc247e;
 }
 
 .container{
-  /*height: calc( 120vh - 50px );  */
-  padding-left: 0px; 
-  padding-right: 0px;
+  height: calc( 120vh - 50px ); 
+  padding-left: 15px; 
+  padding-right: 15px;
 }
 
