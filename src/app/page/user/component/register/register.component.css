@@ -1,10 +1,8 @@
 .container {
-  background-color: #d9e6f9;
   height: calc( 100vh - 50px );
 }
 
 .login-box-body, .register-box-body {
-  background-color: #d9e6f9;
   padding: 0px;
 }
 
@@ -29,7 +27,7 @@ input.ng-invalid.ng-touched{
 }
 
 input.ng-valid.ng-touched{
-  border: 1px solid #fff;
+  border: 1px solid #ccc;
 }
 
 @media only screen and (max-width: 600px) {
@@ -82,7 +80,7 @@ a {
 
 .form-control {
   color: #000;
-  border: 2px solid #fff;
+  border: 1px solid #ccc;
   height: 40px;
 }
 
