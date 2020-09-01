@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --host=localhost --port=8080",
+    "start": "ng serve --host=192.168.43.230 --port=8080",
     "build": "ng build --prod",
     "test": "ng generate c /components/payment-detail",
     "lint": "ng lint",

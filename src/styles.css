@@ -468,7 +468,7 @@ button:focus {
 
 /* header */
 .skin-red .main-header .navbar {
-  background-color: #f2f2f2;
+  background-color: #dedede;
   box-shadow: 5px 0px 5px 0px rgba(0,0,0,0.75);
 }
 
@@ -477,58 +477,58 @@ button:focus {
 }
 
 .skin-red .main-header .navbar .nav>li>a {
-  color: #000;
+  color: #575757;
 }
 
 .skin-red .main-header .navbar .nav>li>a:hover, .skin-red .main-header .navbar .nav>li>a:active, .skin-red .main-header .navbar .nav>li>a:focus, .skin-red .main-header .navbar .nav .open>a, .skin-red .main-header .navbar .nav .open>a:hover, .skin-red .main-header .navbar .nav .open>a:focus, .skin-red .main-header .navbar .nav>.active>a {
-  background: #f2f2f2;
-  color: #cc247e;
+  background: #dedede;
+  color: #0095f6;
 }
 
 .skin-red .main-header .navbar .sidebar-toggle {
-  color: #000;
+  color: #575757;
 }
 
 .skin-red .main-header .navbar .sidebar-toggle:hover {
-  color: #cc247e;
-  background-color: #f2f2f2;
+  color: #0095f6;
+  background-color: #dedede;
 }
 
 
 /* column */
 .skin-red .wrapper, .skin-red .main-sidebar, .skin-red .left-side {
-  background-color: #f2f2f2;
+  background-color: #dedede;
   box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
 }
 
 .skin-red .sidebar-menu>li.active>a {
-  border-left-color: #cc247e;
+  border-left-color: #0095f6;
 }
 .skin-red .sidebar-menu>li:hover>a, .skin-red .sidebar-menu>li.active>a, .skin-red .sidebar-menu>li.menu-open>a {
-  color: #cc247e;
-  background: #f2f2f2;
+  color: #0095f6;
+  background: #dedede;
 }
 
 .skin-red .sidebar a {
-  color: #000;
+  color: #575757;
 }
 
 /* background color */
 .content-wrapper {
-  background-color: #f7f7f7;;
+  background-color: #ededed;;
 }
 
 .skin-red .sidebar-menu>li>.treeview-menu {
   margin: 0 1px;
-  background: #e6e6e6;
+  background: #c0c0c0;
 }
 
 .skin-red .sidebar-menu .treeview-menu>li>a {
-  color: #000;
+  color: #575757;
 }
 
 .skin-red .sidebar-menu .treeview-menu>li.active>a, .skin-red .sidebar-menu .treeview-menu>li>a:hover {
-  color: #cc247e;
+  color: #0095f6;
 }
 
 .container{
@@ -536,3 +536,27 @@ button:focus {
   padding-right: 15px;
 }
 
+.login-box-body, .register-box-body {
+  background: transparent;
+  padding: 0px;
+}
+
+
+/*mobile*/
+@media only screen and (max-width: 600px) {
+  .skin-red .main-header .navbar {
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+  }
+
+  .container{
+    padding-left: 0px; 
+    padding-right: 0px;
+  }
+
+  .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
+    position: relative;
+    min-height: 1px;
+    padding-right: 0px;
+    padding-left: 0px;
+  }
+}

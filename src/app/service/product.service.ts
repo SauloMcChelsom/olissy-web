@@ -8,6 +8,10 @@ export class ProductService {
 
   constructor(private api: api, private state: state) {}
 
+  public getProductByIndexInApi(){
+    return this.api.getProductByIndex()
+  }
+
   public getProductByForeignKeyUserInApi(product: Product){
     return this.api.getProductByForeignKeyUser(product)
   }

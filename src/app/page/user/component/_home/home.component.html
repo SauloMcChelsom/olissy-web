@@ -1,3 +1,4 @@
+<!--
 <link href="https://fonts.googleapis.com/css?family=Thasadith&display=swap" rel="stylesheet" />
 <div class="container">
   <div class="col-md-12 col-xs-12 card-container">
@@ -17,7 +18,6 @@
           </span>
           <span class="card-header-left-circle-container">
             <i class="fa fa-circle card-header-left-circle-container-yellow"></i>
-            <!-- *ngIf="store.negotiateRateLivery.status"  -->
             <i class="fa fa-circle card-header-left-circle-container-green"></i>
             <i class="fa fa-circle card-header-left-circle-container-blue"></i>
             <i class="fa fa-circle card-header-left-circle-container-red"></i>
@@ -70,10 +70,9 @@
             </label>
           </span>
           <h5 style="margin-top: 0px;">
-            <!--<div [innerHTML]=""></div>--><p></p><p><b>Indicações</b>: Dorflex atua como analgésico e relaxante muscular, sendo indicado para o alívio da dor associada à contraturas musculares decorrentes de processos traumáticos ou inflamatórios e em cefaleias tensionais. Uso adulto. &nbsp;<br></p><p><b>Modo de usar: </b>Recomenda-se 1 a 2 comprimidos, 3 a 4 vezes ao dia. Não ultrapassar estes limites. Este medicamento não deve ser mastigado. Administrar os comprimidos com líquido, por via oral.<br></p><p><b>Contraindicações</b>: Contraindicado em casos de hipersensibilidade (alergia) à qualquer um dos componentes da fórmula. Contraindicado em casos de gravidez. Também não deve ser utilizado por pacientes com glaucoma, úlcera péptica, obstrução do colo da bexiga e miastenia grave.<br></p><p><b>Reações adversas:</b>&nbsp;Pode ocorrer bradicardia ou taquicardia, arritmias cardíacas, secura na boca, sede, diminuição da sudorese, midríase, dificuldade de acomodação visual (visão borrada).<br></p><p><b>Precauções</b>: Este medicamento não deve ser utilizado por mulheres grávidas sem orientação médica ou do cirurgião-dentista. Informe imediatamente seu médico em caso de suspeita de gravidez. A segurança de Dorflex durante a lactação não está estabelecida. A lactação deve ser evitada até 48 horas após o uso de Dorflex, devido à excreção dos metabólitos da dipirona no leite materno. Dorflex deve ser utilizado com cautela em pacientes com os seguintes distúrbios do coração: taquicardia, arritmias cardíacas, insuficiência coronária ou descompensação cardíaca. A orfenadrina, presente na formulação de Dorflex, pode prejudicar a capacidade do paciente para o desempenho de atividades como operar máquinas ou conduzir veículos. Dorflex não deve ser utilizado concomitantemente com álcool.</p><br><p></p>
+            <p></p><p><b>Indicações</b>: Dorflex atua como analgésico e relaxante muscular, sendo indicado para o alívio da dor associada à contraturas musculares decorrentes de processos traumáticos ou inflamatórios e em cefaleias tensionais. Uso adulto. &nbsp;<br></p><p><b>Modo de usar: </b>Recomenda-se 1 a 2 comprimidos, 3 a 4 vezes ao dia. Não ultrapassar estes limites. Este medicamento não deve ser mastigado. Administrar os comprimidos com líquido, por via oral.<br></p><p><b>Contraindicações</b>: Contraindicado em casos de hipersensibilidade (alergia) à qualquer um dos componentes da fórmula. Contraindicado em casos de gravidez. Também não deve ser utilizado por pacientes com glaucoma, úlcera péptica, obstrução do colo da bexiga e miastenia grave.<br></p><p><b>Reações adversas:</b>&nbsp;Pode ocorrer bradicardia ou taquicardia, arritmias cardíacas, secura na boca, sede, diminuição da sudorese, midríase, dificuldade de acomodação visual (visão borrada).<br></p><p><b>Precauções</b>: Este medicamento não deve ser utilizado por mulheres grávidas sem orientação médica ou do cirurgião-dentista. Informe imediatamente seu médico em caso de suspeita de gravidez. A segurança de Dorflex durante a lactação não está estabelecida. A lactação deve ser evitada até 48 horas após o uso de Dorflex, devido à excreção dos metabólitos da dipirona no leite materno. Dorflex deve ser utilizado com cautela em pacientes com os seguintes distúrbios do coração: taquicardia, arritmias cardíacas, insuficiência coronária ou descompensação cardíaca. A orfenadrina, presente na formulação de Dorflex, pode prejudicar a capacidade do paciente para o desempenho de atividades como operar máquinas ou conduzir veículos. Dorflex não deve ser utilizado concomitantemente com álcool.</p><br><p></p>
           </h5>
         </div>
-        
       </div>
       <div class="card-publication">
         <div class="card-publication-container">
@@ -109,6 +108,132 @@
         <div class="card-react-sale">      
           <i class="fa  fa-star-o"></i>
           <b>Vendido</b>   
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+-->
+
+<link href="https://fonts.googleapis.com/css?family=Thasadith&display=swap" rel="stylesheet" />
+<div class="container">
+  <div class="col-md-12 col-xs-12 card-container">
+    <div *ngFor="let product of products" class="menu-item-info-box card">
+      <div *ngFor="let store of stores">
+        <div *ngIf="product.FOREIGN_KEY_STORE == store.PRIMARY_KEY" class="card-header">
+          <span id="card-header-left">
+            <span>
+              <img class="img-circle" width="40px" [src]="store.imageIconUrl" alt="User Image" />
+            </span>
+            <span *ngIf="store.storeOpenOrClosed" class="card-header-left-store-open">
+              <i class="fa fa-circle"></i>
+            </span>
+            <span *ngIf="!store.storeOpenOrClosed" class="card-header-left-store-closed">
+              <i class="fa fa-circle"></i>
+            </span>
+            <span class="card-header-left-store-container">
+              <a class="card-header-left-store-container-name">{{ store.name }}</a>
+              <i class="fa fa-circle" style="font-size: 10px; margin-right: 5px;"></i>
+              <a class="card-header-left-store-container-neighborhood">{{ store.neighborhood }}</a>
+            </span>
+            <span class="card-header-left-circle-container">
+              <i class="fa fa-circle card-header-left-circle-container-yellow"></i>
+              <!-- *ngIf="store.negotiateRateLivery.status"  -->
+              <i class="fa fa-circle card-header-left-circle-container-green"></i>
+              <i class="fa fa-circle card-header-left-circle-container-blue"></i>
+              <i class="fa fa-circle card-header-left-circle-container-red"></i>
+            </span>
+          </span>
+          <span class="card-header-right">
+            <a style="font-size: 20px;">
+              <i class="fa fa-ellipsis-h" style="color: #777;"></i>
+            </a>
+          </span>
+        </div>
+      </div>
+      <div *ngFor="let warehouse of warehouses ; let i = index">
+        <div *ngIf="product.FOREIGN_KEY_WAREHOUSE == warehouse.PRIMARY_KEY">
+          <div class="col-md-12 col-xs-12 card-content">
+            <span (click)="showDescription(warehouse.showDescription, i)" class="card-content-title">
+              {{ warehouse.name }}
+            </span>
+            <div *ngIf="warehouse.showDescription" class="card-content-description">
+              <span class="menu-item-info-box-detail">
+                <label>
+                  <p>
+                    <b>Sessão: </b> {{ warehouse.session }}
+                  </p>
+                </label>
+              </span>
+              <span class="menu-item-info-box-detail">
+                <label>
+                  <p>
+                    <b>Categoria: </b> {{ warehouse.category }}
+                  </p>
+                </label>
+              </span>
+              <span class="menu-item-info-box-detail">
+                <label>
+                  <p>
+                    <b>Tipo: </b> {{ warehouse.type }}
+                  </p>
+                </label>
+              </span>
+              <span class="menu-item-info-box-detail">
+                <label>
+                  <p>
+                    <b>Generico: </b> {{ warehouse.andGeneric? "Sim" : "Não" }}
+                  </p>
+                </label>
+              </span>
+              <span class="menu-item-info-box-detail">
+                <label>
+                  <p>
+                    <b>Fornecedor: </b> {{ warehouse.company }}
+                  </p>
+                </label>
+              </span>
+              <h5 style="margin-top: 0px;">
+                <div [innerHTML]="warehouse.description"></div>
+              </h5>
+            </div>
+          </div>
+          <div class="card-publication">
+            <div class="card-publication-container">
+              <a target="_blank">
+                <img style="width: 100%" [src]="warehouse.imageUrl[0]" alt="Photo">
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-sales">
+        <span class="menu-item-info-box-price card-sales-price">
+          {{ product.price }} 
+          <span>
+            <b>
+              {{ product.quantities }}  Unidades
+            </b>
+          </span>
+        </span>
+        <span class="card-sales-purchase">
+          <button type="button" class="btn btn-default btn-xs pull-right">
+            <b>Comprar</b>
+          </button>
+        </span>
+      </div>
+      <div class="card-react">
+        <div class="card-react-love">
+          <i class="fa  fa-heart-o"></i>
+          <b>{{ product.totalOfLove }}</b>   
+        </div>
+        <div class="card-react-commit">        
+          <i class="fa  fa-comment-o"></i>
+          <b>{{ product.totalOfComment }}</b>   
+        </div>
+        <div class="card-react-sale">      
+          <i class="fa  fa-star-o"></i>
+          <b>{{ product.totalOfSale }}</b>   
         </div>
       </div>
     </div>

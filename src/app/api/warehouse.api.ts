@@ -17,8 +17,8 @@ export class WarehouseApi {
     return this.http.get<Warehouse[]>('/')
   }
 
-  public getWarehouseByUid(warehouse: Warehouse){
-    return this.http.get<Warehouse>('/')
+  public getWarehouseByPrimaryKey(warehouse: Warehouse){
+    return this.db.collection('warehouse').doc(warehouse.PRIMARY_KEY).get()
   }
 
   public async createNewWarehouse(warehouse: Warehouse){

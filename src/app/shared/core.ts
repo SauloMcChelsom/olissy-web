@@ -38,6 +38,8 @@ export { ClientInterface as Client }
 export { StoreInterface as Store }
 export { CompanyInterface as Company }
 export { WarehouseInterface as Warehouse }
+export { ProductInterface as  Product}
+
 
 
 @Injectable({providedIn: 'root'})
@@ -49,6 +51,7 @@ export class Core {
     private _storeService:StoreService,
     private _companyService:CompanyService,
     private _warehouseService:WarehouseService,
+    private _productService:ProductService,
     private redirectPageFor: Router
   ){}
 
@@ -160,6 +163,21 @@ export class Core {
     type: '',
   }
 
+  public product:ProductInterface = {
+    AUTOINCREMENT: '',
+    DATE: '',
+    FOREIGN_KEY_STORE: '',
+    FOREIGN_KEY_USER: '',
+    FOREIGN_KEY_WAREHOUSE: '',
+    PRIMARY_KEY: '',
+    price: '',
+    productForSale: false,
+    quantities: 0,
+    totalOfComment: 0,
+    totalOfLove: 0,
+    totalOfSale: 0,
+  }
+
   public userService(): UserService{
     return this._userService
   }
@@ -178,6 +196,10 @@ export class Core {
 
   public warehouseService(): WarehouseService{
     return this._warehouseService
+  }
+
+  public productService(): ProductService{
+    return this._productService
   }
   
 } 

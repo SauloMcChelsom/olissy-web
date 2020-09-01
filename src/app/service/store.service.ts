@@ -12,8 +12,8 @@ export class StoreService {
     return this.api.getStoreByForeignKeyUser(store)
   }
  
-  public getStoreByUidInApi(store: Store){
-    return this.api.getStoreByUid(store)
+  public getStoreByPrimaryKeyInApi(store: Store){
+    return this.api.getStoreByPrimaryKey(store)
   }
 
   public createNewStoreInApi(store: Store){

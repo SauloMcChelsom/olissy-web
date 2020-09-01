@@ -9,8 +9,9 @@
 
 .card{
   cursor: pointer;
-  box-shadow: 0px 0px 3px 0px rgb(111 110 110);
-  border-radius: 3px;
+  box-shadow: 1px 1px 2px 0px #aaaaaa;
+  border-color: #aaaaaa00;
+  border-radius: 5px;
   width: 500px;
   margin-top: 10px;
   margin-bottom: 10px;
@@ -44,8 +45,8 @@
   padding: 0px 1px 0px 1px;
 }
 
-.card-header-left-storeClosed{
-  top: -10px;
+.card-header-left-store-closed{
+  top: -15px;
   left: -15px;
   position: relative;
 }
@@ -139,7 +140,6 @@
   margin: 0 0 10px 5px;
   width: 98%;
   color: #000;
-
   display: block;
   font-size: 18px;
   white-space: nowrap;
@@ -239,8 +239,7 @@
   }
   .card{
     border-radius: 0px;
+    padding: 0px;
+    width: 100%;
   }
 }
-
-
-

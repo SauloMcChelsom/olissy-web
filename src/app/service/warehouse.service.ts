@@ -12,8 +12,8 @@ export class WarehouseService {
     return this.api.getWarehouseByForeignKeyUser(warehouse)
   }
  
-  public getWarehouseByUidInApi(warehouse: Warehouse){
-    return this.api.getWarehouseByUid(warehouse)
+  public getWarehouseByPrimaryKeyInApi(warehouse: Warehouse){
+    return this.api.getWarehouseByPrimaryKey(warehouse)
   }
 
   public createNewWarehouseInApi(warehouse: Warehouse){

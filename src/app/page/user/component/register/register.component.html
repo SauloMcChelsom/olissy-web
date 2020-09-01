@@ -1,6 +1,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Clicker+Script&display=swap" rel="stylesheet">
+
 <div class="container">
-  <section class="content login-content" style="margin-bottom: 70% auto; padding-left: 0px; padding-right: 0px;">
+  <section class="content login-content">
     <div class="col-xs-12 col-sm-offset-3 col-sm-6">
       <div class="login-logo" *ngIf="active.loading">
         Aguarde Efetuando Cadastro
@@ -12,103 +13,50 @@
       </div>
       <div class="box-body" *ngIf="active.message">
         <div class="callout callout-danger">
-          <h4>
-            Atenção!
-          </h4>
-          <p>
-            {{ active.text }}
-          </p>
+          <h4> Atenção! </h4>
+          <p> {{ active.text }} </p>
         </div>
       </div>
     </div>
-    <div class="col-xs-12 col-sm-offset-3 col-sm-6 login-box-body"  *ngIf="active.form">
+    <div class="col-xs-12 col-sm-offset-3 col-sm-6"  *ngIf="active.form">
       <p class="font-olissy">
         olissy
       </p>
       <form [formGroup]="userForm" (ngSubmit)="validateForm()">
         <div class="form-group has-feedback">
-          <input
-            type="text"
-            formControlName="name"
-            required
-            autocomplete="off"
-            class="form-control"
-            placeholder="Seu nome"
-          />
+          <input type="text" formControlName="name" required autocomplete="off" class="form-control" placeholder="Seu nome"/>
         </div>
         <div class="form-group has-feedback">
-          <input
-            type="email"
-            formControlName="email"
-            required
-            autocomplete="off"
-            class="form-control"
-            placeholder="Seu Email"
-          />
+          <input type="email" formControlName="email" required autocomplete="off" class="form-control" placeholder="Seu Email"/>
         </div>
         <div class="form-group has-feedback">
-          <input
-            type="password"
-            formControlName="password"
-            required
-            autocomplete="off"
-            class="form-control"
-            placeholder="Digite sua senha"
-          />
+          <input type="password" formControlName="password" required autocomplete="off" class="form-control" placeholder="Digite sua senha"/>
         </div>
         <div class="form-group has-feedback">
-          <input
-            type="password"
-            formControlName="retypePassword"
-            required
-            autocomplete="off"
-            class="form-control"
-            placeholder="Repete sua senha"
-          />
+          <input type="password" formControlName="retypePassword" required autocomplete="off" class="form-control" placeholder="Repete sua senha" />
         </div>
-        <div class="row">
-          <div class="col-xs-8">
-            <div class="icheck">
-              <label class="chk" style="margin-bottom: 5px;">
-                <input type="checkbox" formControlName="terms" required />
-                Eu aceito os
-                <a data-keyboard="false" data-toggle="modal" data-target="#termsModal" style="font-weight: 700;">termos</a>
-              </label>
-              <span
-                class="help-block"
-                style="color:green"
-                *ngIf="
-                  this.userForm.controls['terms'].valid &&
-                  (this.userForm.controls['terms'].dirty ||
-                  this.userForm.controls['terms'].touched)
-                "
-              >
-                <i class="fa fa-check"></i>Ok
-              </span>
-              <span
-                class="help-block"
-                style="color:red"
-                *ngIf="
-                  this.userForm.controls['terms'].invalid &&
-                  (this.userForm.controls['terms'].dirty ||
-                  this.userForm.controls['terms'].touched)
-                "
-              >
-                <i class="fa fa-remove"></i>Campo TERMOS é Obrigatorio
-              </span>
-            </div>
+        <div class="form-group has-feedback">
+          <label class="chk" style="margin-bottom: 5px;">
+            <input type="checkbox" formControlName="terms" required /> Eu aceito os <a data-keyboard="false" data-toggle="modal" data-target="#termsModal" style="font-weight: 700;"> termos </a>
+          </label>
+          <span class="help-block" style="color:green" *ngIf="this.userForm.controls['terms'].valid &&(this.userForm.controls['terms'].dirty ||this.userForm.controls['terms'].touched)">
+            <i class="fa fa-check"></i>Ok
+          </span>
+          <span class="help-block" style="color:red" *ngIf="this.userForm.controls['terms'].invalid && (this.userForm.controls['terms'].dirty || this.userForm.controls['terms'].touched) ">
+            <i class="fa fa-remove"></i>Campo TERMOS é Obrigatorio
+          </span>
+        </div>
+        <div id="content-button">
+          <button class="btn btn-primary">
+            Cadastrar
+          </button>
+          <div class="text-center">
+            <p>- OU -</p>
           </div>
-          <div class="col-xs-4">
-            <button type="submit" class="btn btn-primary btn-block btn-flat">
-              Cadastrar
+          <a routerLink="/loginTest">
+            <button class="btn btn-primary">
+              Já sou cadastrado,&nbsp;<b>quero entrar!</b>
             </button>
-          </div>
-        </div>
-        <div class="social-auth-links text-center">
-          <p>- OU -</p>
-          <a class="btn btn-primary btn-block btn-flat" routerLink="/login">
-            Já sou cadastrado,
-            <b>quero entrar!</b>
           </a>
         </div>
       </form>
