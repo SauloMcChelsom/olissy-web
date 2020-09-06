@@ -2,9 +2,32 @@ import { Injectable } from '@angular/core';
 import { ClientApi as api } from '../api/Client.api';
 import { ClientState as state } from '../state/Client.state';
 import { ClientInterface as Client } from '../interfaces/Client.interface';
-         
+export { Client }
+
 @Injectable({providedIn: 'root'})
 export class ClientService {
+
+  public client:Client = {
+    AUTOINCREMENT: new Date(),
+    DATE: '',
+    FOREIGN_KEY_USER: '',
+    PRIMARY_KEY: '',
+    telephone: '',
+    birth: '',
+    cellPhone: '',
+    cep: '',
+    city: '',
+    country: '',
+    email: '',
+    imageIconPath: '',
+    imageIconUrl: '',
+    lastName: '',
+    name: '',
+    neighborhood: '',
+    sex: '',
+    stateFederal: '',
+    street: '',
+  }
 
   constructor(private api: api, private state: state) {}
 

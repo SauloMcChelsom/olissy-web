@@ -25,8 +25,8 @@ export class UserApi {
     return this.http.delete<User>('/')
   }
 
-  public putUserByUid(user: User){
-    return this.http.put<User>('/',null)
+  public async putUserByUid(user: User){
+    return await this.db.collection('user').doc(user.PRIMARY_KEY).update(user)
   } 
 
   public getUserByEmail(user: User){

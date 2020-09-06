@@ -2,9 +2,17 @@ import { Injectable } from '@angular/core';
 import { CompanyApi as api } from '../api/company.api';
 import { CompanyState as state } from '../state/company.state';
 import { CompanyInterface as Company } from '../interfaces/company.interface';
-         
+export { Company }
 @Injectable({providedIn: 'root'})
 export class CompanyService {
+
+  public company:Company = {
+    AUTOINCREMENT: new Date(),
+    PRIMARY_KEY: '',
+    DATE: '',
+    name: '',
+    nameSearch: '',
+  }
 
   constructor(private api: api, private state: state) {}
 

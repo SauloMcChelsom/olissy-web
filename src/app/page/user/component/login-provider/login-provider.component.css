@@ -6,33 +6,14 @@
   font-family: 'Clicker Script', cursive;
   font-size: 120px;
   font-weight: 100;
-  color: #ec2490;
   text-align: center;
 }
 
-.btn-primary {
-  color: #575757;
-  background-color: rgb(255 255 255);
-  box-shadow: 1px 1px 2px 0px #aaaaaa;
-  border-color: #aaaaaa00;
-  border-radius: 5px;
+.content{
   display: flex;
-  flex-direction: row;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  width: 100%;
-  margin-bottom: 20px;
-  padding: 15px;
-}
-
-.btn-primary:hover {
-  color: #fff;
-  background-color: #0095f6;
-  border-color: #0076c1;
-}
-
-.btn-primary.active.focus, .btn-primary.active:focus, .btn-primary.active:hover, .btn-primary:active.focus, .btn-primary:active:focus, .btn-primary:active:hover, .open>.dropdown-toggle.btn-primary.focus, .open>.dropdown-toggle.btn-primary:focus, .open>.dropdown-toggle.btn-primary:hover {
-  color: #fff;
-  background-color: #70c3f9;
-  border-color: #33a9f5;
-}
+  height: 90vh;
+} 

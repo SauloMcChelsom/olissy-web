@@ -2,9 +2,25 @@ import { Injectable } from '@angular/core';
 import { ProductApi as api } from '../api/product.api';
 import { ProductState as state } from '../state/product.state';
 import { ProductInterface as Product } from '../interfaces/product.interface';
+export { Product}
          
 @Injectable({providedIn: 'root'})
 export class ProductService {
+
+  public product:Product = {
+    AUTOINCREMENT: '',
+    DATE: '',
+    FOREIGN_KEY_STORE: '',
+    FOREIGN_KEY_USER: '',
+    FOREIGN_KEY_WAREHOUSE: '',
+    PRIMARY_KEY: '',
+    price: '',
+    productForSale: false,
+    quantities: 0,
+    totalOfComment: 0,
+    totalOfLove: 0,
+    totalOfSale: 0,
+  }
 
   constructor(private api: api, private state: state) {}
 

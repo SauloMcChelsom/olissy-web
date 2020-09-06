@@ -18,13 +18,21 @@ import { AppRoute } from './app.route';
 
 import { ColumnUserComponent } from './page/user/column/column-user/column-user.component'
 import { HeaderUserComponent } from './page/user/header/header-user/header-user.component';
+import { ColumnClientComponent } from './page/client/column/column-client/column-client.component'
+import { HeaderClientComponent } from './page/client/header/header-client/header-client.component';
+import { ColumnStoreComponent } from './page/store/column/column-store/column-store.component'
+import { HeaderStoreComponent } from './page/store/header/header-store/header-store.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     ColumnUserComponent,
-    HeaderUserComponent
+    HeaderUserComponent,
+    ColumnClientComponent,
+    HeaderClientComponent,
+    ColumnStoreComponent,
+    HeaderStoreComponent
   ],
   imports: [
     NgxMaskModule.forRoot(),
@@ -42,3 +50,4 @@ import { HeaderUserComponent } from './page/user/header/header-user/header-user.
   bootstrap: [AppComponent]
 })
 export class AppModule {}
+ 

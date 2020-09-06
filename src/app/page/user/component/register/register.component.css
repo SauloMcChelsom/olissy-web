@@ -6,7 +6,6 @@
   font-family: 'Clicker Script', cursive;
   font-size: 120px;
   font-weight: 100;
-  color: #ec2490;
   text-align: center;
 }
 .btn-alert{
@@ -37,27 +36,6 @@ input.ng-valid.ng-touched{
   }
 }
 
-.btn-primary {
-  color: #575757;
-  background-color: rgb(222 222 222);
-  box-shadow: 1px 1px 2px 0px #aaaaaa;
-  border-color: #aaaaaa00;
-  border-radius: 5px;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  margin-bottom: 20px;
-  padding: 15px;
-}
-
-.btn-primary:hover {
-  color: #575757;
-  background-color: #ffffff;
-  border-color: #ededed;
-}
-
 a {
   color: #0095f6;
   text-decoration: none;
@@ -69,25 +47,6 @@ a {
 
 .callout {
   border-left: 0px solid #eee;
-}
-
-.form-control {
-  color: #575757;
-  border: 1px solid #ccc;
-  height: 40px;
-  display: block;
-  width: 100%;
-  padding: 6px 12px;
-  font-size: 14px;
-  line-height: 1.42857143;
-  background-color: #fff;
-  background-image: none;
-  border-radius: 4px;
-  border-color: #dedede !important;
-  -webkit-box-shadow: inset 1px 1px 1px 1px #aaaaaa;
-  -moz-box-shadow: inset 1px 1px 1px 1px #aaaaaa;
-  box-shadow: inset 1px 1px 1px 1px #aaaaaa;
-  transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 }
 
 .help-block {

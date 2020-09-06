@@ -14,7 +14,7 @@ export class StoreApi {
   constructor(private http: HttpClient, private db: AngularFirestore){}
 
   public getStoreByForeignKeyUser(store: Store){
-    return this.http.get<Store[]>('/')
+    return this.db.collection('store', ref =>ref.where('FOREIGN_KEY_USER', '==', store.FOREIGN_KEY_USER)).valueChanges()
   }
 
   public getStoreByPrimaryKey(store: Store){
@@ -38,6 +38,11 @@ export class StoreApi {
   public putStoreByUid(store: Store){
     return this.http.put<Store>('/', null)
   } 
+
+  public async sendImagemStorage(name, image){
+    await firebase.storage().ref().child(name).put(image)
+    return await firebase.storage().ref().child(name).getDownloadURL().then( r => r )
+  }
 
   public update(collection, pk, data: any) {
     return this.db.collection(collection).doc(pk).update(data);

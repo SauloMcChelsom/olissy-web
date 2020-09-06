@@ -1,0 +1,590 @@
+<div class="container">
+  <section class="content">
+    <div>
+      <div>
+        <div *ngIf="active.message" class="message">
+          <h4>{{ active.text }}</h4>
+        </div>
+        <img
+          class="img-responsive center-block img-circle"
+          autocomplete="off"
+          style="margin-bottom: 15px; margin-top: 30px"
+          [src]="imageDisplay"
+          width="200"
+          alt="User Avatar"
+        />
+      </div>
+
+      <label class="filebutton" style="width: 100%">
+        <div class="widget-user-image">
+          <div class="btn btn-light">
+            <b> Inserir o logo da farmacia </b>
+          </div>
+        </div>
+        <span hidden>
+          <input
+            type="file"
+            class="filebutton2"
+            (change)="uploadImage($event)"
+          />
+        </span>
+      </label>
+    </div>
+    <form [formGroup]="storeForm" novalidate>
+      <div class="form-group">
+        <label for="email"> Email da sua loja </label>
+        <input
+          type="text"
+          disabled
+          class="form-control"
+          autocomplete="off"
+          formControlName="email"
+          value="email"
+        />
+      </div>
+      <div class="form-group">
+        <label for="cnpj">*CNPJ</label>
+        <input
+          type="text"
+          class="form-control"
+          autocomplete="off"
+          [imask]="cnpjMask"
+          [unmask]="true"
+          minlength="14"
+          formControlName="cnpj"
+          required
+          placeholder="Insira CNPJ"
+          value="cnpj"
+        />
+        <span
+          class="help-block"
+          style="color: green"
+          *ngIf="
+            storeForm.controls.cnpj.valid &&
+            (storeForm.controls.cnpj.dirty || storeForm.controls.cnpj.touched)
+          "
+          ><i class="fa fa-check"></i>Ok
+        </span>
+        <span
+          class="help-block"
+          style="color: red"
+          *ngIf="
+            storeForm.controls.cnpj.invalid &&
+            (storeForm.controls.cnpj.dirty || storeForm.controls.cnpj.touched)
+          "
+          ><i class="fa fa-remove"></i>Campo Obrigatorio
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="name"> Nome da Farmacia </label>
+        <input
+          type="text"
+          class="form-control"
+          autocomplete="off"
+          formControlName="name"
+          required
+          placeholder="Ex: Saúde Drogarias"
+          value="name"
+        />
+        <span
+          class="help-block"
+          style="color: green"
+          *ngIf="
+            storeForm.controls.name.valid &&
+            (storeForm.controls.name.dirty || storeForm.controls.name.touched)
+          "
+          ><i class="fa fa-check"></i>Ok
+        </span>
+        <span
+          class="help-block"
+          style="color: red"
+          *ngIf="
+            storeForm.controls.name.invalid &&
+            (storeForm.controls.name.dirty || storeForm.controls.name.touched)
+          "
+          ><i class="fa fa-remove"></i>Campo Obrigatorio
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="hours">Horário de funcionamento</label>
+        <input
+          type="text"
+          class="form-control"
+          autocomplete="off"
+          formControlName="hoursOfWork"
+          required
+          placeholder="Ex: Funciona de segunda à sexta, de 8h às 23h"
+          value="hours"
+        />
+        <span
+          class="help-block"
+          style="color: green"
+          *ngIf="
+            storeForm.controls.hoursOfWork.valid &&
+            (storeForm.controls.hoursOfWork.dirty ||
+              storeForm.controls.hoursOfWork.touched)
+          "
+          ><i class="fa fa-check"></i>Ok
+        </span>
+        <span
+          class="help-block"
+          style="color: red"
+          *ngIf="
+            storeForm.controls.hoursOfWork.invalid &&
+            (storeForm.controls.hoursOfWork.dirty ||
+              storeForm.controls.hoursOfWork.touched)
+          "
+          ><i class="fa fa-remove"></i>Campo Obrigatorio
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="about"> Sobre sua Farmacia </label>
+        <input
+          type="text"
+          class="form-control"
+          autocomplete="off"
+          formControlName="about"
+          required
+          placeholder="Ex: A Saúde Drogarias aceitar todas as forma de pagamentos. Compre e confira."
+          value="about"
+        />
+        <span
+          class="help-block"
+          style="color: green"
+          *ngIf="
+            storeForm.controls.about.valid &&
+            (storeForm.controls.about.dirty || storeForm.controls.about.touched)
+          "
+          ><i class="fa fa-check"></i>Ok
+        </span>
+        <span
+          class="help-block"
+          style="color: red"
+          *ngIf="
+            storeForm.controls.about.invalid &&
+            (storeForm.controls.about.dirty || storeForm.controls.about.touched)
+          "
+          ><i class="fa fa-remove"></i>Campo Obrigatorio
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="payment"> Forma de Pagamentos </label>
+        <div *ngFor="let check of checkPayment; let i = index">
+          <div class="checkbox">
+            <label>
+              <input
+                type="checkbox"
+                [checked]="check.checked"
+                [value]="check.value"
+                (change)="onCheckChange($event)"
+              />
+              {{ check.description }}
+            </label>
+          </div>
+        </div>
+        <span
+          class="help-block"
+          style="color: green"
+          *ngIf="checkPaymentStatus == true"
+          ><i class="fa fa-check"></i>Ok
+        </span>
+        <span
+          class="help-block"
+          style="color: red"
+          *ngIf="checkPaymentStatus == false"
+          ><i class="fa fa-remove"></i>Campo Obrigatorio
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="taxa"> Taxa de Entrega </label>
+        <div *ngFor="let taxa of TaxaDelivery; let i = index">
+          <div *ngIf="taxa.rule == false" class="checkbox">
+            <label>
+              <input
+                type="checkbox"
+                [checked]="taxa.checked"
+                [value]="taxa.value"
+                (change)="setTaxaDelivery($event)"
+              />
+              {{ taxa.description }}
+            </label>
+          </div>
+          <div
+            *ngIf="taxa.rule == true && taxa.value == 'deliveryFreeAbove'"
+            class="checkbox"
+          >
+            <label>
+              <input
+                type="checkbox"
+                id="deliveryFreeAbove"
+                [checked]="taxa.checked"
+                [value]="taxa.value"
+                (change)="setTaxaDelivery($event)"
+                data-keyboard="false"
+                data-toggle="modal"
+                data-target="#displayTaxaDeliveryAbove"
+              />
+              {{ taxa.description }}
+            </label>
+          </div>
+          <div
+            *ngIf="taxa.rule == true && taxa.value == 'deliveryBy'"
+            class="checkbox"
+          >
+            <label>
+              <input
+                type="checkbox"
+                id="deliveryBy"
+                [checked]="taxa.checked"
+                [value]="taxa.value"
+                (change)="setTaxaDelivery($event)"
+                data-keyboard="false"
+                data-toggle="modal"
+                data-target="#displayTaxaDeliveryBy"
+              />
+              {{ taxa.description }}
+            </label>
+          </div>
+        </div>
+        <span
+          class="help-block"
+          style="color: green"
+          *ngIf="taxaDeliveryStatus == true"
+          ><i class="fa fa-check"></i>Ok
+        </span>
+        <span
+          class="help-block"
+          style="color: red"
+          *ngIf="taxaDeliveryStatus == false"
+          ><i class="fa fa-remove"></i>Campo Obrigatorio
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="cep"> CEP </label>
+        <input
+          type="text"
+          class="form-control"
+          (keyup)="validateCep($event.target.value)"
+          autocomplete="off"
+          [imask]="cepMask"
+          [unmask]="true"
+          minlength="8"
+          formControlName="cep"
+          placeholder="Enter cep"
+          value="cep"
+        />
+        <span
+          class="help-block"
+          style="color: green"
+          *ngIf="
+            this.storeForm.controls['cep'].valid &&
+            (this.storeForm.controls['cep'].dirty ||
+              this.storeForm.controls['cep'].touched)
+          "
+          ><i class="fa fa-check"></i>Ok
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="state"> Estados </label>
+        <select
+          formControlName="stateFederal"
+          (change)="setState($event.target.value)"
+          class="form-control"
+          required
+        >
+          <option *ngFor="let state of stateCity" [value]="state.sigla">
+            {{ state.nome }}
+          </option>
+        </select>
+        <span
+          class="help-block"
+          style="color: green"
+          *ngIf="
+            this.storeForm.controls['stateFederal'].valid &&
+            (this.storeForm.controls['stateFederal'].dirty ||
+              this.storeForm.controls['stateFederal'].touched)
+          "
+          ><i class="fa fa-check"></i>Ok
+        </span>
+        <span
+          class="help-block"
+          style="color: red"
+          *ngIf="
+            this.storeForm.controls['stateFederal'].invalid &&
+            (this.storeForm.controls['stateFederal'].dirty ||
+              this.storeForm.controls['stateFederal'].touched)
+          "
+          ><i class="fa fa-remove"></i>Campo Obrigatorio
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="city"> cidade </label>
+        <div *ngFor="let state of stateCity">
+          <div
+            *ngIf="this.storeForm.controls['stateFederal'].value == state.sigla"
+          >
+            <select formControlName="city" class="form-control" required>
+              <option *ngFor="let cidade of state.cidades" [value]="cidade">
+                {{ cidade }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <span
+          class="help-block"
+          style="color: green"
+          *ngIf="
+            this.storeForm.controls['city'].valid &&
+            (this.storeForm.controls['city'].dirty ||
+              this.storeForm.controls['city'].touched)
+          "
+          ><i class="fa fa-check"></i>Ok
+        </span>
+        <span
+          class="help-block"
+          style="color: red"
+          *ngIf="
+            this.storeForm.controls['city'].invalid &&
+            (this.storeForm.controls['city'].dirty ||
+              this.storeForm.controls['city'].touched)
+          "
+          ><i class="fa fa-remove"></i>Campo Obrigatorio
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="neighborhood">Bairro</label>
+        <input
+          type="text"
+          class="form-control"
+          autocomplete="off"
+          formControlName="neighborhood"
+          required
+          placeholder="Enter bairro"
+          value="neighborhood"
+        />
+        <span
+          class="help-block"
+          style="color: green"
+          *ngIf="
+            this.storeForm.controls.neighborhood.valid &&
+            (this.storeForm.controls.neighborhood.dirty ||
+              this.storeForm.controls.neighborhood.touched)
+          "
+          ><i class="fa fa-check"></i>Ok
+        </span>
+        <span
+          class="help-block"
+          style="color: red"
+          *ngIf="
+            this.storeForm.controls.neighborhood.invalid &&
+            (this.storeForm.controls.neighborhood.dirty ||
+              this.storeForm.controls.neighborhood.touched)
+          "
+          ><i class="fa fa-remove"></i>Campo Obrigatorio
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="street">rua</label>
+        <input
+          type="text"
+          class="form-control"
+          autocomplete="off"
+          formControlName="street"
+          required
+          placeholder="Enter rua"
+          value="street"
+        />
+        <span
+          class="help-block"
+          style="color: green"
+          *ngIf="
+            storeForm.controls.street.valid &&
+            (storeForm.controls.street.dirty ||
+              storeForm.controls.street.touched)
+          "
+          ><i class="fa fa-check"></i>Ok
+        </span>
+        <span
+          class="help-block"
+          style="color: red"
+          *ngIf="
+            storeForm.controls.street.invalid &&
+            (storeForm.controls.street.dirty ||
+              storeForm.controls.street.touched)
+          "
+          ><i class="fa fa-remove"></i>Campo Obrigatorio
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="cellPhone">celular</label>
+        <input
+          type="text"
+          class="form-control"
+          autocomplete="off"
+          [imask]="cellPhoneMask"
+          [unmask]="true"
+          minlength="11"
+          formControlName="cellPhone"
+          required
+          placeholder="Enter celular"
+          value="cellPhone"
+        />
+        <span
+          class="help-block"
+          style="color: green"
+          *ngIf="
+            storeForm.controls.cellPhone.valid &&
+            (storeForm.controls.cellPhone.dirty ||
+              storeForm.controls.cellPhone.touched)
+          "
+          ><i class="fa fa-check"></i>Ok
+        </span>
+        <span
+          class="help-block"
+          style="color: red"
+          *ngIf="
+            storeForm.controls.cellPhone.invalid &&
+            (storeForm.controls.cellPhone.dirty ||
+              storeForm.controls.cellPhone.touched)
+          "
+          ><i class="fa fa-remove"></i>Campo Obrigatorio
+        </span>
+      </div>
+
+      <div class="form-group">
+        <label for="exampleInputEmail1">telefone</label>
+        <input
+          type="text"
+          class="form-control"
+          autocomplete="off"
+          [imask]="phoneMask"
+          [unmask]="true"
+          minlength="10"
+          formControlName="telephone"
+          required
+          placeholder="Enter telefone"
+        />
+        <span
+          class="help-block"
+          style="color: green"
+          *ngIf="
+            storeForm.controls.telephone.valid &&
+            (storeForm.controls.telephone.dirty ||
+            storeForm.controls.telephone.touched)
+          "
+          ><i class="fa fa-check"></i>Ok
+        </span>
+        <span
+          class="help-block"
+          style="color: red"
+          *ngIf="
+            storeForm.controls.telephone.invalid &&
+            (storeForm.controls.telephone.dirty ||
+            storeForm.controls.telephone.touched)
+          "
+          ><i class="fa fa-remove"></i>Campo Obrigatorio
+        </span>
+      </div>
+    </form>
+
+    <button class="btn btn-primary" (click)="validateForm()">
+      <b> Abrir minha loja </b>
+    </button>
+  </section>
+</div>
+
+<form>
+  <div class="modal fade" id="displayTaxaDeliveryAbove">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="box-footer" style="border-top: 0px">
+            <div class="row">
+              <div
+                style="
+                  display: flex;
+                  justify-content: center;
+                  margin-bottom: 15px;
+                "
+              >
+                <b>{{ this.TaxaDelivery[2].description }}</b>
+              </div>
+              <div class="col-md-12 col-sm-12 col-xs-12" style="display: flex">
+                <div class="input-group">
+                  <span class="input-group-addon">R$</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    value="0.00"
+                    placeholder="0.00"
+                    (click)="setTaxaDeliveryAbobeTaxa($event.target.value)"
+                    (keyup)="setTaxaDeliveryAbobeTaxa($event.target.value)"
+                  />
+                </div>
+                &nbsp;&nbsp;
+                <div class="input-group">
+                  <input
+                    type="number"
+                    value="0.00"
+                    placeholder="0.00"
+                    class="form-control"
+                    (click)="setTaxaDeliveryAboveKmValue($event.target.value)"
+                    (keyup)="setTaxaDeliveryAboveKmValue($event.target.value)"
+                  />
+                  <span class="input-group-addon">/KM</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<form>
+  <div class="modal fade" id="displayTaxaDeliveryBy">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="box-footer" style="border-top: 0px">
+            <div class="row">
+              <div
+                style="
+                  display: flex;
+                  justify-content: center;
+                  margin-bottom: 15px;
+                "
+              >
+                <b>{{ this.TaxaDelivery[3].description }}</b>
+              </div>
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="input-group">
+                  <span class="input-group-addon">R$</span>
+                  <input
+                    type="text"
+                    class="form-control"
+                    value="0.00"
+                    placeholder="0.00"
+                    (click)="setTaxaDeliveryByKmValue($event.target.value)"
+                    (keyup)="setTaxaDeliveryByKmValue($event.target.value)"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

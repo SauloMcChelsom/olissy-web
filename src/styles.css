@@ -426,6 +426,12 @@ blockquote {
 
 */
 
+html {
+  font-size: 10px;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  background-color: #f0f2f5;
+}
+
 a{
   text-decoration:none;
 }
@@ -468,8 +474,8 @@ button:focus {
 
 /* header */
 .skin-red .main-header .navbar {
-  background-color: #dedede;
-  box-shadow: 5px 0px 5px 0px rgba(0,0,0,0.75);
+  background-color: #e4e6eb ;
+  box-shadow: 5px 0px 5px 0px #787f86
 }
 
 .skin-red .main-header .navbar .sidebar-toggle:hover {
@@ -481,7 +487,7 @@ button:focus {
 }
 
 .skin-red .main-header .navbar .nav>li>a:hover, .skin-red .main-header .navbar .nav>li>a:active, .skin-red .main-header .navbar .nav>li>a:focus, .skin-red .main-header .navbar .nav .open>a, .skin-red .main-header .navbar .nav .open>a:hover, .skin-red .main-header .navbar .nav .open>a:focus, .skin-red .main-header .navbar .nav>.active>a {
-  background: #dedede;
+  background: #e4e6eb ;
   color: #0095f6;
 }
 
@@ -491,14 +497,14 @@ button:focus {
 
 .skin-red .main-header .navbar .sidebar-toggle:hover {
   color: #0095f6;
-  background-color: #dedede;
+  background-color: #e4e6eb ;
 }
 
 
 /* column */
 .skin-red .wrapper, .skin-red .main-sidebar, .skin-red .left-side {
-  background-color: #dedede;
-  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+  background-color: #e4e6eb ;
+  box-shadow: 0px 0px 5px 0px #787f86
 }
 
 .skin-red .sidebar-menu>li.active>a {
@@ -506,7 +512,7 @@ button:focus {
 }
 .skin-red .sidebar-menu>li:hover>a, .skin-red .sidebar-menu>li.active>a, .skin-red .sidebar-menu>li.menu-open>a {
   color: #0095f6;
-  background: #dedede;
+  background: #e4e6eb ;
 }
 
 .skin-red .sidebar a {
@@ -515,7 +521,7 @@ button:focus {
 
 /* background color */
 .content-wrapper {
-  background-color: #ededed;;
+  background-color: #f0f2f5;;
 }
 
 .skin-red .sidebar-menu>li>.treeview-menu {
@@ -541,6 +547,175 @@ button:focus {
   padding: 0px;
 }
 
+.font-olissy{
+  color: #0095f6;
+}
+
+.form-control {
+  color: #575757;
+  border: 1px solid #ccc;
+  height: 40px;
+  display: block;
+  width: 100%;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  background-color: #fff;
+  background-image: none;
+  border-radius: 4px;
+  border-color: #e4e6eb  !important;
+  -webkit-box-shadow: inset 1px 1px 1px 1px #77777985;
+  -moz-box-shadow: inset 1px 1px 1px 1px #77777985;
+  box-shadow: inset 1px 1px 1px 1px #77777985;
+  transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+}
+
+.btn-Secondary {
+  color: #575757;
+  background-color: rgb(222 222 222);
+  box-shadow: 1px 1px 2px 0px #aaaaaa;
+  border-color: #aaaaaa00;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 15px;
+}
+
+.btn-Secondary:hover {
+  color: #575757;
+  background-color: #ffffff;
+  border-color: #ededed;
+}
+
+.btn-Secondary.active.focus, .btn-Secondary.active:focus, .btn-Secondary.active:hover, .btn-Secondary:active.focus, .btn-Secondary:active:focus, .btn-Secondary:active:hover, .open>.dropdown-toggle.btn-Secondary.focus, .open>.dropdown-toggle.btn-Secondary:focus, .open>.dropdown-toggle.btn-Secondary:hover {
+  color: #575757;
+  background-color: #ededed;
+  box-shadow: 1px 1px 2px 0px #aaaaaa;
+  border-color: #aaaaaa00;
+}
+
+.btn-light {
+  color: #575757;
+  background-color: rgb(255 255 255);
+  box-shadow: 1px 1px 2px 0px #aaaaaa;
+  border-color: #aaaaaa00;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 15px;
+}
+
+.btn-light:hover {
+  color: #575757;
+  background-color: rgb(245 243 243);
+  box-shadow: 1px 1px 2px 0px #aaaaaa;
+  border-color: #aaaaaa00;
+}
+
+.btn-light.active.focus, .btn-light.active:focus, .btn-light.active:hover, .btn-light:active.focus, .btn-light:active:focus, .btn-light:active:hover, .open>.dropdown-toggle.btn-light.focus, .open>.dropdown-toggle.btn-light:focus, .open>.dropdown-toggle.btn-light:hover {
+  color: #575757;
+  background-color: #ededed;
+  box-shadow: 1px 1px 2px 0px #aaaaaa;
+  border-color: #aaaaaa00;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #3e99fb;
+  box-shadow: 1px 1px 2px 0px #004e82;
+  border-color: #4e96ff;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 15px;
+}
+
+.btn-primary:hover {
+  background-color: #0095f6;
+  box-shadow: 1px 1px 2px 0px #004e82;
+  border-color: #4e96ff;
+}
+
+.btn-primary.active.focus, .btn-primary.active:focus, .btn-primary.active:hover, .btn-primary:active.focus, .btn-primary:active:focus, .btn-primary:active:hover, .open>.dropdown-toggle.btn-primary.focus, .open>.dropdown-toggle.btn-primary:focus, .open>.dropdown-toggle.btn-primary:hover {
+  color: #fff;
+  background-image: none;
+  background-color: #038ae4;
+  box-shadow: 1px 1px 2px 0px #004e82;
+  border-color: #4e96ff;
+}
+
+.btn-primary.active, .btn-primary:active, .open>.dropdown-toggle.btn-primary {
+  color: #fff;
+  background-image: none;
+  background-color: #038ae4;
+  box-shadow: 1px 1px 2px 0px #004e82;
+  border-color: #4e96ff;
+}
+
+.btn-primary.focus, .btn-primary:focus {
+  background-color: #0095f6;
+  box-shadow: 1px 1px 2px 0px #004e82;
+  border-color: #4e96ff;
+}
+
+.hello{
+  display: flex;
+  flex:1;
+  background-color: #e4e6eb;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+} 
+
+.loader {
+  width: 50%;
+  height: 4.8px;
+  display: inline-block;
+  position: relative;
+  background: #575757;
+  overflow: hidden;
+}
+.loader::after {
+  content: '';
+  width: 192px;
+  height: 4.8px;
+  background: #0095f6;
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  animation: animloader 2s linear infinite;
+}
+
+@keyframes animloader {
+  0% {
+    left: 0;
+    transform: translateX(-100%);
+  }
+  100% {
+    left: 100%;
+    transform: translateX(0%);
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .loader {
+      width: 100%;
+  }
+}
 
 /*mobile*/
 @media only screen and (max-width: 600px) {

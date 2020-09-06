@@ -5,7 +5,7 @@ import * as timeago from 'timeago.js';
   name: 'formatterDateForFriend',
   pure: true
 })
-export class AppComponentPipe implements PipeTransform {
+export class TimeagoPipe implements PipeTransform {
 
   transform(date: any): any {
     let locale:any = (number, index, totalSec)=> {

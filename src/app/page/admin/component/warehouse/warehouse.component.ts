@@ -1,10 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl  }  from '@angular/forms';
+
 import { Observable } from 'rxjs';
 import firebase from '@firebase/app';
 import '@firebase/storage';
+
+import { View } from '../../../../shared/view.shared';
+import { CompanyService, Company } from '../../../../service/company.service';
+import { StoreService } from '../../../../service/store.service';
+import { ProductService } from '../../../../service/product.service';
+import { WarehouseService } from '../../../../service/warehouse.service';
+
 import werehouseType  from './werehouse.type'
-import { Core, Company } from '../../../../shared/core'
+
 declare var $ :any;
 
 @Component({
@@ -32,7 +40,7 @@ export class WarehouseComponent implements OnInit {
 
   public andGeneric = ['Sim','Não'];
 
-  public companyList: Observable<Company[]> = this.core.companyService().getCompany()
+  public companyList: Observable<Company[]> = this.companyService.getCompany()
 
   public currencyMask : any = {
     mask: '$num',
@@ -63,7 +71,9 @@ export class WarehouseComponent implements OnInit {
   })
 
   constructor(
-    private core:Core
+    private view:View,
+    private companyService:CompanyService,
+    private warehouseService:WarehouseService,
   ){}
 
   public ngOnInit() {
@@ -79,11 +89,11 @@ export class WarehouseComponent implements OnInit {
   }
 
   public createNewCompany(name){
-    this.core.company.name = name
-    this.core.company.nameSearch = this.removeAccent(name.trim())
-    this.core.companyService().getCompanyByName(this.core.company).subscribe((company)=>{
+    this.companyService.company.name = name
+    this.companyService.company.nameSearch = this.removeAccent(name.trim())
+    this.companyService.getCompanyByName(this.companyService.company).subscribe((company)=>{
       if(Object.keys(company).length == 0 ){
-        this.core.companyService().createNewCompanyInApi(this.core.company)
+        this.companyService.createNewCompanyInApi(this.companyService.company)
       }
     })
   }
@@ -104,7 +114,7 @@ export class WarehouseComponent implements OnInit {
     this.werehouseForm.get('description').markAsTouched()
     this.werehouseForm.get('price').markAsTouched()
 
-    this.core.warehouse = {
+    this.warehouseService.warehouse = {
       AUTOINCREMENT: '',
       DATE: '',
       PRIMARY_KEY: '',
@@ -122,11 +132,11 @@ export class WarehouseComponent implements OnInit {
       company: this.werehouseForm.get('company').value,
     }
 
-    this.core.warehouseService().sendImagemStorageInApi(nameOfImage, this.imageNew).then(async (url:any)=>{
+    this.warehouseService.sendImagemStorageInApi(nameOfImage, this.imageNew).then(async (url:any)=>{
 
-      this.core.warehouse.imageUrl[0] = await url
+      this.warehouseService.warehouse.imageUrl[0] = await url
       
-      this.core.warehouseService().createNewWarehouseInApi(this.core.warehouse).then(async(creating)=>{
+      this.warehouseService.createNewWarehouseInApi(this.warehouseService.warehouse).then(async(creating)=>{
         await creating
         this.werehouseForm.reset()
         this.setImageDisplay()

@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators  }  from '@angular/forms';
-import { Router } from '@angular/router';
 
 import firebase from '@firebase/app';
 import '@firebase/storage';
@@ -10,7 +9,10 @@ import { map } from 'rxjs/operators';
 import { take } from 'rxjs/operators';
 import { takeUntil } from 'rxjs/operators'
 
-import { Core, User, Client } from '../../../../shared/core';
+import { View } from '../../../../shared/view.shared';
+import { UserService, User } from '../../../../service/user.service';
+import { ClientService, Client } from '../../../../service/client.service';
+
 
 @Component({
   selector: 'app-register',
@@ -29,28 +31,27 @@ export class RegisterComponent implements OnInit, OnDestroy {
     DATE:  new FormControl(null),
     PRIMARY_KEY:  new FormControl(null),
     FOREIGN_KEY_UID:  new FormControl(null),
-    name: new FormControl('saulo' ,Validators.required),
-    email: new FormControl('saulo@gmail.com' ,Validators.required),
-    password: new FormControl('123456789' ,Validators.required),
-    retypePassword: new FormControl('123456789' ,Validators.required),
+    name: new FormControl(null ,Validators.required),
+    email: new FormControl(null ,Validators.required),
+    password: new FormControl(null ,Validators.required),
+    retypePassword: new FormControl(null ,Validators.required),
     type: new FormControl(1),
-    terms: new FormControl(true ,Validators.required)
+    terms: new FormControl(false ,Validators.required)
   })
 
   public active = {
     text: "",
     message:false,
-    form:true,
-    loading:false,
-    formIsValid:false
   }
 
   constructor(
-    private core:Core,
-    private redirectPageFor: Router,
+    private view: View,
+    private userService:UserService,
+    private clientService:ClientService,
   ){}
 
   public ngOnInit(){
+    window.scroll(0,0);
     this.setAvatar()
   }
 
@@ -66,22 +67,20 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
   
   public validateForm(){
+    this.active.message = false
     this.userForm.get('name').markAsTouched()
     this.userForm.get('email').markAsTouched()
     this.userForm.get('password').markAsTouched()
     this.userForm.get('retypePassword').markAsTouched()
     this.userForm.get('terms').markAsTouched()
 
-    if(this.userForm.value.retypePassword != this.userForm.value.password || (this.userForm.value.retypePassword == null || this.userForm.value.password == null)){
-      this.active.text = "Senhas não são identicas"
+    if(!this.userForm.value.terms){
+      this.active.text = "Aceite os termos"
       this.active.message = true
-      this.active.formIsValid = false
-    }else{
-      this.active.formIsValid = true
     }
 
-    if(!this.userForm.value.name){
-      this.active.text = "O Campo NOME é Obrigatorio"
+    if(this.userForm.value.retypePassword != this.userForm.value.password || (this.userForm.value.retypePassword == null || this.userForm.value.password == null)){
+      this.active.text = "Senhas não são identicas"
       this.active.message = true
     }
 
@@ -90,50 +89,54 @@ export class RegisterComponent implements OnInit, OnDestroy {
       this.active.message = true
     }
 
-    if(this.userForm.valid &&  this.active.formIsValid){
+    if(!this.userForm.value.name){
+      this.active.text = "O Campo NOME é Obrigatorio"
+      this.active.message = true
+    }
+
+    if(this.userForm.valid &&  this.active.message == false){
       this.active.message = false
-      this.active.loading = true
-      this.active.form = false
+      this.view.setLoader(true)
       this.verifyEemailExisted()
     }
+    window.scroll(0,0);
   }
 
   public async verifyEemailExisted(){
-    this.core.user.email = this.userForm.value.email
-    this.core.user.password = this.userForm.value.password
-    this.core.user.name = this.userForm.value.name
-    this.core.user.terms = true
-    this.core.user.type = 1
-    
+    this.userService.user.email = this.userForm.value.email
+    this.userService.user.password = this.userForm.value.password
+    this.userService.user.name = this.userForm.value.name
+    this.userService.user.terms = true
+    this.userService.user.type = 1
+
     let emailExisted = null
-    await this.core.userService().getUserByEmailInApi(this.core.user).pipe(takeUntil(this.unsubscribe$),take(1), map(v => emailExisted = v) ).toPromise()
+    await this.userService.getUserByEmailInApi(this.userService.user).pipe(takeUntil(this.unsubscribe$),take(1), map(v => emailExisted = v) ).toPromise()
 
     if(Object.keys(emailExisted).length == 0){
       this.createNewUser()
     }else{
-      this.active.text = `email ${ this.core.user.email} ja em uso`
+      this.active.text = `email ${ this.userService.user.email} ja em uso`
       this.active.message = true
-      this.active.loading = false
-      this.active.form = true
+      this.view.setLoader(false)
     }
   }
 
   public async createNewUser(){
     let newUser:User
-    await this.core.userService().createNewUserWithEmailAndPasswordInApi(this.core.user).then( v => newUser = v )
+    await this.userService.createNewUserWithEmailAndPasswordInApi(this.userService.user).then( v => newUser = v )
 
-    this.core.client.name = this.userForm.value.name
-    this.core.client.FOREIGN_KEY_USER = newUser.PRIMARY_KEY
+    this.clientService.client.name = this.userForm.value.name
+    this.clientService.client.FOREIGN_KEY_USER = newUser.PRIMARY_KEY
 
     let newClient:Client
-    this.core.client.imageIconUrl = this.avatar
-    await this.core.clientService().createNewClientInApi(this.core.client).then( v => newClient = v )
+    this.clientService.client.imageIconUrl = this.avatar
+    await this.clientService.createNewClientInApi(this.clientService.client).then( v => newClient = v )
 
-    this.core.userService().setUserInState([newUser])
-    this.core.clientService().setClientInState([newClient])
+    this.userService.setUserInState([newUser])
+    this.clientService.setClientInState([newClient])
     
-    this.core.view.user = "client"
-    this.redirectPageFor.navigate(['/home'])
+    this.view.setUser('client')
+    this.view.redirectPageFor('/home-client')
     
   }
 

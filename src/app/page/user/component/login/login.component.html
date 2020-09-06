@@ -1,24 +1,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Clicker+Script&display=swap" rel="stylesheet">
-
 <div class="container">
   <section class="content login-content">
-    <div class="col-xs-12 col-sm-offset-3 col-sm-6">
-      <div class="login-logo" *ngIf="active.loading">
-        Aguarde Efetuando login
-      </div>
-      <div class="row" *ngIf="active.loading">
-        <div class="login-logo">
-          <i class="fa fa-refresh fa-spin fa-2x"></i>
-        </div>
-      </div>
-      <div class="box-body" *ngIf="active.message">
+    <div *ngIf="active.message" class="col-xs-12 col-sm-offset-3 col-sm-6">
+      <div class="box-body" >
         <div class="callout callout-danger">
           <h4> Atenção! </h4>
           <p> {{ active.text }} </p>
         </div>
       </div>
     </div>
-    <div class="col-xs-12 col-sm-offset-3 col-sm-6"  *ngIf="active.form">
+    <div class="col-xs-12 col-sm-offset-3 col-sm-6">
       <p class="font-olissy">
         olissy
       </p>
@@ -30,14 +21,14 @@
           <input type="password" formControlName="password" required autocomplete="off" class="form-control" placeholder="Digite sua senha"/>
         </div>
         <div id="content-button">
-          <button class="btn btn-primary">
+          <button class="btn btn-Secondary">
             Entrar
           </button>
           <div class="text-center">
             <p>- OU -</p>
           </div>
           <a routerLink="/registerTest">
-            <button class="btn btn-primary">
+            <button class="btn btn-Secondary">
               Quero me,&nbsp;<b>cadastrar!</b>
             </button>
           </a>

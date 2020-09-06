@@ -2,9 +2,23 @@ import { Injectable } from '@angular/core';
 import { UserApi as api } from '../api/user.api';
 import { UserState as state } from '../state/user.state';
 import { UserInterface as User } from '../interfaces/user.interface';
+export { User }
 
 @Injectable({providedIn: 'root'})
 export class UserService {
+
+  public user:User = {
+    AUTOINCREMENT: null,
+    DATE: '',
+    FOREIGN_KEY_UID : '',
+    PRIMARY_KEY: '',
+    password: '',
+    retypePassword: '',
+    email: '',
+    name: '',
+    terms: false,
+    type: 0,
+  }
 
   constructor(private api: api, private state: state) {}
 

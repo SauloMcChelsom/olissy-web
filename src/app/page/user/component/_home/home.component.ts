@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Core, Store, Product, Warehouse } from '../../../../shared/core'
+
+import { View } from '../../../../shared/view.shared';
+import { ClientService } from '../../../../service/client.service';
+import { StoreService, Store } from '../../../../service/store.service';
+import { ProductService, Product } from '../../../../service/product.service';
+import { WarehouseService, Warehouse } from '../../../../service/warehouse.service';
 
 @Component({
   selector: 'mt-home',
@@ -16,23 +21,29 @@ export class HomeComponent implements OnInit {
   public showCardBy = "product"
   
   constructor(
-    private core:Core
+    private view:View,
+    private clientService:ClientService,
+    private storeService:StoreService,
+    private productService:ProductService,
+    private warehouseService:WarehouseService,
   ){}
 
   public ngOnInit() {
+    setTimeout(() => { this.view.setLoader(false) }, 3000)
+    
     this.getProduct()
   }
 
   public getProduct() {
-    this.core.productService().getProductByIndexInApi().subscribe((product:Product[])=>{
+     this.productService.getProductByIndexInApi().subscribe((product:Product[])=>{
       for (const index in product) {
         this.products.push(product[index])
 
-        this.core.store.PRIMARY_KEY = product[index].FOREIGN_KEY_STORE
-        this.getStore(this.core.store)
+        this.storeService.store.PRIMARY_KEY = product[index].FOREIGN_KEY_STORE
+        this.getStore(this.storeService.store)
   
-        this.core.warehouse.PRIMARY_KEY = product[index].FOREIGN_KEY_WAREHOUSE
-        this.getWarehouse(this.core.warehouse)
+        this.warehouseService.warehouse.PRIMARY_KEY = product[index].FOREIGN_KEY_WAREHOUSE
+        this.getWarehouse(this.warehouseService.warehouse)
       }
     })
   }
@@ -46,7 +57,7 @@ export class HomeComponent implements OnInit {
       break
     }
     if(getStore){
-      this.core.storeService().getStoreByPrimaryKeyInApi(store).subscribe((doc:any)=>{
+      this.storeService.getStoreByPrimaryKeyInApi(store).subscribe((doc:any)=>{
         this.stores.push(doc.data())
       })
     }
@@ -61,7 +72,7 @@ export class HomeComponent implements OnInit {
       break
     }
     if(getWarehouse){
-      this.core.warehouseService().getWarehouseByPrimaryKeyInApi(warehouse).subscribe((doc:any)=>{
+      this.warehouseService.getWarehouseByPrimaryKeyInApi(warehouse).subscribe((doc:any)=>{
         let wh = doc.data()
         wh.showDescription = false
         this.warehouses.push(wh) 

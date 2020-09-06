@@ -1,0 +1,106 @@
+<header class="main-header">
+  <nav class="navbar navbar-static-top">
+    <a class="sidebar-toggle" data-toggle="push-menu" role="button" style="font-size: 20px">
+      <span class="sr-only">Toggle navigation</span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </a>
+    <div class="navbar-custom-menu">
+      <ul class="nav navbar-nav">
+        <li routerLinkActive="active">
+          <a routerLink="/home-client" class="icon-home">
+            <i class="fa fa-home"></i>
+          </a>
+        </li>
+        <li routerLinkActive="active">
+          <a data-keyboard="false" data-toggle="modal" data-target="#displaySearch" class="icon-search">
+            <i class="fa fa-search"></i>
+          </a>
+        </li>
+        <li routerLinkActive="active" class="dropdown messages-menu">
+          <a routerLink="/client-message-contact"  class="dropdown-toggle icon-message" data-toggle="dropdown">
+            <i class="fa fa-envelope"></i>
+            <span class="label label-success">
+              0
+            </span>
+          </a> 
+        </li> 
+        <li routerLinkActive="active" class="dropdown notifications-menu">
+          <a routerLink="/client-order"  class="dropdown-toggle icon-order" data-toggle="dropdown">
+            <i class="fa fa-bell"></i>
+            <span class="label label-success">
+              0
+            </span>
+          </a>
+        </li>
+        <li class="dropdown user user-menu">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <img src="https://firebasestorage.googleapis.com/v0/b/olissy-web-test.appspot.com/o/plataform%2Favatar.png?alt=media&token=93cf2089-ee1d-4ccb-b88b-b210583889c6" class="user-image" alt="User Image"/>
+            <span class="hidden-xs">
+              saulo silva
+            </span>
+          </a>
+          <ul class="dropdown-menu">
+            <li class="user-header">
+              <img src="https://firebasestorage.googleapis.com/v0/b/olissy-web-test.appspot.com/o/plataform%2Favatar.png?alt=media&token=93cf2089-ee1d-4ccb-b88b-b210583889c6" class="img-circle" width="50" alt="User Image"/>
+              <p>
+                saulo silva
+                <small>
+                  saulo@
+                </small>
+              </p>
+            </li>
+            <li class="user-body">
+              <div class="row">
+                <div class="col-xs-4 text-center">
+                  <i class="fa fa-thumbs-up"></i>
+                  5
+                </div>
+                <div class="col-xs-4 text-center">
+                  <i class="fa fa-star"></i>
+                  8
+                </div>
+                <div class="col-xs-4 text-center">
+                  <i class="fa fa-tags"></i>
+                  4
+                </div>
+              </div>
+            </li>
+            <li class="user-footer">
+              <div class="pull-left">
+                <a (click)="storeOpenOrClosed()" class="btn btn-Secondary">
+                  <a *ngIf="true" style="font-size:12px; color: #666; background: transparent;"><i class="fa fa-circle" style="font-size:9px; color: #2cce2fd1;"></i> Aberto</a>
+                  <a *ngIf="false" style="font-size:12px; color: #666; background: transparent;"><i class="fa fa-circle" style="font-size:9px; color: #ff6451;"></i> Fechado</a>
+                </a> 
+              </div>
+              &nbsp;
+              <div class="pull-right">
+                <a (click)="signOut()" class="btn btn-primary">
+                  Deslogar
+                </a>
+              </div>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+<form>
+  <div class="modal fade" id="displaySearch">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="box-footer" style="border-top: 0px; padding:0px">
+            <div class="row">
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                    client
+              </div>
+            </div>  
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

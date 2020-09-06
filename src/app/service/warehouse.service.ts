@@ -2,9 +2,28 @@ import { Injectable } from '@angular/core';
 import { WarehouseApi as api } from '../api/warehouse.api';
 import { WarehouseState as state } from '../state/warehouse.state';
 import { WarehouseInterface as Warehouse } from '../interfaces/warehouse.interface';
-         
+export { Warehouse }
+
 @Injectable({providedIn: 'root'})
 export class WarehouseService {
+
+  public warehouse:Warehouse = {
+    AUTOINCREMENT: new Date(),
+    PRIMARY_KEY: '',
+    DATE:'',
+    andGeneric: false,
+    category: '',
+    company: '',
+    description: '',
+    descriptionForSearch: '',
+    imagePath: [],
+    imageUrl: [],
+    name: '',
+    nameForSearch: '',
+    price: 0,
+    session: '',
+    type: '',
+  }
 
   constructor(private api: api, private state: state) {}
 

@@ -1,10 +1,14 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { Core, User, Client, } from './shared/core';
+import { Component, OnDestroy } from '@angular/core';
+
+import { View } from './shared/view.shared';
+import { UserService } from './service/user.service';
+import { ClientService } from './service/client.service';
+import { StoreService } from './service/store.service';
 
 import { map } from 'rxjs/operators';
 import { take } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -12,16 +16,16 @@ import { take } from 'rxjs/operators';
   styleUrls: ['app.component.css']
 })
 
-export class AppComponent {
+export class AppComponent implements  OnDestroy {
 
-  public user$: Observable<User[]> = this.core.userService().getUserInState()
-  public client$: Observable<Client[]> = this.core.clientService().getClientInState()
-  public view = this.core.view
+  private unsubscribe$ = new Subject();
 
   constructor(
-    private core:Core,
-    private redirectPageFor: Router,
-  ) {}
+    private view:View,
+    private userService:UserService,
+    private clientService:ClientService,
+    private storeService:StoreService
+  ){}
 
   async ngOnInit() {
     await this.getUserLogged()
@@ -29,35 +33,39 @@ export class AppComponent {
 
   private async getUserLogged(){
     let user = null
-    await this.core.userService().isLoggedInApi().pipe(take(1), map(u => user = u ) ).toPromise()
+    await this.userService.isLoggedInApi().pipe(takeUntil(this.unsubscribe$), take(1), map(u => user = u ) ).toPromise()
     if(user != null){
-      this.core.user.FOREIGN_KEY_UID = user.uid
-      this.core.user.email = user.email
-      await this.core.userService().getUserByUidInApi(this.core.user).pipe(take(1), map( (v:any) => this.core.user = v[0]) ).toPromise()
-      this.core.userService().setUserInState([this.core.user])
+      this.userService.user.FOREIGN_KEY_UID = user.uid
+      this.userService.user.email = user.email
+
+      await this.userService.getUserByUidInApi(this.userService.user).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) => this.userService.user = v[0]) ).toPromise()
+      this.userService.setUserInState([this.userService.user])
       await this.userType()
     }
-
+    this.view.setLoader(false)
   }
 
   private async userType(){
     
-    if(this.core.user.type == 1){
-      this.core.client.FOREIGN_KEY_USER = this.core.userService().pullUserInState().PRIMARY_KEY
-      await this.core.clientService().getClientByForeignKeyUserInApi(this.core.client).pipe(take(1), map( (v:any) => this.core.client = v[0]) ).toPromise()
-      this.core.clientService().setClientInState([this.core.client])
-      this.core.view.user = "client"
-      //this.redirectPageFor.navigate(['/home'])
+    if(this.userService.user.type == 1){
+      this.clientService.client.FOREIGN_KEY_USER = this.userService.pullUserInState().PRIMARY_KEY
+      await this.clientService.getClientByForeignKeyUserInApi(this.clientService.client).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) => this.clientService.client = v[0]) ).toPromise()
+      this.clientService.setClientInState([this.clientService.client])
+      this.view.setUser('client')
+      this.view.redirectPageFor('/home-client')
     }
 
-    if(this.core.user.type == 2){
-      this.core.store.FOREIGN_KEY_USER = this.core.userService().pullUserInState().PRIMARY_KEY
-      await this.core.storeService().getStoreByForeignKeyUserInApi(this.core.store).pipe(take(1), map( (v:any) => this.core.store = v[0]) ).toPromise()
-      this.core.storeService().setStoreInState(this.core.store)
-      this.core.view.user = "store"
-      //this.redirectPageFor.navigate(['/home'])
+    if(this.userService.user.type == 2){
+      this.storeService.store.FOREIGN_KEY_USER = this.userService.pullUserInState().PRIMARY_KEY
+      await this.storeService.getStoreByForeignKeyUserInApi(this.storeService.store).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) => this.storeService.store = v[0]) ).toPromise()
+      this.storeService.setStoreInState(this.storeService.store)
+      this.view.setUser('store')
+      this.view.redirectPageFor('/home-store')
     }
   }
 
-
+  ngOnDestroy(){
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
 }

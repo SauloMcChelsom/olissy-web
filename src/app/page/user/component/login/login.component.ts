@@ -1,13 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators  }  from '@angular/forms';
-import { Router } from '@angular/router';
+
+import { View } from '../../../../shared/view.shared';
+import { UserService } from '../../../../service/user.service';
+import { ClientService } from '../../../../service/client.service';
+import { StoreService } from '../../../../service/store.service';
 
 import { map } from 'rxjs/operators';
 import { take } from 'rxjs/operators';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-
-import { Core } from '../../../../shared/core';
 
 @Component({
   selector: 'login',
@@ -34,17 +36,19 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   public active = {
     text: "",
-    message:false,
-    form:true,
-    loading:false
+    message:false
   }
 
   constructor(
-    private redirectPageFor: Router,
-    private core:Core
+    private view:View,
+    private userService:UserService,
+    private clientService:ClientService,
+    private storeService:StoreService,
   ){}
 
-  public async ngOnInit() {}
+  public async ngOnInit() {
+
+  }
 
   public async validateForm(){
     this.userForm.get('email').markAsTouched()
@@ -62,61 +66,59 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     if(this.userForm.valid){
       this.active.message = false
-      this.active.loading = true
-      this.active.form = false
+      this.view.setLoader(true)
 
-      this.core.user.email = this.userForm.value.email
-      this.core.user.password = this.userForm.value.password
+      this.userService.user.email = this.userForm.value.email
+      this.userService.user.password = this.userForm.value.password
       await this.verifyEmailExisted()
     }
+    window.scroll(0,0);
   }
 
   public async verifyEmailExisted(){
-    let user = null
+    let user = []
     
-    await this.core.userService().getUserByEmailInApi(this.core.user).pipe(takeUntil(this.unsubscribe$), map(v => user = v) ).toPromise()
+    await this.userService.getUserByEmailInApi(this.userService.user).pipe(takeUntil(this.unsubscribe$), take(1), map(v => user = v) ).toPromise()
 
     if(Object.keys(user).length != 0){
       await this.authentication()
     }else{
-      this.active.text = `email ${this.core.user.email} não esta cadastrado`
+      this.active.text = `email ${this.userService.user.email} não esta cadastrado`
       this.active.message = true
-      this.active.loading = false
-      this.active.form = true
+      this.view.setLoader(false)
     }
   }
 
   public async authentication(){ 
     let userIsLogged = null
-    await this.core.userService().signInWithEmailAndPasswordInApi(this.core.user).then( v =>  userIsLogged = v ).catch(()=> userIsLogged = false )
+    await this.userService.signInWithEmailAndPasswordInApi(this.userService.user).then( v =>  userIsLogged = v ).catch(()=> userIsLogged = false )
     if(userIsLogged){
-      this.core.user.FOREIGN_KEY_UID = userIsLogged.uid
-      await this.core.userService().getUserByEmailInApi(this.core.user).pipe(takeUntil(this.unsubscribe$), map( (v:any) => this.core.user = v[0]) ).toPromise()
-      this.core.userService().setUserInState([this.core.user])
+      this.userService.user.FOREIGN_KEY_UID = userIsLogged.uid
+      await this.userService.getUserByEmailInApi(this.userService.user).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) => this.userService.user = v[0]) ).toPromise()
+      this.userService.setUserInState([this.userService.user])
       await this.userType()
     }else{
       this.active.text = "senha errada" 
       this.active.message = true
-      this.active.loading = false
-      this.active.form = true
+      this.view.setLoader(false)
     }
   }
 
   public async userType(){
-    if(this.core.user.type == 1){
-      this.core.client.FOREIGN_KEY_USER = this.core.userService().pullUserInState().PRIMARY_KEY
-      await this.core.clientService().getClientByForeignKeyUserInApi(this.core.client).pipe(takeUntil(this.unsubscribe$), map( (v:any) => this.core.client = v[0]) ).toPromise()
-      this.core.clientService().setClientInState([this.core.client])
-      this.core.view.user = "client"
-      this.redirectPageFor.navigate(['/home'])
+    if(this.userService.user.type == 1){
+      this.clientService.client.FOREIGN_KEY_USER = this.userService.pullUserInState().PRIMARY_KEY
+      await this.clientService.getClientByForeignKeyUserInApi(this.clientService.client).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) => this.clientService.client = v[0]) ).toPromise()
+      this.clientService.setClientInState([this.clientService.client])
+      this.view.setUser('client')
+      this.view.redirectPageFor('/home-client')
     }
 
-    if(this.core.user.type == 2){
-      this.core.store.FOREIGN_KEY_USER = this.core.userService().pullUserInState().PRIMARY_KEY
-      await this.core.storeService().getStoreByForeignKeyUserInApi(this.core.store).pipe(takeUntil(this.unsubscribe$), map( (v:any) => this.core.store = v[0]) ).toPromise()
-      this.core.storeService().setStoreInState(this.core.store)
-      this.core.view.user = "store"
-      this.redirectPageFor.navigate(['/home'])
+    if(this.userService.user.type == 2){
+       this.storeService.store.FOREIGN_KEY_USER = this.userService.pullUserInState().PRIMARY_KEY
+      await this.storeService.getStoreByForeignKeyUserInApi( this.storeService.store).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) =>  this.storeService.store = v[0]) ).toPromise()
+      this.storeService.setStoreInState( this.storeService.store)
+      this.view.setUser('store')
+      this.view.redirectPageFor('/home-store')
     }
   }
 

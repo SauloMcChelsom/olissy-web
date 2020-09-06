@@ -13,7 +13,16 @@ export const ROUTES: Routes = [
   },
   {
     path: 'home',
-    loadChildren: () => import('./page/user/component/_home/home.module').then(m => m.HomeModule) 
+    loadChildren: () => import('./page/user/component/_home/home.module')
+    .then(m => m.HomeModule) 
+  }, 
+  {
+    path: 'home-client',
+    loadChildren: () => import('./page/client/component/_home/home.module').then(m => m.HomeModule) 
+  },
+  {
+    path: 'home-store',
+    loadChildren: () => import('./page/store/component/_home/home.module').then(m => m.HomeModule) 
   },
   {
     path: 'loginTest',
@@ -26,6 +35,14 @@ export const ROUTES: Routes = [
   {
     path: 'warehouse',
     loadChildren: () => import('./page/admin/component/warehouse/warehouse.module').then(m => m.WarehouseModule) 
+  },
+  {
+    path: 'welcome-for-open-your-store',
+    loadChildren: () => import('./page/client/component/welcome-for-open-your-store/welcome-for-open-your-store.module').then(m => m.WelcomeForOpenYourStoreModule) 
+  },
+  {
+    path: 'open-my-store',
+    loadChildren: () => import('./page/client/component/open-my-store/open-my-store.module').then(m => m.OpenMyStoreModule) 
   },
 ];
 
