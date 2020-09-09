@@ -2,6 +2,10 @@
 <div class="container">
   <div class="col-md-12 col-xs-12 card-container">
     <div *ngFor="let product of products" class="menu-item-info-box card">
+
+      <div *ngIf="!stores?.length" class="card-header">
+        <span class="card-header-loader"></span>
+      </div>
       <div *ngFor="let store of stores">
         <div *ngIf="product.FOREIGN_KEY_STORE == store.PRIMARY_KEY" class="card-header">
           <span id="card-header-left">
@@ -33,6 +37,10 @@
             </a>
           </span>
         </div>
+      </div>
+
+      <div *ngIf="!warehouses?.length" class="col-md-12 col-xs-12 card-content">
+        <span class="card-content-loader"></span>
       </div>
       <div *ngFor="let warehouse of warehouses ; let i = index">
         <div *ngIf="product.FOREIGN_KEY_WAREHOUSE == warehouse.PRIMARY_KEY">
@@ -81,9 +89,12 @@
               </h5>
             </div>
           </div>
+          
           <div class="card-publication">
-            <div class="card-publication-container">
+            <!--<span class="card-content-loader"></span>-->
+            <div class="card-publication-container"> 
               <a target="_blank">
+                
                 <img style="width: 100%" [src]="warehouse.imageUrl[0]" alt="Photo">
               </a>
             </div>

@@ -13,12 +13,16 @@ export class WarehouseApi {
 
   constructor(private http: HttpClient, private db: AngularFirestore){}
 
+  public getWarehouseByIndex(){
+    return this.db.collection<Warehouse>('warehouse', ref =>ref.orderBy("AUTOINCREMENT", "desc").limit(5)).valueChanges()
+  }
+
   public getWarehouseByForeignKeyUser(warehouse: Warehouse){
     return this.http.get<Warehouse[]>('/')
   }
 
   public getWarehouseByPrimaryKey(warehouse: Warehouse){
-    return this.db.collection('warehouse').doc(warehouse.PRIMARY_KEY).get()
+    return this.db.collection('warehouse', ref =>ref.where('PRIMARY_KEY', '==', warehouse.PRIMARY_KEY)).valueChanges()
   }
 
   public async createNewWarehouse(warehouse: Warehouse){

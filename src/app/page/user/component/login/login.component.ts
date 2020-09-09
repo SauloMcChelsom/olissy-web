@@ -27,8 +27,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     PRIMARY_KEY:  new FormControl(null),
     FOREIGN_KEY_UID:  new FormControl(null),
     name: new FormControl('saulo' ,Validators.required),
-    email: new FormControl('saulo@gmail.com' ,Validators.required),
-    password: new FormControl('123456789' ,Validators.required),
+    email: new FormControl('cruzeiro@gmail.com' ,Validators.required),
+    password: new FormControl('203327.Ss' ,Validators.required),
     retypePassword: new FormControl('123456789' ,Validators.required),
     type: new FormControl(1),
     terms: new FormControl(true ,Validators.required)

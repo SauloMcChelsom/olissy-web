@@ -36,12 +36,11 @@ export class ClientApi {
 
     await this.db.collection('client').add(client).then((res: any) => client.PRIMARY_KEY = res.id);
     await this.update('client', client.PRIMARY_KEY, { PRIMARY_KEY: client.PRIMARY_KEY })
-    await this.clientOfQuantity()
+    await this.increment()
     return client
   }
 
-  public async clientOfQuantity() {
-    //criar manualmente
+  public async increment() {
     const increment = firebase.firestore.FieldValue.increment(1);
     await this.db.collection('increment').doc("00").update({ client : increment })
   }

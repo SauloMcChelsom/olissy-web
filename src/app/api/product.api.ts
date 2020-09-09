@@ -21,6 +21,10 @@ export class ProductApi {
     return this.http.get<Product[]>('/')
   }
 
+  public getProductByForeignKeyWarehouse(product: Product){
+    return this.db.collection('product', ref =>ref.where('FOREIGN_KEY_WAREHOUSE', '==', product.FOREIGN_KEY_WAREHOUSE)).valueChanges()
+  }
+
   public getProductByUid(product: Product){
     return this.http.get<Product>('/')
   }
@@ -33,7 +37,7 @@ export class ProductApi {
 
     await this.db.collection('product').add(product).then((res: any) => product.PRIMARY_KEY = res.id);
     await this.update('product', product.PRIMARY_KEY, { PRIMARY_KEY: product.PRIMARY_KEY })
-
+    await this.increment()
     return product
   }
 
@@ -47,6 +51,11 @@ export class ProductApi {
 
   public update(collection, pk, data: any) {
     return this.db.collection(collection).doc(pk).update(data);
+  }
+
+  public async increment() {
+    const increment = firebase.firestore.FieldValue.increment(1);
+    await this.db.collection('increment').doc("00").update({ product : increment })
   }
 
 }

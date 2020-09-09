@@ -18,7 +18,7 @@ export class StoreApi {
   }
 
   public getStoreByPrimaryKey(store: Store){
-    return this.db.collection('store').doc(store.PRIMARY_KEY).get()
+    return this.db.collection('store', ref =>ref.where('PRIMARY_KEY', '==', store.PRIMARY_KEY)).valueChanges()
   }
   
   public async createNewStore(store: Store){
@@ -27,7 +27,8 @@ export class StoreApi {
 
     await this.db.collection('store').add(store).then((res: any) => store.PRIMARY_KEY = res.id);
     await this.update('store', store.PRIMARY_KEY, { PRIMARY_KEY: store.PRIMARY_KEY })
-
+    await this.increment()
+    await this.decrement()
     return store
   }
 
@@ -46,6 +47,16 @@ export class StoreApi {
 
   public update(collection, pk, data: any) {
     return this.db.collection(collection).doc(pk).update(data);
+  }
+
+  public async increment() {
+    const increment = firebase.firestore.FieldValue.increment(1);
+    await this.db.collection('increment').doc("00").update({ store : increment })
+  }
+
+  public async decrement() {
+    const increment = firebase.firestore.FieldValue.increment(-1);
+    await this.db.collection('increment').doc("00").update({ client : increment })
   }
 
 }

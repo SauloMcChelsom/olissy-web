@@ -28,6 +28,10 @@ export class ProductService {
     return this.api.getProductByIndex()
   }
 
+  public getProductByForeignKeyWarehouseInApi(product: Product){
+    return this.api.getProductByForeignKeyWarehouse(product)
+  }
+
   public getProductByForeignKeyUserInApi(product: Product){
     return this.api.getProductByForeignKeyUser(product)
   }

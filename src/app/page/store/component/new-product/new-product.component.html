@@ -1,0 +1,251 @@
+<link href="https://fonts.googleapis.com/css?family=Thasadith&display=swap" rel="stylesheet" />
+<div class="container">
+
+  <div class="col-md-12 col-xs-12 card-container">
+    <div *ngFor="let warehouse of warehouses; let i = index" >
+      <div *ngIf="warehouse.registration == true" data-keyboard="false" data-backdrop="static" data-toggle="modal" data-target="#selectProduct" (click)="selectProduct(warehouse)" class="menu-item-info-box card">
+        <div class="col-md-12 col-xs-12 card-content">
+          <span class="card-content-title">
+            {{ warehouse.name }}
+          </span>
+          <span class="menu-item-info-box-text card-content-sub-title">
+            {{ warehouse?.session }}, {{ warehouse?.type }} <b>marca {{ warehouse?.company }}</b>
+          </span>
+        </div>
+        <div class="card-publication">
+          <div class="card-publication-container">
+            <a target="_blank">
+              <img style="width: 100%" [src]="warehouse.imageUrl[0]" alt="Photo">
+            </a>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="warehouse.registration == false" style="opacity: 0.5;" class="menu-item-info-box card">
+        <div class="col-md-12 col-xs-12 card-content">
+          <span class="card-content-title">
+            {{ warehouse.name }}
+          </span>
+          <span class="menu-item-info-box-text card-content-sub-title">
+            {{ warehouse?.session }}, {{ warehouse?.type }} <b>marca {{ warehouse?.company }}</b>
+          </span>
+        </div>
+        <div class="card-publication">
+          <div class="card-publication-container">
+            <a target="_blank">
+              <img style="width: 100%" [src]="warehouse.imageUrl[0]" alt="Photo">
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <form [formGroup]="productForm" novalidate>
+    <div class="modal fade" id="selectProduct">
+      <div class="modal-dialog">
+        <div *ngIf="active.loading" class="modal-content">
+          <div class="hello"> 
+            <span class="loader"></span>
+          </div>
+        </div>
+        <div *ngIf="!active.loading" class="modal-content">
+          <!--<div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+              <h4 class="modal-title">
+                Cadastrar Produto
+              </h4>
+          </div>-->
+          <div class="modal-body">
+            <div *ngIf="active.message" class="message">
+              <h4>{{ active.text }}</h4>
+            </div>
+            <span class="menu-item-info-box-detail" style="width:100%;">
+              <img class="img-responsive center-block" style="margin-bottom: 15px"  [src]="selectedProduct?.imageUrl"   width="300" alt="User Avatar">
+            </span>
+            <span class="menu-item-info-box-detail" style="width:100%;">
+              <label style="width:100%; font-weight: normal;">
+                <p style="margin-bottom: 0px;">
+                  <b>Produto: </b>{{ selectedProduct?.name}}
+                </p>
+              </label>
+            </span>
+            <span class="menu-item-info-box-detail" style="width:100%;">
+              <label style="width:100%; font-weight: normal;">
+                <p style="margin-bottom: 0px;">
+                  <b>Sessão: </b>{{ selectedProduct?.session }}
+                </p>
+              </label>
+            </span>
+            <span class="menu-item-info-box-detail" style="width:100%;">
+              <label style="width:100%; font-weight: normal;">
+                <p style="margin-bottom: 0px;">
+                  <b>Categoria: </b>{{ selectedProduct?.category}}
+                </p>
+              </label>
+            </span>
+            <span class="menu-item-info-box-detail" style="width:100%;">
+              <label style="width:100%; font-weight: normal;">
+                <p style="margin-bottom: 0px;">
+                  <b>Tipo: </b>{{ selectedProduct?.type}}
+                </p>
+              </label>
+            </span>
+            <span class="menu-item-info-box-detail" style="width:100%;">
+              <label style="width:100%; font-weight: normal;">
+                <p style="margin-bottom: 0px;">
+                  <b>Generico: </b>{{ selectedProduct?.andGeneric}}
+                </p>
+              </label>
+            </span>
+            <span class="menu-item-info-box-detail" style="width:100%;">
+              <label style="width:100%; font-weight: normal;">
+                <p style="margin-bottom: 0px;">
+                  <b>Fornecedor: </b>{{ selectedProduct?.company}}
+                </p>
+              </label>
+            </span>
+            <span class="menu-item-info-box-detail" style="width:100%;">
+              <label style="width:100%; font-weight: normal;">
+                <div [innerHTML]="selectedProduct?.description"></div>
+              </label>
+            </span>
+            <span class="menu-item-info-box-detail product-content">
+              <label style="width:100%;">
+                Preco
+                <input type="text"class="form-control" [imask]="currencyMask" [unmask]="true"  style="font-weight: 500;" autocomplete="off" formControlName="price">
+              </label>
+              <span class="help-block" style="color:red" *ngIf="this.productForm.controls['price'].value <= 0 && (this.productForm.controls['price'].dirty || this.productForm.controls['price'].touched)">
+                <i class="fa fa-remove"></i>
+                Campo Obrigatorio
+              </span>
+            </span>
+            <span class="menu-item-info-box-detail product-content">
+              <label style="width:100%;">
+                Quantidades
+                <input type="number" min="1" class="form-control"  style="font-weight: 500;" autocomplete="off" formControlName="quantities">
+              </label>
+              <span class="help-block" style="color:red" *ngIf="this.productForm.controls['quantities'].value <= 0 && (this.productForm.controls['quantities'].dirty || this.productForm.controls['quantities'].touched)">
+                <i class="fa fa-remove"></i>
+                Campo Obrigatorio
+              </span>
+            </span>
+            <span class="menu-item-info-box-detail product-content">
+              <label>
+                Publicar pra venda?
+              </label>
+              <select class="form-control" formControlName="productForSale">
+                <option value="true">
+                  Sim
+                </option>
+                <option value="false">
+                  Não
+                </option>
+              </select>
+            </span>
+          </div>
+          <div class="modal-footer">
+            <button type="button" (click)="cancelSelectProduct()" class="btn btn-Secondary btn-footer" data-dismiss="modal">
+                Cancelar
+            </button>
+            <button type="button" (click)="validateForm()" class="btn btn-primary btn-footer" >
+                Cadastrar Produto
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+      
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!---
+
+<div class="container">
+
+
+  <div *ngFor="let produto of result.productDataBase">
+    <div *ngIf="produto.registration == true" class="col-md-12 col-xs-12 center" style="top: 25px; margin-bottom: 40px" data-keyboard="false" data-backdrop="static" data-toggle="modal" data-target="#selecionadoProdutoCadastrar" (click)="selecionadoProdutoCadastrar(produto)">
+      <div  class="menu-item-info-box card">
+        <div class="col-md-12 col-xs-12" style="padding-top: 0px; padding-bottom: 5px;">
+          <div id="carousel-example-generic" class="carousel slide imagemMobile" data-interval="false">
+            <div class="carousel-inner">
+              <div class="item active">
+                <img [src]="produto.productImageUrl || ''" style="width: 100%" alt="Photo" alt="Photo">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="margin: 5px 5px 10px 5px; padding:0px 0px 10px 0px ;">
+          <span class="menu-item-info-box-text">
+            {{produto.productName}}
+          </span>
+          <span class="menu-item-info-box-text" style="font-size: 14px; font-weight: normal; text-transform: none;  margin-bottom: 0px;">
+            {{ produto?.productSession }}, {{ produto?.productType }} <b>marca {{ produto?.provider }}</b> generico? <b>{{ produto?.andGeneric }}</b>
+          </span>
+        </div>
+      </div> 
+    </div>
+    <div *ngIf="produto.registration == false" class="col-md-12 col-xs-12 center" style="top: 25px; margin-bottom: 40px;  opacity: 0.5;">
+      <div  class="menu-item-info-box card">
+        <div class="col-md-12 col-xs-12" style="padding-top: 0px; padding-bottom: 5px;">
+          <div id="carousel-example-generic" class="carousel slide imagemMobile" data-interval="false">
+            <div class="carousel-inner">
+              <div class="item active">
+                <img [src]="produto.productImageUrl || ''" style="width: 100%" alt="Photo" alt="Photo">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="margin: 5px 5px 10px 5px; padding:0px 0px 10px 0px ;">
+          <span class="menu-item-info-box-text">
+            {{produto.productName}}
+          </span>
+          <span class="menu-item-info-box-text" style="font-size: 14px; font-weight: normal; text-transform: none;  margin-bottom: 0px;">
+            {{ produto?.productSession }}, {{ produto?.productType }} <b>marca {{ produto?.provider }}</b> generico? <b>{{ produto?.andGeneric }}</b>
+          </span>
+        </div>
+      </div> 
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+-->

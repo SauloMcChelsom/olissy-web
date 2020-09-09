@@ -27,6 +27,11 @@ export class WarehouseService {
 
   constructor(private api: api, private state: state) {}
 
+  
+  public getWarehouseByIndexInApi(){
+    return this.api.getWarehouseByIndex()
+  }
+
   public getWarehouseByForeignKeyUserInApi(warehouse: Warehouse){
     return this.api.getWarehouseByForeignKeyUser(warehouse)
   }

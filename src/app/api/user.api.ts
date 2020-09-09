@@ -39,6 +39,7 @@ export class UserApi {
     
     await this.firebase(user).then(user => user)
     await this.update('user', user.PRIMARY_KEY, { PRIMARY_KEY: user.PRIMARY_KEY })
+    await this.increment()
     return user
   }
 
@@ -53,6 +54,7 @@ export class UserApi {
     await this.createUserWithEmailAndPassword(user)
     await this.firebase(user).then(user => user)
     await this.update('user', user.PRIMARY_KEY, { PRIMARY_KEY: user.PRIMARY_KEY })
+    await this.increment()
     return user
   }
 
@@ -90,5 +92,10 @@ export class UserApi {
 
   public async logout() {
     return await this.afAuth.auth.signOut();
+  }
+
+  public async increment() {
+    const increment = firebase.firestore.FieldValue.increment(1);
+    await this.db.collection('increment').doc("00").update({ user : increment })
   }
 }

@@ -44,6 +44,10 @@ export const ROUTES: Routes = [
     path: 'open-my-store',
     loadChildren: () => import('./page/client/component/open-my-store/open-my-store.module').then(m => m.OpenMyStoreModule) 
   },
+  {
+    path: 'new-product',
+    loadChildren: () => import('./page/store/component/new-product/new-product.module').then(m => m.NewProductModule) 
+  },
 ];
 
 @NgModule({
