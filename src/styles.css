@@ -253,11 +253,12 @@ button:focus {
 .hello{
   display: flex;
   flex: 1;
-  background-color: #f0f2f5;
+  background-color: #e4e6eb;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   height: 100vh;
+  padding-top: 25vh;
 } 
 
 .loader {
@@ -327,5 +328,9 @@ button:focus {
     border-radius: 0px;
     box-shadow: 0 0px 0px rgba(0,0,0,.5);
     outline: 0;
+  }
+
+  .hello{
+    padding-top: 20vh;
   }
 }

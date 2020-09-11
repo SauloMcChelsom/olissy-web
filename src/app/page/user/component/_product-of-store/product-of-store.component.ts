@@ -5,7 +5,6 @@ import { ClientService } from '../../../../service/client.service';
 import { StoreService, Store } from '../../../../service/store.service';
 import { ProductService, Product } from '../../../../service/product.service';
 import { WarehouseService, Warehouse } from '../../../../service/warehouse.service';
-import { OrderService } from '../../../../service/order.service';
 
 import { map } from 'rxjs/operators';
 import { take } from 'rxjs/operators';
@@ -13,12 +12,12 @@ import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 @Component({
-  selector: 'mt-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  selector: 'mt-product-of-store',
+  templateUrl: './product-of-store.component.html',
+  styleUrls: ['./product-of-store.component.css']
 })
 
-export class HomeComponent implements OnInit {
+export class ProductOfStoreComponent implements OnInit {
 
   private unsubscribe$ = new Subject();
 
@@ -36,34 +35,12 @@ export class HomeComponent implements OnInit {
     private storeService:StoreService,
     private productService:ProductService,
     private warehouseService:WarehouseService,
-    private orderService:OrderService
   ){}
 
   public ngOnInit() {
     setTimeout(() => { this.view.setLoader(false) }, 3000)
     
     this.getProduct()
-  }
-
-  public order(product:Product){
-    let warehouse:Warehouse = this.warehouses.find(warehouse => warehouse.PRIMARY_KEY == product.FOREIGN_KEY_WAREHOUSE)
-
-    this.orderService.order.product = [{
-      FOREIGN_KEY_PRODUCT : product.PRIMARY_KEY,
-      name : warehouse.name,
-      price : parseInt(product.price),
-      quantity:1,
-      totalOfPrice:parseInt(product.price),
-      quantities:product.quantities,
-    }]
-
-    this.orderService.order.FOREIGN_KEY_STORE = product.FOREIGN_KEY_STORE
-
-    this.orderService.order.totalOrderValue = parseInt(product.price)
-
-    localStorage.setItem('order', JSON.stringify(this.orderService.order))
-
-    this.view.redirectPageFor('/user-create-order')
   }
 
   public  getProduct() {

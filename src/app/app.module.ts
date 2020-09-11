@@ -14,7 +14,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
 
 import { AppComponent } from './app.component';
 import { AppRoute } from './app.route';
-///import { AuthService } from './AuthService';
+
+import { DebuggerComponent } from './debugger/debugger.component';
 
 import { ColumnUserComponent } from './page/user/column/column-user/column-user.component'
 import { HeaderUserComponent } from './page/user/header/header-user/header-user.component';
@@ -27,6 +28,7 @@ import { HeaderStoreComponent } from './page/store/header/header-store/header-st
 @NgModule({
   declarations: [
     AppComponent,
+    DebuggerComponent,
     ColumnUserComponent,
     HeaderUserComponent,
     ColumnClientComponent,

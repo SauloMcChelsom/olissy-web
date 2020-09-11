@@ -9,14 +9,14 @@
 
  <body [hidden]="view.loader" class="skin-red fixed sidebar-mini sidebar-mini-expand-feature sidebar-collapse">
   <div class="wrapper">
-    <app-header-user *ngIf="view.getUser() == 'user'"></app-header-user>
-    <app-header-client *ngIf="view.getUser() == 'client'"></app-header-client>
-    <app-header-store *ngIf="view.getUser() == 'store'"></app-header-store>
+    <app-header-user *ngIf="view$ == 'user'"></app-header-user>
+    <app-header-client *ngIf="view$ == 'client'"></app-header-client>
+    <app-header-store *ngIf="view$ == 'store'"></app-header-store>
     <aside class="main-sidebar" style="padding-top: 50px;">
       <section class="sidebar">
-        <app-column-user *ngIf="view.getUser() == 'user'"></app-column-user>
-        <app-column-client *ngIf="view.getUser() == 'client'"></app-column-client>
-        <app-column-store *ngIf="view.getUser() == 'store'"></app-column-store>
+        <app-column-user *ngIf="view$ == 'user'"></app-column-user>
+        <app-column-client *ngIf="view$ == 'client'"></app-column-client>
+        <app-column-store *ngIf="view$ == 'store'"></app-column-store>
       </section>
     </aside>
     <div class="content-wrapper"> 

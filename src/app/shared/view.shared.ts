@@ -1,26 +1,27 @@
 
 import { Injectable } from '@angular/core'; 
 import { Router } from '@angular/router';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class View {
 
     constructor(private redirect: Router){}
 
-    private user:String = "user";
+    public loader:Boolean =  true;
 
-    private loader:Boolean =  true;
+    private readonly _user = new BehaviorSubject<any[]>(['user']);
     
     public redirectPageFor(page:string){
         this.redirect.navigate([page])
     }
 
     public getUser(){
-        return this.user
+        return this._user.asObservable();
     }
 
     public setUser(user:String){
-        this.user = user
+        this._user.next([user])
     }
 
     public getLoader(){

@@ -39,7 +39,7 @@ export class StoreService {
     imageIconUrl: '',
     money: false,
     name: '',
-    negotiateRateLivery: { status: false },
+    negotiateRateDelivery: { status: false },
     neighborhood: '',
     onlyInNeighborhood: { status: false },
     quantityOfProduct: 0,

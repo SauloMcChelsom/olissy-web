@@ -13,11 +13,7 @@ export interface OrderInterface {
   cityOfClient: string;
   neighborhoodOfClient: string;
   streetOfClient: string;
-  methodPaymentOfClient: string;
-  informChange: number;
   orderState: string;
-  rateOfDelivery: string;
-  rateOfDeliveryDescription: string;
   nameOfStore: string;
   imageIconUrlOfStore: string;
   cellPhoneOfStore: string;
@@ -27,16 +23,26 @@ export interface OrderInterface {
   streetOfStore: string;
   cnpjOfStore: string;
   storeViewedTheOrder: boolean;
-  taxaDelivery: number;
-  taxing: number;
   totalOrderValue: number;
+  methodPayment: string;
+  informChange: string;
+  taxaOfPlatform:number
+  taxaDeliverySelectByClient:{
+    description:string;
+    value: string;
+    taxa:number;
+    km:number
+  },
   product:[
     {
       FOREIGN_KEY_PRODUCT: string;
       name: string;
-      price: string;
+      price: number;
+      totalOfPrice:number;
+      quantity:number;
+      quantities:number;
     }
-  ]
+  ],
   note:[
     {
       FOREIGN_KEY_USER: string;

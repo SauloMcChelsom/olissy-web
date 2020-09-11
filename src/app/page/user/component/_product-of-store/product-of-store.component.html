@@ -8,7 +8,7 @@
       </div>
       <div *ngFor="let store of stores">
         <div *ngIf="product.FOREIGN_KEY_STORE == store.PRIMARY_KEY" class="card-header">
-          <span id="card-header-left" [routerLink]="['/user-page-of-store', store?.PRIMARY_KEY]">
+          <span id="card-header-left">
             <span>
               <img class="img-circle" width="40px" [src]="store.imageIconUrl" alt="User Image" />
             </span>
@@ -23,8 +23,12 @@
               <i class="fa fa-circle" style="font-size: 10px; margin-right: 5px;"></i>
               <a class="card-header-left-store-container-neighborhood">{{ store.neighborhood }}</a>
             </span>
-            <span class="card-header-left-phone-container">
-              {{ store.cellPhone | mask: '(00) 0 000-0000' }}
+            <span class="card-header-left-circle-container">
+              <i class="fa fa-circle card-header-left-circle-container-yellow"></i>
+              <!-- *ngIf="store.negotiateRateLivery.status"  -->
+              <i class="fa fa-circle card-header-left-circle-container-green"></i>
+              <i class="fa fa-circle card-header-left-circle-container-blue"></i>
+              <i class="fa fa-circle card-header-left-circle-container-red"></i>
             </span>
           </span>
           <span class="card-header-right">
@@ -99,7 +103,7 @@
       </div>
       <div class="card-sales">
         <span class="menu-item-info-box-price card-sales-price">
-          {{ product.price | currency: 'BRL'}} 
+          {{ product.price }} 
           <span>
             <b>
               {{ product.quantities }}  Unidades
@@ -107,7 +111,7 @@
           </span>
         </span>
         <span class="card-sales-purchase">
-          <button (click)="order(product)" type="button" class="btn btn-default btn-xs pull-right">
+          <button type="button" class="btn btn-default btn-xs pull-right">
             <b>Comprar</b>
           </button>
         </span>

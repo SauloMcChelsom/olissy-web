@@ -86,6 +86,7 @@ export class NewProductComponent implements OnInit {
 
   public selectProduct(product:Warehouse){
     this.selectedProduct = product
+    
     this.productForm.patchValue({
       FOREIGN_KEY_USER: this.userService.pullUserInState().PRIMARY_KEY,
       FOREIGN_KEY_WAREHOUSE: product.PRIMARY_KEY,

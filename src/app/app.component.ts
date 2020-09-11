@@ -1,4 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
+import { Observable } from 'rxjs';
 
 import { View } from './shared/view.shared';
 import { UserService } from './service/user.service';
@@ -20,6 +21,8 @@ export class AppComponent implements  OnDestroy {
 
   private unsubscribe$ = new Subject();
 
+  public view$ = "user"
+
   constructor(
     private view:View,
     private userService:UserService,
@@ -28,7 +31,14 @@ export class AppComponent implements  OnDestroy {
   ){}
 
   async ngOnInit() {
+    this.viewUser()
     await this.getUserLogged()
+  }
+
+  public viewUser(){
+    this.view.getUser().pipe(takeUntil(this.unsubscribe$)).subscribe((v)=>{
+      this.view$ = v[0]
+    })
   }
 
   private async getUserLogged(){
@@ -60,7 +70,7 @@ export class AppComponent implements  OnDestroy {
       await this.storeService.getStoreByForeignKeyUserInApi(this.storeService.store).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) => this.storeService.store = v[0]) ).toPromise()
       this.storeService.setStoreInState(this.storeService.store)
       this.view.setUser('store')
-      //this.view.redirectPageFor('/home-store')
+      this.view.redirectPageFor('/home-store')
     }
   }
 

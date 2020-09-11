@@ -5,8 +5,8 @@ import "@firebase/storage";
 import stateCity from "./state-city.type";
 
 import { View } from "../../../../shared/view.shared";
-import { UserService } from "../../../../service/user.service";
-import { StoreService } from "../../../../service/store.service";
+import { UserService, User } from "../../../../service/user.service";
+import { StoreService, Store } from "../../../../service/store.service";
 declare var $: any;
 
 @Component({
@@ -56,7 +56,7 @@ export class OpenMyStoreComponent implements OnInit {
     {
       description: "Negociar taxa de entrega",
       rule: false,
-      value: "negotiateRateLivery",
+      value: "negotiateRateDelivery",
       checked: false,
     },
     {
@@ -116,7 +116,7 @@ export class OpenMyStoreComponent implements OnInit {
     credit: new FormControl(null),
     debit: new FormControl(null),
     money: new FormControl(null),
-    negotiateRateLivery: new FormControl({ status: false }),
+    negotiateRateDelivery: new FormControl({ status: false }),
     onlyInNeighborhood: new FormControl({ status: false }),
     deliveryFreeAbove: new FormControl({ status: false, taxa: 0, km: 0 }),
     deliveryBy: new FormControl({ status: false, taxa: 0 }),
@@ -217,7 +217,7 @@ export class OpenMyStoreComponent implements OnInit {
         },
       });
       if (
-        !this.storeForm.get("negotiateRateLivery").value.status &&
+        !this.storeForm.get("negotiateRateDelivery").value.status &&
         !this.storeForm.get("onlyInNeighborhood").value.status &&
         !this.storeForm.get("deliveryFreeAbove").value.status &&
         !this.storeForm.get("deliveryBy").value.status
@@ -266,7 +266,7 @@ export class OpenMyStoreComponent implements OnInit {
         },
       });
       if (
-        !this.storeForm.get("negotiateRateLivery").value.status &&
+        !this.storeForm.get("negotiateRateDelivery").value.status &&
         !this.storeForm.get("onlyInNeighborhood").value.status &&
         !this.storeForm.get("deliveryFreeAbove").value.status &&
         !this.storeForm.get("deliveryBy").value.status
@@ -295,7 +295,7 @@ export class OpenMyStoreComponent implements OnInit {
         deliveryBy: { status: false, taxa: 0 },
       });
       if (
-        !this.storeForm.get("negotiateRateLivery").value.status &&
+        !this.storeForm.get("negotiateRateDelivery").value.status &&
         !this.storeForm.get("onlyInNeighborhood").value.status &&
         !this.storeForm.get("deliveryFreeAbove").value.status &&
         !this.storeForm.get("deliveryBy").value.status
@@ -306,9 +306,9 @@ export class OpenMyStoreComponent implements OnInit {
   }
 
   public setTaxaDelivery(event) {
-    if (event.target.value == "negotiateRateLivery") {
+    if (event.target.value == "negotiateRateDelivery") {
       this.storeForm.patchValue({
-        negotiateRateLivery: { status: event.target.checked },
+        negotiateRateDelivery: { status: event.target.checked },
       });
     }
 
@@ -339,7 +339,7 @@ export class OpenMyStoreComponent implements OnInit {
     }
 
     if (
-      this.storeForm.get("negotiateRateLivery").value.status ||
+      this.storeForm.get("negotiateRateDelivery").value.status ||
       this.storeForm.get("onlyInNeighborhood").value.status ||
       this.storeForm.get("deliveryFreeAbove").value.status ||
       this.storeForm.get("deliveryBy").value.status
@@ -429,7 +429,7 @@ export class OpenMyStoreComponent implements OnInit {
     this.storeForm.get("credit").markAsTouched();
     this.storeForm.get("debit").markAsTouched();
     this.storeForm.get("money").markAsTouched();
-    this.storeForm.get("negotiateRateLivery").markAsTouched();
+    this.storeForm.get("negotiateRateDelivery").markAsTouched();
     this.storeForm.get("onlyInNeighborhood").markAsTouched();
     this.storeForm.get("deliveryFreeAbove").markAsTouched();
     this.storeForm.get("deliveryBy").markAsTouched();
@@ -529,7 +529,7 @@ export class OpenMyStoreComponent implements OnInit {
       imageIconUrl: this.storeForm.get("imageIconUrl").value,
       money: this.storeForm.get("money").value,
       name: this.storeForm.get("name").value,
-      negotiateRateLivery: this.storeForm.get("negotiateRateLivery").value,
+      negotiateRateDelivery: this.storeForm.get("negotiateRateDelivery").value,
       neighborhood: this.storeForm.get("neighborhood").value,
       onlyInNeighborhood: this.storeForm.get("onlyInNeighborhood").value,
       quantityOfProduct: this.storeForm.get("quantityOfProduct").value,
@@ -543,25 +543,17 @@ export class OpenMyStoreComponent implements OnInit {
   }
 
   createNewStore() {
-    this.storeService
-      .sendImagemStorageInApi(
-        this.storeForm.get("imageIconPath").value,
-        this.imageNew
-      )
-      .then(async (url: any) => {
-        this.storeService.store.imageIconUrl = await url;
-
-        this.storeService
-          .createNewStoreInApi(this.storeService.store)
-          .then((store: any) => {
-            this.userService.user.type = 2;
-            this.userService
-              .putUserByUidInApi(this.userService.user)
-              .then((user: any) => {
-                this.view.setUser("store");
-                this.view.redirectPageFor("/home-store");
-              });
-          });
+    this.storeService.sendImagemStorageInApi(this.storeForm.get("imageIconPath").value,this.imageNew).then(async (url: any) => {
+      this.storeService.store.imageIconUrl = await url;
+      this.storeService.createNewStoreInApi(this.storeService.store).then((store: Store) => {
+        this.storeService.setStoreInState(store)
+        this.userService.user.type = 2;
+        this.userService.putUserByUidInApi(this.userService.user).then((user) => {
+          this.view.setUser("store");
+          this.view.redirectPageFor("/home-store");
+        });
       });
+    });
   }
+
 }

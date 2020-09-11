@@ -1,10 +1,11 @@
 
 <div class="container">
   <section class="content" >
+
     <div>
-      <h2><b>User</b></h2>
-      <div>
-        <pre>{{ getUser }}</pre>
+      <h2><b>view</b></h2>
+      <div *ngFor="let view of view$ | async">
+        <pre>{{ view  }}</pre>
       </div>
     </div>
   
@@ -21,5 +22,13 @@
         <pre>{{ client | json }}</pre>
       </div>
     </div>
+
+    <div>
+      <h2><b>store</b></h2>
+      <div *ngFor="let store of store$ | async">
+        <pre>{{ store | json }}</pre>
+      </div>
+    </div>
+
   </section>
 </div>

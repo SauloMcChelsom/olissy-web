@@ -40,7 +40,7 @@ export interface StoreInterface {
     taxa:number;
   }
 
-  negotiateRateLivery:{
+  negotiateRateDelivery:{
     status:boolean;
   }
 
