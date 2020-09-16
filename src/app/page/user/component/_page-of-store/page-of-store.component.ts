@@ -20,6 +20,8 @@ export class PageOfStoreComponent implements OnInit, OnDestroy {
 
   private unsubscribe$ = new Subject();
 
+  public store:any
+
   constructor(
     private view:View,
     private userService:UserService,
@@ -28,7 +30,14 @@ export class PageOfStoreComponent implements OnInit, OnDestroy {
   ){}
 
   public async ngOnInit() {
+    this.getStore('mw6QcFXgT1Qxzx681n8x')
+  }
 
+  public getStore(PRIMARY_KEY){
+    this.storeService.store.PRIMARY_KEY = PRIMARY_KEY
+    this.storeService.getStoreByPrimaryKeyInApi(this.storeService.store).pipe(take(1), takeUntil(this.unsubscribe$)).subscribe((store:Store[])=>{
+      this.store = store
+    })
   }
 
 

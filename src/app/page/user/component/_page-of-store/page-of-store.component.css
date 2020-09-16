@@ -1,0 +1,254 @@
+.container{
+  padding: 0px 0px 0px 0px
+}
+
+.store-container{
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: center;
+  margin-top: 0px;
+}
+
+.store{
+  box-shadow: 1px 1px 2px 0px #aaaaaa;
+  border-color: #aaaaaa00;
+  border-radius: 5px;
+  width: 500px;
+  background: #e4e6eb;
+  margin-bottom: -20px;
+}
+
+.store-wallpaper{
+  height: calc( 100vh - 50px );
+  width: 100%;
+  background-color: #e4e6eb;
+  background-position: initial; 
+  background-repeat: no-repeat; 
+  background-size: cover;
+  display:flex; 	
+  flex-direction: column;
+  border-bottom-right-radius: 0px; 
+  border-bottom-left-radius: 0px;
+  border-radius: 5px 5px 0px 0px;
+}
+
+.store-wallpaper-head {
+  border-bottom: 0px solid #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  background-color: transparent;
+}
+
+.box-header:before, .box-body:before, .box-footer:before, .box-header:after, .box-body:after, .box-footer:after {
+  content: none;
+  display: table;
+}
+
+.store-wallpaper-head-left {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+}
+
+.store-wallpaper-head-left-img-icon{
+  width: 50px;
+  height: 50px;
+}
+
+.storeOpen{
+  color: #31cc48;
+  font-family: 'Thasadith', sans-serif;
+  font-weight: 900;
+  font-size: 16px;
+  top: -15px;
+  left: -15px;
+  position: relative;
+}
+
+.storeOpen > i{
+  font-size: 12px;
+  color: #02c16ad1;
+  border: #fff solid 2px;
+  border-radius: 100px;
+  background-color: #02c16ad1;
+  padding: 0px 1px 0px 1px;
+}
+
+.storeClosed{
+  color: #ff6451;
+  font-family: 'Thasadith', sans-serif;
+  font-weight: 900;
+  font-size: 16px;
+  top: -15px;
+  left: -15px;
+  position: relative;
+}
+
+.storeClosed > i{
+  font-size:12px;
+  color: #ff6451;
+  border: #fff solid 2px;
+  border-radius: 100px;
+  background-color: #ff6451;
+  padding: 0px 1px 0px 1px;
+}
+
+.store-wallpaper-head-left-panel{
+  background-color: #33333396;
+  border-radius: 100px;
+  padding: 6px 8px 5px 8px;
+  margin-left: 0px;
+  margin: 0px 0px 0px -5px;
+  position: initial;
+  font-family: 'Thasadith', sans-serif;
+  font-weight: 900;
+  color: #000;
+}
+
+.store-wallpaper-head-left-panel-name{
+  font-family: 'Thasadith', sans-serif;
+  font-weight: 900;
+  font-size: 16px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.store-wallpaper-head-left-panel-name i{
+  margin-left: 5px;
+  font-style: normal;
+}
+
+.store-wallpaper-head-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-direction: row;
+}
+
+.store-wallpaper-head-right-panel{
+  background-color: #33333396;
+  border-radius: 100px;
+  padding: 6px 8px 5px 8px;
+  margin-left: 0px;
+  margin: 0px 0px 0px -5px;
+  position: initial;
+  font-family: 'Thasadith', sans-serif;
+  font-weight: 900;
+  color: #000;
+}
+
+.store-wallpaper-head-left-panel-star{
+  font-family: 'Thasadith', sans-serif;
+  font-weight: 900;
+  font-size: 16px;
+  color: #fff;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+.store-wallpaper-head-left-panel-star i{
+  margin-left: 5px;
+  font-style: normal;
+}
+
+.store-wallpaper-footer{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto; 
+}
+
+.store-wallpaper-footer-follow{
+  background-color: #33333396;;
+  border-radius: 100px;
+  padding: 5px 9px 5px 9px;
+  font-family: 'Thasadith', sans-serif;
+  font-weight: 900;
+  font-size: 16px;
+  color: #fff;
+}
+
+.store-wallpaper-footer-follow i b{
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.store-wallpaper-footer-envelope{
+  background-color: #33333396;;
+  border-radius: 100px;
+  padding: 7px 9px 7px 9px;
+  font-family: 'Thasadith', sans-serif;
+  font-weight: 900;
+  font-size: 16px;
+  color: #fff;
+}
+
+.store-wallpaper-footer-envelope i {
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.store-wallpaper-footer-phone{
+  background-color: #33333396;;
+  border-radius: 100px;
+  padding: 7px 9px 3px 9px;
+  font-family: 'Thasadith', sans-serif;
+  font-weight: 900;
+  font-size: 16px;
+  color: #fff;
+}
+
+.store-wallpaper-footer-phone i {
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.store-footer{
+  background: #e4e6eb;
+  background: #e4e6eb;
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 5px;
+}
+.store-footer a{
+  font-family: 'Thasadith', sans-serif;
+  font-weight: 900;
+  color: #575757;
+  font-size: 18px;
+}
+/*color: #0095f6;*/
+
+.detail-active {
+  color: #0095f6 !important;
+}
+
+
+
+/*mobile*/
+@media only screen and (max-width: 600px) {
+  .store-wallpaper{
+    height: calc( 100vh - 40px );
+    border-bottom-right-radius: 0px; 
+    border-bottom-left-radius: 0px;
+    border-radius: 5px 5px 0px 0px;
+  }
+
+  .store {
+    border-radius: 0px;
+  }
+
+}
+
+
+
+
+  

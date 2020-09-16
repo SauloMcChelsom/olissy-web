@@ -42,14 +42,7 @@ export class OrderService {
       km:0,
     },
     product:[
-      {
-        FOREIGN_KEY_PRODUCT: '',
-        name: '',
-        price: 0,
-        quantity:0,
-        totalOfPrice:0,
-        quantities:0,
-      }
+      {}
     ],
     note:[
       {

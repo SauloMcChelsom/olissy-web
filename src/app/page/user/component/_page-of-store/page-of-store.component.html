@@ -1,5 +1,66 @@
 <div class="container">
   <section class="content">
-    <h1>page of store</h1>
+    <div class="row">
+      <div class="col-xs-12 store-container">
+        <div class="box box-solid store" *ngFor="let store of store">
+          <div class="box-body store-wallpaper"  [ngStyle]="{'background-image': 'url(' +store?.imageBackGroundUrl+  ')'}">
+            <div class="box-header store-wallpaper-head" style=" padding-right: 0px; ">
+              <div class="store-wallpaper-head-left">
+                <span>
+                  <a [href]="store?.imageIconUrl" target="_blank">
+                    <img class="img-circle store-wallpaper-head-left-img-icon"  [src]="store?.imageIconUrl" />
+                    <span *ngIf="store?.storeOpenOrClosed  == true" class="storeOpen">
+                      <i class="fa fa-circle"></i>
+                    </span> 
+                    <span *ngIf="store?.storeOpenOrClosed  == false" class="storeClosed">
+                      <i class="fa fa-circle"></i>
+                    </span>
+                  </a>
+                </span> 
+                <span class="store-wallpaper-head-left-panel">
+                  <a class="store-wallpaper-head-left-panel-name">
+                    {{ store?.name }}
+                    <i class="fa fa-circle" style="font-size: 7px"></i>
+                    <i style="color: #ccc;">{{ store?.neighborhood }}</i>
+                  </a>
+                </span> 
+              </div>
+              <div class="store-wallpaper-head-right">
+                <span class="store-wallpaper-head-right-panel">
+                  <a class="store-wallpaper-head-left-panel-star">
+                    <i class="fa fa-star"></i>{{ store?.totalOfSale }}
+                  </a>
+                </span>
+              </div>
+            </div>
+            <div class="col-sm-12 col-xs-12 store-wallpaper-footer">
+              <span class="store-wallpaper-footer-follow">
+                <i class="fa fa-thumbs-up"></i> 
+                <b> {{ store.follow }} Seguidores</b>
+              </span>
+              
+              <span class="store-wallpaper-footer-envelope" >
+                <i class="fa fa-envelope"></i>
+              </span> 
+    
+              <span class="store-wallpaper-footer-phone" >
+                <i class="fa fa-phone"></i>
+              </span> 
+            </div>      
+          </div>
+          <div class="box-footer detail-footer store-footer">
+            <a routerLinkActive="detail-active" [routerLink]="['product-of-store']">
+              Ofertas
+            </a>
+            <a routerLinkActive="detail-active" [routerLink]="['about-of-store']">
+              Sobre
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+       <router-outlet></router-outlet> 
+    </div>
   </section>
-</div>
+</div>      

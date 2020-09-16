@@ -49,6 +49,11 @@ export class StoreApi {
     return this.db.collection(collection).doc(pk).update(data);
   }
 
+  public async updateQuantityOfProductInStoreForPlus(store:Store){
+    const increment = firebase.firestore.FieldValue.increment(1);
+    await this.db.collection('store').doc(store.PRIMARY_KEY).update({ quantityOfProduct : increment })
+  }
+
   public async increment() {
     const increment = firebase.firestore.FieldValue.increment(1);
     await this.db.collection('increment').doc("00").update({ store : increment })

@@ -51,15 +51,15 @@ export class HomeComponent implements OnInit {
     this.orderService.order.product = [{
       FOREIGN_KEY_PRODUCT : product.PRIMARY_KEY,
       name : warehouse.name,
-      price : parseInt(product.price),
+      price : Number(product.price),
       quantity:1,
-      totalOfPrice:parseInt(product.price),
+      totalOfPrice:Number(product.price),
       quantities:product.quantities,
     }]
 
     this.orderService.order.FOREIGN_KEY_STORE = product.FOREIGN_KEY_STORE
 
-    this.orderService.order.totalOrderValue = parseInt(product.price)
+    this.orderService.order.totalOrderValue = Number(product.price)
 
     localStorage.setItem('order', JSON.stringify(this.orderService.order))
 

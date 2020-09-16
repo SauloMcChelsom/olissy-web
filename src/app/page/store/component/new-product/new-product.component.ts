@@ -151,9 +151,10 @@ export class NewProductComponent implements OnInit {
 
   public createProduct(){
     this.productService.createNewProductInApi(this.productService.product).then( async(product)=>{
-      await product
-      this.active.loading = false
-      $('#selectProduct').modal('hide')
+      this.storeService.updateQuantityOfProductInStoreForPlusInApi(this.storeService.pullStoreInState()).then((update)=>{
+        this.active.loading = false
+        $('#selectProduct').modal('hide')
+      })
     })
   }
 

@@ -72,6 +72,10 @@ export class StoreService {
     return this.api.delStoreByUid(store)
   }
 
+  public updateQuantityOfProductInStoreForPlusInApi(store: Store){
+    return this.api.updateQuantityOfProductInStoreForPlus(store)
+  }
+
   public sendImagemStorageInApi(name:string, image: Blob | Uint8Array | ArrayBuffer){
     return this.api.sendImagemStorage(name, image)
   }

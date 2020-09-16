@@ -22,7 +22,7 @@
             "assets": [
               "src/assets",
               "src/assets/sitemap.xml",
-              "src/assets/manifest/manifest.json"
+              "src/assets/favicon/manifest.json"
             ],
             "styles": [
               "src/styles.css"

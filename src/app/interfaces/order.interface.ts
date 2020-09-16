@@ -35,12 +35,12 @@ export interface OrderInterface {
   },
   product:[
     {
-      FOREIGN_KEY_PRODUCT: string;
-      name: string;
-      price: number;
-      totalOfPrice:number;
-      quantity:number;
-      quantities:number;
+      FOREIGN_KEY_PRODUCT?: string;
+      name?: string;
+      price?: number;
+      totalOfPrice?:number;
+      quantity?:number;
+      quantities?:number;
     }
   ],
   note:[

@@ -87,37 +87,13 @@
   font-size: 16px;
 }
 
-.card-header-left-circle-container{
+.card-header-left-phone-container{
   position: relative;
   top: -30px;
   line-height: 11px;
   display: flex;
   flex-direction: row;
   left: 50px;
-}
-
-.card-header-left-circle-container-yellow{
-  font-size: 15px; 
-  margin-right: 15px; 
-  color: #ffc900cf;
-}
-
-.card-header-left-circle-container-green{
-  font-size: 15px; 
-  margin-right: 15px; 
-  color: #2cce2fd1;
-}
-
-.card-header-left-circle-container-blue{
-  font-size: 15px; 
-  margin-right: 15px; 
-  color: #0994f7;
-}
-
-.card-header-left-circle-container-red{
-  font-size: 15px; 
-  margin-right: 15px; 
-  color: #ff6451;
 }
 
 .card-header-right{
@@ -193,21 +169,43 @@
   font-size: 12px; 
   background-color: #2cce2fd1; 
   border-radius: 10px; 
-  color: aliceblue; 
+  color: rgb(42, 71, 97); 
   color: #ffffff;
   padding: 5px; 
   top: -20px; 
   position: relative;
 }
 
-.card-sales-purchase > button{
-  font-size: 25px;
-  border-radius: 0px; 
-  border: 0px solid #EE3233; 
-  background: #fff; 
-  color:#000;
-  font-family: 'Thasadith', sans-serif;
-  font-weight: 900;
+.card-sales-purchase-add-card{
+  margin-right: 5px;
+  margin-top: 10px;
+}
+.card-sales-purchase-add-card button{
+  color: #2cce2fd1;
+  cursor: pointer;
+  border: 0px;
+  background-color: #fff;
+}
+
+.card-sales-purchase-quantity-card{
+  margin-top: 10px;
+}
+
+.card-sales-purchase-quantity-card a{
+  color: #666; 
+  font-size:14px; 
+  margin:0px 15px 0px 15px
+}
+
+.card-sales-purchase-remove-card{
+  margin-top: 10px;
+}
+
+.card-sales-purchase-remove-card button{
+  color: #ff6451;
+  cursor: pointer;
+  border: 0px;
+  background-color: #fff;
 }
 
 .card-react{
@@ -244,8 +242,6 @@
     width: 100%;
   }
 }
-
-
 
 .card-header-loader {
   width: 100%;
@@ -284,7 +280,6 @@
   }
 }
 
-
 .card-content-loader {
   width: 100%;
   height: 60vh;
@@ -294,6 +289,7 @@
   background: #ffffff;
   box-sizing: border-box;
 }
+
 .card-content-loader::after {
   content: '';  
   width: calc(100% - 0px);
@@ -308,6 +304,21 @@
   box-sizing: border-box;
   -webkit-animation: animloaders 1s linear infinite;
   animation: animloaders 1s linear infinite;
+}
+
+.footer-card{
+  color: #fff;
+  background-color: #e4e6eb;
+  box-shadow: 0px -1px 2px 0px #b0b1b3;
+  border-color: #e4e6eb;
+  border-radius: 0px; 
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 0px;
+  padding: 15px;
 }
 
 @keyframes animloaders {

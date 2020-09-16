@@ -122,7 +122,7 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
     if(this.orderService.order.product[index].quantity > 1){
       this.orderService.order.product[index].quantity--
       this.orderService.order.product[index].totalOfPrice = this.orderService.order.product[index].totalOfPrice - this.orderService.order.product[index].price
-      this.orderService.order.totalOrderValue -= this.orderService.order.product[index].price
+      this.orderService.order.totalOrderValue = this.orderService.order.totalOrderValue - this.orderService.order.product[index].price
       this.formOrder.patchValue({totalOrderValue:this.orderService.order.totalOrderValue})
       localStorage.setItem('order', JSON.stringify(this.orderService.order))
       if(this.formOrder.controls['taxaDeliverySelectByClient'].value.value == 'deliveryFreeAbove' && this.formOrder.controls['totalOrderValue'].value < this.store.deliveryFreeAbove.taxa){
@@ -135,15 +135,18 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
   public encreaseItem(index){
     if(this.orderService.order.product[index].quantity < this.orderService.order.product[index].quantities){
       this.orderService.order.product[index].quantity++
+      this.orderService.order.totalOrderValue =  (this.orderService.order.totalOrderValue - this.orderService.order.product[index].totalOfPrice) + (this.orderService.order.product[index].price * this.orderService.order.product[index].quantity)
       this.orderService.order.product[index].totalOfPrice = this.orderService.order.product[index].price * this.orderService.order.product[index].quantity
-      this.orderService.order.totalOrderValue += this.orderService.order.product[index].price
       this.formOrder.patchValue({totalOrderValue:this.orderService.order.totalOrderValue})
       localStorage.setItem('order', JSON.stringify(this.orderService.order))
     }
   }
 
   public deleteItem(index){
+    this.orderService.order.totalOrderValue =  this.orderService.order.totalOrderValue - this.orderService.order.product[index].totalOfPrice
     this.orderService.order.product.splice(index, 1)
+    this.formOrder.patchValue({totalOrderValue:this.orderService.order.totalOrderValue})
+    localStorage.setItem('order', JSON.stringify(this.orderService.order))
     if(Object.keys(this.orderService.order.product).length == 0){
       this.view.setLoader(true)
       localStorage.removeItem('order')

@@ -1,51 +1,16 @@
-<link href="https://fonts.googleapis.com/css?family=Thasadith&display=swap" rel="stylesheet" />
+
 <div class="container">
   <div class="col-md-12 col-xs-12 card-container">
-    <div *ngFor="let product of products" class="menu-item-info-box card">
+    <div *ngFor="let product of products; let productIndex = index " class="menu-item-info-box card">
 
-      <div *ngIf="!stores?.length" class="card-header">
-        <span class="card-header-loader"></span>
-      </div>
-      <div *ngFor="let store of stores">
-        <div *ngIf="product.FOREIGN_KEY_STORE == store.PRIMARY_KEY" class="card-header">
-          <span id="card-header-left">
-            <span>
-              <img class="img-circle" width="40px" [src]="store.imageIconUrl" alt="User Image" />
-            </span>
-            <span *ngIf="store.storeOpenOrClosed" class="card-header-left-store-open">
-              <i class="fa fa-circle"></i>
-            </span>
-            <span *ngIf="!store.storeOpenOrClosed" class="card-header-left-store-closed">
-              <i class="fa fa-circle"></i>
-            </span>
-            <span class="card-header-left-store-container">
-              <a class="card-header-left-store-container-name">{{ store.name }}</a>
-              <i class="fa fa-circle" style="font-size: 10px; margin-right: 5px;"></i>
-              <a class="card-header-left-store-container-neighborhood">{{ store.neighborhood }}</a>
-            </span>
-            <span class="card-header-left-circle-container">
-              <i class="fa fa-circle card-header-left-circle-container-yellow"></i>
-              <!-- *ngIf="store.negotiateRateLivery.status"  -->
-              <i class="fa fa-circle card-header-left-circle-container-green"></i>
-              <i class="fa fa-circle card-header-left-circle-container-blue"></i>
-              <i class="fa fa-circle card-header-left-circle-container-red"></i>
-            </span>
-          </span>
-          <span class="card-header-right">
-            <a style="font-size: 20px;">
-              <i class="fa fa-ellipsis-h" style="color: #777;"></i>
-            </a>
-          </span>
-        </div>
-      </div>
 
       <div *ngIf="!warehouses?.length" class="col-md-12 col-xs-12 card-content">
         <span class="card-content-loader"></span>
       </div>
-      <div *ngFor="let warehouse of warehouses ; let i = index">
+      <div *ngFor="let warehouse of warehouses; let warehouseIndex = index">
         <div *ngIf="product.FOREIGN_KEY_WAREHOUSE == warehouse.PRIMARY_KEY">
           <div class="col-md-12 col-xs-12 card-content">
-            <span (click)="showDescription(warehouse.showDescription, i)" class="card-content-title">
+            <span (click)="showDescription(warehouse.showDescription, warehouseIndex)" class="card-content-title">
               {{ warehouse.name }}
             </span>
             <div *ngIf="warehouse.showDescription" class="card-content-description">
@@ -103,17 +68,34 @@
       </div>
       <div class="card-sales">
         <span class="menu-item-info-box-price card-sales-price">
-          {{ product.price }} 
+          {{ product.price | currency: 'BRL'}} 
           <span>
             <b>
               {{ product.quantities }}  Unidades
             </b>
           </span>
         </span>
+
         <span class="card-sales-purchase">
-          <button type="button" class="btn btn-default btn-xs pull-right">
-            <b>Comprar</b>
-          </button>
+          <span class="pull-right card-sales-purchase-add-card">
+            <button (click)="encreaseItemCart(product)">
+              Adicionar
+            </button>
+          </span>
+          <span  *ngFor="let order of  this.orderService.order.product; let orderIndex = index">
+            <span  *ngIf="product.PRIMARY_KEY == order.FOREIGN_KEY_PRODUCT">
+              <span class="pull-right card-sales-purchase-quantity-card">
+                <a class="adicionar-carrinho">
+                  <b>  {{ order.quantity }} </b>
+                </a>
+              </span>
+              <span class="pull-right card-sales-purchase-remove-card">
+                <button (click)="decreaseItemCart(product, orderIndex)">
+                  Remover
+                </button>
+              </span>
+            </span>
+          </span>
         </span>
       </div>
       <div class="card-react">
@@ -133,3 +115,81 @@
     </div>
   </div>
 </div>
+
+<div style="position: absolute;top: 90.2vh;left: 0px;"  *ngIf="orderService.order.product != 0">
+  <footer style="position: fixed;" class="main-footer text-center btn-Secondary footer-card" data-keyboard="false" data-toggle="modal" data-target="#displayShoppingCart" >
+    <b style="border-radius: 100px; padding: 5px 20px 5px 20px; background-color:#0095f6; ">
+      {{  orderService.order.product.length }}
+    </b>
+  </footer>
+</div>
+
+<form>
+  <div class="modal fade" id="displayShoppingCart">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="box-footer" style="border-top: 0px;">
+            <div class="row">
+              <div class="box-solid" style="border:0px">
+                <div class="box-body">
+                  <div class="table-responsive">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th class="text-center">Quantidade</th>
+                          <th>Item</th>
+                          <th class="text-right">Preço</th>
+                          <th class="text-right"></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let item of orderService.order.product; let itemIndex = index">
+                          <td class="text-center">
+                            <a (click)="decreaseItem(item)" class="btn btn-sm" style="color:red">
+                              <i class="fa fa-minus"></i>
+                            </a>
+                            {{ item.quantity }}
+                            <a (click)="encreaseItem(item, itemIndex)" class="btn btn-sm" style="color:green">
+                              <i class="fa fa-plus"></i>
+                            </a>
+                          </td>
+                          <td>{{ item.name }}</td>
+                          <td class="text-right">
+                            {{ item.price | currency: "BRL" }}
+                          </td>
+                          <td class="text-right">
+                            <a class="btn btn-sm danger" (click)="deleteItem(item, itemIndex)">
+                              <i class="fa fa-remove"></i>
+                            </a>
+                          </td>
+                        </tr>
+                        <tr></tr>
+                      </tbody>
+                    </table>                                 
+                  </div>                                             
+                  <table class="table" style="border:1px solid #D0D0D0">
+                    <tbody style="border:none">
+                      <tr>
+                        <th>Total:</th>
+                        <td class="text-right">{{ orderService.order.totalOrderValue | currency: "BRL" }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div style="margin-top: 10px;">
+                  <div class="col-md-12 col-sm-12 col-xs-12">
+                    <a data-dismiss="modal" (click)="sedOrder()" class="btn btn-success btn-block" style="margin: 0px; font-size:16px">
+                      <b>Completar meu pedido, para o envio</b>
+                    </a>
+                  </div>
+                </div>
+                
+              </div>  
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form> 
