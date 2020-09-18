@@ -22,6 +22,8 @@ export class HomeComponent implements OnInit {
 
   private unsubscribe$ = new Subject();
 
+  public order = this.orderService.order()
+
   public imgbackground = './assets/background.jpg'
 
   public stores = []
@@ -41,33 +43,11 @@ export class HomeComponent implements OnInit {
 
   public ngOnInit() {
     setTimeout(() => { this.view.setLoader(false) }, 3000)
-    
     this.getProduct()
   }
 
-  public order(product:Product){
-    let warehouse:Warehouse = this.warehouses.find(warehouse => warehouse.PRIMARY_KEY == product.FOREIGN_KEY_WAREHOUSE)
-
-    this.orderService.order.product = [{
-      FOREIGN_KEY_PRODUCT : product.PRIMARY_KEY,
-      name : warehouse.name,
-      price : Number(product.price),
-      quantity:1,
-      totalOfPrice:Number(product.price),
-      quantities:product.quantities,
-    }]
-
-    this.orderService.order.FOREIGN_KEY_STORE = product.FOREIGN_KEY_STORE
-
-    this.orderService.order.totalOrderValue = Number(product.price)
-
-    localStorage.setItem('order', JSON.stringify(this.orderService.order))
-
-    this.view.redirectPageFor('/user-create-order')
-  }
-
   public  getProduct() {
-     this.productService.getProductByIndexInApi().pipe(takeUntil(this.unsubscribe$)).subscribe(async(product:Product[])=>{
+    this.productService.getProductByIndexInApi().pipe(takeUntil(this.unsubscribe$)).subscribe(async(product:Product[])=>{
       for (const index in product) {
         this.products.push(product[index])
 
@@ -111,6 +91,36 @@ export class HomeComponent implements OnInit {
 
   public showDescription(value,index){
     this.warehouses[index].showDescription = !value
+  }
+
+  public sedOrder(product:Product){
+    let warehouse:Warehouse = this.warehouses.find(warehouse => warehouse.PRIMARY_KEY == product.FOREIGN_KEY_WAREHOUSE)
+    let store:Store = this.stores.find(store => store.PRIMARY_KEY == product.FOREIGN_KEY_STORE)
+
+    this.order.FOREIGN_KEY_STORE = product.FOREIGN_KEY_STORE
+    this.order.totalOrderValue = Number(product.price)
+    this.order.nameOfStore = store.name
+    this.order.imageIconUrlOfStore =  store.imageIconUrl
+    this.order.cellPhoneOfStore = store.cellPhone
+    this.order.emailOfStore = store.email
+    this.order.cityOfStore =  store.city
+    this.order.neighborhoodOfStore =  store.neighborhood
+    this.order.streetOfStore =  store.street
+    this.order.cnpjOfStore =  store.cnpj
+    this.order.taxaDeliverySelectByClientStatus = null
+    this.order.methodPayment = null
+    this.order.product = [{
+      FOREIGN_KEY_PRODUCT : product.PRIMARY_KEY,
+      name : warehouse.name,
+      price : Number(product.price),
+      quantity:1,
+      totalOfPrice:Number(product.price),
+      quantities:product.quantities,
+    }]
+
+    localStorage.setItem('order', JSON.stringify(this.order))
+    
+    this.view.redirectPageFor('/user-create-order')
   }
 
   ngOnDestroy(){

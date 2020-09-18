@@ -334,3 +334,7 @@ button:focus {
     padding-top: 20vh;
   }
 }
+
+.modal-backdrop {
+  background-color: transparent !important;
+}

@@ -82,7 +82,7 @@
               Adicionar
             </button>
           </span>
-          <span  *ngFor="let order of  this.orderService.order.product; let orderIndex = index">
+          <span  *ngFor="let order of  this.order.product; let orderIndex = index">
             <span  *ngIf="product.PRIMARY_KEY == order.FOREIGN_KEY_PRODUCT">
               <span class="pull-right card-sales-purchase-quantity-card">
                 <a class="adicionar-carrinho">
@@ -116,18 +116,18 @@
   </div>
 </div>
 
-<div style="position: absolute;top: 90.2vh;left: 0px;"  *ngIf="orderService.order.product != 0">
+<div style="position: absolute;top: 58px; left: 0px;"  *ngIf="order.product != 0">
   <footer style="position: fixed;" class="main-footer text-center btn-Secondary footer-card" data-keyboard="false" data-toggle="modal" data-target="#displayShoppingCart" >
     <b style="border-radius: 100px; padding: 5px 20px 5px 20px; background-color:#0095f6; ">
-      {{  orderService.order.product.length }}
+      {{  order.product.length }}
     </b>
   </footer>
 </div>
 
 <form>
-  <div class="modal fade" id="displayShoppingCart">
+  <div class="modal fade" id="displayShoppingCart" style="padding-right: 0px;">
     <div class="modal-dialog">
-      <div class="modal-content">
+      <div class="modal-content" style="background-color: #ffffff00; ">
         <div class="modal-body">
           <div class="box-footer" style="border-top: 0px;">
             <div class="row">
@@ -144,7 +144,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr *ngFor="let item of orderService.order.product; let itemIndex = index">
+                        <tr *ngFor="let item of order.product; let itemIndex = index">
                           <td class="text-center">
                             <a (click)="decreaseItem(item)" class="btn btn-sm" style="color:red">
                               <i class="fa fa-minus"></i>
@@ -172,19 +172,22 @@
                     <tbody style="border:none">
                       <tr>
                         <th>Total:</th>
-                        <td class="text-right">{{ orderService.order.totalOrderValue | currency: "BRL" }}</td>
+                        <td class="text-right">{{ order.totalOrderValue | currency: "BRL" }}</td>
                       </tr>
                     </tbody>
                   </table>
                 </div>
                 <div style="margin-top: 10px;">
                   <div class="col-md-12 col-sm-12 col-xs-12">
-                    <a data-dismiss="modal" (click)="sedOrder()" class="btn btn-success btn-block" style="margin: 0px; font-size:16px">
+                    <a data-dismiss="modal" (click)="sedOrder()" class="btn btn-primary" style="margin: 0px; font-size:16px">
                       <b>Completar meu pedido, para o envio</b>
+                    </a>
+                    <br>
+                    <a data-dismiss="modal" data-dismiss="modal" class="btn btn-Secondary" style="margin: 0px; font-size:16px">
+                      <b>Voltar</b>
                     </a>
                   </div>
                 </div>
-                
               </div>  
             </div>
           </div>

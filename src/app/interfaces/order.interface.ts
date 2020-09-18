@@ -27,6 +27,7 @@ export interface OrderInterface {
   methodPayment: string;
   informChange: string;
   taxaOfPlatform:number
+  taxaDeliverySelectByClientStatus?:string
   taxaDeliverySelectByClient:{
     description:string;
     value: string;
@@ -45,10 +46,10 @@ export interface OrderInterface {
   ],
   note:[
     {
-      FOREIGN_KEY_USER: string;
-      name: string
-      text: string
-      view: boolean
+      FOREIGN_KEY_USER?: string;
+      name?: string
+      text?: string
+      view?: boolean
     }
   ]
 }

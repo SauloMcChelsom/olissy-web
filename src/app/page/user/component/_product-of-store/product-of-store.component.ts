@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-
+import { ActivatedRoute } from '@angular/router';
 import { View } from '../../../../shared/view.shared';
 import { ClientService } from '../../../../service/client.service';
 import { StoreService, Store } from '../../../../service/store.service';
 import { ProductService, Product } from '../../../../service/product.service';
 import { WarehouseService, Warehouse } from '../../../../service/warehouse.service';
-import { OrderService } from '../../../../service/order.service';
+import { Order, OrderService } from '../../../../service/order.service';
 
 import { map } from 'rxjs/operators';
 import { take } from 'rxjs/operators';
@@ -24,7 +24,8 @@ export class ProductOfStoreComponent implements OnInit {
 
   public imgbackground = './assets/background.jpg'
 
-  public stores = []
+  public order:Order
+
   public warehouses = []
   public products = []
   public pages = 0
@@ -36,34 +37,17 @@ export class ProductOfStoreComponent implements OnInit {
     private storeService:StoreService,
     private productService:ProductService,
     private warehouseService:WarehouseService,
-    private orderService:OrderService
-  ){}
+    private orderService:OrderService,
+    private route: ActivatedRoute
+  ){
+    this.order = this.orderService.order()
+  }
 
   public ngOnInit() {
     setTimeout(() => { this.view.setLoader(false) }, 3000)
-    this.orderService.order.product.pop()
+    this.order.product.pop()
     this.getProduct()
-  }
-
-  public order(product:Product){
-    let warehouse:Warehouse = this.warehouses.find(warehouse => warehouse.PRIMARY_KEY == product.FOREIGN_KEY_WAREHOUSE)
-
-    this.orderService.order.product = [{
-      FOREIGN_KEY_PRODUCT : product.PRIMARY_KEY,
-      name : warehouse.name,
-      price : parseInt(product.price),
-      quantity:1,
-      totalOfPrice:parseInt(product.price),
-      quantities:product.quantities,
-    }]
-
-    this.orderService.order.FOREIGN_KEY_STORE = product.FOREIGN_KEY_STORE
-
-    this.orderService.order.totalOrderValue = parseInt(product.price)
-
-    localStorage.setItem('order', JSON.stringify(this.orderService.order))
-
-    this.view.redirectPageFor('/user-create-order')
+    this.getStore()
   }
 
   public  getProduct() {
@@ -71,26 +55,10 @@ export class ProductOfStoreComponent implements OnInit {
       for (const index in product) {
         this.products.push(product[index])
 
-        this.storeService.store.PRIMARY_KEY = product[index].FOREIGN_KEY_STORE
-        await this.getStore(this.storeService.store)
-  
         this.warehouseService.warehouse.PRIMARY_KEY = product[index].FOREIGN_KEY_WAREHOUSE
         await this.getWarehouse(this.warehouseService.warehouse)
       }
     })
-  }
-
-  public async getStore(store:Store){
-    let getStore:boolean = true
-    for (const i in this.stores) {//listar todas lojas no array de this.stores
-      if(this.stores[i].PRIMARY_KEY == store.PRIMARY_KEY){//tenho a loja no array de this.stores
-        getStore = false//nao buscar no banco de dados
-      }
-      break
-    }
-    if(getStore){
-      await this.storeService.getStoreByPrimaryKeyInApi(store).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) => this.stores.push(v[0]) ) ).toPromise()
-    }
   }
 
   public async getWarehouse(warehouse:Warehouse){
@@ -113,6 +81,25 @@ export class ProductOfStoreComponent implements OnInit {
     this.warehouses[index].showDescription = !value
   }
 
+  public getStore(){
+    this.storeService.store.PRIMARY_KEY = this.route.parent.snapshot.params.id
+    this.storeService.getStoreByPrimaryKeyInApi(this.storeService.store).pipe(takeUntil(this.unsubscribe$), take(1)).subscribe( (store:Store[]) =>{
+      localStorage.removeItem('order')
+      this.order.nameOfStore = store[0].name
+      this.order.FOREIGN_KEY_STORE =  store[0].PRIMARY_KEY
+      this.order.imageIconUrlOfStore =  store[0].imageIconUrl
+      this.order.cellPhoneOfStore = store[0].cellPhone
+      this.order.emailOfStore = store[0].email
+      this.order.cityOfStore =  store[0].city
+      this.order.neighborhoodOfStore =  store[0].neighborhood
+      this.order.streetOfStore =  store[0].street
+      this.order.cnpjOfStore =  store[0].cnpj
+      this.order.taxaDeliverySelectByClientStatus = null
+      this.order.methodPayment = null
+      this.order.totalOrderValue = 0
+    })
+  }
+
   public encreaseItemCart(product){
     let warehouse:Warehouse = this.warehouses.find(warehouse => warehouse.PRIMARY_KEY == product.FOREIGN_KEY_WAREHOUSE)
 
@@ -125,68 +112,78 @@ export class ProductOfStoreComponent implements OnInit {
       quantities:product.quantities,
     }
 
-    const foundItem: any = this.orderService.order.product.find(items => items.FOREIGN_KEY_PRODUCT === item.FOREIGN_KEY_PRODUCT);
+    const foundItem: any = this.order.product.find(items => items.FOREIGN_KEY_PRODUCT === item.FOREIGN_KEY_PRODUCT);
 
     if(foundItem){
       if(foundItem.quantity < foundItem.quantities){
         foundItem.quantity++;
-        this.orderService.order.totalOrderValue = (this.orderService.order.totalOrderValue - foundItem.totalOfPrice) + (foundItem.price * foundItem.quantity)
+        this.order.totalOrderValue = (this.order.totalOrderValue - foundItem.totalOfPrice) + (foundItem.price * foundItem.quantity)
         foundItem.totalOfPrice = foundItem.price * foundItem.quantity;
       }
     }else{
-      this.orderService.order.totalOrderValue += item.totalOfPrice
-      this.orderService.order.product.push(item)
+      this.order.totalOrderValue += item.totalOfPrice
+      this.order.product.push(item)
     }
-    localStorage.setItem('order', JSON.stringify(this.orderService.order))
+    localStorage.setItem('order', JSON.stringify(this.order))
   }
 
   public decreaseItemCart(product, index){
-    const foundItem: any = this.orderService.order.product.find(items => items.FOREIGN_KEY_PRODUCT === product.PRIMARY_KEY);
+    const foundItem: any = this.order.product.find(items => items.FOREIGN_KEY_PRODUCT === product.PRIMARY_KEY);
+
     if(foundItem.quantity > 1){
       foundItem.quantity--
       foundItem.totalOfPrice = foundItem.totalOfPrice - foundItem.price
-      this.orderService.order.totalOrderValue =  this.orderService.order.totalOrderValue - foundItem.price
+      this.order.totalOrderValue =  this.order.totalOrderValue - foundItem.price
     }else{
-      this.orderService.order.totalOrderValue =  this.orderService.order.totalOrderValue - foundItem.price
-      this.orderService.order.product.splice(index, 1)
+      this.order.totalOrderValue =  this.order.totalOrderValue - foundItem.price
+      this.order.product.splice(index, 1)
     }
-    localStorage.setItem('order', JSON.stringify(this.orderService.order))
+
+    if(Object.keys(this.order.product).length == 0){
+      localStorage.removeItem('order')
+    }else{
+      localStorage.setItem('order', JSON.stringify(this.order))
+    }
+    
   }
 
   public encreaseItem(item){
-    const foundItem: any = this.orderService.order.product.find(items => items.FOREIGN_KEY_PRODUCT === item.FOREIGN_KEY_PRODUCT);
+    const foundItem: any = this.order.product.find(items => items.FOREIGN_KEY_PRODUCT === item.FOREIGN_KEY_PRODUCT);
+
     if(foundItem){
       if(foundItem.quantity < foundItem.quantities){
         foundItem.quantity++;
-        this.orderService.order.totalOrderValue = (this.orderService.order.totalOrderValue - foundItem.totalOfPrice) + (foundItem.price * foundItem.quantity)
+        this.order.totalOrderValue = (this.order.totalOrderValue - foundItem.totalOfPrice) + (foundItem.price * foundItem.quantity)
         foundItem.totalOfPrice = foundItem.price * foundItem.quantity;
       }
     }
-    localStorage.setItem('order', JSON.stringify(this.orderService.order))
+    localStorage.setItem('order', JSON.stringify(this.order))
   }
 
   public decreaseItem(item, index){
-    const foundItem: any = this.orderService.order.product.find(items => items.FOREIGN_KEY_PRODUCT === item.FOREIGN_KEY_PRODUCT);
+    const foundItem: any = this.order.product.find(items => items.FOREIGN_KEY_PRODUCT === item.FOREIGN_KEY_PRODUCT);
+
     if(foundItem.quantity > 1){
       foundItem.quantity--
       foundItem.totalOfPrice = foundItem.totalOfPrice - foundItem.price
-      this.orderService.order.totalOrderValue =  this.orderService.order.totalOrderValue - foundItem.price
+      this.order.totalOrderValue =  this.order.totalOrderValue - foundItem.price
     }
-    localStorage.setItem('order', JSON.stringify(this.orderService.order))
+    localStorage.setItem('order', JSON.stringify(this.order))
   }
 
   public deleteItem(item, index){
-    const foundItem: any = this.orderService.order.product.find(items => items.FOREIGN_KEY_PRODUCT === item.FOREIGN_KEY_PRODUCT);
-    this.orderService.order.totalOrderValue =  this.orderService.order.totalOrderValue - foundItem.totalOfPrice
-    this.orderService.order.product.splice(index, 1)
-    localStorage.setItem('order', JSON.stringify(this.orderService.order))
-    if(Object.keys(this.orderService.order.product).length == 0){
+    const foundItem: any = this.order.product.find(items => items.FOREIGN_KEY_PRODUCT === item.FOREIGN_KEY_PRODUCT);
+
+    this.order.totalOrderValue = this.order.totalOrderValue - foundItem.totalOfPrice
+    this.order.product.splice(index, 1)
+    localStorage.setItem('order', JSON.stringify(this.order))
+    if(Object.keys(this.order.product).length == 0){
       localStorage.removeItem('order')
     }
   }
 
   public sedOrder(){
-
+    localStorage.setItem('order', JSON.stringify(this.order))
     this.view.redirectPageFor('/user-create-order')
   }
 

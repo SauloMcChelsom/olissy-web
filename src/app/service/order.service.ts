@@ -6,54 +6,6 @@ export { Order }
 @Injectable({providedIn: 'root'})
 export class OrderService {
 
-  public order:Order = {
-    AUTOINCREMENT: null,
-    DATE: '',
-    PRIMARY_KEY: '',
-    FOREIGN_KEY_STORE: '',
-    FOREIGN_KEY_CLIENT: '',
-    addressFullOfClient: '',
-    nameOfClient: '',
-    lastNameOfClient: '',
-    imageIconUrlOfClient: '',
-    emailOfClient: '',
-    cellPhoneOfClient: '',
-    cityOfClient: '',
-    neighborhoodOfClient: '',
-    streetOfClient: '',
-    orderState: '',
-    nameOfStore: '',
-    imageIconUrlOfStore: '',
-    cellPhoneOfStore: '',
-    emailOfStore: '',
-    cityOfStore: '',
-    neighborhoodOfStore: '',
-    streetOfStore: '',
-    cnpjOfStore: '',
-    storeViewedTheOrder: false,
-    totalOrderValue: 0,
-    methodPayment: '',
-    informChange: '',
-    taxaOfPlatform: 0,
-    taxaDeliverySelectByClient:{
-      description: '', 
-      value: '', 
-      taxa: 0,
-      km:0,
-    },
-    product:[
-      {}
-    ],
-    note:[
-      {
-        FOREIGN_KEY_USER: '',
-        name: '',
-        text: '',
-        view: false
-      }
-    ]
-  }
-  
   constructor(private api: api, private state: state) {}
 
   public getOrderByForeignKeyUserInApi(order: Order){
@@ -98,5 +50,47 @@ export class OrderService {
 
   public delOrderInState(){
     return this.state.delOrder()
+  }
+
+  public order():Order{
+    return {
+      AUTOINCREMENT: null,
+      DATE: '',
+      PRIMARY_KEY: '',
+      FOREIGN_KEY_STORE: '',
+      FOREIGN_KEY_CLIENT: '',
+      addressFullOfClient: '',
+      nameOfClient: '',
+      lastNameOfClient: '',
+      imageIconUrlOfClient: '',
+      emailOfClient: '',
+      cellPhoneOfClient: '',
+      cityOfClient: '',
+      neighborhoodOfClient: '',
+      streetOfClient: '',
+      orderState: 'reserved',
+      nameOfStore: '',
+      imageIconUrlOfStore: '',
+      cellPhoneOfStore: '',
+      emailOfStore: '',
+      cityOfStore: '',
+      neighborhoodOfStore: '',
+      streetOfStore: '',
+      cnpjOfStore: '',
+      storeViewedTheOrder: false,
+      totalOrderValue: 0,
+      methodPayment: '',
+      informChange: '',
+      taxaOfPlatform: 0,
+      taxaDeliverySelectByClientStatus:'',
+      taxaDeliverySelectByClient:{
+        description: '', 
+        value: '', 
+        taxa: 0,
+        km:0,
+      },
+      product:[{}],
+      note:[{}]
+    }
   }
 }

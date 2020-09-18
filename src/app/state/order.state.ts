@@ -6,7 +6,7 @@ import { OrderInterface as Order } from '../interfaces/order.interface';
 @Injectable({providedIn: 'root'})
 export class OrderState {
 
-  private readonly _order = new BehaviorSubject<any[]>([]);
+  private readonly _order = new BehaviorSubject<Order[]>([]);
 
   public pullOrder(){
     return this._order.value[0]

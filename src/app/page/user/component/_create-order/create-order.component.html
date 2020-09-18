@@ -69,10 +69,10 @@
                   Entrega GRÁTIS no bairro {{store?.neighborhood}}
                 </option>
                 
-                <option *ngIf="store?.deliveryFreeAbove.status == true && this.formOrder.controls['totalOrderValue'].value >= store?.deliveryFreeAbove.taxa" value="deliveryFreeAbove">               
+                <option *ngIf="store?.deliveryFreeAbove.status == true && this.formOrder.value.totalOrderValue >= store?.deliveryFreeAbove.taxa" value="deliveryFreeAbove">               
                   Entrega grátis acima de R${{store?.deliveryFreeAbove.taxa}} por {{store?.deliveryFreeAbove.km}} quilômetro
                 </option>
-                <option value="null" disabled *ngIf="store?.deliveryFreeAbove.status == true && this.formOrder.controls['totalOrderValue'].value < store?.deliveryFreeAbove.taxa" value="deliveryFreeAbove">               
+                <option value="null" disabled *ngIf="store?.deliveryFreeAbove.status == true && this.formOrder.value.totalOrderValue < store?.deliveryFreeAbove.taxa" value="deliveryFreeAbove">               
                   Entrega grátis acima de R${{store?.deliveryFreeAbove.taxa}} por {{store?.deliveryFreeAbove.km}} quilômetro
                 </option>
 
@@ -106,13 +106,13 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let item of orderService.order.product; let i = index">
+                <tr *ngFor="let item of formOrder.value.product; let indexProduct = index">
                   <td class="text-center">
-                    <a (click)="decreaseItem(i)" class="btn btn-sm" style="color:red">
+                    <a (click)="decreaseItem(indexProduct)" class="btn btn-sm" style="color:red">
                       <i class="fa fa-minus"></i>
                     </a>
                     {{ item.quantity }}
-                    <a (click)="encreaseItem(i)" class="btn btn-sm" style="color:green">
+                    <a (click)="encreaseItem(indexProduct)" class="btn btn-sm" style="color:green">
                       <i class="fa fa-plus"></i>
                     </a>
                   </td>
@@ -121,7 +121,7 @@
                     {{ item.price | currency: "BRL" }}
                   </td>
                   <td class="text-right">
-                    <a class="btn btn-sm danger" (click)="deleteItem(i)">
+                    <a class="btn btn-sm danger" (click)="deleteItem(indexProduct)">
                       <i class="fa fa-remove"></i>
                     </a>
                   </td>
@@ -189,7 +189,7 @@
                   <tr>
                     <th>Produtos:</th>
                     <td class="text-right">
-                       {{ this.formOrder.controls['totalOrderValue'].value | currency: "BRL" }}
+                       {{ formOrder.value.totalOrderValue | currency: "BRL" }}
                     </td>
                   </tr>
                   <tr>
