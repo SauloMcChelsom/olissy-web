@@ -7,18 +7,6 @@ export { User }
 @Injectable({providedIn: 'root'})
 export class UserService {
 
-  public user:User = {
-    AUTOINCREMENT: null,
-    DATE: '',
-    FOREIGN_KEY_UID : '',
-    PRIMARY_KEY: '',
-    password: '',
-    retypePassword: '',
-    email: '',
-    name: '',
-    terms: false,
-    type: 0,
-  }
 
   constructor(private api: api, private state: state) {}
 
@@ -84,5 +72,20 @@ export class UserService {
 
   public delUserInState(){
     return this.state.delUser()
+  }
+
+  public user():User{
+    return {
+      AUTOINCREMENT: null,
+      DATE: '',
+      FOREIGN_KEY_UID : '',
+      PRIMARY_KEY: '',
+      password: '203327.Ss',
+      retypePassword: '203327.Ss',
+      email: 'saulo@gmail.com',
+      name: 'saulo',
+      terms: false,
+      type: 1,
+    }
   }
 }

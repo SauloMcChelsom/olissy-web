@@ -1,3 +1,26 @@
+interface Product{
+  FOREIGN_KEY_PRODUCT?: string;
+  name?: string;
+  price?: number;
+  totalOfPrice?:number;
+  quantity?:number;
+  quantities?:number;
+}
+
+interface Note{
+  FOREIGN_KEY_USER: string;
+  name: string
+  text: string
+  view: boolean
+}
+
+interface TaxaDelivery{
+  description:string;
+  value: string;
+  taxa:number;
+  km:number
+}
+
 export interface OrderInterface {
   AUTOINCREMENT: any;
   DATE: string;
@@ -28,28 +51,7 @@ export interface OrderInterface {
   informChange: string;
   taxaOfPlatform:number
   taxaDeliverySelectByClientStatus?:string
-  taxaDeliverySelectByClient:{
-    description:string;
-    value: string;
-    taxa:number;
-    km:number
-  },
-  product:[
-    {
-      FOREIGN_KEY_PRODUCT?: string;
-      name?: string;
-      price?: number;
-      totalOfPrice?:number;
-      quantity?:number;
-      quantities?:number;
-    }
-  ],
-  note:[
-    {
-      FOREIGN_KEY_USER?: string;
-      name?: string
-      text?: string
-      view?: boolean
-    }
-  ]
+  taxaDeliverySelectByClient:TaxaDelivery,
+  product:Array<Product>,
+  note:Array<Note>,
 }

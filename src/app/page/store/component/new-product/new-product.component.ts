@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from "@angular/forms";
+import { FormGroup, FormBuilder }  from '@angular/forms';
 import { Subject, Observable } from 'rxjs';
 
 import { View } from '../../../../shared/view.shared';
@@ -8,7 +8,6 @@ import { ClientService } from '../../../../service/client.service';
 import { StoreService, Store } from '../../../../service/store.service';
 import { ProductService, Product } from '../../../../service/product.service';
 import { WarehouseService, Warehouse } from '../../../../service/warehouse.service';
-import { async } from 'rxjs/internal/scheduler/async';
 
 declare var $ :any;
 
@@ -40,21 +39,9 @@ export class NewProductComponent implements OnInit {
     }
   };
 
-  public productForm: FormGroup = new FormGroup({
-    AUTOINCREMENT: new FormControl(null),
-    DATE: new FormControl(null),
-    PRIMARY_KEY: new FormControl(null),
-    FOREIGN_KEY_USER:new FormControl(null),
-    FOREIGN_KEY_WAREHOUSE: new FormControl(null),
-    FOREIGN_KEY_STORE: new FormControl(null),
-    price: new FormControl(null),
-    productForSale: new FormControl('false'),
-    quantities: new FormControl(0),
-    totalOfLove: new FormControl(0),
-    totalOfSale:new FormControl(0),
-    totalOfComment: new FormControl(0)
-  })
+  public product:Product = this.productService.product()
 
+  public productForm: FormGroup = this.createForm(this.product)
   constructor(
     private view:View,
     private userService: UserService,
@@ -62,15 +49,24 @@ export class NewProductComponent implements OnInit {
     private storeService:StoreService,
     private productService:ProductService,
     private warehouseService:WarehouseService,
+    private fb: FormBuilder
   ){}
+
+  private createForm (product: Product): FormGroup { 
+    return this.fb.group (product); 
+  }
+
+  private updateForm(product: Partial<Product>): void {
+    this.productForm.patchValue(product)
+  }
 
   public ngOnInit() {
     this.view.putLoader()
     this.warehouseService.getWarehouseByIndexInApi().subscribe((warehouse:any[])=>{
   
       for (const key in warehouse) {
-        this.productService.product.FOREIGN_KEY_WAREHOUSE = warehouse[key].PRIMARY_KEY
-        this.productService.getProductByForeignKeyWarehouseInApi(this.productService.product).subscribe((p)=>{
+        this.product.FOREIGN_KEY_WAREHOUSE = warehouse[key].PRIMARY_KEY
+        this.productService.getProductByForeignKeyWarehouseInApi(this.product).subscribe((p)=>{
           if(Object.keys(p).length == 0 ){
             warehouse[key].registration = true
           }else{
@@ -122,7 +118,7 @@ export class NewProductComponent implements OnInit {
     }
 
     if(this.productForm.get('price').value > 0 && this.productForm.get('quantities').value > 0){
-      this.typing()
+      this.createProduct()
       this.active.loading = true
     }
 
@@ -130,27 +126,8 @@ export class NewProductComponent implements OnInit {
     
   }
 
-  public typing(){
-    this.productService.product = {
-      AUTOINCREMENT: null,
-      DATE:  null,
-      PRIMARY_KEY:  null,
-      FOREIGN_KEY_USER: this.productForm.get('FOREIGN_KEY_USER').value,
-      FOREIGN_KEY_WAREHOUSE:  this.productForm.get('FOREIGN_KEY_WAREHOUSE').value,
-      FOREIGN_KEY_STORE:  this.productForm.get('FOREIGN_KEY_STORE').value,
-      price:  this.productForm.get('price').value,
-      productForSale:  (this.productForm.get('productForSale').value === 'true'),
-      quantities:  this.productForm.get('quantities').value,
-      totalOfLove:  this.productForm.get('totalOfLove').value,
-      totalOfSale:  this.productForm.get('totalOfSale').value,
-      totalOfComment:  this.productForm.get('totalOfComment').value,
-    }
-
-    this.createProduct()
-  }
-
   public createProduct(){
-    this.productService.createNewProductInApi(this.productService.product).then( async(product)=>{
+    this.productService.createNewProductInApi(this.productForm.value).then( async(product)=>{
       this.storeService.updateQuantityOfProductInStoreForPlusInApi(this.storeService.pullStoreInState()).then((update)=>{
         this.active.loading = false
         $('#selectProduct').modal('hide')

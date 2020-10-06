@@ -6,14 +6,6 @@ export { Company }
 @Injectable({providedIn: 'root'})
 export class CompanyService {
 
-  public company:Company = {
-    AUTOINCREMENT: new Date(),
-    PRIMARY_KEY: '',
-    DATE: '',
-    name: '',
-    nameSearch: '',
-  }
-
   constructor(private api: api, private state: state) {}
 
   public getCompany(){
@@ -62,5 +54,15 @@ export class CompanyService {
 
   public delCompanyInState(){
     return this.state.delCompany()
+  }
+
+  public company():Company{
+    return {
+      AUTOINCREMENT: new Date(),
+      PRIMARY_KEY: '',
+      DATE: '',
+      name: '',
+      nameSearch: '',
+    }
   }
 }

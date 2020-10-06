@@ -261,43 +261,6 @@ button:focus {
   padding-top: 25vh;
 } 
 
-.loader {
-  width: 50%;
-  height: 4.8px;
-  display: inline-block;
-  position: relative;
-  background: #575757;
-  overflow: hidden;
-}
-.loader::after {
-  content: '';
-  width: 192px;
-  height: 4.8px;
-  background: #0095f6;
-  position: absolute;
-  top: 0;
-  left: 0;
-  box-sizing: border-box;
-  animation: animloader 2s linear infinite;
-}
-
-@keyframes animloader {
-  0% {
-    left: 0;
-    transform: translateX(-100%);
-  }
-  100% {
-    left: 100%;
-    transform: translateX(0%);
-  }
-}
-
-@media only screen and (max-width: 600px) {
-  .loader {
-      width: 100%;
-  }
-}
-
 /*mobile*/
 @media only screen and (max-width: 600px) {
   .skin-red .main-header .navbar {

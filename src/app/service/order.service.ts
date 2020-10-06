@@ -54,10 +54,6 @@ export class OrderService {
 
   public order():Order{
     return {
-      AUTOINCREMENT: null,
-      DATE: '',
-      PRIMARY_KEY: '',
-      FOREIGN_KEY_STORE: '',
       FOREIGN_KEY_CLIENT: '',
       addressFullOfClient: '',
       nameOfClient: '',
@@ -68,7 +64,7 @@ export class OrderService {
       cityOfClient: '',
       neighborhoodOfClient: '',
       streetOfClient: '',
-      orderState: 'reserved',
+      FOREIGN_KEY_STORE: '',
       nameOfStore: '',
       imageIconUrlOfStore: '',
       cellPhoneOfStore: '',
@@ -77,20 +73,25 @@ export class OrderService {
       neighborhoodOfStore: '',
       streetOfStore: '',
       cnpjOfStore: '',
-      storeViewedTheOrder: false,
-      totalOrderValue: 0,
+      AUTOINCREMENT: '',
+      DATE: '',
+      PRIMARY_KEY: '',
       methodPayment: '',
       informChange: '',
+      orderState: 'reserved',
+      storeViewedTheOrder: false,
+      totalOrderValue: 0,
       taxaOfPlatform: 0,
+      product: [],
+      note: [],
       taxaDeliverySelectByClientStatus:'',
       taxaDeliverySelectByClient:{
-        description: '', 
+        description:'Escolha a opção', 
         value: '', 
-        taxa: 0,
-        km:0,
-      },
-      product:[{}],
-      note:[{}]
+        taxa:0,
+        km:0
+      }
     }
   }
+
 }

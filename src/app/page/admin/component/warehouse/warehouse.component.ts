@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl  }  from '@angular/forms';
+import { FormGroup, FormBuilder }  from '@angular/forms';
 
 import { Observable } from 'rxjs';
 import firebase from '@firebase/app';
@@ -9,7 +9,7 @@ import { View } from '../../../../shared/view.shared';
 import { CompanyService, Company } from '../../../../service/company.service';
 import { StoreService } from '../../../../service/store.service';
 import { ProductService } from '../../../../service/product.service';
-import { WarehouseService } from '../../../../service/warehouse.service';
+import { WarehouseService, Warehouse } from '../../../../service/warehouse.service';
 
 import werehouseType  from './werehouse.type'
 
@@ -52,29 +52,26 @@ export class WarehouseComponent implements OnInit {
     }
   };
 
-  public werehouseForm: FormGroup = new FormGroup({
-    AUTOINCREMENT: new FormControl(null),
-    DATE: new FormControl(null),
-    PRIMARY_KEY: new FormControl(null),
-    imageUrl: new FormControl([]),
-    imagePath: new FormControl([]),
-    price: new FormControl(0),
-    name: new FormControl(null),
-    description: new FormControl(null),
-    session: new FormControl(null),
-    category: new FormControl(null),
-    type: new FormControl(null),
-    nameForSearch: new FormControl(null),
-    descriptionForSearch: new FormControl(null),
-    andGeneric: new FormControl(null),
-    company: new FormControl(null),
-  })
+  public werehouse:Warehouse = this.warehouseService.warehouse()
+
+  public company: Company = this.companyService.company()
+
+  public werehouseForm: FormGroup = this.createForm(this.werehouse)
 
   constructor(
     private view:View,
     private companyService:CompanyService,
     private warehouseService:WarehouseService,
+    private fb: FormBuilder
   ){}
+
+  private createForm (wh: Warehouse): FormGroup { 
+    return this.fb.group (wh); 
+  }
+
+  private updateForm(user: Partial<Warehouse>): void {
+    this.werehouseForm.patchValue(user)
+  }
 
   public ngOnInit() {
     this.setImageDisplay()
@@ -89,11 +86,11 @@ export class WarehouseComponent implements OnInit {
   }
 
   public createNewCompany(name){
-    this.companyService.company.name = name
-    this.companyService.company.nameSearch = this.removeAccent(name.trim())
-    this.companyService.getCompanyByName(this.companyService.company).subscribe((company)=>{
+    this.company.name = name
+    this.company.nameSearch = this.removeAccent(name.trim())
+    this.companyService.getCompanyByName(this.company).subscribe((company)=>{
       if(Object.keys(company).length == 0 ){
-        this.companyService.createNewCompanyInApi(this.companyService.company)
+        this.companyService.createNewCompanyInApi(this.company)
       }
     })
   }
@@ -114,29 +111,19 @@ export class WarehouseComponent implements OnInit {
     this.werehouseForm.get('description').markAsTouched()
     this.werehouseForm.get('price').markAsTouched()
 
-    this.warehouseService.warehouse = {
-      AUTOINCREMENT: '',
-      DATE: '',
-      PRIMARY_KEY: '',
-      imageUrl: [this.werehouseForm.get('imageUrl').value],
+    this.werehouseForm.patchValue({
       imagePath: [nameOfImage],
-      price: this.werehouseForm.get('price').value,
-      name: this.werehouseForm.get('name').value,
-      description: this.werehouseForm.get('description').value,
-      session: this.werehouseForm.get('session').value,
-      category: this.werehouseForm.get('category').value,
-      type: this.werehouseForm.get('type').value,
       nameForSearch: this.removeAccent(this.werehouseForm.get('name').value),
       descriptionForSearch: this.removeAccent(this.werehouseForm.get('description').value),
       andGeneric: this.werehouseForm.get('andGeneric').value ? true : false,
-      company: this.werehouseForm.get('company').value,
-    }
+    })
 
     this.warehouseService.sendImagemStorageInApi(nameOfImage, this.imageNew).then(async (url:any)=>{
-
-      this.warehouseService.warehouse.imageUrl[0] = await url
+      this.werehouseForm.patchValue({
+        imageUrl : await url
+      })
       
-      this.warehouseService.createNewWarehouseInApi(this.warehouseService.warehouse).then(async(creating)=>{
+      this.warehouseService.createNewWarehouseInApi(this.werehouse).then(async(creating)=>{
         await creating
         this.werehouseForm.reset()
         this.setImageDisplay()

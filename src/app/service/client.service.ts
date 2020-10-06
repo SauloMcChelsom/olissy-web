@@ -7,28 +7,6 @@ export { Client }
 @Injectable({providedIn: 'root'})
 export class ClientService {
 
-  public client:Client = {
-    AUTOINCREMENT: new Date(),
-    DATE: '',
-    FOREIGN_KEY_USER: '',
-    PRIMARY_KEY: '',
-    telephone: '',
-    birth: '',
-    cellPhone: '',
-    cep: '',
-    city: '',
-    country: '',
-    email: '',
-    imageIconPath: '',
-    imageIconUrl: '',
-    lastName: '',
-    name: '',
-    neighborhood: '',
-    sex: '',
-    stateFederal: '',
-    street: '',
-  }
-
   constructor(private api: api, private state: state) {}
 
   public getClientByForeignKeyUserInApi(client: Client){
@@ -74,5 +52,29 @@ export class ClientService {
   public delClientInState(){
     return this.state.delClient()
   } 
+
+  public client():Client{
+    return {
+      AUTOINCREMENT: new Date(),
+      DATE: '',
+      FOREIGN_KEY_USER: '',
+      PRIMARY_KEY: '',
+      telephone: '',
+      birth: '',
+      cellPhone: '',
+      cep: '',
+      city: '',
+      country: '',
+      email: '',
+      imageIconPath: '',
+      imageIconUrl: '',
+      lastName: '',
+      name: '',
+      neighborhood: '',
+      sex: '',
+      stateFederal: '',
+      street: '',
+    }
+  }
 
 }

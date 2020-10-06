@@ -7,49 +7,6 @@ export { Store }
 @Injectable({providedIn: 'root'})
 export class StoreService {
 
-  public store:Store = {
-    AUTOINCREMENT: null,
-    DATE: '',
-    FOREIGN_KEY_USER: '',
-    PRIMARY_KEY: '',
-    follow: 0,
-    about: '',
-    authorizationForOpenStore: false,
-    cellPhone: '',
-    cep: '',
-    city: '',
-    cnpj: '',
-    country: '',
-    credit: false,
-    debit: false,
-    deliveryBy: { 
-      status: false,
-      taxa: 0
-    },
-    deliveryFreeAbove:{ 
-      km: 0,
-      status: false,
-      taxa: 0
-    },
-    email: '',
-    hoursOfWork: '',
-    imageBackGroundPath: [],
-    imageBackGroundUrl: [],
-    imageIconPath: '',
-    imageIconUrl: '',
-    money: false,
-    name: '',
-    negotiateRateDelivery: { status: false },
-    neighborhood: '',
-    onlyInNeighborhood: { status: false },
-    quantityOfProduct: 0,
-    stateFederal: '',
-    storeOpenOrClosed: false,
-    street: '',
-    telephone: '',
-    totalOfSale: 0,
-  }
-
   constructor(private api: api, private state: state) {}
 
   public getStoreByForeignKeyUserInApi(store: Store){
@@ -102,5 +59,50 @@ export class StoreService {
 
   public delStoreInState(){
     return this.state.delStore()
+  }
+
+  public store():Store {
+    return {
+      AUTOINCREMENT: null,
+      DATE: '',
+      FOREIGN_KEY_USER: '',
+      PRIMARY_KEY: '',
+      follow: 0,
+      about: '',
+      authorizationForOpenStore: false,
+      cellPhone: '',
+      cep: '',
+      city: 'Acrelândia',
+      cnpj: '',
+      country: 'Brazil',
+      credit: false,
+      debit: false,
+      deliveryBy: { 
+        status: false,
+        taxa: 0
+      },
+      deliveryFreeAbove:{ 
+        km: 0,
+        status: false,
+        taxa: 0
+      },
+      email: '',
+      hoursOfWork: '',
+      imageBackGroundPath: ["/plataform/wallpaper.jpg"],
+      imageBackGroundUrl: ["https://firebasestorage.googleapis.com/v0/b/olissy-web-test.appspot.com/o/plataform%2Fwallpaper.jpg?alt=media&token=828ad8dd-dc7c-41de-9c31-3378a8e8ecee"],
+      imageIconPath: '',
+      imageIconUrl: '',
+      money: false,
+      name: '',
+      negotiateRateDelivery: { status: false },
+      neighborhood: '',
+      onlyInNeighborhood: { status: false },
+      quantityOfProduct: 0,
+      stateFederal: 'AC',
+      storeOpenOrClosed: false,
+      street: '',
+      telephone: '',
+      totalOfSale: 0,
+    }
   }
 }

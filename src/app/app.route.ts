@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 export const ROUTES: Routes = [
-
   {
     path: '',
     loadChildren: () => import('./page/user/component/login-provider/login-provider.module').then(m => m.LoginProviderModule) 
@@ -13,15 +12,14 @@ export const ROUTES: Routes = [
   },
   {
     path: 'home',
-    loadChildren: () => import('./page/user/component/_home/home.module')
-    .then(m => m.HomeModule) 
+    loadChildren: () => import('./page/user/component/_home/home.module').then(m => m.HomeModule) 
   }, 
   {
-    path: 'home-client',
+    path: 'client-home',
     loadChildren: () => import('./page/client/component/_home/home.module').then(m => m.HomeModule) 
   },
   {
-    path: 'home-store',
+    path: 'store-home',
     loadChildren: () => import('./page/store/component/_home/home.module').then(m => m.HomeModule) 
   },
   {
@@ -55,6 +53,10 @@ export const ROUTES: Routes = [
   {
     path: 'user-page-of-store/:id',
     loadChildren: () => import('./page/user/component/_page-of-store/page-of-store.module').then(m => m.PageOfStoreModule) 
+  },
+  {
+    path: 'client-create-order',
+    loadChildren: () => import('./page/client/component/_create-order/create-order.module').then(m => m.CreateOrderModule) 
   },
 ];
 

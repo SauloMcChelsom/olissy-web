@@ -7,24 +7,6 @@ export { Warehouse }
 @Injectable({providedIn: 'root'})
 export class WarehouseService {
 
-  public warehouse:Warehouse = {
-    AUTOINCREMENT: new Date(),
-    PRIMARY_KEY: '',
-    DATE:'',
-    andGeneric: false,
-    category: '',
-    company: '',
-    description: '',
-    descriptionForSearch: '',
-    imagePath: [],
-    imageUrl: [],
-    name: '',
-    nameForSearch: '',
-    price: 0,
-    session: '',
-    type: '',
-  }
-
   constructor(private api: api, private state: state) {}
 
   
@@ -78,5 +60,25 @@ export class WarehouseService {
 
   public delWarehouseInState(){
     return this.state.delWarehouse()
+  }
+
+  public warehouse():Warehouse{
+    return {
+      AUTOINCREMENT: new Date(),
+      PRIMARY_KEY: '',
+      DATE:'',
+      andGeneric: false,
+      category: '',
+      company: '',
+      description: '',
+      descriptionForSearch: '',
+      imagePath: [],
+      imageUrl: [],
+      name: '',
+      nameForSearch: '',
+      price: 0,
+      session: '',
+      type: '',
+    }
   }
 }

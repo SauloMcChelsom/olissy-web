@@ -7,21 +7,6 @@ export { Product}
 @Injectable({providedIn: 'root'})
 export class ProductService {
 
-  public product:Product = {
-    AUTOINCREMENT: '',
-    DATE: '',
-    FOREIGN_KEY_STORE: '',
-    FOREIGN_KEY_USER: '',
-    FOREIGN_KEY_WAREHOUSE: '',
-    PRIMARY_KEY: '',
-    price: '',
-    productForSale: false,
-    quantities: 0,
-    totalOfComment: 0,
-    totalOfLove: 0,
-    totalOfSale: 0,
-  }
-
   constructor(private api: api, private state: state) {}
 
   public getProductByIndexInApi(){
@@ -74,5 +59,22 @@ export class ProductService {
 
   public delProductInState(){
     return this.state.delProduct()
+  }
+
+  public product():Product{
+    return {
+      AUTOINCREMENT: '',
+      DATE: '',
+      FOREIGN_KEY_STORE: '',
+      FOREIGN_KEY_USER: '',
+      FOREIGN_KEY_WAREHOUSE: '',
+      PRIMARY_KEY: '',
+      price: '',
+      productForSale: false,
+      quantities: 0,
+      totalOfComment: 0,
+      totalOfLove: 0,
+      totalOfSale: 0,
+    }
   }
 }
