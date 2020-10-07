@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router  } from '@angular/router';
+import { Router, NavigationStart, Event  } from '@angular/router';
 import { View } from '../../../../shared/view.shared';
 import { OrderShared }  from'../../../../shared/order.shared';
 import { Order, OrderService } from '../../../../service/order.service';
@@ -20,12 +20,24 @@ export class HeaderUserComponent implements OnInit{
 
   public order$: Observable<Order[]> = this.orderService.getOrderInState() 
 
+  public router = this.route.url
+
   constructor(
     private view:View,
     private orderShared:OrderShared,
     private orderService:OrderService,
     private route: Router
-  ){}
+  ){
+    /*this.route.events.subscribe((event:Event) => {
+      if(event instanceof NavigationStart) {
+        this.router = event.url
+      }
+      // NavigationEnd
+      // NavigationCancel
+      // NavigationError
+      // RoutesRecognized
+    })*/
+  }
 
   public ngOnInit(){
     this.getScreen()
@@ -48,8 +60,8 @@ export class HeaderUserComponent implements OnInit{
   }
 
   public deleteItem(item, index){
-    const reuter = this.route.url
-    this.orderShared.deleteItem(item, index, reuter)
+    const router = this.route.url
+    this.orderShared.deleteItem(item, index, router)
   }
 
   public Total(){
@@ -57,8 +69,13 @@ export class HeaderUserComponent implements OnInit{
   } 
 
   public sedOrder(){
-    this.view.setLoader(true)
-    this.view.redirectPageFor('/user-create-order')
+    const router = this.route.url
+
+    if(router != '/user-create-order'){
+      this.view.setLoader(true)
+      this.view.redirectPageFor('/user-create-order')
+    }
+
   }
 
   ngOnDestroy(){

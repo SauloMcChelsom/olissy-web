@@ -11,7 +11,7 @@ import { map } from 'rxjs/operators';
 import { take } from 'rxjs/operators';
 
 @Component({
-  selector: 'mt-login',
+  selector: 'app-login',
   templateUrl: './login-provider.component.html',
   styleUrls: ['./login-provider.component.css']
 })
@@ -19,6 +19,12 @@ import { take } from 'rxjs/operators';
 export class LoginProviderComponent implements OnInit, OnDestroy {
 
   private unsubscribe$ = new Subject();
+
+  public user:User = this.userService.user()
+
+  public client:Client = this.clientService.client()
+  
+  public store:Store = this.storeService.store()
 
   public avatar:string = null
 
@@ -40,13 +46,14 @@ export class LoginProviderComponent implements OnInit, OnDestroy {
   public async signInWithGoogle(){
     let token = null
     await this.userService.signInWithPopupInApi().then(v => token = v)
-     this.userService.user.FOREIGN_KEY_UID = token.user.uid
-     this.userService.user.email = token.user.email
-     this.userService.user.name = token.user.displayName
-     this.clientService.client.name = token.user.displayName
-     this.clientService.client.cellPhone = token.user.phoneNumber
-     this.clientService.client.imageIconUrl = token.user.photoURL
-     this.clientService.client.imageIconPath = 'google'
+
+     this.user.FOREIGN_KEY_UID = token.user.uid
+     this.user.email = token.user.email
+     this.user.name = token.user.displayName
+     this.client.name = token.user.displayName
+     this.client.cellPhone = token.user.phoneNumber
+     this.client.imageIconUrl = token.user.photoURL
+     this.client.imageIconPath = 'google'
 
     await this.verifyEmailExisted()
   }
@@ -62,7 +69,7 @@ export class LoginProviderComponent implements OnInit, OnDestroy {
   public async verifyEmailExisted(){
     this.view.setLoader(true)
     let user:User
-    await this.userService.getUserByEmailInApi( this.userService.user).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) => user = v) ).toPromise()
+    await this.userService.getUserByEmailInApi(this.user).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) => user = v) ).toPromise()
 
     if(Object.keys(user).length == 0){
       await this.createNewUser()
@@ -75,33 +82,33 @@ export class LoginProviderComponent implements OnInit, OnDestroy {
 
   public async createNewUser(){
     let newUser:User
-    this.userService.user.type = 1
-    await this.userService.createNewUserWithPopupInApi( this.userService.user).then( v => newUser = v )
+    this.user.type = 1
+    await this.userService.createNewUserWithPopupInApi( this.user).then( v => newUser = v )
     this.userService.setUserInState([newUser])
 
-    this.clientService.client.FOREIGN_KEY_USER = newUser.PRIMARY_KEY
+    this.client.FOREIGN_KEY_USER = newUser.PRIMARY_KEY
 
     let newClient:Client
-    await this.clientService.createNewClientInApi( this.clientService.client).then( v => newClient = v )
-    this.clientService.client = newClient
+    await this.clientService.createNewClientInApi(this.client).then( v => newClient = v )
+    this.client = newClient
     await this.userType()
   }
 
   public async userType(){
-    if(this.userService.user.type == 1){
-      this.clientService.client.FOREIGN_KEY_USER =   this.userService.pullUserInState().PRIMARY_KEY
-      await this.clientService.getClientByForeignKeyUserInApi( this.clientService.client).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) =>  this.clientService.client = v[0]) ).toPromise()
-      this.clientService.setClientInState([ this.clientService.client])
+    if(this.user.type == 1){
+      this.client.FOREIGN_KEY_USER =   this.userService.pullUserInState().PRIMARY_KEY
+      await this.clientService.getClientByForeignKeyUserInApi( this.client).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) =>  this.clientService.client = v[0]) ).toPromise()
+      this.clientService.setClientInState([ this.client])
       this.view.setUser('client')
-      this.view.redirectPageFor('/home-client')
+      this.view.redirectPageFor('/client-home')
     }
 
-    if(this.userService.user.type == 2){
-      this.storeService.store.FOREIGN_KEY_USER =   this.userService.pullUserInState().PRIMARY_KEY
-      await this.storeService.getStoreByForeignKeyUserInApi( this.storeService.store).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) =>  this.storeService.store = v[0]) ).toPromise()
-      this.storeService.setStoreInState( this.storeService.store)
+    if(this.user.type == 2){
+      this.store.FOREIGN_KEY_USER =   this.userService.pullUserInState().PRIMARY_KEY
+      await this.storeService.getStoreByForeignKeyUserInApi( this.store).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) =>  this.storeService.store = v[0]) ).toPromise()
+      this.storeService.setStoreInState( this.store)
       this.view.setUser('store')
-      this.view.redirectPageFor('/home-store')
+      this.view.redirectPageFor('/store-home')
     }
   }
 

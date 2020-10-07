@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormControl, Validators  }  from '@angular/forms';
+import { FormGroup, FormBuilder }  from '@angular/forms';
 
 import firebase from '@firebase/app';
 import '@firebase/storage';
@@ -26,18 +26,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   public avatar:string = null
 
-  public userForm: FormGroup = new FormGroup({
-    AUTOINCREMENT: new FormControl(null),
-    DATE:  new FormControl(null),
-    PRIMARY_KEY:  new FormControl(null),
-    FOREIGN_KEY_UID:  new FormControl(null),
-    name: new FormControl(null ,Validators.required),
-    email: new FormControl(null ,Validators.required),
-    password: new FormControl(null ,Validators.required),
-    retypePassword: new FormControl(null ,Validators.required),
-    type: new FormControl(1),
-    terms: new FormControl(false ,Validators.required)
-  })
+  public client:Client = this.clientService.client()
+
+  public userForm: FormGroup = this.createForm(this.userService.user());
 
   public active = {
     text: "",
@@ -48,11 +39,25 @@ export class RegisterComponent implements OnInit, OnDestroy {
     private view: View,
     private userService:UserService,
     private clientService:ClientService,
+    private fb: FormBuilder
   ){}
 
   public ngOnInit(){
+    this.view.putLoader()
     window.scroll(0,0);
     this.setAvatar()
+  }
+
+  private createForm (user: User): FormGroup { 
+    return this.fb.group(user); 
+  }
+
+  private getForm():User {
+    return this.userForm.value
+  }
+
+  private updateForm(user: Partial<User>): void {
+    this.userForm.patchValue(user)
   }
 
   private async setAvatar(){
@@ -103,19 +108,13 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   public async verifyEemailExisted(){
-    this.userService.user.email = this.userForm.value.email
-    this.userService.user.password = this.userForm.value.password
-    this.userService.user.name = this.userForm.value.name
-    this.userService.user.terms = true
-    this.userService.user.type = 1
-
     let emailExisted = null
-    await this.userService.getUserByEmailInApi(this.userService.user).pipe(takeUntil(this.unsubscribe$),take(1), map(v => emailExisted = v) ).toPromise()
+    await this.userService.getUserByEmailInApi(this.getForm()).pipe(takeUntil(this.unsubscribe$),take(1), map(v => emailExisted = v) ).toPromise()
 
     if(Object.keys(emailExisted).length == 0){
       this.createNewUser()
     }else{
-      this.active.text = `email ${ this.userService.user.email} ja em uso`
+      this.active.text = `email ${ this.userForm.value.email} ja em uso`
       this.active.message = true
       this.view.setLoader(false)
     }
@@ -123,21 +122,20 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   public async createNewUser(){
     let newUser:User
-    await this.userService.createNewUserWithEmailAndPasswordInApi(this.userService.user).then( v => newUser = v )
+    await this.userService.createNewUserWithEmailAndPasswordInApi(this.getForm()).then( v => newUser = v )
 
-    this.clientService.client.name = this.userForm.value.name
-    this.clientService.client.FOREIGN_KEY_USER = newUser.PRIMARY_KEY
+    this.client.name = this.userForm.value.name
+    this.client.FOREIGN_KEY_USER = newUser.PRIMARY_KEY
 
     let newClient:Client
-    this.clientService.client.imageIconUrl = this.avatar
-    await this.clientService.createNewClientInApi(this.clientService.client).then( v => newClient = v )
+    this.client.imageIconUrl = this.avatar
+    await this.clientService.createNewClientInApi(this.client).then( v => newClient = v )
 
     this.userService.setUserInState([newUser])
     this.clientService.setClientInState([newClient])
     
     this.view.setUser('client')
-    this.view.redirectPageFor('/home-client')
-    
+    this.view.redirectPageFor('/client-home')
   }
 
   ngOnDestroy() {

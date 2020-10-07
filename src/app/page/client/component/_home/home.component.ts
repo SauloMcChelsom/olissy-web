@@ -5,6 +5,12 @@ import { ClientService } from '../../../../service/client.service';
 import { StoreService, Store } from '../../../../service/store.service';
 import { ProductService, Product } from '../../../../service/product.service';
 import { WarehouseService, Warehouse } from '../../../../service/warehouse.service';
+import { Order, OrderService } from '../../../../service/order.service';
+
+import { map } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'mt-home',
@@ -13,6 +19,16 @@ import { WarehouseService, Warehouse } from '../../../../service/warehouse.servi
 })
 
 export class HomeComponent implements OnInit {
+
+  private unsubscribe$ = new Subject();
+
+  public order:Order = this.orderService.order()
+
+  public warehouse:Warehouse = this.warehouseService.warehouse()
+
+  public store:Store = this.storeService.store()
+
+  public imgbackground = './assets/background.jpg'
 
   public stores = []
   public warehouses = []
@@ -26,28 +42,29 @@ export class HomeComponent implements OnInit {
     private storeService:StoreService,
     private productService:ProductService,
     private warehouseService:WarehouseService,
+    private orderService:OrderService
   ){}
 
   public ngOnInit() {
-    this.view.putLoader()
+    setTimeout(() => { this.view.setLoader(false) }, 3000)
     this.getProduct()
   }
 
-  public getProduct() {
-     this.productService.getProductByIndexInApi().subscribe((product:Product[])=>{
+  public  getProduct() {
+    this.productService.getProductByIndexInApi().pipe(takeUntil(this.unsubscribe$)).subscribe(async(product:Product[])=>{
       for (const index in product) {
         this.products.push(product[index])
 
-        this.storeService.store.PRIMARY_KEY = product[index].FOREIGN_KEY_STORE
-        this.getStore(this.storeService.store)
+        this.store.PRIMARY_KEY = product[index].FOREIGN_KEY_STORE
+        await this.getStore(this.store)
   
-        this.warehouseService.warehouse.PRIMARY_KEY = product[index].FOREIGN_KEY_WAREHOUSE
-        this.getWarehouse(this.warehouseService.warehouse)
+        this.warehouse.PRIMARY_KEY = product[index].FOREIGN_KEY_WAREHOUSE
+        await this.getWarehouse(this.warehouse)
       }
     })
   }
 
-  public getStore(store:Store){
+  public async getStore(store:Store){
     let getStore:boolean = true
     for (const i in this.stores) {//listar todas lojas no array de this.stores
       if(this.stores[i].PRIMARY_KEY == store.PRIMARY_KEY){//tenho a loja no array de this.stores
@@ -56,13 +73,11 @@ export class HomeComponent implements OnInit {
       break
     }
     if(getStore){
-      this.storeService.getStoreByPrimaryKeyInApi(store).subscribe((doc:any)=>{
-        this.stores.push(doc.data())
-      })
+      await this.storeService.getStoreByPrimaryKeyInApi(store).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) => this.stores.push(v[0]) ) ).toPromise()
     }
   }
 
-  public getWarehouse(warehouse:Warehouse){
+  public async getWarehouse(warehouse:Warehouse){
     let getWarehouse:boolean = true
     for (const i in this.warehouses) {
       if(this.warehouses[i].PRIMARY_KEY == warehouse.PRIMARY_KEY){
@@ -71,16 +86,50 @@ export class HomeComponent implements OnInit {
       break
     }
     if(getWarehouse){
-      this.warehouseService.getWarehouseByPrimaryKeyInApi(warehouse).subscribe((doc:any)=>{
-        let wh = doc.data()
-        wh.showDescription = false
-        this.warehouses.push(wh) 
-      })
+      let wh
+      await this.warehouseService.getWarehouseByPrimaryKeyInApi(warehouse).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) => wh = v[0] ) ).toPromise()
+      wh.showDescription = false
+      this.warehouses.push(wh)
     }
   }
 
   public showDescription(value,index){
     this.warehouses[index].showDescription = !value
+  }
+
+  public sedOrder(product:Product){
+    let warehouse:Warehouse = this.warehouses.find(warehouse => warehouse.PRIMARY_KEY == product.FOREIGN_KEY_WAREHOUSE)
+    let store:Store = this.stores.find(store => store.PRIMARY_KEY == product.FOREIGN_KEY_STORE)
+
+    this.order.FOREIGN_KEY_STORE = product.FOREIGN_KEY_STORE
+    this.order.totalOrderValue = Number(product.price)
+    this.order.nameOfStore = store.name
+    this.order.imageIconUrlOfStore =  store.imageIconUrl
+    this.order.cellPhoneOfStore = store.cellPhone
+    this.order.emailOfStore = store.email
+    this.order.cityOfStore =  store.city
+    this.order.neighborhoodOfStore =  store.neighborhood
+    this.order.streetOfStore =  store.street
+    this.order.cnpjOfStore =  store.cnpj
+    this.order.taxaDeliverySelectByClientStatus = null
+    this.order.methodPayment = null
+    this.order.product = [{
+      FOREIGN_KEY_PRODUCT : product.PRIMARY_KEY,
+      name : warehouse.name,
+      price : Number(product.price),
+      quantity:1,
+      totalOfPrice:Number(product.price),
+      quantities:product.quantities,
+    }]
+
+    localStorage.setItem('order', JSON.stringify(this.order))
+    
+    this.view.redirectPageFor('/user-create-order')
+  }
+
+  ngOnDestroy(){
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
 }

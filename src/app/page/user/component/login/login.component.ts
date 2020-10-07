@@ -1,18 +1,18 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormControl, Validators  }  from '@angular/forms';
-
-import { View } from '../../../../shared/view.shared';
-import { UserService } from '../../../../service/user.service';
-import { ClientService } from '../../../../service/client.service';
-import { StoreService } from '../../../../service/store.service';
+import { FormGroup, FormBuilder }  from '@angular/forms';
 
 import { map } from 'rxjs/operators';
 import { take } from 'rxjs/operators';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
+import { View } from '../../../../shared/view.shared';
+import { UserService, User } from '../../../../service/user.service';
+import { Client, ClientService } from '../../../../service/client.service';
+import { Store, StoreService } from '../../../../service/store.service';
+
 @Component({
-  selector: 'login',
+  selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
@@ -21,18 +21,11 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   private unsubscribe$ = new Subject();
 
-  public userForm: FormGroup = new FormGroup({
-    AUTOINCREMENT: new FormControl(null),
-    DATE:  new FormControl(null),
-    PRIMARY_KEY:  new FormControl(null),
-    FOREIGN_KEY_UID:  new FormControl(null),
-    name: new FormControl('saulo' ,Validators.required),
-    email: new FormControl('cruzeiro@gmail.com' ,Validators.required),
-    password: new FormControl('203327.Ss' ,Validators.required),
-    retypePassword: new FormControl('123456789' ,Validators.required),
-    type: new FormControl(1),
-    terms: new FormControl(true ,Validators.required)
-  })
+  public userForm: FormGroup = this.createForm(this.userService.user());
+
+  public client:Client = this.clientService.client()
+
+  public store:Store = this.storeService.store()
 
   public active = {
     text: "",
@@ -44,10 +37,23 @@ export class LoginComponent implements OnInit, OnDestroy {
     private userService:UserService,
     private clientService:ClientService,
     private storeService:StoreService,
+    private fb: FormBuilder
   ){}
 
-  public async ngOnInit() {
+  public ngOnInit() {
+    this.view.putLoader()
+  }
 
+  private createForm (user: User): FormGroup { 
+    return this.fb.group(user); 
+  }
+
+  private getForm():User {
+    return this.userForm.value
+  }
+
+  private updateForm(user: Partial<User>): void {
+    this.userForm.patchValue(user)
   }
 
   public async validateForm(){
@@ -68,8 +74,6 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.active.message = false
       this.view.setLoader(true)
 
-      this.userService.user.email = this.userForm.value.email
-      this.userService.user.password = this.userForm.value.password
       await this.verifyEmailExisted()
     }
     window.scroll(0,0);
@@ -78,12 +82,12 @@ export class LoginComponent implements OnInit, OnDestroy {
   public async verifyEmailExisted(){
     let user = []
     
-    await this.userService.getUserByEmailInApi(this.userService.user).pipe(takeUntil(this.unsubscribe$), take(1), map(v => user = v) ).toPromise()
+    await this.userService.getUserByEmailInApi(this.getForm()).pipe(takeUntil(this.unsubscribe$), take(1), map(v => user = v) ).toPromise()
 
     if(Object.keys(user).length != 0){
       await this.authentication()
     }else{
-      this.active.text = `email ${this.userService.user.email} não esta cadastrado`
+      this.active.text = `email ${this.userForm.value.email} não esta cadastrado`
       this.active.message = true
       this.view.setLoader(false)
     }
@@ -91,11 +95,11 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   public async authentication(){ 
     let userIsLogged = null
-    await this.userService.signInWithEmailAndPasswordInApi(this.userService.user).then( v =>  userIsLogged = v ).catch(()=> userIsLogged = false )
+    await this.userService.signInWithEmailAndPasswordInApi(this.getForm()).then( v =>  userIsLogged = v ).catch(()=> userIsLogged = false )
     if(userIsLogged){
-      this.userService.user.FOREIGN_KEY_UID = userIsLogged.uid
-      await this.userService.getUserByEmailInApi(this.userService.user).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) => this.userService.user = v[0]) ).toPromise()
-      this.userService.setUserInState([this.userService.user])
+      this.userForm.patchValue({FOREIGN_KEY_UID:userIsLogged.uid})
+      await this.userService.getUserByEmailInApi(this.getForm()).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) => this.userService.user = v[0]) ).toPromise()
+      this.userService.setUserInState([this.getForm()])
       await this.userType()
     }else{
       this.active.text = "senha errada" 
@@ -105,20 +109,20 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   public async userType(){
-    if(this.userService.user.type == 1){
-      this.clientService.client.FOREIGN_KEY_USER = this.userService.pullUserInState().PRIMARY_KEY
-      await this.clientService.getClientByForeignKeyUserInApi(this.clientService.client).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) => this.clientService.client = v[0]) ).toPromise()
-      this.clientService.setClientInState([this.clientService.client])
+    if(this.userForm.value.type == 1){
+      this.client.FOREIGN_KEY_USER = this.userService.pullUserInState().PRIMARY_KEY
+      await this.clientService.getClientByForeignKeyUserInApi(this.client).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) => this.clientService.client = v[0]) ).toPromise()
+      this.clientService.setClientInState([this.client])
       this.view.setUser('client')
-      this.view.redirectPageFor('/home-client')
+      this.view.redirectPageFor('/client-home')
     }
 
-    if(this.userService.user.type == 2){
-       this.storeService.store.FOREIGN_KEY_USER = this.userService.pullUserInState().PRIMARY_KEY
-      await this.storeService.getStoreByForeignKeyUserInApi( this.storeService.store).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) =>  this.storeService.store = v[0]) ).toPromise()
-      this.storeService.setStoreInState( this.storeService.store)
+    if(this.userForm.value.type == 2){
+       this.store.FOREIGN_KEY_USER = this.userService.pullUserInState().PRIMARY_KEY
+      await this.storeService.getStoreByForeignKeyUserInApi( this.store).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) =>  this.storeService.store = v[0]) ).toPromise()
+      this.storeService.setStoreInState(this.store)
       this.view.setUser('store')
-      this.view.redirectPageFor('/home-store')
+      this.view.redirectPageFor('/store-home')
     }
   }
 

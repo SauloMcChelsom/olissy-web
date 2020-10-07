@@ -1,12 +1,14 @@
 import { Component, OnInit } from "@angular/core";
-import { FormGroup, FormControl } from "@angular/forms";
+import { FormGroup, FormBuilder }  from '@angular/forms';
 import firebase from "@firebase/app";
 import "@firebase/storage";
+
 import stateCity from "./state-city.type";
 
 import { View } from "../../../../shared/view.shared";
 import { UserService, User } from "../../../../service/user.service";
 import { StoreService, Store } from "../../../../service/store.service";
+
 declare var $: any;
 
 @Component({
@@ -86,46 +88,13 @@ export class OpenMyStoreComponent implements OnInit {
 
   public taxaDeliveryStatus: any = "clean";
 
-  public storeForm: FormGroup = new FormGroup({
-    AUTOINCREMENT: new FormControl(""),
-    DATE: new FormControl(""),
-    PRIMARY_KEY: new FormControl(""),
-    FOREIGN_KEY_USER: new FormControl(""),
-    name: new FormControl(null),
-    imageIconPath: new FormControl(""),
-    imageIconUrl: new FormControl(null),
-    imageBackGroundPath: new FormControl("/plataform/wallpaper.jpg"),
-    imageBackGroundUrl: new FormControl("https://firebasestorage.googleapis.com/v0/b/olissy-web-test.appspot.com/o/plataform%2Fwallpaper.jpg?alt=media&token=828ad8dd-dc7c-41de-9c31-3378a8e8ecee"),
-    country: new FormControl("Brazil"),
-    stateFederal: new FormControl("AC"),
-    city: new FormControl("Acrelândia"),
-    neighborhood: new FormControl(null),
-    street: new FormControl(null),
-    cep: new FormControl(null),
-    hoursOfWork: new FormControl(null),
-    email: new FormControl(null),
-    cellPhone: new FormControl(null),
-    telephone: new FormControl(null),
-    about: new FormControl(null),
-    cnpj: new FormControl(null),
-    quantityOfProduct: new FormControl(0),
-    follow: new FormControl(0),
-    storeOpenOrClosed: new FormControl(false),
-    totalOfSale: new FormControl(0),
-    authorizationForOpenStore: new FormControl(true),
-    credit: new FormControl(null),
-    debit: new FormControl(null),
-    money: new FormControl(null),
-    negotiateRateDelivery: new FormControl({ status: false }),
-    onlyInNeighborhood: new FormControl({ status: false }),
-    deliveryFreeAbove: new FormControl({ status: false, taxa: 0, km: 0 }),
-    deliveryBy: new FormControl({ status: false, taxa: 0 }),
-  });
+  public storeForm: FormGroup = this.createForm(this.storeService.store());
 
   constructor(
     private view: View,
     private userService: UserService,
-    private storeService: StoreService
+    private storeService: StoreService,
+    private fb: FormBuilder
   ) {}
 
   public ngOnInit() {
@@ -135,6 +104,18 @@ export class OpenMyStoreComponent implements OnInit {
       FOREIGN_KEY_USER: this.userService.pullUserInState().PRIMARY_KEY,
     });
     this.setImageDisplay();
+  }
+
+  private createForm (store: Store): FormGroup { 
+    return this.fb.group(store); 
+  }
+
+  private getForm():Store {
+    return this.storeForm.value
+  }
+
+  private updateForm(store: Partial<Store>): void {
+    this.storeForm.patchValue(store)
   }
 
   private async setImageDisplay() {
@@ -496,61 +477,23 @@ export class OpenMyStoreComponent implements OnInit {
       this.imageNew
     ) {
       this.view.setLoader(true);
-      this.formTypeStore();
+      this.createNewStore();
     }
 
     window.scroll(0, 0);
     console.log(this.storeForm.value);
   }
 
-  public formTypeStore() {
-    this.storeService.store = {
-      AUTOINCREMENT: this.storeForm.get("AUTOINCREMENT").value,
-      DATE: this.storeForm.get("DATE").value,
-      FOREIGN_KEY_USER: this.storeForm.get("FOREIGN_KEY_USER").value,
-      PRIMARY_KEY: this.storeForm.get("PRIMARY_KEY").value,
-      about: this.storeForm.get("about").value,
-      authorizationForOpenStore: this.storeForm.get("authorizationForOpenStore").value,
-      cellPhone: this.storeForm.get("cellPhone").value,
-      cep: this.storeForm.get("cep").value,
-      city: this.storeForm.get("city").value,
-      cnpj: this.storeForm.get("cnpj").value,
-      country: this.storeForm.get("country").value,
-      credit: this.storeForm.get("credit").value,
-      debit: this.storeForm.get("debit").value,
-      deliveryBy: this.storeForm.get("deliveryBy").value,
-      deliveryFreeAbove: this.storeForm.get("deliveryFreeAbove").value,
-      email: this.storeForm.get("email").value,
-      follow: this.storeForm.get("follow").value,
-      hoursOfWork: this.storeForm.get("hoursOfWork").value,
-      imageBackGroundPath: this.storeForm.get("imageBackGroundPath").value,
-      imageBackGroundUrl: this.storeForm.get("imageBackGroundUrl").value,
-      imageIconPath: this.storeForm.get("imageIconPath").value,
-      imageIconUrl: this.storeForm.get("imageIconUrl").value,
-      money: this.storeForm.get("money").value,
-      name: this.storeForm.get("name").value,
-      negotiateRateDelivery: this.storeForm.get("negotiateRateDelivery").value,
-      neighborhood: this.storeForm.get("neighborhood").value,
-      onlyInNeighborhood: this.storeForm.get("onlyInNeighborhood").value,
-      quantityOfProduct: this.storeForm.get("quantityOfProduct").value,
-      stateFederal: this.storeForm.get("stateFederal").value,
-      storeOpenOrClosed: this.storeForm.get("storeOpenOrClosed").value,
-      street: this.storeForm.get("street").value,
-      telephone: this.storeForm.get("telephone").value,
-      totalOfSale: this.storeForm.get("totalOfSale").value,
-    };
-    this.createNewStore();
-  }
-
   createNewStore() {
     this.storeService.sendImagemStorageInApi(this.storeForm.get("imageIconPath").value,this.imageNew).then(async (url: any) => {
-      this.storeService.store.imageIconUrl = await url;
-      this.storeService.createNewStoreInApi(this.storeService.store).then((store: Store) => {
+      this.storeForm.patchValue({ imageIconUrl : await url })
+      this.storeService.createNewStoreInApi(this.getForm()).then((store: Store) => {
         this.storeService.setStoreInState(store)
-        this.userService.user.type = 2;
-        this.userService.putUserByUidInApi(this.userService.user).then((user) => {
+        let user = this.userService.user()
+        user.type = 2
+        this.userService.putUserByUidInApi(user).then((user) => {
           this.view.setUser("store");
-          this.view.redirectPageFor("/home-store");
+          this.view.redirectPageFor("/store-home");
         });
       });
     });

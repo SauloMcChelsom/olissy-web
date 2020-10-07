@@ -1,16 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+
+import { map } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+
+import { OrderShared }  from'../../../../shared/order.shared';
 import { View } from '../../../../shared/view.shared';
 import { ClientService } from '../../../../service/client.service';
 import { StoreService, Store } from '../../../../service/store.service';
 import { ProductService, Product } from '../../../../service/product.service';
 import { WarehouseService, Warehouse } from '../../../../service/warehouse.service';
 import { Order, OrderService } from '../../../../service/order.service';
-
-import { map } from 'rxjs/operators';
-import { take } from 'rxjs/operators';
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
 
 @Component({
   selector: 'mt-product-of-store',
@@ -24,12 +26,15 @@ export class ProductOfStoreComponent implements OnInit {
 
   public imgbackground = './assets/background.jpg'
 
-  public order:Order
+  public order:Order = this.orderService.order()
+
+  public warehouse:Warehouse = this.warehouseService.warehouse()
+  
+  public store:Store = this.storeService.store()
 
   public warehouses = []
+
   public products = []
-  public pages = 0
-  public showCardBy = "product"
   
   constructor(
     private view:View,
@@ -38,14 +43,13 @@ export class ProductOfStoreComponent implements OnInit {
     private productService:ProductService,
     private warehouseService:WarehouseService,
     private orderService:OrderService,
-    private route: ActivatedRoute
-  ){
-    this.order = this.orderService.order()
-  }
+    private route: ActivatedRoute,
+    private orderShared:OrderShared,
+  ){}
 
   public ngOnInit() {
-    setTimeout(() => { this.view.setLoader(false) }, 3000)
-    this.order.product.pop()
+    this.orderShared.deleteOrder()
+    this.view.putLoader()
     this.getProduct()
     this.getStore()
   }
@@ -55,8 +59,8 @@ export class ProductOfStoreComponent implements OnInit {
       for (const index in product) {
         this.products.push(product[index])
 
-        this.warehouseService.warehouse.PRIMARY_KEY = product[index].FOREIGN_KEY_WAREHOUSE
-        await this.getWarehouse(this.warehouseService.warehouse)
+        this.warehouse.PRIMARY_KEY = product[index].FOREIGN_KEY_WAREHOUSE
+        await this.getWarehouse(this.warehouse)
       }
     })
   }
@@ -82,9 +86,8 @@ export class ProductOfStoreComponent implements OnInit {
   }
 
   public getStore(){
-    this.storeService.store.PRIMARY_KEY = this.route.parent.snapshot.params.id
-    this.storeService.getStoreByPrimaryKeyInApi(this.storeService.store).pipe(takeUntil(this.unsubscribe$), take(1)).subscribe( (store:Store[]) =>{
-      localStorage.removeItem('order')
+    this.store.PRIMARY_KEY = this.route.parent.snapshot.params.id
+    this.storeService.getStoreByPrimaryKeyInApi(this.store).pipe(takeUntil(this.unsubscribe$), take(1)).subscribe( (store:Store[]) =>{
       this.order.nameOfStore = store[0].name
       this.order.FOREIGN_KEY_STORE =  store[0].PRIMARY_KEY
       this.order.imageIconUrlOfStore =  store[0].imageIconUrl
@@ -101,90 +104,14 @@ export class ProductOfStoreComponent implements OnInit {
   }
 
   public encreaseItemCart(product){
-    let warehouse:Warehouse = this.warehouses.find(warehouse => warehouse.PRIMARY_KEY == product.FOREIGN_KEY_WAREHOUSE)
-
-    let item = {
-      FOREIGN_KEY_PRODUCT : product.PRIMARY_KEY,
-      name : warehouse.name,
-      price : Number(product.price),
-      quantity:1,
-      totalOfPrice:Number(product.price),
-      quantities:product.quantities,
-    }
-
-    const foundItem: any = this.order.product.find(items => items.FOREIGN_KEY_PRODUCT === item.FOREIGN_KEY_PRODUCT);
-
-    if(foundItem){
-      if(foundItem.quantity < foundItem.quantities){
-        foundItem.quantity++;
-        this.order.totalOrderValue = (this.order.totalOrderValue - foundItem.totalOfPrice) + (foundItem.price * foundItem.quantity)
-        foundItem.totalOfPrice = foundItem.price * foundItem.quantity;
-      }
-    }else{
-      this.order.totalOrderValue += item.totalOfPrice
-      this.order.product.push(item)
-    }
     localStorage.setItem('order', JSON.stringify(this.order))
+    this.orderService.setOrderInState(this.order)
+    let warehouse:Warehouse = this.warehouses.find(warehouse => warehouse.PRIMARY_KEY == product.FOREIGN_KEY_WAREHOUSE)
+    this.orderShared.encreaseItemCart(product, warehouse)
   }
 
   public decreaseItemCart(product, index){
-    const foundItem: any = this.order.product.find(items => items.FOREIGN_KEY_PRODUCT === product.PRIMARY_KEY);
-
-    if(foundItem.quantity > 1){
-      foundItem.quantity--
-      foundItem.totalOfPrice = foundItem.totalOfPrice - foundItem.price
-      this.order.totalOrderValue =  this.order.totalOrderValue - foundItem.price
-    }else{
-      this.order.totalOrderValue =  this.order.totalOrderValue - foundItem.price
-      this.order.product.splice(index, 1)
-    }
-
-    if(Object.keys(this.order.product).length == 0){
-      localStorage.removeItem('order')
-    }else{
-      localStorage.setItem('order', JSON.stringify(this.order))
-    }
-    
-  }
-
-  public encreaseItem(item){
-    const foundItem: any = this.order.product.find(items => items.FOREIGN_KEY_PRODUCT === item.FOREIGN_KEY_PRODUCT);
-
-    if(foundItem){
-      if(foundItem.quantity < foundItem.quantities){
-        foundItem.quantity++;
-        this.order.totalOrderValue = (this.order.totalOrderValue - foundItem.totalOfPrice) + (foundItem.price * foundItem.quantity)
-        foundItem.totalOfPrice = foundItem.price * foundItem.quantity;
-      }
-    }
-    localStorage.setItem('order', JSON.stringify(this.order))
-  }
-
-  public decreaseItem(item, index){
-    const foundItem: any = this.order.product.find(items => items.FOREIGN_KEY_PRODUCT === item.FOREIGN_KEY_PRODUCT);
-
-    if(foundItem.quantity > 1){
-      foundItem.quantity--
-      foundItem.totalOfPrice = foundItem.totalOfPrice - foundItem.price
-      this.order.totalOrderValue =  this.order.totalOrderValue - foundItem.price
-    }
-    localStorage.setItem('order', JSON.stringify(this.order))
-  }
-
-  public deleteItem(item, index){
-    const foundItem: any = this.order.product.find(items => items.FOREIGN_KEY_PRODUCT === item.FOREIGN_KEY_PRODUCT);
-
-    this.order.totalOrderValue = this.order.totalOrderValue - foundItem.totalOfPrice
-    this.order.product.splice(index, 1)
-    localStorage.setItem('order', JSON.stringify(this.order))
-    if(Object.keys(this.order.product).length == 0){
-      localStorage.removeItem('order')
-    }
-  }
-
-  public sedOrder(){
-    localStorage.setItem('order', JSON.stringify(this.order))
-    this.view.redirectPageFor('/user-create-order')
+    this.orderShared.decreaseItemCart(product, index)
   }
 
   ngOnDestroy(){

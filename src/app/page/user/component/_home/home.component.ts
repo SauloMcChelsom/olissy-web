@@ -5,7 +5,8 @@ import { ClientService } from '../../../../service/client.service';
 import { StoreService, Store } from '../../../../service/store.service';
 import { ProductService, Product } from '../../../../service/product.service';
 import { WarehouseService, Warehouse } from '../../../../service/warehouse.service';
-import { OrderService } from '../../../../service/order.service';
+import { Order, OrderService } from '../../../../service/order.service';
+import { OrderShared }  from'../../../../shared/order.shared';
 
 import { map } from 'rxjs/operators';
 import { take } from 'rxjs/operators';
@@ -22,7 +23,11 @@ export class HomeComponent implements OnInit {
 
   private unsubscribe$ = new Subject();
 
-  public order = this.orderService.order()
+  public order:Order = this.orderService.order()
+
+  public warehouse:Warehouse = this.warehouseService.warehouse()
+
+  public store:Store = this.storeService.store()
 
   public imgbackground = './assets/background.jpg'
 
@@ -38,7 +43,8 @@ export class HomeComponent implements OnInit {
     private storeService:StoreService,
     private productService:ProductService,
     private warehouseService:WarehouseService,
-    private orderService:OrderService
+    private orderService:OrderService,
+    private orderShared:OrderShared,
   ){}
 
   public ngOnInit() {
@@ -51,11 +57,11 @@ export class HomeComponent implements OnInit {
       for (const index in product) {
         this.products.push(product[index])
 
-        this.storeService.store.PRIMARY_KEY = product[index].FOREIGN_KEY_STORE
-        await this.getStore(this.storeService.store)
+        this.store.PRIMARY_KEY = product[index].FOREIGN_KEY_STORE
+        await this.getStore(this.store)
   
-        this.warehouseService.warehouse.PRIMARY_KEY = product[index].FOREIGN_KEY_WAREHOUSE
-        await this.getWarehouse(this.warehouseService.warehouse)
+        this.warehouse.PRIMARY_KEY = product[index].FOREIGN_KEY_WAREHOUSE
+        await this.getWarehouse(this.warehouse)
       }
     })
   }
@@ -109,16 +115,10 @@ export class HomeComponent implements OnInit {
     this.order.cnpjOfStore =  store.cnpj
     this.order.taxaDeliverySelectByClientStatus = null
     this.order.methodPayment = null
-    this.order.product = [{
-      FOREIGN_KEY_PRODUCT : product.PRIMARY_KEY,
-      name : warehouse.name,
-      price : Number(product.price),
-      quantity:1,
-      totalOfPrice:Number(product.price),
-      quantities:product.quantities,
-    }]
 
     localStorage.setItem('order', JSON.stringify(this.order))
+    this.orderService.setOrderInState(this.order)
+    this.orderShared.encreaseItemCart(product, warehouse)
     
     this.view.redirectPageFor('/user-create-order')
   }

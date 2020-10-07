@@ -2,11 +2,11 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder }  from '@angular/forms';
 import { View } from '../../../../shared/view.shared';
 import { StoreService, Store } from '../../../../service/store.service';
-import { Order } from '../../../../service/order.service';
+import { OrderShared }  from'../../../../shared/order.shared';
+import { OrderService, Order } from '../../../../service/order.service';
 
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { take } from 'rxjs/operators';
 
 @Component({
@@ -22,53 +22,17 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
     lazy: false
   };
 
-  public store:Store
-
   private unsubscribe$ = new Subject();
 
-  public formOrder: FormGroup = this.createForm({
-    FOREIGN_KEY_CLIENT: '',
-    addressFullOfClient: '',
-    nameOfClient: '',
-    lastNameOfClient: '',
-    imageIconUrlOfClient: '',
-    emailOfClient: '',
-    cellPhoneOfClient: '',
-    cityOfClient: '',
-    neighborhoodOfClient: '',
-    streetOfClient: '',
-    FOREIGN_KEY_STORE: '',
-    nameOfStore: '',
-    imageIconUrlOfStore: '',
-    cellPhoneOfStore: '',
-    emailOfStore: '',
-    cityOfStore: '',
-    neighborhoodOfStore: '',
-    streetOfStore: '',
-    cnpjOfStore: '',
-    AUTOINCREMENT: '',
-    DATE: '',
-    PRIMARY_KEY: '',
-    methodPayment: '',
-    informChange: '',
-    orderState: '',
-    storeViewedTheOrder: false,
-    totalOrderValue: 0,
-    product: [{}],
-    taxaOfPlatform: 0,
-    note: [{}],
-    taxaDeliverySelectByClientStatus:'',
-    taxaDeliverySelectByClient:{
-      description:'Escolha a opção', 
-      value: '', 
-      taxa:0,
-      km:0
-    }
-  });
+  public store:Store = this.storeService.store()
+
+  public formOrder: FormGroup = this.createForm(this.orderService.order());
  
   constructor(
     private view:View,
     private storeService:StoreService,
+    private orderShared:OrderShared,
+    private orderService:OrderService,
     private fb: FormBuilder
   ){}
 
@@ -80,21 +44,24 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
     this.formOrder.patchValue(order)
   }
 
-  public async ngOnInit() {
+  public ngOnInit() {
     window.scroll(0,0);
     this.view.putLoader()
     this.getOrderInLocalStorage()
   }
 
   public getOrderInLocalStorage(){
-    this.updateForm(JSON.parse(localStorage.getItem('order')))
-    this.getStore(this.formOrder.value.FOREIGN_KEY_STORE)
+    this.orderService.getOrderInState().pipe(takeUntil(this.unsubscribe$),take(1)).subscribe((order)=>{
+      this.updateForm(order[0])
+      this.getStore(this.formOrder.value.FOREIGN_KEY_STORE)
+    })
   }
 
   public getStore(PRIMARY_KEY){
-    this.storeService.store.PRIMARY_KEY = PRIMARY_KEY
-    this.storeService.getStoreByPrimaryKeyInApi(this.storeService.store).pipe(take(1), takeUntil(this.unsubscribe$)).subscribe((store:Store[])=>{
+    this.store.PRIMARY_KEY = PRIMARY_KEY
+    this.storeService.getStoreByPrimaryKeyInApi(this.store).pipe(takeUntil(this.unsubscribe$),take(1)).subscribe((store:Store[])=>{
       this.store = store[0]
+      this.chooseDeliveryRate()
     })
   }
 
@@ -112,6 +79,7 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
       this.formOrder.patchValue({taxaDeliverySelectByClient:{description:`Entrega por R${this.store.deliveryBy.taxa} por quilômetro`,taxa:this.store.deliveryBy.taxa, value: 'deliveryBy'}})
     }
     localStorage.setItem('order', JSON.stringify(this.formOrder.value))
+    this.orderService.setOrderInState(this.formOrder.value)
   }
 
   public setMethodPaymentForMoney(value){
@@ -122,71 +90,45 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
       this.formOrder.get("informChange").markAsTouched();
     }
     localStorage.setItem('order', JSON.stringify(this.formOrder.value))
+    this.orderService.setOrderInState(this.formOrder.value)
+  }
+
+  public chooseDeliveryRate(){
+    let order:Order = this.orderService.pullOrderInState()
+    if(order.taxaDeliverySelectByClient.value == 'deliveryFreeAbove' && order.totalOrderValue < this.store.deliveryFreeAbove.taxa){
+        order.taxaDeliverySelectByClientStatus = 'negotiateRateDelivery'
+        order.taxaDeliverySelectByClient = {
+          description:'Negociar taxa de entrega por Telefone',
+          taxa:0,
+          km:0, 
+          value: 'negotiateRateDelivery'
+        }
+    }
+    localStorage.setItem('order', JSON.stringify(order))
+    this.orderService.setOrderInState(order)
+    this.updateForm(order)
   }
 
   public TOTAL(){
-    let order = this.formOrder.value.totalOrderValue
-    let taxa = this.formOrder.value.taxaOfPlatform
-    let delivery = this.formOrder.value.taxaDeliverySelectByClient.taxa
-    if(this.formOrder.value.taxaDeliverySelectByClient.value == 'deliveryFreeAbove'){
-      return order + taxa + 0
-    }
-    return order + taxa + delivery
+    return this.orderShared.Total()
   }
 
-  public encreaseItem(index){
-    if(this.formOrder.value.product[index].quantity < this.formOrder.value.product[index].quantities){
-      
-      this.formOrder.value.product[index].quantity++
-      this.formOrder.patchValue({product: this.formOrder.value.product})
-
-      this.formOrder.patchValue({totalOrderValue : (this.formOrder.value.totalOrderValue - this.formOrder.value.product[index].totalOfPrice) + (this.formOrder.value.product[index].price * this.formOrder.value.product[index].quantity)})
-     
-      this.formOrder.value.product[index].totalOfPrice = this.formOrder.value.product[index].price * this.formOrder.value.product[index].quantity
-      this.formOrder.patchValue({product: this.formOrder.value.product})
-
-      localStorage.setItem('order', JSON.stringify(this.formOrder.value))
-    }
+  public encreaseItem(item, index){ 
+    this.orderShared.encreaseItem(item)
+    this.updateForm(this.orderService.pullOrderInState())
   }
 
-  public decreaseItem(index){
-    if(this.formOrder.value.product[index].quantity > 1){
-
-      this.formOrder.value.product[index].quantity--
-      this.formOrder.patchValue({product: this.formOrder.value.product})
-
-      this.formOrder.value.product[index].totalOfPrice = this.formOrder.value.product[index].totalOfPrice - this.formOrder.value.product[index].price
-      this.formOrder.patchValue({product: this.formOrder.value.product})
-      
-      this.formOrder.patchValue({totalOrderValue : this.formOrder.value.totalOrderValue - this.formOrder.value.product[index].price})
-     
-      if(this.formOrder.value.taxaDeliverySelectByClient.value == 'deliveryFreeAbove' && this.formOrder.value.totalOrderValue < this.store.deliveryFreeAbove.taxa){
-        this.formOrder.patchValue({taxaDeliverySelectByClientStatus : 'negotiateRateDelivery'})
-        this.formOrder.patchValue({taxaDeliverySelectByClient: {description:'Negociar taxa de entrega por Telefone', taxa:0, km:0, value: 'negotiateRateDelivery'}})
-      }
-      localStorage.setItem('order', JSON.stringify(this.formOrder.value))
-    }
+  public decreaseItem(item, index){
+    this.orderShared.decreaseItem(item)
+    this.chooseDeliveryRate()
+    this.updateForm(this.orderService.pullOrderInState())
   }
 
-  public deleteItem(index){
-    this.formOrder.patchValue({totalOrderValue : this.formOrder.value.totalOrderValue - this.formOrder.value.product[index].totalOfPrice})
-    
-    this.formOrder.value.product.splice(index, 1)
-    this.formOrder.patchValue({product: this.formOrder.value.product})
-    
-    if(this.formOrder.value.taxaDeliverySelectByClient.value == 'deliveryFreeAbove' && this.formOrder.value.totalOrderValue < this.store.deliveryFreeAbove.taxa){
-      this.formOrder.patchValue({taxaDeliverySelectByClientStatus : 'negotiateRateDelivery'})
-      this.formOrder.patchValue({taxaDeliverySelectByClient: {description:'Negociar taxa de entrega por Telefone', taxa:0, km:0, value: 'negotiateRateDelivery'}})
+  public deleteItem(item, index){
+    this.orderShared.deleteItem(item, index, '/user-create-order')
+    if(this.orderService.pullOrderInState() != null){
+      this.chooseDeliveryRate()
     }
-
-    localStorage.setItem('order', JSON.stringify(this.formOrder.value))
-
-    if(Object.keys(this.formOrder.value.product).length == 0){
-      this.view.setLoader(true)
-      localStorage.removeItem('order')
-      this.view.redirectPageFor(`/home`)
-    }
-
   }
 
   public validateForm(){
@@ -197,16 +139,19 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
     this.formOrder.get("informChange").markAsTouched();
 
     window.scroll(0, 0);
+    localStorage.setItem('order', JSON.stringify(this.formOrder.value))
+    this.orderService.setOrderInState(this.formOrder.value)
+
     if(this.formOrder.valid){
-      this.typing()
+      this.sendOrder()
     }
   }
 
-  public typing(){
-    localStorage.setItem('order', JSON.stringify(this.formOrder.value))
+  public sendOrder(){
     console.log(this.formOrder.value)
-    //this.view.setLoader(true)
-    //this.view.redirectPageFor(`/login`)
+
+    this.view.setLoader(true)
+    this.view.redirectPageFor(`/login`)
   }
 
   ngOnDestroy(){

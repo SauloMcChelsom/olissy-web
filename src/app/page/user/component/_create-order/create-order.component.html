@@ -108,11 +108,11 @@
               <tbody>
                 <tr *ngFor="let item of formOrder.value.product; let indexProduct = index">
                   <td class="text-center">
-                    <a (click)="decreaseItem(indexProduct)" class="btn btn-sm" style="color:red">
+                    <a (click)="decreaseItem(item, indexProduct)" class="btn btn-sm" style="color:red">
                       <i class="fa fa-minus"></i>
                     </a>
                     {{ item.quantity }}
-                    <a (click)="encreaseItem(indexProduct)" class="btn btn-sm" style="color:green">
+                    <a (click)="encreaseItem(item, indexProduct)" class="btn btn-sm" style="color:green">
                       <i class="fa fa-plus"></i>
                     </a>
                   </td>
@@ -121,7 +121,7 @@
                     {{ item.price | currency: "BRL" }}
                   </td>
                   <td class="text-right">
-                    <a class="btn btn-sm danger" (click)="deleteItem(indexProduct)">
+                    <a class="btn btn-sm danger" (click)="deleteItem(item, indexProduct)">
                       <i class="fa fa-remove"></i>
                     </a>
                   </td>

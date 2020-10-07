@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { View } from '../../../../shared/view.shared';
 import { UserService, User } from '../../../../service/user.service';
@@ -20,28 +21,28 @@ export class PageOfStoreComponent implements OnInit, OnDestroy {
 
   private unsubscribe$ = new Subject();
 
-  public store:any
+  public store:Store = this.storeService.store()
 
   constructor(
     private view:View,
     private userService:UserService,
     private clientService:ClientService,
-    private storeService:StoreService
+    private storeService:StoreService,
+    private route: ActivatedRoute
   ){}
 
   public async ngOnInit() {
-    this.getStore('mw6QcFXgT1Qxzx681n8x')
+    this.getStore(this.route.parent.snapshot.params.id)
   }
 
   public getStore(PRIMARY_KEY){
-    this.storeService.store.PRIMARY_KEY = PRIMARY_KEY
-    this.storeService.getStoreByPrimaryKeyInApi(this.storeService.store).pipe(take(1), takeUntil(this.unsubscribe$)).subscribe((store:Store[])=>{
-      this.store = store
+    this.store.PRIMARY_KEY = PRIMARY_KEY
+    this.storeService.getStoreByPrimaryKeyInApi(this.store).pipe(take(1), takeUntil(this.unsubscribe$)).subscribe((s:Store[])=>{
+      this.store = s[0]
     })
   }
 
-
-  ngOnDestroy(){
+  public ngOnDestroy(){
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }
