@@ -61,7 +61,7 @@ export class ProductService {
     return this.state.delProduct()
   }
 
-  public product():Product{
+  public get product():Product{
     return {
       AUTOINCREMENT: '',
       DATE: '',

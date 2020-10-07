@@ -25,9 +25,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   public avatar:string = null
 
-  public client:Client = this.clientService.client()
+  public client:Client
 
-  public userForm: FormGroup = this.createForm(this.userService.user());
+  public userForm: FormGroup = this.createForm(this.userService.user);
 
   public active = {
     text: "",
@@ -134,7 +134,17 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.clientService.setClientInState([newClient])
     
     this.view.setUser('client')
+
+    if(this.userHaveOrderInOpen())
     this.view.redirectPageFor('/client-home')
+  }
+
+  public userHaveOrderInOpen():Boolean{
+    if(localStorage.getItem('order') != null){
+      this.view.redirectPageFor('/client-create-order')
+      return false
+    }
+    return true
   }
 
   ngOnDestroy() {

@@ -53,7 +53,7 @@ export class ClientService {
     return this.state.delClient()
   } 
 
-  public client():Client{
+  public get client():Client{
     return {
       AUTOINCREMENT: new Date(),
       DATE: '',
@@ -76,5 +76,4 @@ export class ClientService {
       street: '',
     }
   }
-
 }

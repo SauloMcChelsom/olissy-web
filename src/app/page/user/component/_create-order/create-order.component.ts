@@ -24,9 +24,9 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
 
   private unsubscribe$ = new Subject();
 
-  public store:Store = this.storeService.store()
+  public store:Store = this.storeService.store
 
-  public formOrder: FormGroup = this.createForm(this.orderService.order());
+  public formOrder: FormGroup = this.createForm(this.orderService.order)
  
   constructor(
     private view:View,

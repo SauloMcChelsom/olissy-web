@@ -52,7 +52,7 @@ export class OrderService {
     return this.state.delOrder()
   }
 
-  public order():Order{
+  public get order():Order{
     return {
       FOREIGN_KEY_CLIENT: '',
       addressFullOfClient: '',

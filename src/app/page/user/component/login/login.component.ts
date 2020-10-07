@@ -21,11 +21,11 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   private unsubscribe$ = new Subject();
 
-  public userForm: FormGroup = this.createForm(this.userService.user());
+  public userForm: FormGroup = this.createForm(this.userService.user);
 
-  public client:Client = this.clientService.client()
+  public client:Client= this.clientService.client
 
-  public store:Store = this.storeService.store()
+  public store:Store  = this.storeService.store
 
   public active = {
     text: "",
@@ -97,8 +97,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     let userIsLogged = null
     await this.userService.signInWithEmailAndPasswordInApi(this.getForm()).then( v =>  userIsLogged = v ).catch(()=> userIsLogged = false )
     if(userIsLogged){
-      this.userForm.patchValue({FOREIGN_KEY_UID:userIsLogged.uid})
-      await this.userService.getUserByEmailInApi(this.getForm()).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) => this.userService.user = v[0]) ).toPromise()
+      this.userForm.patchValue({FOREIGN_KEY_UID:userIsLogged.uid})  
+      await this.userService.getUserByEmailInApi(this.getForm()).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) => this.userForm.patchValue(v[0])) ).toPromise()
       this.userService.setUserInState([this.getForm()])
       await this.userType()
     }else{
@@ -111,19 +111,29 @@ export class LoginComponent implements OnInit, OnDestroy {
   public async userType(){
     if(this.userForm.value.type == 1){
       this.client.FOREIGN_KEY_USER = this.userService.pullUserInState().PRIMARY_KEY
-      await this.clientService.getClientByForeignKeyUserInApi(this.client).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) => this.clientService.client = v[0]) ).toPromise()
+      await this.clientService.getClientByForeignKeyUserInApi(this.client).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) => this.client = v[0]) ).toPromise()
       this.clientService.setClientInState([this.client])
       this.view.setUser('client')
+
+      if(this.userHaveOrderInOpen())
       this.view.redirectPageFor('/client-home')
     }
 
     if(this.userForm.value.type == 2){
        this.store.FOREIGN_KEY_USER = this.userService.pullUserInState().PRIMARY_KEY
-      await this.storeService.getStoreByForeignKeyUserInApi( this.store).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) =>  this.storeService.store = v[0]) ).toPromise()
+      await this.storeService.getStoreByForeignKeyUserInApi( this.store).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) =>  this.store = v[0]) ).toPromise()
       this.storeService.setStoreInState(this.store)
       this.view.setUser('store')
       this.view.redirectPageFor('/store-home')
     }
+  }
+
+  public userHaveOrderInOpen():Boolean{
+    if(localStorage.getItem('order') != null){
+      this.view.redirectPageFor('/client-create-order')
+      return false
+    }
+    return true
   }
 
   ngOnDestroy(){

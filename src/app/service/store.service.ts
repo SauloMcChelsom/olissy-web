@@ -61,7 +61,7 @@ export class StoreService {
     return this.state.delStore()
   }
 
-  public store():Store {
+  public get store():Store {
     return {
       AUTOINCREMENT: null,
       DATE: '',

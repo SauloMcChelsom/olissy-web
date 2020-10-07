@@ -22,12 +22,12 @@ export class LoginProviderComponent implements OnInit, OnDestroy {
 
   public avatar:string = null
 
-  public user:User = this.userService.user()
+  public user:User
 
-  public client:Client = this.clientService.client()
+  public client:Client
   
-  public store:Store = this.storeService.store()
-
+  public store:Store
+  
   constructor(
     private view:View,
     private userService:UserService,
@@ -74,7 +74,7 @@ export class LoginProviderComponent implements OnInit, OnDestroy {
     if(Object.keys(user).length == 0){
       await this.createNewUser()
     }else{
-      this.userService.user = user[0]
+      this.user = user[0]
       this.userService.setUserInState([user[0]])
       await this.userType()
     }
@@ -96,20 +96,30 @@ export class LoginProviderComponent implements OnInit, OnDestroy {
 
   public async userType(){
     if(this.user.type == 1){
-      this.client.FOREIGN_KEY_USER =   this.userService.pullUserInState().PRIMARY_KEY
-      await this.clientService.getClientByForeignKeyUserInApi( this.client).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) =>  this.clientService.client = v[0]) ).toPromise()
+      this.client.FOREIGN_KEY_USER = this.userService.pullUserInState().PRIMARY_KEY
+      await this.clientService.getClientByForeignKeyUserInApi( this.client).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) =>  this.client = v[0]) ).toPromise()
       this.clientService.setClientInState([ this.client])
       this.view.setUser('client')
+
+      if(this.userHaveOrderInOpen())
       this.view.redirectPageFor('/client-home')
     }
 
     if(this.user.type == 2){
-      this.store.FOREIGN_KEY_USER =   this.userService.pullUserInState().PRIMARY_KEY
-      await this.storeService.getStoreByForeignKeyUserInApi( this.store).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) =>  this.storeService.store = v[0]) ).toPromise()
-      this.storeService.setStoreInState( this.store)
+      this.store.FOREIGN_KEY_USER = this.userService.pullUserInState().PRIMARY_KEY
+      await this.storeService.getStoreByForeignKeyUserInApi( this.store).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) =>  this.store = v[0]) ).toPromise()
+      this.storeService.setStoreInState(this.store)
       this.view.setUser('store')
       this.view.redirectPageFor('/store-home')
     }
+  }
+
+  public userHaveOrderInOpen():Boolean{
+    if(localStorage.getItem('order') != null){
+      this.view.redirectPageFor('/client-create-order')
+      return false
+    }
+    return true
   }
 
   ngOnDestroy(){

@@ -23,11 +23,11 @@ export class HomeComponent implements OnInit {
 
   private unsubscribe$ = new Subject();
 
-  public order:Order = this.orderService.order()
+  public order:Order = this.orderService.order
 
-  public warehouse:Warehouse = this.warehouseService.warehouse()
+  public warehouse:Warehouse = this.warehouseService.warehouse
 
-  public store:Store = this.storeService.store()
+  public store:Store = this.storeService.store
 
   public imgbackground = './assets/background.jpg'
 

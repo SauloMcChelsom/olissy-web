@@ -21,7 +21,7 @@ export class PageOfStoreComponent implements OnInit, OnDestroy {
 
   private unsubscribe$ = new Subject();
 
-  public store:Store = this.storeService.store()
+  public store:Store = this.storeService.store
 
   constructor(
     private view:View,

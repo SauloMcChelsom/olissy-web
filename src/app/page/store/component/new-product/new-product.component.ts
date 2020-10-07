@@ -39,7 +39,7 @@ export class NewProductComponent implements OnInit {
     }
   };
 
-  public product:Product = this.productService.product()
+  public product:Product = this.productService.product
 
   public productForm: FormGroup = this.createForm(this.product)
   constructor(

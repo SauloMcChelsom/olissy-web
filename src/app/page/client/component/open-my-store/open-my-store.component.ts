@@ -88,7 +88,7 @@ export class OpenMyStoreComponent implements OnInit {
 
   public taxaDeliveryStatus: any = "clean";
 
-  public storeForm: FormGroup = this.createForm(this.storeService.store());
+  public storeForm: FormGroup = this.createForm(this.storeService.store)
 
   constructor(
     private view: View,
@@ -489,7 +489,7 @@ export class OpenMyStoreComponent implements OnInit {
       this.storeForm.patchValue({ imageIconUrl : await url })
       this.storeService.createNewStoreInApi(this.getForm()).then((store: Store) => {
         this.storeService.setStoreInState(store)
-        let user = this.userService.user()
+        let user = this.userService.user
         user.type = 2
         this.userService.putUserByUidInApi(user).then((user) => {
           this.view.setUser("store");

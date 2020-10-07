@@ -25,11 +25,11 @@ export class ProductOfStoreComponent implements OnInit {
 
   public imgbackground = './assets/background.jpg'
 
-  public order:Order = this.orderService.order()
+  public order:Order = this.orderService.order
 
-  public warehouse:Warehouse = this.warehouseService.warehouse()
+  public warehouse:Warehouse = this.warehouseService.warehouse
   
-  public store:Store = this.storeService.store()
+  public store:Store = this.storeService.store
 
   public warehouses = []
 

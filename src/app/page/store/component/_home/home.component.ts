@@ -48,11 +48,11 @@ export class HomeComponent implements OnInit {
       for (const index in product) {
         this.products.push(product[index])
 
-        let store:Store = this.storeService.store()
+        let store:Store = this.storeService.store
             store.PRIMARY_KEY = product[index].FOREIGN_KEY_STORE
         await this.getStore(store)
   
-        let warehouse:Warehouse = this.warehouseService.warehouse()
+        let warehouse:Warehouse = this.warehouseService.warehouse
         warehouse.PRIMARY_KEY = product[index].FOREIGN_KEY_WAREHOUSE
         await this.getWarehouse(warehouse)
       }

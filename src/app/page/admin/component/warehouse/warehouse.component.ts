@@ -52,9 +52,9 @@ export class WarehouseComponent implements OnInit {
     }
   };
 
-  public werehouse:Warehouse = this.warehouseService.warehouse()
+  public werehouse:Warehouse = this.warehouseService.warehouse
 
-  public company: Company = this.companyService.company()
+  public company: Company = this.companyService.company
 
   public werehouseForm: FormGroup = this.createForm(this.werehouse)
 

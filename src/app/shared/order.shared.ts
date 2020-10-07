@@ -83,7 +83,7 @@ export class OrderShared {
 
       this.order = this.orderService.pullOrderInState()
       if(this.orderService.pullOrderInState() == null){
-        this.order = this.orderService.order()
+        this.order = this.orderService.order
       }
     
       const foundItem: any = this.order.product.find(items => items.FOREIGN_KEY_PRODUCT === item.FOREIGN_KEY_PRODUCT);
@@ -164,8 +164,8 @@ export class OrderShared {
   }
 
   public createOrder(){
-    this.orderService.setOrderInState(this.orderService.order())
-    localStorage.setItem('order', JSON.stringify(this.orderService.order()))
+    this.orderService.setOrderInState(this.orderService.order)
+    localStorage.setItem('order', JSON.stringify(this.orderService.order))
   }
 
   public deleteOrder(){

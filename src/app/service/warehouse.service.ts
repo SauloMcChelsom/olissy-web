@@ -62,7 +62,7 @@ export class WarehouseService {
     return this.state.delWarehouse()
   }
 
-  public warehouse():Warehouse{
+  public get warehouse():Warehouse{
     return {
       AUTOINCREMENT: new Date(),
       PRIMARY_KEY: '',

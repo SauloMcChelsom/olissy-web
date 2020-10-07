@@ -74,7 +74,7 @@ export class UserService {
     return this.state.delUser()
   }
 
-  public user():User{
+  public get user():User{
     return {
       AUTOINCREMENT: null,
       DATE: '',

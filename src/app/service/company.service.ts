@@ -56,7 +56,7 @@ export class CompanyService {
     return this.state.delCompany()
   }
 
-  public company():Company{
+  public get company():Company{
     return {
       AUTOINCREMENT: new Date(),
       PRIMARY_KEY: '',

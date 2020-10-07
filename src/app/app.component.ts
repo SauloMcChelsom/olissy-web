@@ -18,11 +18,11 @@ import { Subject } from 'rxjs';
 
 export class AppComponent implements  OnDestroy {
 
-  public user:User = this.userService.user()
+  public user:User = this.userService.user
 
-  public client:Client = this.clientService.client()
+  public client:Client = this.clientService.client
 
-  public store:Store = this.storeService.store()
+  public store:Store = this.storeService.store
 
   private unsubscribe$ = new Subject();
 
