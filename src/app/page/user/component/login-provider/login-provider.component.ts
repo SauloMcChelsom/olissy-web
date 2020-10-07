@@ -1,14 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { View } from '../../../../shared/view.shared';
-import { UserService, User } from '../../../../service/user.service';
-import { ClientService, Client } from '../../../../service/client.service';
-import { StoreService, Store } from '../../../../service/store.service';
-
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { take } from 'rxjs/operators';
+
+import { View } from '../../../../shared/view.shared';
+import { UserService, User } from '../../../../service/user.service';
+import { ClientService, Client } from '../../../../service/client.service';
+import { StoreService, Store } from '../../../../service/store.service';
 
 @Component({
   selector: 'app-login',
@@ -20,13 +20,13 @@ export class LoginProviderComponent implements OnInit, OnDestroy {
 
   private unsubscribe$ = new Subject();
 
+  public avatar:string = null
+
   public user:User = this.userService.user()
 
   public client:Client = this.clientService.client()
   
   public store:Store = this.storeService.store()
-
-  public avatar:string = null
 
   constructor(
     private view:View,

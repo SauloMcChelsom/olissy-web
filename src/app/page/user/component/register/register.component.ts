@@ -13,7 +13,6 @@ import { View } from '../../../../shared/view.shared';
 import { UserService, User } from '../../../../service/user.service';
 import { ClientService, Client } from '../../../../service/client.service';
 
-
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',

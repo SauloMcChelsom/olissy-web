@@ -20,7 +20,8 @@
         </li>
         <li routerLinkActive="active" *ngFor="let show of order$ | async" data-keyboard="false" data-toggle="modal" data-target="#displayShoppingCart">
           <a *ngIf="show" style="font-size: 22px;padding-top: 19px;">
-            <i class="fa fa-shopping-cart"></i> 
+            <i *ngIf="router != '/user-create-order'" class="fa fa-shopping-cart"></i> 
+            <i *ngIf="router == '/user-create-order'" style=" color: #0095f6; " class="fa fa-shopping-cart"></i> 
             <span class="label label-success">
               {{ show?.product.length }}
             </span>

@@ -6,13 +6,12 @@ import { take } from 'rxjs/operators';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
-import { OrderShared }  from'../../../../shared/order.shared';
 import { View } from '../../../../shared/view.shared';
-import { ClientService } from '../../../../service/client.service';
 import { StoreService, Store } from '../../../../service/store.service';
 import { ProductService, Product } from '../../../../service/product.service';
 import { WarehouseService, Warehouse } from '../../../../service/warehouse.service';
 import { Order, OrderService } from '../../../../service/order.service';
+import { OrderShared }  from'../../../../shared/order.shared';
 
 @Component({
   selector: 'mt-product-of-store',
@@ -38,7 +37,6 @@ export class ProductOfStoreComponent implements OnInit {
   
   constructor(
     private view:View,
-    private clientService:ClientService,
     private storeService:StoreService,
     private productService:ProductService,
     private warehouseService:WarehouseService,
@@ -47,11 +45,11 @@ export class ProductOfStoreComponent implements OnInit {
     private orderShared:OrderShared,
   ){}
 
-  public ngOnInit() {
-    this.orderShared.deleteOrder()
+  public async ngOnInit() {
     this.view.putLoader()
+    this.orderShared.deleteOrder()
+    await this.getStore()
     this.getProduct()
-    this.getStore()
   }
 
   public  getProduct() {
@@ -85,22 +83,22 @@ export class ProductOfStoreComponent implements OnInit {
     this.warehouses[index].showDescription = !value
   }
 
-  public getStore(){
+  public async getStore(){
     this.store.PRIMARY_KEY = this.route.parent.snapshot.params.id
-    this.storeService.getStoreByPrimaryKeyInApi(this.store).pipe(takeUntil(this.unsubscribe$), take(1)).subscribe( (store:Store[]) =>{
-      this.order.nameOfStore = store[0].name
-      this.order.FOREIGN_KEY_STORE =  store[0].PRIMARY_KEY
-      this.order.imageIconUrlOfStore =  store[0].imageIconUrl
-      this.order.cellPhoneOfStore = store[0].cellPhone
-      this.order.emailOfStore = store[0].email
-      this.order.cityOfStore =  store[0].city
-      this.order.neighborhoodOfStore =  store[0].neighborhood
-      this.order.streetOfStore =  store[0].street
-      this.order.cnpjOfStore =  store[0].cnpj
-      this.order.taxaDeliverySelectByClientStatus = null
-      this.order.methodPayment = null
-      this.order.totalOrderValue = 0
-    })
+    await this.storeService.getStoreByPrimaryKeyInApi(this.store).pipe(takeUntil(this.unsubscribe$),take(1), map((v:Store[]) => this.store = v[0]) ).toPromise()
+
+    this.order.nameOfStore = this.store.name
+    this.order.FOREIGN_KEY_STORE =  this.store.PRIMARY_KEY
+    this.order.imageIconUrlOfStore =  this.store.imageIconUrl
+    this.order.cellPhoneOfStore = this.store.cellPhone
+    this.order.emailOfStore = this.store.email
+    this.order.cityOfStore =  this.store.city
+    this.order.neighborhoodOfStore =  this.store.neighborhood
+    this.order.streetOfStore =  this.store.street
+    this.order.cnpjOfStore =  this.store.cnpj
+    this.order.taxaDeliverySelectByClientStatus = null
+    this.order.methodPayment = null
+    this.order.totalOrderValue = 0
   }
 
   public encreaseItemCart(product){

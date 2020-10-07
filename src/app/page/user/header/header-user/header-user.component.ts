@@ -28,15 +28,11 @@ export class HeaderUserComponent implements OnInit{
     private orderService:OrderService,
     private route: Router
   ){
-    /*this.route.events.subscribe((event:Event) => {
+    this.route.events.pipe(takeUntil(this.unsubscribe$)).subscribe((event:Event) => {
       if(event instanceof NavigationStart) {
         this.router = event.url
       }
-      // NavigationEnd
-      // NavigationCancel
-      // NavigationError
-      // RoutesRecognized
-    })*/
+    })
   }
 
   public ngOnInit(){

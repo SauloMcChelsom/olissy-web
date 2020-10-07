@@ -54,10 +54,10 @@ export const ROUTES: Routes = [
     path: 'user-page-of-store/:id',
     loadChildren: () => import('./page/user/component/_page-of-store/page-of-store.module').then(m => m.PageOfStoreModule) 
   },
-  /*{
+  {
     path: 'client-create-order',
     loadChildren: () => import('./page/client/component/_create-order/create-order.module').then(m => m.CreateOrderModule) 
-  },*/
+  },
 ];
 
 @NgModule({
