@@ -1,0 +1,117 @@
+
+<div class="container">
+  <div class="col-md-12 col-xs-12 card-container">
+    <div *ngFor="let product of products; let productIndex = index " class="menu-item-info-box card">
+
+
+      <div *ngIf="!warehouses?.length" class="col-md-12 col-xs-12 card-content">
+        <span class="card-content-loader"></span>
+      </div>
+      <div *ngFor="let warehouse of warehouses; let warehouseIndex = index">
+        <div *ngIf="product.FOREIGN_KEY_WAREHOUSE == warehouse.PRIMARY_KEY">
+          <div class="col-md-12 col-xs-12 card-content">
+            <span (click)="showDescription(warehouse.showDescription, warehouseIndex)" class="card-content-title">
+              {{ warehouse.name }}
+            </span>
+            <div *ngIf="warehouse.showDescription" class="card-content-description">
+              <span class="menu-item-info-box-detail">
+                <label>
+                  <p>
+                    <b>Sessão: </b> {{ warehouse.session }}
+                  </p>
+                </label>
+              </span>
+              <span class="menu-item-info-box-detail">
+                <label>
+                  <p>
+                    <b>Categoria: </b> {{ warehouse.category }}
+                  </p>
+                </label>
+              </span>
+              <span class="menu-item-info-box-detail">
+                <label>
+                  <p>
+                    <b>Tipo: </b> {{ warehouse.type }}
+                  </p>
+                </label>
+              </span>
+              <span class="menu-item-info-box-detail">
+                <label>
+                  <p>
+                    <b>Generico: </b> {{ warehouse.andGeneric? "Sim" : "Não" }}
+                  </p>
+                </label>
+              </span>
+              <span class="menu-item-info-box-detail">
+                <label>
+                  <p>
+                    <b>Fornecedor: </b> {{ warehouse.company }}
+                  </p>
+                </label>
+              </span>
+              <h5 style="margin-top: 0px;">
+                <div [innerHTML]="warehouse.description"></div>
+              </h5>
+            </div>
+          </div>
+          
+          <div class="card-publication">
+            <!--<span class="card-content-loader"></span>-->
+            <div class="card-publication-container"> 
+              <a target="_blank">
+                
+                <img style="width: 100%" [src]="warehouse.imageUrl[0]" alt="Photo">
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-sales">
+        <span class="menu-item-info-box-price card-sales-price">
+          {{ product.price | currency: 'BRL'}} 
+          <span>
+            <b>
+              {{ product.quantities }}  Unidades
+            </b>
+          </span>
+        </span>
+
+        <span class="card-sales-purchase">
+          <span class="pull-right card-sales-purchase-add-card">
+            <button (click)="encreaseItemCart(product)">
+              Adicionar
+            </button>
+          </span>
+          <span  *ngFor="let order of  this.order.product; let orderIndex = index">
+            <span  *ngIf="product.PRIMARY_KEY == order.FOREIGN_KEY_PRODUCT">
+              <span class="pull-right card-sales-purchase-quantity-card">
+                <a class="adicionar-carrinho">
+                  <b>  {{ order.quantity }} </b>
+                </a>
+              </span>
+              <span class="pull-right card-sales-purchase-remove-card">
+                <button (click)="decreaseItemCart(product, orderIndex)">
+                  Remover
+                </button>
+              </span>
+            </span> 
+          </span>
+        </span>
+      </div>
+      <div class="card-react">
+        <div class="card-react-love">
+          <i class="fa  fa-heart-o"></i>
+          <b>{{ product.totalOfLove }}</b>   
+        </div>
+        <div class="card-react-commit">        
+          <i class="fa  fa-comment-o"></i>
+          <b>{{ product.totalOfComment }}</b>   
+        </div>
+        <div class="card-react-sale">      
+          <i class="fa  fa-star-o"></i>
+          <b>{{ product.totalOfSale }}</b>   
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
