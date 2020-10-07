@@ -5,6 +5,7 @@ import { View } from '../shared/view.shared';
 import { UserService, User } from '../service/user.service';
 import { ClientService, Client } from '../service/client.service';
 import { StoreService, Store } from '../service/store.service';
+import { OrderService, Order } from '../service/order.service';
 
 @Component({
   selector: 'debugger',
@@ -18,11 +19,13 @@ export class DebuggerComponent{
   public user$: Observable<User[]> = this.user.getUserInState()
   public client$: Observable<Client[]> = this.client.getClientInState()
   public store$: Observable<Store[]> = this.store.getStoreInState()
+  public order$: Observable<Order[]> = this.order.getOrderInState()
 
   constructor(
     private user:UserService,
     private client: ClientService,
     private store: StoreService,
+    private order: OrderService,
     private view:View
   ){}
 }

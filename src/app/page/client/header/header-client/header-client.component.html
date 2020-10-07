@@ -9,7 +9,7 @@
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
           <li routerLinkActive="active">
-            <a routerLink="/home-client" class="icon-home">
+            <a routerLink="/client-home" class="icon-home">
               <i class="fa fa-home"></i>
             </a>
           </li>
@@ -31,6 +31,15 @@
               <i class="fa fa-bell"></i>
               <span class="label label-success">
                 0
+              </span>
+            </a>
+          </li>
+          <li routerLinkActive="active" *ngFor="let show of order$ | async" data-keyboard="false" data-toggle="modal" data-target="#displayShoppingCart">
+            <a *ngIf="show" style="font-size: 22px;padding-top: 19px;">
+              <i *ngIf="router != '/user-create-order'" class="fa fa-shopping-cart"></i> 
+              <i *ngIf="router == '/user-create-order'" style=" color: #0095f6; " class="fa fa-shopping-cart"></i> 
+              <span class="label label-success">
+                {{ show?.product.length }}
               </span>
             </a>
           </li>
@@ -70,6 +79,7 @@
       </div>
     </nav>
   </header>
+  
   <form>
     <div class="modal fade" id="displaySearch">
       <div class="modal-dialog">
@@ -86,4 +96,78 @@
         </div>
       </div>
     </div>
-  </form>
+  </form> 
+
+  <form>
+    <div class="modal fade" id="displayShoppingCart" style="padding-right: 0px;">
+      <div class="modal-dialog">
+        <div class="modal-content" style="background-color: #fff;">
+          <div class="modal-body">
+            <div class="box-footer" style="border-top: 0px;">
+              <div class="row">
+                <div class="box-solid" style="border:0px">
+                  <div class="box-body">
+                    <div class="table-responsive">
+                      <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th class="text-center">Quantidade</th>
+                            <th>Item</th>
+                            <th class="text-right">Preço</th>
+                            <th class="text-right"></th>
+                          </tr>
+                        </thead>
+                        <tbody  *ngFor="let item of order$ | async">
+                          <tr *ngFor="let item of item?.product; let itemIndex = index">
+                            <td class="text-center">
+                              <a (click)="decreaseItem(item)" class="btn btn-sm" style="color:red">
+                                <i class="fa fa-minus"></i>
+                              </a>
+                              {{ item.quantity }}
+                              <a (click)="encreaseItem(item, itemIndex)" class="btn btn-sm" style="color:green">
+                                <i class="fa fa-plus"></i>
+                              </a>
+                            </td>
+                            <td>{{ item.name }}</td>
+                            <td class="text-right">
+                              {{ item.price | currency: "BRL" }}
+                            </td>
+                            <td class="text-right">
+                              <a class="btn btn-sm danger" (click)="deleteItem(item, itemIndex)">
+                                <i class="fa fa-remove"></i>
+                              </a>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>                                 
+                    </div>                                             
+                    <table class="table table-striped" style="border:1px solid #D0D0D0">
+                      <tbody style="border:none">
+                        <tr>
+                          <th>Total:</th>
+                          <td class="text-right"> 
+                            {{ Total() | currency: "BRL" }}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div style="margin-top: 10px;">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                      <a data-dismiss="modal" (click)="sedOrder()" class="btn btn-primary" style="margin: 0px; font-size:16px">
+                        <b>Completar meu pedido, para o envio</b>
+                      </a>
+                      <br>
+                      <a data-dismiss="modal" data-dismiss="modal" class="btn btn-Secondary" style="margin: 0px; font-size:16px">
+                        <b>Voltar</b>
+                      </a>
+                    </div>
+                  </div>
+                </div>  
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>  

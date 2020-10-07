@@ -30,5 +30,12 @@
       </div>
     </div>
 
+    <div>
+      <h2><b>order</b></h2>
+      <div *ngFor="let order of order$ | async">
+        <pre>{{ order | json }}</pre>
+      </div>
+    </div>
+
   </section>
 </div>
