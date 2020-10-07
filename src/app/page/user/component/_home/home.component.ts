@@ -48,9 +48,10 @@ export class HomeComponent implements OnInit {
   ){}
 
   public ngOnInit() {
-    setTimeout(() => { this.view.setLoader(false) }, 3000)
+    this.view.setLoader(false)
     this.getProduct()
   }
+  
 
   public  getProduct() {
     this.productService.getProductByIndexInApi().pipe(takeUntil(this.unsubscribe$)).subscribe(async(product:Product[])=>{
@@ -112,14 +113,13 @@ export class HomeComponent implements OnInit {
     this.order.streetOfStore =  store.street
     this.order.cnpjOfStore =  store.cnpj
     this.order.FOREIGN_KEY_STORE = product.FOREIGN_KEY_STORE
-    this.order.totalOrderValue = Number(product.price)
     this.order.taxaDeliverySelectByClientStatus = null
     this.order.methodPayment = null
 
     localStorage.setItem('order', JSON.stringify(this.order))
     this.orderService.setOrderInState(this.order)
     this.orderShared.encreaseItemCart(product, warehouse)
-    
+     
     this.view.redirectPageFor('/user-create-order')
   }
 

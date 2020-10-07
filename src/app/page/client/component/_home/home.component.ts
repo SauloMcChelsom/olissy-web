@@ -48,7 +48,7 @@ export class HomeComponent implements OnInit {
   ){}
 
   public ngOnInit() {
-    setTimeout(() => { this.view.setLoader(false) }, 3000)
+    this.view.setLoader(false)
     this.getProduct()
   }
 
@@ -103,8 +103,6 @@ export class HomeComponent implements OnInit {
     let warehouse:Warehouse = this.warehouses.find(warehouse => warehouse.PRIMARY_KEY == product.FOREIGN_KEY_WAREHOUSE)
     let store:Store = this.stores.find(store => store.PRIMARY_KEY == product.FOREIGN_KEY_STORE)
 
-    this.order.FOREIGN_KEY_STORE = product.FOREIGN_KEY_STORE
-    this.order.totalOrderValue = Number(product.price)
     this.order.nameOfStore = store.name
     this.order.imageIconUrlOfStore =  store.imageIconUrl
     this.order.cellPhoneOfStore = store.cellPhone
@@ -113,13 +111,14 @@ export class HomeComponent implements OnInit {
     this.order.neighborhoodOfStore =  store.neighborhood
     this.order.streetOfStore =  store.street
     this.order.cnpjOfStore =  store.cnpj
+    this.order.FOREIGN_KEY_STORE = product.FOREIGN_KEY_STORE
     this.order.taxaDeliverySelectByClientStatus = null
     this.order.methodPayment = null
 
     localStorage.setItem('order', JSON.stringify(this.order))
     this.orderService.setOrderInState(this.order)
     this.orderShared.encreaseItemCart(product, warehouse)
-    
+     
     this.view.redirectPageFor('/user-create-order')
   }
 

@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   ){}
 
   public ngOnInit() {
-    this.view.putLoader()
+    this.view.setLoader(false)
   }
 
   private createForm (user: User): FormGroup { 

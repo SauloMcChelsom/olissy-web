@@ -46,7 +46,7 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     window.scroll(0,0);
-    this.view.putLoader()
+    this.view.setLoader(false)
     this.getOrderInLocalStorage()
   }
 

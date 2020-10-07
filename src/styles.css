@@ -301,3 +301,19 @@ button:focus {
 .modal-backdrop {
   background-color: transparent !important;
 }
+
+
+.fa-remove {
+  color: #ff6451;
+  font-size: large;
+}
+
+.fa-plus{
+  color:#13ce36;
+  font-size: large;
+}
+
+.fa-minus{
+  color:#ff6451;
+  font-size: large;
+}
