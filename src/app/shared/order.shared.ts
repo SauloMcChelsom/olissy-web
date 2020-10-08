@@ -63,9 +63,12 @@ export class OrderShared {
 
     if(Object.keys(this.order.product).length == 0){
       this.deleteOrder()
-      if(reuter == '/user-create-order'){
+      if(reuter == '/user-create-order' || '/client-create-order'){
         this.view.setLoader(true)
-        this.view.redirectPageFor('/home')
+
+        if(reuter == '/user-create-order'){this.view.redirectPageFor('/home')}
+
+        if(reuter == '/client-create-order'){this.view.redirectPageFor('/client-home')}
       }
     }
     this.order = null

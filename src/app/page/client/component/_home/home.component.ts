@@ -119,7 +119,7 @@ export class HomeComponent implements OnInit {
     this.orderService.setOrderInState(this.order)
     this.orderShared.encreaseItemCart(product, warehouse)
      
-    this.view.redirectPageFor('/user-create-order')
+    this.view.redirectPageFor('/client-create-order')
   }
 
   ngOnDestroy(){

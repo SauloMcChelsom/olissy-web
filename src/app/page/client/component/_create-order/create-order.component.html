@@ -19,6 +19,13 @@
                 id="clientAddressFull"
               />
               <span
+                class="btn btn-light"
+                *ngIf="formOrder.value.addressFullOfClient == '' || formOrder.value.addressFullOfClient.length <= 4"
+                (click)="setAddressFullOfClient()"
+              >
+                <b>{{ getAddressFullOfClient() }}</b>
+              </span>
+              <span
                 class="help-block button-alert-danger"
                 *ngIf="
                   this.formOrder.controls['addressFullOfClient'].invalid &&
@@ -45,6 +52,13 @@
                 placeholder="Telefone"
                 id="clientCellPhone"
               />
+              <span
+              class="btn btn-light"
+              *ngIf="formOrder.value.cellPhoneOfClient == '' || formOrder.value.cellPhoneOfClient.length <= 10"
+              (click)="setCellPhoneOfClient()"
+            >
+              <b>{{ getCellPhoneOfClient() | mask: '(00) 0 000-0000'}}</b>
+            </span>
               <span
                 class="help-block button-alert-danger"
                 *ngIf="

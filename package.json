@@ -6,6 +6,7 @@
     "start": "ng serve --host=192.168.43.230 --port=8080",
     "build": "ng build --prod",
     "test": "ng generate c /components/payment-detail",
+    "git":"git push origin master",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },

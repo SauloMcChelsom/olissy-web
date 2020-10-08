@@ -2,6 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder }  from '@angular/forms';
 import { View } from '../../../../shared/view.shared';
 import { StoreService, Store } from '../../../../service/store.service';
+import { ClientService, Client } from '../../../../service/client.service';
+import { UserService, User } from '../../../../service/user.service';
 import { OrderShared }  from'../../../../shared/order.shared';
 import { OrderService, Order } from '../../../../service/order.service';
 
@@ -33,6 +35,8 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
     private storeService:StoreService,
     private orderShared:OrderShared,
     private orderService:OrderService,
+    private clientService:ClientService,
+    private userService:UserService,
     private fb: FormBuilder
   ){}
 
@@ -44,6 +48,10 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
     this.formOrder.patchValue(order)
   }
 
+  private getForm():Order {
+    return this.formOrder.value
+  }
+
   public ngOnInit() {
     window.scroll(0,0);
     this.view.setLoader(false)
@@ -53,6 +61,17 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
   public getOrderInLocalStorage(){
     this.orderService.getOrderInState().pipe(takeUntil(this.unsubscribe$),take(1)).subscribe((order)=>{
       this.updateForm(order[0])
+
+      if(this.formOrder.value.addressFullOfClient == ''){
+        this.formOrder.patchValue({addressFullOfClient: `${this.clientService.pullClientInState().street}, ${this.clientService.pullClientInState().neighborhood} - ${this.clientService.pullClientInState().city}`})
+      }
+
+      if(this.formOrder.value.cellPhoneOfClient == ''){
+        this.formOrder.patchValue({cellPhoneOfClient: this.clientService.pullClientInState().cellPhone})
+      }
+
+      localStorage.setItem('order', JSON.stringify(this.formOrder.value))
+      this.orderService.setOrderInState(this.formOrder.value)
       this.getStore(this.formOrder.value.FOREIGN_KEY_STORE)
     })
   }
@@ -63,6 +82,40 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
       this.store = store[0]
       this.chooseDeliveryRate()
     })
+  }
+
+  public getClient(){
+    const user:User = this.userService.pullUserInState()
+    const client:Client  = this.clientService.pullClientInState()
+    this.formOrder.patchValue({
+      FOREIGN_KEY_CLIENT: client.PRIMARY_KEY,
+      cityOfClient: client.city,
+      emailOfClient: user.email,
+      imageIconUrlOfClient: client.imageIconUrl,
+      lastNameOfClient: client.lastName,
+      nameOfClient: client.name,
+      streetOfClient: client.street
+    })
+  }
+
+  public getAddressFullOfClient(){
+    return `${this.clientService.pullClientInState().street}, ${this.clientService.pullClientInState().neighborhood} - ${this.clientService.pullClientInState().city}`
+  }
+
+  public setAddressFullOfClient(){
+    this.formOrder.patchValue({addressFullOfClient: `${this.clientService.pullClientInState().street}, ${this.clientService.pullClientInState().neighborhood} - ${this.clientService.pullClientInState().city}`})
+    localStorage.setItem('order', JSON.stringify(this.formOrder.value))
+    this.orderService.setOrderInState(this.formOrder.value)
+  }
+
+  public getCellPhoneOfClient(){
+    return `${this.clientService.pullClientInState().cellPhone}`
+  }
+
+  public setCellPhoneOfClient(){
+    this.formOrder.patchValue({cellPhoneOfClient: this.clientService.pullClientInState().cellPhone})
+    localStorage.setItem('order', JSON.stringify(this.formOrder.value))
+    this.orderService.setOrderInState(this.formOrder.value)
   }
 
   public setTaxaDeliverySelectByClient(value){
@@ -125,7 +178,7 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
   }
 
   public deleteItem(item, index){
-    this.orderShared.deleteItem(item, index, '/user-create-order')
+    this.orderShared.deleteItem(item, index, '/client-create-order')
     if(this.orderService.pullOrderInState() != null){
       this.chooseDeliveryRate()
     }
@@ -147,11 +200,12 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
     }
   }
 
-  public sendOrder(){
-    console.log(this.formOrder.value)
-
+  public async sendOrder(){
     this.view.setLoader(true)
-    this.view.redirectPageFor(`/login`)
+    this.getClient()
+    await this.orderService.createNewOrderInApi(this.getForm()).then( v => v )
+    this.orderShared.deleteOrder()
+    this.view.redirectPageFor(`/client-home`)
   }
 
   ngOnDestroy(){

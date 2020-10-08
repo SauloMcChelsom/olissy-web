@@ -8,7 +8,7 @@ export class ClientState {
   private readonly _client = new BehaviorSubject<Client[]>([]);
 
   public pullClient(){
-    return this._client.value[0]
+    return this._client.value[0] 
   } 
 
   public getClient(){
