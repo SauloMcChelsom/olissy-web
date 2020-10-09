@@ -21,6 +21,10 @@ export class OrderApi {
     return this.http.get<Order>('/')
   }
 
+  public getOrderByForeignKeyClient(order: Order){
+    return this.db.collection<Order>('order', ref =>ref.where('FOREIGN_KEY_CLIENT', '==', order.FOREIGN_KEY_CLIENT)).valueChanges()
+  }
+
   public async createNewOrder(order: Order){
     order.AUTOINCREMENT = firebase.firestore.FieldValue.serverTimestamp()
     order.DATE = new Date().toString()

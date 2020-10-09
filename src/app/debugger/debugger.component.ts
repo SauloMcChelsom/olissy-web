@@ -19,7 +19,8 @@ export class DebuggerComponent{
   public user$: Observable<User[]> = this.user.getUserInState()
   public client$: Observable<Client[]> = this.client.getClientInState()
   public store$: Observable<Store[]> = this.store.getStoreInState()
-  public order$: Observable<Order[]> = this.order.getOrderInState()
+  public orderCreate$: Observable<Order[]> = this.order.getOrderInState('create')
+  public orderUser$: Observable<Order[]> = this.order.getOrderInState('user')
 
   constructor(
     private user:UserService,

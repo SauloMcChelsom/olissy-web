@@ -18,7 +18,7 @@ export class HeaderUserComponent implements OnInit{
 
   private unsubscribe$ = new Subject();
 
-  public order$: Observable<Order[]> = this.orderService.getOrderInState() 
+  public orderCreate$: Observable<Order[]> = this.orderService.getOrderInState('create') 
 
   public router = this.route.url
 
@@ -40,7 +40,7 @@ export class HeaderUserComponent implements OnInit{
   }
  
   public getScreen(){
-    this.order$.pipe(takeUntil(this.unsubscribe$)).subscribe((order)=>{
+    this.orderCreate$.pipe(takeUntil(this.unsubscribe$)).subscribe((order)=>{
       if(Object.keys(order).length == 0){
         $('#displayShoppingCart').modal('hide');
       }

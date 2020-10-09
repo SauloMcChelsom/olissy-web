@@ -21,7 +21,9 @@ export class HeaderClientComponent {
 
   private unsubscribe$ = new Subject();
 
-  public order$: Observable<Order[]> = this.orderService.getOrderInState() 
+  public orderCreate$: Observable<Order[]> = this.orderService.getOrderInState('create') 
+
+  public orderUser$: Observable<Order[]> 
 
   public router = this.route.url
 
@@ -42,6 +44,20 @@ export class HeaderClientComponent {
 
   public ngOnInit(){
     this.getScreen()
+    this.getOrderUser()
+  }
+
+  public getOrderUser(){
+    let order = this.orderService.order
+    order.FOREIGN_KEY_CLIENT = this.clientService.pullClientInState().PRIMARY_KEY
+    this.orderUser$ = this.orderService.getOrderByForeignKeyClientInApi(order)
+    this.orderUser$.pipe(takeUntil(this.unsubscribe$)).subscribe((order:Order[])=>{
+      if(Object.keys(order).length = 0){
+        this.orderService.putOrderInState('user')
+      }else{
+        this.orderService.setOrderInState(order, 'user')
+      }
+    })
   }
 
   public async signOut() {
@@ -54,7 +70,7 @@ export class HeaderClientComponent {
   }
 
   public getScreen(){
-    this.order$.pipe(takeUntil(this.unsubscribe$)).subscribe((order)=>{
+    this.orderCreate$.pipe(takeUntil(this.unsubscribe$)).subscribe((order)=>{
       if(Object.keys(order).length == 0){
         $('#displayShoppingCart').modal('hide');
       }
@@ -62,20 +78,20 @@ export class HeaderClientComponent {
   }
 
   public encreaseItem(item, index){
-    this.orderShared.encreaseItem(item)
+    //this.orderShared.encreaseItem(item)
   }
 
   public decreaseItem(item, index){
-    this.orderShared.decreaseItem(item)
+    //this.orderShared.decreaseItem(item)
   }
 
   public deleteItem(item, index){
     const router = this.route.url
-    this.orderShared.deleteItem(item, index, router)
+    //this.orderShared.deleteItem(item, index, router)
   }
 
   public Total(){
-   return this.orderShared.Total()
+   //return this.orderShared.Total()
   } 
 
   public sedOrder(){

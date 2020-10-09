@@ -117,7 +117,7 @@ export class HomeComponent implements OnInit {
     this.order.methodPayment = null
 
     localStorage.setItem('order', JSON.stringify(this.order))
-    this.orderService.setOrderInState(this.order)
+    this.orderService.setOrderInState([this.order], 'create')
     this.orderShared.encreaseItemCart(product, warehouse)
      
     this.view.redirectPageFor('/user-create-order')

@@ -58,6 +58,10 @@ export const ROUTES: Routes = [
     path: 'client-create-order',
     loadChildren: () => import('./page/client/component/_create-order/create-order.module').then(m => m.CreateOrderModule) 
   },
+  {
+    path: 'client-order-list',
+    loadChildren: () => import('./page/client/component/_order-list/order-list.module').then(m => m.OrderListModule) 
+  },
 ];
 
 @NgModule({

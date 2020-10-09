@@ -31,8 +31,15 @@
     </div>
 
     <div>
-      <h2><b>order</b></h2>
-      <div *ngFor="let order of order$ | async">
+      <h2><b>order user</b></h2>
+      <div *ngFor="let order of orderUser$ | async">
+        <pre>{{ order | json }}</pre>
+      </div>
+    </div>
+
+    <div>
+      <h2><b>order create</b></h2>
+      <div *ngFor="let order of orderCreate$ | async">
         <pre>{{ order | json }}</pre>
       </div>
     </div>

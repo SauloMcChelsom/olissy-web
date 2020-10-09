@@ -59,7 +59,7 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
   }
 
   public getOrderInLocalStorage(){
-    this.orderService.getOrderInState().pipe(takeUntil(this.unsubscribe$),take(1)).subscribe((order)=>{
+    this.orderService.getOrderInState('create').pipe(takeUntil(this.unsubscribe$),take(1)).subscribe((order)=>{
       this.updateForm(order[0])
 
       if(this.formOrder.value.addressFullOfClient == ''){
@@ -71,7 +71,7 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
       }
 
       localStorage.setItem('order', JSON.stringify(this.formOrder.value))
-      this.orderService.setOrderInState(this.formOrder.value)
+      this.orderService.setOrderInState([this.formOrder.value], 'create')
       this.getStore(this.formOrder.value.FOREIGN_KEY_STORE)
     })
   }
@@ -105,7 +105,7 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
   public setAddressFullOfClient(){
     this.formOrder.patchValue({addressFullOfClient: `${this.clientService.pullClientInState().street}, ${this.clientService.pullClientInState().neighborhood} - ${this.clientService.pullClientInState().city}`})
     localStorage.setItem('order', JSON.stringify(this.formOrder.value))
-    this.orderService.setOrderInState(this.formOrder.value)
+    this.orderService.setOrderInState([this.formOrder.value], 'create')
   }
 
   public getCellPhoneOfClient(){
@@ -115,7 +115,7 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
   public setCellPhoneOfClient(){
     this.formOrder.patchValue({cellPhoneOfClient: this.clientService.pullClientInState().cellPhone})
     localStorage.setItem('order', JSON.stringify(this.formOrder.value))
-    this.orderService.setOrderInState(this.formOrder.value)
+    this.orderService.setOrderInState([this.formOrder.value], 'create')
   }
 
   public setTaxaDeliverySelectByClient(value){
@@ -132,7 +132,7 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
       this.formOrder.patchValue({taxaDeliverySelectByClient:{description:`Entrega por R${this.store.deliveryBy.taxa} por quilômetro`,taxa:this.store.deliveryBy.taxa, value: 'deliveryBy'}})
     }
     localStorage.setItem('order', JSON.stringify(this.formOrder.value))
-    this.orderService.setOrderInState(this.formOrder.value)
+    this.orderService.setOrderInState([this.formOrder.value], 'create')
   }
 
   public setMethodPaymentForMoney(value){
@@ -143,11 +143,11 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
       this.formOrder.get("informChange").markAsTouched();
     }
     localStorage.setItem('order', JSON.stringify(this.formOrder.value))
-    this.orderService.setOrderInState(this.formOrder.value)
+    this.orderService.setOrderInState([this.formOrder.value], 'create')
   }
 
   public chooseDeliveryRate(){
-    let order:Order = this.orderService.pullOrderInState()
+    let order:Order = this.orderService.pullOrderInState('create')
     if(order.taxaDeliverySelectByClient.value == 'deliveryFreeAbove' && order.totalOrderValue < this.store.deliveryFreeAbove.taxa){
         order.taxaDeliverySelectByClientStatus = 'negotiateRateDelivery'
         order.taxaDeliverySelectByClient = {
@@ -158,7 +158,7 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
         }
     }
     localStorage.setItem('order', JSON.stringify(order))
-    this.orderService.setOrderInState(order)
+    this.orderService.setOrderInState([order], 'create')
     this.updateForm(order)
   }
 
@@ -168,18 +168,18 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
 
   public encreaseItem(item, index){ 
     this.orderShared.encreaseItem(item)
-    this.updateForm(this.orderService.pullOrderInState())
+    this.updateForm(this.orderService.pullOrderInState('create'))
   }
 
   public decreaseItem(item, index){
     this.orderShared.decreaseItem(item)
     this.chooseDeliveryRate()
-    this.updateForm(this.orderService.pullOrderInState())
+    this.updateForm(this.orderService.pullOrderInState('create'))
   }
 
   public deleteItem(item, index){
     this.orderShared.deleteItem(item, index, '/client-create-order')
-    if(this.orderService.pullOrderInState() != null){
+    if(this.orderService.pullOrderInState('create') != null){
       this.chooseDeliveryRate()
     }
   }
@@ -193,7 +193,7 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
 
     window.scroll(0, 0);
     localStorage.setItem('order', JSON.stringify(this.formOrder.value))
-    this.orderService.setOrderInState(this.formOrder.value)
+    this.orderService.setOrderInState([this.formOrder.value], 'create')
 
     if(this.formOrder.valid){
       this.sendOrder()

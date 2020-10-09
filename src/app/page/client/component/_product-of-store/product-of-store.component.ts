@@ -103,7 +103,7 @@ export class ProductOfStoreComponent implements OnInit {
 
   public encreaseItemCart(product){
     localStorage.setItem('order', JSON.stringify(this.order))
-    this.orderService.setOrderInState(this.order)
+    this.orderService.setOrderInState([this.order], 'create')
     let warehouse:Warehouse = this.warehouses.find(warehouse => warehouse.PRIMARY_KEY == product.FOREIGN_KEY_WAREHOUSE)
     this.orderShared.encreaseItemCart(product, warehouse)
   }

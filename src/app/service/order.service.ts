@@ -11,6 +11,10 @@ export class OrderService {
   public getOrderByForeignKeyUserInApi(order: Order){
     return this.api.getOrderByForeignKeyUser(order)
   }
+
+  public getOrderByForeignKeyClientInApi(order: Order){
+    return this.api.getOrderByForeignKeyClient(order)
+  }
  
   public getOrderByUidInApi(order: Order){
     return this.api.getOrderByUid(order)
@@ -28,28 +32,28 @@ export class OrderService {
     return this.api.delOrderByUid(order)
   }
 
-  public pullOrderInState(){
-    return this.state.pullOrder()
+  public pullOrderInState(enty){
+    return this.state.pullOrder(enty)
   }
 
-  public getOrderInState(){
-    return this.state.getOrder()
+  public getOrderInState(enty:string){
+    return this.state.getOrder(enty)
   }
 
-  public setOrderInState(order: Order){
-    this.state.setOrder(order)
+  public setOrderInState(order: Order[], enty:string){
+    this.state.setOrder(order, enty)
   }
 
-  public addOrderInState(){
-    this.state.addOrder()
+  public addOrderInState(enty:string){
+    this.state.addOrder(enty)
   }
 
-  public putOrderInState(){
-    return this.state.PutOrder()
+  public putOrderInState(enty:string){
+    return this.state.PutOrder(enty)
   }
 
-  public delOrderInState(){
-    return this.state.delOrder()
+  public delOrderInState(enty:string){
+    return this.state.delOrder(enty)
   }
 
   public get order():Order{

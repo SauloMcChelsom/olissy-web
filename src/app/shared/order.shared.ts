@@ -16,11 +16,11 @@ export class OrderShared {
     private money:Money,
     private orderService:OrderService
   ){
-    this.orderService.setOrderInState(JSON.parse(localStorage.getItem('order')))
+    this.orderService.setOrderInState(JSON.parse(localStorage.getItem('order')), 'create')
   }
 
   public encreaseItem(item){
-    this.order = this.orderService.pullOrderInState()
+    this.order = this.orderService.pullOrderInState('create')
     const foundProduct: any = this.order.product.find(items => items.FOREIGN_KEY_PRODUCT === item.FOREIGN_KEY_PRODUCT);
     
     if(foundProduct.quantity < foundProduct.quantities){
@@ -32,12 +32,12 @@ export class OrderShared {
     }
     
     localStorage.setItem('order', JSON.stringify(this.order))
-    this.orderService.setOrderInState(this.order)
+    this.orderService.setOrderInState([this.order], 'create')
     this.order = null
   }
 
   public decreaseItem(item){
-    this.order = this.orderService.pullOrderInState()
+    this.order = this.orderService.pullOrderInState('create')
     const foundProduct: any = this.order.product.find(items => items.FOREIGN_KEY_PRODUCT === item.FOREIGN_KEY_PRODUCT);
 
     if(foundProduct.quantity > 1){
@@ -47,19 +47,19 @@ export class OrderShared {
     }
 
     localStorage.setItem('order', JSON.stringify(this.order))
-    this.orderService.setOrderInState(this.order)
+    this.orderService.setOrderInState([this.order], 'create')
     this.order = null
   }
 
   public deleteItem(item, index, reuter='/'){
-    this.order = this.orderService.pullOrderInState()
+    this.order = this.orderService.pullOrderInState('create')
     const foundProduct: any = this.order.product.find(items => items.FOREIGN_KEY_PRODUCT === item.FOREIGN_KEY_PRODUCT);
 
     this.order.totalOrderValue = this.money.subtract(this.order.totalOrderValue , foundProduct.totalOfPrice)
     this.order.product.splice(index, 1)
 
     localStorage.setItem('order', JSON.stringify(this.order))
-    this.orderService.setOrderInState(this.order)
+    this.orderService.setOrderInState([this.order], 'create')
 
     if(Object.keys(this.order.product).length == 0){
       this.deleteOrder()
@@ -84,8 +84,8 @@ export class OrderShared {
         quantity:1
       }
 
-      this.order = this.orderService.pullOrderInState()
-      if(this.orderService.pullOrderInState() == null){
+      this.order = this.orderService.pullOrderInState('create')
+      if(this.orderService.pullOrderInState('create') == null){
         this.order = this.orderService.order
       }
     
@@ -105,12 +105,12 @@ export class OrderShared {
       }
 
       localStorage.setItem('order', JSON.stringify(this.order))
-      this.orderService.setOrderInState(this.order)
+      this.orderService.setOrderInState([this.order], 'create')
       this.order = null
     }
   
     public decreaseItemCart(product, index){
-      this.order = this.orderService.pullOrderInState()
+      this.order = this.orderService.pullOrderInState('create')
       const foundItem: any = this.order.product.find(items => items.FOREIGN_KEY_PRODUCT === product.PRIMARY_KEY);
   
       if(foundItem.quantity > 1){
@@ -126,7 +126,7 @@ export class OrderShared {
         this.deleteOrder()
       }else{
         localStorage.setItem('order', JSON.stringify(this.order))
-        this.orderService.setOrderInState(this.order)
+        this.orderService.setOrderInState([this.order], 'create')
       }
 
       this.order = null
@@ -134,15 +134,15 @@ export class OrderShared {
     }
 
   public Total(){
-      if(this.orderService.pullOrderInState() == null){
+      if(this.orderService.pullOrderInState('create') == null){
         return 0
       }
 
-      let order    = this.orderService.pullOrderInState().totalOrderValue
-      let taxa     = this.orderService.pullOrderInState().taxaOfPlatform
-      let delivery = this.orderService.pullOrderInState().taxaDeliverySelectByClient.taxa
+      let order    = this.orderService.pullOrderInState('create').totalOrderValue
+      let taxa     = this.orderService.pullOrderInState('create').taxaOfPlatform
+      let delivery = this.orderService.pullOrderInState('create').taxaDeliverySelectByClient.taxa
 
-      if(this.orderService.pullOrderInState().taxaDeliverySelectByClient.value == 'deliveryFreeAbove'){
+      if(this.orderService.pullOrderInState('create').taxaDeliverySelectByClient.value == 'deliveryFreeAbove'){
         const result = this.money.addition(order, taxa)
         return this.money.money(result)
       }
@@ -152,28 +152,28 @@ export class OrderShared {
   }
 
   public setStore(store){
-    this.orderService.pullOrderInState().nameOfStore = store.name
-    this.orderService.pullOrderInState().FOREIGN_KEY_STORE = store.PRIMARY_KEY
-    this.orderService.pullOrderInState().imageIconUrlOfStore = store.imageIconUrl
-    this.orderService.pullOrderInState().cellPhoneOfStore = store.cellPhone
-    this.orderService.pullOrderInState().emailOfStore = store.email
-    this.orderService.pullOrderInState().cityOfStore = store.city
-    this.orderService.pullOrderInState().neighborhoodOfStore = store.neighborhood
-    this.orderService.pullOrderInState().streetOfStore = store.street
-    this.orderService.pullOrderInState().cnpjOfStore = store.cnpj
-    this.orderService.pullOrderInState().taxaDeliverySelectByClientStatus = null
-    this.orderService.pullOrderInState().methodPayment = null
-    localStorage.setItem('order', JSON.stringify(this.orderService.pullOrderInState()))
+    this.orderService.pullOrderInState('create').nameOfStore = store.name
+    this.orderService.pullOrderInState('create').FOREIGN_KEY_STORE = store.PRIMARY_KEY
+    this.orderService.pullOrderInState('create').imageIconUrlOfStore = store.imageIconUrl
+    this.orderService.pullOrderInState('create').cellPhoneOfStore = store.cellPhone
+    this.orderService.pullOrderInState('create').emailOfStore = store.email
+    this.orderService.pullOrderInState('create').cityOfStore = store.city
+    this.orderService.pullOrderInState('create').neighborhoodOfStore = store.neighborhood
+    this.orderService.pullOrderInState('create').streetOfStore = store.street
+    this.orderService.pullOrderInState('create').cnpjOfStore = store.cnpj
+    this.orderService.pullOrderInState('create').taxaDeliverySelectByClientStatus = null
+    this.orderService.pullOrderInState('create').methodPayment = null
+    localStorage.setItem('order', JSON.stringify(this.orderService.pullOrderInState('create')))
   }
 
   public createOrder(){
-    this.orderService.setOrderInState(this.orderService.order)
+    this.orderService.setOrderInState([this.orderService.order], 'create')
     localStorage.setItem('order', JSON.stringify(this.orderService.order))
   }
 
   public deleteOrder(){
     localStorage.removeItem('order')
-    this.orderService.delOrderInState()
+    this.orderService.delOrderInState('create')
   }
   
 } 

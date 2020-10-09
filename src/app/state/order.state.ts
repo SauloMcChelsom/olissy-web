@@ -6,30 +6,65 @@ import { OrderInterface as Order } from '../interfaces/order.interface';
 @Injectable({providedIn: 'root'})
 export class OrderState {
 
-  private readonly _order = new BehaviorSubject<Order[]>([]);
+  private readonly create = new BehaviorSubject<Order[]>([]);
 
-  public pullOrder(){
-    return this._order.value[0]
+  private readonly user = new BehaviorSubject<Order[]>([]);
+
+  public pullOrder(enty){
+    
+    if(enty == 'user'){
+      return this.user.value[0]
+    }
+
+    if(enty == 'create'){
+      return this.create.value[0]
+    }
+    
   } 
 
-  public getOrder(){
-    return this._order.asObservable();
+  public getOrder(enty){
+    if(enty == 'user'){
+      return this.user.asObservable();
+    }
+
+    if(enty == 'create'){
+      return this.create.asObservable();
+    }
   }
 
-  public setOrder(order: Order){
-    this._order.next([order])
+  public setOrder(order: Order[], enty){
+    if(enty == 'user'){
+      return this.user.next(order)
+    }
+
+    if(enty == 'create'){
+      if(order!=null)
+      this.create.next([order[0]])
+    }
   }
 
-  public addOrder(){
+  public addOrder(enty){
 
   } 
 
-  public PutOrder(){
-    this._order.next([]);
+  public PutOrder(enty){
+    if(enty == 'user'){
+      return this.user.next([]);
+    }
+
+    if(enty == 'create'){
+      this.create.next([]);
+    }
   } 
 
-  public delOrder(){
-    this._order.next([]);
+  public delOrder(enty){
+    if(enty == 'user'){
+      return this.user.next([]);
+    }
+
+    if(enty == 'create'){
+      this.create.next([]);
+    }
   } 
 
 }
