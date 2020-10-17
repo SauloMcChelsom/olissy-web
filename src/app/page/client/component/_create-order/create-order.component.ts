@@ -118,6 +118,13 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
     this.orderService.setOrderInState([this.formOrder.value], 'create')
   }
 
+  public hideKeyboardCellPhoneOfUser(){
+    if(this.formOrder.value.cellPhoneOfClient.length == 11){
+      const tel = document.getElementById('clientCellPhone');
+      tel.blur();
+    }
+  }
+
   public setTaxaDeliverySelectByClient(value){
     if(value == 'negotiateRateDelivery'){
       this.formOrder.patchValue({taxaDeliverySelectByClient:{description:'Negociar taxa de entrega por Telefone', taxa:0, km:0, value: 'negotiateRateDelivery'}})

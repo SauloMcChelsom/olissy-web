@@ -34,7 +34,7 @@
                 Digite seu numero de celular
               </label>
               <input
-                type="text"
+                type="tel"
                 class="form-control"
                 formControlName="cellPhoneOfClient"
                 [imask]="cellPhoneMask"
@@ -44,6 +44,7 @@
                 autocomplete="off"
                 placeholder="Telefone"
                 id="clientCellPhone"
+                (keyup)="hideKeyboardCellPhoneOfUser()"
               />
               <span
                 class="help-block button-alert-danger"

@@ -18,7 +18,7 @@ import { take } from 'rxjs/operators';
 export class CreateOrderComponent implements OnInit, OnDestroy {
 
   public cellPhoneMask: any = {
-    mask: '(00) 0 0000-0000',
+    mask: '(00) 0 0000-0000', 
     lazy: false
   };
 
@@ -34,9 +34,7 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
     private orderShared:OrderShared,
     private orderService:OrderService,
     private fb: FormBuilder
-  ){
-    console.log('CreateOrderComponent')
-  }
+  ){}
 
   private createForm (order: Order): FormGroup { 
     return this.fb.group (order); 
@@ -82,6 +80,13 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
     }
     localStorage.setItem('order', JSON.stringify([this.formOrder.value]))
     this.orderService.setOrderInState([this.formOrder.value], 'create')
+  }
+
+  public hideKeyboardCellPhoneOfUser(){
+    if(this.formOrder.value.cellPhoneOfClient.length == 11){
+      const tel = document.getElementById('clientCellPhone');
+      tel.blur();
+    }
   }
 
   public setMethodPaymentForMoney(value){
