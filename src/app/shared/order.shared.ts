@@ -15,9 +15,7 @@ export class OrderShared {
     private view:View,
     private money:Money,
     private orderService:OrderService
-  ){
-    this.orderService.setOrderInState(JSON.parse(localStorage.getItem('order')), 'create')
-  }
+  ){}
 
   public encreaseItem(item){
     this.order = this.orderService.pullOrderInState('create')
@@ -31,7 +29,7 @@ export class OrderShared {
       foundProduct.totalOfPrice = this.money.multiply(foundProduct.price , foundProduct.quantity)
     }
     
-    localStorage.setItem('order', JSON.stringify(this.order))
+    localStorage.setItem('order', JSON.stringify([this.order]))
     this.orderService.setOrderInState([this.order], 'create')
     this.order = null
   }
@@ -46,7 +44,7 @@ export class OrderShared {
       this.order.totalOrderValue =  this.money.subtract(this.order.totalOrderValue , foundProduct.price)
     }
 
-    localStorage.setItem('order', JSON.stringify(this.order))
+    localStorage.setItem('order', JSON.stringify([this.order]))
     this.orderService.setOrderInState([this.order], 'create')
     this.order = null
   }
@@ -58,18 +56,18 @@ export class OrderShared {
     this.order.totalOrderValue = this.money.subtract(this.order.totalOrderValue , foundProduct.totalOfPrice)
     this.order.product.splice(index, 1)
 
-    localStorage.setItem('order', JSON.stringify(this.order))
+    localStorage.setItem('order', JSON.stringify([this.order]))
     this.orderService.setOrderInState([this.order], 'create')
 
     if(Object.keys(this.order.product).length == 0){
       this.deleteOrder()
-      if(reuter == '/user-create-order' || '/client-create-order'){
-        this.view.setLoader(true)
+      
+      if(reuter == '/user-create-order'){this.view.redirectPageFor('/home')}
 
-        if(reuter == '/user-create-order'){this.view.redirectPageFor('/home')}
+      if(reuter == '/client-create-order'){this.view.redirectPageFor('/client-home')}
 
-        if(reuter == '/client-create-order'){this.view.redirectPageFor('/client-home')}
-      }
+      if(reuter == '/client-order-detail-alter'){this.view.redirectPageFor('/client-order-list')}
+      
     }
     this.order = null
   }
@@ -104,7 +102,7 @@ export class OrderShared {
         this.order.product.push(item)
       }
 
-      localStorage.setItem('order', JSON.stringify(this.order))
+      localStorage.setItem('order', JSON.stringify([this.order]))
       this.orderService.setOrderInState([this.order], 'create')
       this.order = null
     }
@@ -125,7 +123,7 @@ export class OrderShared {
       if(Object.keys(this.order.product).length == 0){
         this.deleteOrder()
       }else{
-        localStorage.setItem('order', JSON.stringify(this.order))
+        localStorage.setItem('order', JSON.stringify([this.order]))
         this.orderService.setOrderInState([this.order], 'create')
       }
 
@@ -163,12 +161,12 @@ export class OrderShared {
     this.orderService.pullOrderInState('create').cnpjOfStore = store.cnpj
     this.orderService.pullOrderInState('create').taxaDeliverySelectByClientStatus = null
     this.orderService.pullOrderInState('create').methodPayment = null
-    localStorage.setItem('order', JSON.stringify(this.orderService.pullOrderInState('create')))
+    localStorage.setItem('order', JSON.stringify([this.orderService.pullOrderInState('create')]))
   }
 
   public createOrder(){
     this.orderService.setOrderInState([this.orderService.order], 'create')
-    localStorage.setItem('order', JSON.stringify(this.orderService.order))
+    localStorage.setItem('order', JSON.stringify([this.orderService.order]))
   }
 
   public deleteOrder(){

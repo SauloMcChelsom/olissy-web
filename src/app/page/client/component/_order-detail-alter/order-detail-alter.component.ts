@@ -2,8 +2,11 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder }  from '@angular/forms';
 import { View } from '../../../../shared/view.shared';
 import { StoreService, Store } from '../../../../service/store.service';
+import { ClientService, Client } from '../../../../service/client.service';
+import { UserService, User } from '../../../../service/user.service';
 import { OrderShared }  from'../../../../shared/order.shared';
 import { OrderService, Order } from '../../../../service/order.service';
+import { ActivatedRoute } from '@angular/router';
 
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
@@ -11,32 +14,35 @@ import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'mt-login',
-  templateUrl: './create-order.component.html',
-  styleUrls: ['./create-order.component.css']
+  templateUrl: './order-detail-alter.component.html',
+  styleUrls: ['./order-detail-alter.component.css']
 })
 
-export class CreateOrderComponent implements OnInit, OnDestroy {
+export class OrderDetailAlterComponent implements OnInit, OnDestroy {
 
   public cellPhoneMask: any = {
     mask: '(00) 0 0000-0000',
     lazy: false
   };
 
+  public PRIMARY_KEY = this.route.snapshot.params['id']
+
   private unsubscribe$ = new Subject();
 
   public store:Store = this.storeService.store
 
-  public formOrder: FormGroup = this.createForm(this.orderService.order)
+  public formOrder: FormGroup = this.createForm(this.orderService.order);
  
   constructor(
     private view:View,
     private storeService:StoreService,
     private orderShared:OrderShared,
     private orderService:OrderService,
-    private fb: FormBuilder
-  ){
-    console.log('CreateOrderComponent')
-  }
+    private clientService:ClientService,
+    private userService:UserService,
+    private fb: FormBuilder,
+    private route: ActivatedRoute
+  ){}
 
   private createForm (order: Order): FormGroup { 
     return this.fb.group (order); 
@@ -46,16 +52,36 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
     this.formOrder.patchValue(order)
   }
 
+  private getForm():Order {
+    return this.formOrder.value
+  }
+
   public ngOnInit() {
     window.scroll(0,0);
-    this.view.putLoader()
+    this.view.setLoader(false)
     this.getOrderInLocalStorage()
   }
 
   public getOrderInLocalStorage(){
-    this.orderService.getOrderInState('create').pipe(takeUntil(this.unsubscribe$),take(1)).subscribe((order)=>{
-      this.updateForm(order[0])
-      this.getStore(this.formOrder.value.FOREIGN_KEY_STORE)
+    this.orderService.getOrderInState('user').pipe(takeUntil(this.unsubscribe$)).subscribe((orders)=>{
+
+      const order =  orders.filter( data => data.PRIMARY_KEY == this.PRIMARY_KEY )
+
+      if(Object.keys(order).length != 0){
+        this.updateForm(order[0])
+
+        if(this.formOrder.value.addressFullOfClient == ''){
+          this.formOrder.patchValue({addressFullOfClient: `${this.clientService.pullClientInState().street}, ${this.clientService.pullClientInState().neighborhood} - ${this.clientService.pullClientInState().city}`})
+        }
+  
+        if(this.formOrder.value.cellPhoneOfClient == ''){
+          this.formOrder.patchValue({cellPhoneOfClient: this.clientService.pullClientInState().cellPhone})
+        }
+  
+        localStorage.setItem('order', JSON.stringify([this.formOrder.value]))
+        this.orderService.setOrderInState([this.formOrder.value], 'create')
+        this.getStore(this.formOrder.value.FOREIGN_KEY_STORE)
+      }
     })
   }
 
@@ -65,6 +91,46 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
       this.store = store[0]
       this.chooseDeliveryRate()
     })
+  }
+
+  public getClient(){
+    const user:User = this.userService.pullUserInState()
+    const client:Client  = this.clientService.pullClientInState()
+    this.formOrder.patchValue({
+      FOREIGN_KEY_CLIENT: client.PRIMARY_KEY,
+      cityOfClient: client.city,
+      emailOfClient: user.email,
+      imageIconUrlOfClient: client.imageIconUrl,
+      lastNameOfClient: client.lastName,
+      nameOfClient: client.name,
+      streetOfClient: client.street
+    })
+  }
+
+  public getAddressFullOfClient(){
+    if(this.clientService.pullClientInState() == null){
+     return ''
+    }
+    return `${this.clientService.pullClientInState().street}, ${this.clientService.pullClientInState().neighborhood} - ${this.clientService.pullClientInState().city}`
+  }
+
+  public setAddressFullOfClient(){
+    this.formOrder.patchValue({addressFullOfClient: `${this.clientService.pullClientInState().street}, ${this.clientService.pullClientInState().neighborhood} - ${this.clientService.pullClientInState().city}`})
+    localStorage.setItem('order', JSON.stringify([this.formOrder.value]))
+    this.orderService.setOrderInState([this.formOrder.value], 'create')
+  }
+
+  public getCellPhoneOfClient(){
+    if(this.clientService.pullClientInState() == null){
+      return ''
+     }
+    return `${this.clientService.pullClientInState().cellPhone}`
+  }
+
+  public setCellPhoneOfClient(){
+    this.formOrder.patchValue({cellPhoneOfClient: this.clientService.pullClientInState().cellPhone})
+    localStorage.setItem('order', JSON.stringify([this.formOrder.value]))
+    this.orderService.setOrderInState([this.formOrder.value], 'create')
   }
 
   public setTaxaDeliverySelectByClient(value){
@@ -127,10 +193,17 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
   }
 
   public deleteItem(item, index){
-    this.orderShared.deleteItem(item, index, '/user-create-order')
+    console.log(item, index)
+    
+    /*this.orderShared.deleteItem(item, index, '/client-order-detail-alter')
     if(this.orderService.pullOrderInState('create') != null){
       this.chooseDeliveryRate()
-    }
+    }*/
+  }
+
+  public back(){
+    this.orderShared.deleteOrder()
+    this.view.redirectPageFor(`/client-order-detail/${this.formOrder.value.PRIMARY_KEY}`)
   }
 
   public validateForm(){
@@ -149,11 +222,11 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
     }
   }
 
-  public sendOrder(){
-    console.log(this.formOrder.value)
-
-    this.view.setLoader(true)
-    this.view.redirectPageFor(`/login`)
+  public async sendOrder(){
+    this.getClient()
+    await this.orderService.putOrderByForeignKeyClientInApi(this.formOrder.value.PRIMARY_KEY, this.getForm()).then( v => v )
+    this.orderShared.deleteOrder()
+    this.view.redirectPageFor(`/client-order-detail/${this.formOrder.value.PRIMARY_KEY}`)
   }
 
   ngOnDestroy(){

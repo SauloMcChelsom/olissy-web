@@ -25,6 +25,7 @@ import { ColumnStoreComponent } from './page/store/column/column-store/column-st
 import { HeaderStoreComponent } from './page/store/header/header-store/header-store.component';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,

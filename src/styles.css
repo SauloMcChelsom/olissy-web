@@ -69,6 +69,7 @@ button:focus {
 .skin-red .main-header .navbar .nav>li>a:hover, .skin-red .main-header .navbar .nav>li>a:active, .skin-red .main-header .navbar .nav>li>a:focus, .skin-red .main-header .navbar .nav .open>a, .skin-red .main-header .navbar .nav .open>a:hover, .skin-red .main-header .navbar .nav .open>a:focus, .skin-red .main-header .navbar .nav>.active>a {
   background: #e4e6eb ;
   color: #0095f6;
+  fill:  #0095f6;
 }
 
 .skin-red .main-header .navbar .sidebar-toggle {
@@ -78,6 +79,7 @@ button:focus {
 .skin-red .main-header .navbar .sidebar-toggle:hover {
   color: #0095f6;
   background-color: #e4e6eb ;
+  fill:  #0095f6;
 }
 
 
@@ -261,6 +263,27 @@ button:focus {
   padding-top: 25vh;
 } 
 
+
+.modal-backdrop {
+  background-color: transparent !important;
+}
+
+
+.fa-remove {
+  color: #ff6451;
+  font-size: large;
+}
+
+.fa-plus{
+  color:#13ce36;
+  font-size: large;
+}
+
+.fa-minus{
+  color:#ff6451;
+  font-size: large;
+}
+
 /*mobile*/
 @media only screen and (max-width: 600px) {
   .skin-red .main-header .navbar {
@@ -296,24 +319,4 @@ button:focus {
   .hello{
     padding-top: 20vh;
   }
-}
-
-.modal-backdrop {
-  background-color: transparent !important;
-}
-
-
-.fa-remove {
-  color: #ff6451;
-  font-size: large;
-}
-
-.fa-plus{
-  color:#13ce36;
-  font-size: large;
-}
-
-.fa-minus{
-  color:#ff6451;
-  font-size: large;
 }

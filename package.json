@@ -6,7 +6,7 @@
     "start": "ng serve --host=192.168.43.230 --port=8080",
     "build": "ng build --prod",
     "test": "ng generate c /components/payment-detail",
-    "git":"git push origin master",
+    "git": "git push origin master",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
@@ -25,6 +25,8 @@
     "angular-imask": "^5.2.1",
     "firebase": "^7.2.1",
     "jquery": "^3.4.1",
+    "lottie-web": "^5.7.3",
+    "ngx-lottie": "^6.4.0",
     "ngx-mask": "^8.1.2",
     "numeral": "^2.0.6",
     "rxjs": "~6.4.0",

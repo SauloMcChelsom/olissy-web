@@ -1,8 +1,10 @@
-<div *ngIf="false" class="notHaveOrder-main">
-    <img src="/assets/plataform/cart.png"/><br />
-    <span>
-      Você não possui pedidos
-    </span>
+  <div  *ngIf="(order$ | async) == false">
+    <div class="hello">
+      <i class="fa fa-bell" style="filter: grayscale(100%); font-size: 100px;"></i><br />
+      <span style=" color: #575757; font-size: x-large; ">
+        Você não possui pedidos
+      </span>
+    </div>
   </div>
   
   <div *ngFor="let order of order$ | async" class="col-md-12 col-xs-12" style="top: 25px;" >
@@ -14,11 +16,15 @@
         <div class="product-info" style=" margin-bottom: 20px; ">
           <span class="label pull-right "
             [ngClass]="{
-              'order-reserved': order.orderState == 'reserved'  || order.orderState == 'accept',
-              'order-pending': order.orderState == 'pending',
-              'order-packaging': order.orderState == 'packaging' || order.orderState == 'delivering',
-              'order-realized'   : order.orderState == 'realized'  || order.orderState == 'finished',
-              'order-abandoned' : order.orderState == 'abandoned' || order.orderState == 'refused'
+              'order-reserved'   : order.orderState == 'reserved',
+              'order-accept'     : order.orderState == 'accept',
+              'order-pending'    : order.orderState == 'pending',
+              'order-packaging'  : order.orderState == 'packaging',
+              'order-delivering' : order.orderState == 'delivering',
+              'order-realized'   : order.orderState == 'realized',
+              'order-finished'   : order.orderState == 'finished',
+              'order-abandoned'  : order.orderState == 'abandoned',
+              'order-refused'    : order.orderState == 'refused'
             }">{{ order.orderState | OrderPipe: 'formatOrderState'}}
           </span>
         </div>

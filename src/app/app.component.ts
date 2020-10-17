@@ -1,5 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 
+
+
 import { View } from './shared/view.shared';
 import { UserService, User } from './service/user.service';
 import { Client, ClientService } from './service/client.service';
@@ -78,7 +80,6 @@ export class AppComponent implements  OnDestroy {
       this.view.redirectPageFor('/store-home')
     }
   }
-
 
   ngOnDestroy(){
     this.unsubscribe$.next();

@@ -33,13 +33,13 @@ export class OrderState {
   }
 
   public setOrder(order: Order[], enty){
-    if(enty == 'user'){
-      return this.user.next(order)
+
+    if(order != null && enty == 'user'){
+      this.user.next(order)
     }
 
-    if(enty == 'create'){
-      if(order!=null)
-      this.create.next([order[0]])
+    if(order != null && enty == 'create'){
+      this.create.next(order)
     }
   }
 

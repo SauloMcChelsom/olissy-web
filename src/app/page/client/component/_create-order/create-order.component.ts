@@ -70,7 +70,7 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
         this.formOrder.patchValue({cellPhoneOfClient: this.clientService.pullClientInState().cellPhone})
       }
 
-      localStorage.setItem('order', JSON.stringify(this.formOrder.value))
+      localStorage.setItem('order', JSON.stringify([this.formOrder.value]))
       this.orderService.setOrderInState([this.formOrder.value], 'create')
       this.getStore(this.formOrder.value.FOREIGN_KEY_STORE)
     })
@@ -104,7 +104,7 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
 
   public setAddressFullOfClient(){
     this.formOrder.patchValue({addressFullOfClient: `${this.clientService.pullClientInState().street}, ${this.clientService.pullClientInState().neighborhood} - ${this.clientService.pullClientInState().city}`})
-    localStorage.setItem('order', JSON.stringify(this.formOrder.value))
+    localStorage.setItem('order', JSON.stringify([this.formOrder.value]))
     this.orderService.setOrderInState([this.formOrder.value], 'create')
   }
 
@@ -114,7 +114,7 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
 
   public setCellPhoneOfClient(){
     this.formOrder.patchValue({cellPhoneOfClient: this.clientService.pullClientInState().cellPhone})
-    localStorage.setItem('order', JSON.stringify(this.formOrder.value))
+    localStorage.setItem('order', JSON.stringify([this.formOrder.value]))
     this.orderService.setOrderInState([this.formOrder.value], 'create')
   }
 
@@ -131,7 +131,7 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
     if(value == 'deliveryBy'){
       this.formOrder.patchValue({taxaDeliverySelectByClient:{description:`Entrega por R${this.store.deliveryBy.taxa} por quilômetro`,taxa:this.store.deliveryBy.taxa, value: 'deliveryBy'}})
     }
-    localStorage.setItem('order', JSON.stringify(this.formOrder.value))
+    localStorage.setItem('order', JSON.stringify([this.formOrder.value]))
     this.orderService.setOrderInState([this.formOrder.value], 'create')
   }
 
@@ -142,7 +142,7 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
       this.formOrder.get("informChange").reset(null)
       this.formOrder.get("informChange").markAsTouched();
     }
-    localStorage.setItem('order', JSON.stringify(this.formOrder.value))
+    localStorage.setItem('order', JSON.stringify([this.formOrder.value]))
     this.orderService.setOrderInState([this.formOrder.value], 'create')
   }
 
@@ -157,7 +157,7 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
           value: 'negotiateRateDelivery'
         }
     }
-    localStorage.setItem('order', JSON.stringify(order))
+    localStorage.setItem('order', JSON.stringify([order]))
     this.orderService.setOrderInState([order], 'create')
     this.updateForm(order)
   }
@@ -192,7 +192,7 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
     this.formOrder.get("informChange").markAsTouched();
 
     window.scroll(0, 0);
-    localStorage.setItem('order', JSON.stringify(this.formOrder.value))
+    localStorage.setItem('order', JSON.stringify([this.formOrder.value]))
     this.orderService.setOrderInState([this.formOrder.value], 'create')
 
     if(this.formOrder.valid){
@@ -201,11 +201,11 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
   }
 
   public async sendOrder(){
-    this.view.setLoader(true)
+    this.formOrder.patchValue({ orderState: 'reserved' })
     this.getClient()
     await this.orderService.createNewOrderInApi(this.getForm()).then( v => v )
     this.orderShared.deleteOrder()
-    this.view.redirectPageFor(`/client-home`)
+    this.view.redirectPageFor(`/order-send-sucess`)
   }
 
   ngOnDestroy(){

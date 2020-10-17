@@ -18,6 +18,11 @@
   background-color: #2cce2fd1 !important
 }
 
+.order-accept{
+  color: #fff;
+  background-color: #2cce2fd1 !important
+}
+
 .order-pending{
   color: #fff;
   background-color: #ffc900cf !important
@@ -28,7 +33,17 @@
   background-color: #0095f6 !important
 }
 
+.order-delivering{
+  color: #fff;
+  background-color: #0095f6 !important
+}
+
 .order-realized{
+  color: #fff;
+  background-color: #0095f6  !important
+}
+
+.order-finished{
   color: #fff;
   background-color: #9E9E9E  !important
 }
@@ -38,7 +53,11 @@
   background-color: #ff6451 !important
 }
 
-  
+.order-refused{
+  color: #fff;
+  background-color: #ff6451 !important
+}
+
 .text-nome-pedido{
   font-family: "Lucida Grande", Tahoma;
   font-size: 14px;
@@ -89,4 +108,19 @@
 .notHaveOrder-main span {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-size: 20px;
+}
+
+@media only screen and (max-width: 767px) {
+  .info-box {
+    margin-top: 15px;
+    margin-bottom: 0px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .info-box {
+    border-radius:0px;
+    margin-top: 15px;
+    margin-bottom: 0px;
+  }
 }

@@ -1,20 +1,85 @@
-.icon-home{
-    font-size: 27px;
-    padding-top: 16px !important;
+.main-header .sidebar-toggle:before {
+    content: initial
 }
 
-.icon-search{
-    font-size: 20px;
+.svg-home {
+    /*fill:  #000;
+    stroke: #000;*/
+    stroke-width: 1;
+    width: 25px;
+    height: 25px;
 }
 
-.icon-message{
-    font-size: 20px;
+.svg-search {
+    background: #e4e6eb;
+    color: #000;
+    fill: #000;
+    stroke: #000;
+    stroke-width: 35;
+    width: 25px;
+    height: 25px;
 }
 
-.icon-order{
-    font-size: 20px;
-
+.svg-search:hover{
+    background: #e4e6eb;
+    color: #0095f6;
+    fill: #0095f6;
+    stroke: #0095f6;
 }
+
+.svg-card {
+    background: #e4e6eb;
+    color: #000;
+    fill: #000;
+    stroke-width: 1;
+    width: 25px;
+    height: 25px;
+}
+
+.svg-card:hover{
+    background: #e4e6eb;
+    color: #0095f6;
+    fill: #0095f6;
+}
+
+.svg-card-ckeck {
+    color: #0095f6;
+    fill: #0095f6;
+}
+
+.svg-card-empty {
+    color: #999;
+    fill: #999;
+    stroke-width: 1;
+    width: 25px;
+    height: 25px;
+}
+
+.svg-bell {
+    background: #e4e6eb;
+    /*fill:  #000;
+    stroke: #000;*/
+    stroke-width: 1px;
+    width: 25px;
+    height: 25px;
+}
+
+.svg-send {
+    background: #e4e6eb;
+    fill:  #000;
+    stroke: #000;
+    stroke-width: 1px;
+    width: 25px;
+    height: 25px;
+}
+
+.svg-send:hover{
+    background: #e4e6eb;
+    color: #0095f6;
+    fill: #0095f6;
+    stroke: #0095f6;
+}
+
 
 .navbar-custom-menu .navbar-nav>li>a {
     padding-top: 20px;
@@ -160,7 +225,7 @@
 }
 
 /* nao quebrar menu com telas pequenas */
-@media only screen and (max-width: 280px) {
+@media only screen and (max-width: 351px) {
     .nav>li>a {
         padding: 10px 10px;
     }

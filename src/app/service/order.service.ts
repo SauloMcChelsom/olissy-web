@@ -28,6 +28,10 @@ export class OrderService {
     return this.api.putOrderByUid(order)
   }
 
+  public putOrderByForeignKeyClientInApi(pk:String, data:Object){
+    return this.api.putOrderByForeignKeyClient(pk, data)
+  }
+
   public delOrderByUidInApi(order: Order){
     return this.api.delOrderByUid(order)
   }

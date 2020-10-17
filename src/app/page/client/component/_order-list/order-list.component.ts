@@ -17,6 +17,7 @@ export class OrderListComponent {
     private view:View,
     private order: OrderService
   ){
+    window.scroll(0,0);
     this.view.setLoader(false)
   }
 }

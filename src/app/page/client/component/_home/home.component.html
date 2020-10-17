@@ -8,7 +8,7 @@
       </div>
       <div *ngFor="let store of stores">
         <div *ngIf="product.FOREIGN_KEY_STORE == store.PRIMARY_KEY" class="card-header">
-          <span id="card-header-left" [routerLink]="['/user-page-of-store', store?.PRIMARY_KEY]">
+          <span id="card-header-left" [routerLink]="['/client-page-of-store', store?.PRIMARY_KEY]">
             <span>
               <img class="img-circle" width="40px" [src]="store.imageIconUrl" alt="User Image" />
             </span>

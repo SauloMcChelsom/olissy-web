@@ -1,0 +1,243 @@
+<div class="container">
+  <section class="content">
+    <section class="invoice box box-widget">
+      <form [formGroup]="formOrder" novalidate>
+        <div class="row invoice-info">
+          <div class="col-sm-4 col-xs-12">
+            <div class="form-group">
+              <label class="control-label" for="clientAddressFull">
+                Digite seu Endereço completo
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="addressFullOfClient"
+                required
+                minlength="5"
+                autocomplete="off"
+                placeholder="Digite seu Endereço"
+                id="clientAddressFull"
+              />
+              <span
+                class="btn btn-light"
+                *ngIf="formOrder.value.addressFullOfClient == '' || formOrder.value.addressFullOfClient.length <= 4"
+                (click)="setAddressFullOfClient()"
+              >
+                <b>{{ getAddressFullOfClient() }}</b>
+              </span>
+              <span
+                class="help-block button-alert-danger"
+                *ngIf="
+                  this.formOrder.controls['addressFullOfClient'].invalid &&
+                  (this.formOrder.controls['addressFullOfClient'].dirty ||
+                  this.formOrder.controls['addressFullOfClient'].touched)
+                "><b>Digite seu Endereço de entrega</b>
+              </span>
+            </div>
+          </div>
+          <div class="col-sm-4 col-xs-12">
+            <div class="form-group">
+              <label class="control-label" for="clientCellPhone">
+                Digite seu numero de celular
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="cellPhoneOfClient"
+                [imask]="cellPhoneMask"
+                [unmask]="true"
+                required
+                minlength="11"
+                autocomplete="off"
+                placeholder="Telefone"
+                id="clientCellPhone"
+              />
+              <span
+              class="btn btn-light"
+              *ngIf="formOrder.value.cellPhoneOfClient == '' || formOrder.value.cellPhoneOfClient.length <= 10"
+              (click)="setCellPhoneOfClient()"
+            >
+              <b>{{ getCellPhoneOfClient() | mask: '(00) 0 000-0000'}}</b>
+            </span>
+              <span
+                class="help-block button-alert-danger"
+                *ngIf="
+                  this.formOrder.controls['cellPhoneOfClient'].invalid &&
+                  (this.formOrder.controls['cellPhoneOfClient'].dirty ||
+                  this.formOrder.controls['cellPhoneOfClient'].touched)
+                ">Digite o numero do seu <b>CELULAR</b>
+              </span>
+            </div>
+          </div>
+          <div class="col-sm-4 col-xs-12">
+            <div class="form-group">
+              <label>Escolhe a Taxa de entrega</label>
+              <select (change)="setTaxaDeliverySelectByClient($event.target.value)" formControlName="taxaDeliverySelectByClientStatus" required class="form-control" id="taxaDeliverySelectByClient">
+                <option value="null" disabled hidden>
+                  << Escolha a opção >>
+                </option>         
+                <option  *ngIf="store?.negotiateRateDelivery.status == true" value="negotiateRateDelivery">
+                  Negociar taxa de entrega por Telefone
+                </option>
+                <option *ngIf="store?.onlyInNeighborhood.status == true" value="onlyInNeighborhood">               
+                  Entrega GRÁTIS no bairro {{store?.neighborhood}}
+                </option>
+                
+                <option *ngIf="store?.deliveryFreeAbove.status == true && this.formOrder.value.totalOrderValue >= store?.deliveryFreeAbove.taxa" value="deliveryFreeAbove">               
+                  Entrega grátis acima de R${{store?.deliveryFreeAbove.taxa}} por {{store?.deliveryFreeAbove.km}} quilômetro
+                </option>
+                <option value="null" disabled *ngIf="store?.deliveryFreeAbove.status == true && this.formOrder.value.totalOrderValue < store?.deliveryFreeAbove.taxa" value="deliveryFreeAbove">               
+                  Entrega grátis acima de R${{store?.deliveryFreeAbove.taxa}} por {{store?.deliveryFreeAbove.km}} quilômetro
+                </option>
+
+                <option *ngIf="store?.deliveryBy.status == true" value="deliveryBy" >               
+                  Entrega por R${{store?.deliveryBy.taxa}} por quilômetro
+                </option>
+              </select>
+              <span
+                class="help-block button-alert-danger"
+                *ngIf="
+                  this.formOrder.controls['taxaDeliverySelectByClientStatus'].invalid &&
+                  (this.formOrder.controls['taxaDeliverySelectByClientStatus'].dirty ||
+                  this.formOrder.controls['taxaDeliverySelectByClientStatus'].touched)
+                ">Clique acima e escolhe a opção <b>Taxa de entrega</b>  
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="row" style="margin-bottom: 40px;">
+          <div class="col-xs-12 table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th class="text-center">Quantidade</th>
+                  <th>Item</th>
+                  <th class="text-right">Preço</th>
+                  <th class="text-right"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of formOrder.value.product; let indexProduct = index">
+                  <td class="text-center">
+                    <a (click)="decreaseItem(item, indexProduct)" class="btn btn-sm" style="color:red">
+                      <i class="fa fa-minus"></i>
+                    </a>
+                    {{ item.quantity }}
+                    <a (click)="encreaseItem(item, indexProduct)" class="btn btn-sm" style="color:green">
+                      <i class="fa fa-plus"></i>
+                    </a>
+                  </td>
+                  <td>{{ item.name }}</td>
+                  <td class="text-right">
+                    {{ item.price | currency: "BRL" }}
+                  </td>
+                  <td class="text-right">
+                    <a class="btn btn-sm danger" (click)="deleteItem(item, indexProduct)">
+                      <i class="fa fa-remove"></i>
+                    </a>
+                  </td>
+                </tr>
+                <tr></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6 col-xs-12">
+            <div class="form-group">  
+              <span class="lead" style="font-size:14px">
+                <b>Escolhe a forma de Pagamento</b>
+              </span>
+              <select (change)="setMethodPaymentForMoney($event.target.value)"  class="form-control" required formControlName="methodPayment" id="clientMethodPayment">
+                <option value="null" disabled hidden>
+                  << Escolhe a opção >>
+                </option>
+                <option value="money">
+                  Dinheiro
+                </option>
+                <option value="debit">
+                  Cartão de Débito
+                </option>
+                <option value="credit">
+                  Cartão de Crédito
+                </option>
+              </select>
+              <span class="help-block button-alert-danger"
+                *ngIf="
+                  this.formOrder.controls['methodPayment'].invalid &&
+                  (this.formOrder.controls['methodPayment'].dirty ||
+                  this.formOrder.controls['methodPayment'].touched)
+                ">Clique acima e escolhe a opção de <b>pagamento</b>
+              </span>
+            </div>
+            <div class="form-group" *ngIf="formOrder.value.methodPayment == 'money'">
+              <label class="control-label" for="change">
+                Informe o valor do troco
+              </label>
+              <input
+                type="text"
+                class="form-control"
+                required
+                formControlName="informChange"
+                autocomplete="off"
+                placeholder="Informe o valor do troco"
+                id="change"
+              />
+              <span class="help-block button-alert-danger"
+                *ngIf="
+                  this.formOrder.controls['informChange'].invalid &&
+                  (this.formOrder.controls['informChange'].dirty ||
+                  this.formOrder.controls['informChange'].touched)
+                "><b>Digite o valor do troco</b>
+              </span>
+            </div>
+          </div>
+          <div class="col-sm-6 col-xs-12">
+            <span class="lead">Montantes:</span>
+            <div class="table-responsive">
+              <table class="table">
+                <tbody>
+                  <tr>
+                    <th>Produtos:</th>
+                    <td class="text-right">
+                       {{ formOrder.value.totalOrderValue | currency: "BRL" }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <th>Plataforma:</th>
+                    <td class="text-right">{{ this.formOrder.controls['taxaOfPlatform'].value | currency: "BRL"}}</td>
+                  </tr>
+                  <tr>
+                    <th>Entrega:</th>
+                    <td class="text-right">{{ this.formOrder.controls['taxaDeliverySelectByClient'].value.taxa | currency: "BRL" }}</td>
+                  </tr>
+                  <tr>
+                    <th>Total:</th>
+                    <td class="text-right">
+                      {{ TOTAL() | currency: "BRL"}}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="row">
+        <div class="col-xs-12" style="display: flex;">
+          <button (click)="back()" type="button" class="btn btn-light" style="font-size: 18px; margin-right: 15px;">  
+            <div>
+              <b>Voltar</b>
+            </div> 
+          </button>
+
+          <button (click)="validateForm()" type="button" class="btn btn-primary" style="font-size: 18px">  
+            <div>
+              <b>Salvar</b>
+            </div> 
+          </button>
+        </div>
+      </div>
+    </section>
+  </section>
+</div>

@@ -1,6 +1,7 @@
 <header class="main-header">
-    <nav class="navbar navbar-static-top">
-      <a class="sidebar-toggle" data-toggle="push-menu" role="button" style="font-size: 20px">
+    <nav class="navbar navbar-static-top" > <!-- style="display: flex;justify-content: space-between;"-->
+      <a class="sidebar-toggle" data-toggle="push-menu" role="button">
+        <img src="{{ client?.imageIconUrl }}" style="width: 30px;border-radius: 50px;" class="user-image" alt="User Image"/>
         <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -8,73 +9,96 @@
       </a>
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
+           
           <li routerLinkActive="active">
-            <a routerLink="/client-home" class="icon-home">
-              <i class="fa fa-home"></i>
+            <a routerLink="/client-home">
+              <svg viewBox="305.783 255.328 26.466 27.128" xmlns="http://www.w3.org/2000/svg" class="svg-home">
+                <g id="Home" transform="matrix(1, 0, 0, 1, 303.098053, 252.745956)">
+                  <path d="M25,28H21a3,3,0,0,1-3-3V20a1,1,0,0,0-1-1H15a1,1,0,0,0-1,1v5a3,3,0,0,1-3,3H7a3,3,0,0,1-3-3V16.66a5,5,0,0,1,1.46-3.54l8.41-8.41a3,3,0,0,1,4.24,0l8.41,8.41A5,5,0,0,1,28,16.66V25A3,3,0,0,1,25,28Z"/>
+                </g>
+              </svg>
             </a>
           </li>
+
           <li routerLinkActive="active">
-            <a data-keyboard="false" data-toggle="modal" data-target="#displaySearch" class="icon-search">
-              <i class="fa fa-search"></i>
+            <a data-keyboard="false" data-toggle="modal" data-target="#displaySearch">
+              <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" class="svg-search">
+                <g transform="matrix(1.448105, 0, 0, 1.395321, -116.546974, 29.337851)">
+                  <title>Layer 1</title>
+                  <ellipse  ry="132.684" rx="125.5" id="svg_1" cy="130.324" cx="226.5" fill-opacity="null" stroke-opacity="null" fill="none" style="stroke-miterlimit: 5; stroke-linecap: round;"/>
+                </g>
+                <line style="stroke-linecap: round;" x1="349.693" y1="339.468" x2="460.123" y2="461.145"/>
+              </svg>
             </a>
           </li>
-          <li routerLinkActive="active" class="dropdown messages-menu">
-            <a routerLink="/client-message-contact"  class="dropdown-toggle icon-message" data-toggle="dropdown">
-              <i class="fa fa-envelope"></i>
-              <span class="label label-success">
-                0
+
+          <li routerLinkActive="active" *ngFor="let show of orderCreate$ | async" data-keyboard="false" data-toggle="modal" data-target="#displayShoppingCart">
+            <a *ngIf="show">
+              <svg *ngIf="router != '/user-create-order'" viewBox="-211360.187 -65374.523 46 46" xmlns="http://www.w3.org/2000/svg" class="svg-card">
+                <path d="M14 36c-2.21 0-3.98 1.79-3.98 4s1.77 4 3.98 4 4-1.79 4-4-1.79-4-4-4zM2 4v4h4l7.19 15.17-2.7 4.9c-.31.58-.49 1.23-.49 1.93 0 2.21 1.79 4 4 4h24v-4H14.85c-.28 0-.5-.22-.5-.5 0-.09.02-.17.06-.24L16.2 26h14.9c1.5 0 2.81-.83 3.5-2.06l7.15-12.98c.16-.28.25-.61.25-.96 0-1.11-.9-2-2-2H10.43l-1.9-4H2zm32 32c-2.21 0-3.98 1.79-3.98 4s1.77 4 3.98 4 4-1.79 4-4-1.79-4-4-4z" transform="matrix(1, 0, 0, 1, -211359.1875, -65376.179687)"/>
+                <path d="M0 0h48v48H0z" fill="none" transform="matrix(1, 0, 0, 1, -211359.1875, -65376.179687)"/>
+              </svg>
+              <svg *ngIf="router == '/user-create-order'" viewBox="-211360.187 -65374.523 46 46" xmlns="http://www.w3.org/2000/svg" class="svg-card svg-card-ckeck">
+                <path d="M14 36c-2.21 0-3.98 1.79-3.98 4s1.77 4 3.98 4 4-1.79 4-4-1.79-4-4-4zM2 4v4h4l7.19 15.17-2.7 4.9c-.31.58-.49 1.23-.49 1.93 0 2.21 1.79 4 4 4h24v-4H14.85c-.28 0-.5-.22-.5-.5 0-.09.02-.17.06-.24L16.2 26h14.9c1.5 0 2.81-.83 3.5-2.06l7.15-12.98c.16-.28.25-.61.25-.96 0-1.11-.9-2-2-2H10.43l-1.9-4H2zm32 32c-2.21 0-3.98 1.79-3.98 4s1.77 4 3.98 4 4-1.79 4-4-1.79-4-4-4z" transform="matrix(1, 0, 0, 1, -211359.1875, -65376.179687)"/>
+                <path d="M0 0h48v48H0z" fill="none" transform="matrix(1, 0, 0, 1, -211359.1875, -65376.179687)"/>
+              </svg>
+              <span class="label label-success" style="top: 15px;">
+                {{ show?.product.length }}
               </span>
-            </a> 
-          </li> 
+            </a>
+          </li>
+
+          <li  *ngIf="(orderCreate$ | async) == false">
+            <a>
+              <svg viewBox="-211360.187 -65374.523 46 46" xmlns="http://www.w3.org/2000/svg" class="svg-card-empty">
+                <path d="M14 36c-2.21 0-3.98 1.79-3.98 4s1.77 4 3.98 4 4-1.79 4-4-1.79-4-4-4zM2 4v4h4l7.19 15.17-2.7 4.9c-.31.58-.49 1.23-.49 1.93 0 2.21 1.79 4 4 4h24v-4H14.85c-.28 0-.5-.22-.5-.5 0-.09.02-.17.06-.24L16.2 26h14.9c1.5 0 2.81-.83 3.5-2.06l7.15-12.98c.16-.28.25-.61.25-.96 0-1.11-.9-2-2-2H10.43l-1.9-4H2zm32 32c-2.21 0-3.98 1.79-3.98 4s1.77 4 3.98 4 4-1.79 4-4-1.79-4-4-4z" transform="matrix(1, 0, 0, 1, -211359.1875, -65376.179687)"/>
+                <path d="M0 0h48v48H0z" fill="none" transform="matrix(1, 0, 0, 1, -211359.1875, -65376.179687)"/>
+              </svg>
+            </a>
+          </li>
+
           <li routerLinkActive="active"  *ngIf="orderUser$ | async ;let show" class="dropdown notifications-menu">
             <a *ngIf="show.length > 0" routerLink="/client-order-list"  class="dropdown-toggle icon-order" data-toggle="dropdown">
-              <i class="fa fa-bell"></i>
+              <svg viewBox="634.486 281.836 21.001 22.271" xmlns="http://www.w3.org/2000/svg" class="svg-bell">
+                <g id="icons" transform="matrix(1, 0, 0, 1, 633.048889, 280.975128)">
+                  <g id="notification">
+                    <path d="M13.7,20h-3.5c-0.7,0-1.3,0.8-0.9,1.5C9.9,22.4,10.9,23,12,23s2.1-0.6,2.6-1.5C15,20.8,14.5,20,13.7,20z"/>
+                    <path d="M21.8,16.7l-0.4-0.5C19.8,14.1,19,11.6,19,9V8.3c0-3.6-2.6-6.8-6.2-7.2C8.6,0.6,5,3.9,5,8v1c0,2.6-0.8,5.1-2.4,7.2    l-0.4,0.5c-0.2,0.2-0.3,0.6-0.2,0.8C2.3,18.4,3.1,19,4,19h16c0.9,0,1.7-0.6,1.9-1.5C22,17.2,21.9,16.9,21.8,16.7z"/>
+                  </g>
+                </g>
+              </svg> 
               <span class="label label-success">
                 {{ show.length }}
               </span>
             </a>
           </li>
-          <li routerLinkActive="active" *ngFor="let show of orderCreate$ | async" data-keyboard="false" data-toggle="modal" data-target="#displayShoppingCart">
-            <a *ngIf="show" style="font-size: 22px;padding-top: 19px;">
-              <i *ngIf="router != '/client-create-order'" class="fa fa-shopping-cart"></i> 
-              <i *ngIf="router == '/client-create-order'" style=" color: #0095f6; " class="fa fa-shopping-cart"></i> 
-              <span class="label label-success">
-                {{ show?.product.length }}
-              </span>
+
+          <li routerLinkActive="active"  *ngIf="(orderUser$ | async) == false">
+            <a routerLink="/client-order-list">
+              <svg viewBox="634.486 281.836 21.001 22.271" xmlns="http://www.w3.org/2000/svg" class="svg-bell">
+                <g id="icons" transform="matrix(1, 0, 0, 1, 633.048889, 280.975128)">
+                  <g id="notification">
+                    <path d="M13.7,20h-3.5c-0.7,0-1.3,0.8-0.9,1.5C9.9,22.4,10.9,23,12,23s2.1-0.6,2.6-1.5C15,20.8,14.5,20,13.7,20z"/>
+                    <path d="M21.8,16.7l-0.4-0.5C19.8,14.1,19,11.6,19,9V8.3c0-3.6-2.6-6.8-6.2-7.2C8.6,0.6,5,3.9,5,8v1c0,2.6-0.8,5.1-2.4,7.2    l-0.4,0.5c-0.2,0.2-0.3,0.6-0.2,0.8C2.3,18.4,3.1,19,4,19h16c0.9,0,1.7-0.6,1.9-1.5C22,17.2,21.9,16.9,21.8,16.7z"/>
+                  </g>
+                </g>
+              </svg> 
             </a>
           </li>
-          <li class="dropdown user user-menu">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="https://firebasestorage.googleapis.com/v0/b/olissy-web-test.appspot.com/o/plataform%2Favatar.png?alt=media&token=93cf2089-ee1d-4ccb-b88b-b210583889c6" class="user-image" alt="User Image"/>
-              <span class="hidden-xs">
-                saulo silva
-              </span>
-            </a>
-            <ul class="dropdown-menu">
-              <li class="user-header">
-                <img src="https://firebasestorage.googleapis.com/v0/b/olissy-web-test.appspot.com/o/plataform%2Favatar.png?alt=media&token=93cf2089-ee1d-4ccb-b88b-b210583889c6" class="img-circle" width="50" alt="User Image"/>
-                <p>
-                  saulo silva
-                  <small>
-                    saulo@
-                  </small>
-                </p>
-              </li>
-              <li class="user-footer">
-                <div class="pull-left">
-                  <a routerLink="/client-user-change-registration" class="btn btn-primary">
-                    Meus Dados
-                  </a>
-                </div>
-                &nbsp;
-                <div class="pull-right">
-                  <a (click)="signOut()" class="btn btn-primary">
-                    Deslogar
-                  </a>
-                </div>
-              </li>
-            </ul>
-          </li>
+
+          <li routerLinkActive="active" class="dropdown messages-menu">
+            <a routerLink="/client-message-contact"  class="dropdown-toggle icon-message" data-toggle="dropdown">
+              <svg viewBox="560.207 240.754 24.322 18.33" xmlns="http://www.w3.org/2000/svg" class="svg-send">
+                <g id="icons" transform="matrix(1, 0, 0, 1, 560.344299, 238)">
+                  <path d="M20,3H4C1.8,3,0,4.8,0,7v10c0,2.2,1.8,4,4,4h16c2.2,0,4-1.8,4-4V7C24,4.8,22.2,3,20,3z M21.6,8.8l-7.9,5.3   c-0.5,0.3-1.1,0.5-1.7,0.5s-1.2-0.2-1.7-0.5L2.4,8.8C2,8.5,1.9,7.9,2.2,7.4C2.5,7,3.1,6.9,3.6,7.2l7.9,5.3c0.3,0.2,0.8,0.2,1.1,0   l7.9-5.3c0.5-0.3,1.1-0.2,1.4,0.3C22.1,7.9,22,8.5,21.6,8.8z" id="email"/>
+                </g>
+              </svg>
+              <!--<span class="label label-success">
+                0
+              </span>-->
+            </a> 
+          </li> 
+
         </ul>
       </div>
     </nav>
@@ -133,8 +157,11 @@
                               {{ item.price | currency: "BRL" }}
                             </td>
                             <td class="text-right">
-                              <a class="btn btn-sm danger" (click)="deleteItem(item, itemIndex)">
+                              <a *ngIf='clientOrderDetailAlter == false'  class="btn btn-sm danger" (click)="deleteItem(item, itemIndex)">
                                 <i class="fa fa-remove"></i>
+                              </a>
+                              <a *ngIf='clientOrderDetailAlter == true'  class="btn btn-sm danger">
+                                <i class="fa fa-remove"style="color: #dedede;"></i>
                               </a>
                             </td>
                           </tr>

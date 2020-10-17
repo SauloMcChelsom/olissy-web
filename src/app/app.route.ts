@@ -55,13 +55,29 @@ export const ROUTES: Routes = [
     loadChildren: () => import('./page/user/component/_page-of-store/page-of-store.module').then(m => m.PageOfStoreModule) 
   },
   {
+    path: 'client-page-of-store/:id',
+    loadChildren: () => import('./page/client/component/_page-of-store/page-of-store.module').then(m => m.PageOfStoreModule) 
+  },
+  {
     path: 'client-create-order',
     loadChildren: () => import('./page/client/component/_create-order/create-order.module').then(m => m.CreateOrderModule) 
+  },
+  {
+    path: 'order-send-sucess',
+    loadChildren: () => import('./page/client/component/order-send-sucess/order-send-sucess.module').then(m => m.OrderSendSucessModule) 
   },
   {
     path: 'client-order-list',
     loadChildren: () => import('./page/client/component/_order-list/order-list.module').then(m => m.OrderListModule) 
   },
+  {
+    path: 'client-order-detail/:id',
+    loadChildren: () => import('./page/client/component/_order-detail/order-detail.module').then(m => m.OrderDetailModule) 
+  },
+  {
+    path: 'client-order-detail-alter/:id',
+    loadChildren: () => import('./page/client/component/_order-detail-alter/order-detail-alter.module').then(m => m.OrderDetailAlterModule) 
+  }, 
 ];
 
 @NgModule({

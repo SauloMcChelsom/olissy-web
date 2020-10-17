@@ -18,7 +18,7 @@ export class OrderApi {
   }
 
   public getOrderByUid(order: Order){
-    return this.http.get<Order>('/')
+    return this.db.collection<Order>('order', ref =>ref.where('PRIMARY_KEY', '==', order.PRIMARY_KEY)).valueChanges()
   }
 
   public getOrderByForeignKeyClient(order: Order){
@@ -41,6 +41,10 @@ export class OrderApi {
   public putOrderByUid(order: Order){
     return this.http.put<Order>('/', null)
   } 
+
+  public async putOrderByForeignKeyClient(PRIMARY_KEY:String, data:Object){
+    await this.update('order', PRIMARY_KEY, data)
+  }
 
   public update(collection, pk, data: any) {
     return this.db.collection(collection).doc(pk).update(data);

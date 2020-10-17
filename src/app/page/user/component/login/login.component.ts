@@ -41,6 +41,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   ){}
 
   public ngOnInit() {
+    window.scroll(0,0);
     this.view.setLoader(false)
   }
 

@@ -1,4 +1,9 @@
 import { Component } from '@angular/core';
+import { View } from '../../../../shared/view.shared';
+import { UserService } from '../../../../service/user.service';
+import { Client, ClientService } from '../../../../service/client.service';
+import { OrderShared }  from'../../../../shared/order.shared';
+import { Order, OrderService } from '../../../../service/order.service';
 
 @Component({
   selector: 'app-column-client',
@@ -6,4 +11,24 @@ import { Component } from '@angular/core';
   styleUrls: ['./column-client.component.css']
 })
 
-export class ColumnClientComponent {}
+export class ColumnClientComponent {
+
+  public user:String = 'Usuario'
+
+  constructor(
+    private view:View,
+    private userService:UserService, 
+    private clientService:ClientService, 
+  ){
+    this.user = this.clientService.pullClientInState().name
+  }
+
+  public async signOut() {
+    this.view.setLoader(true)
+    this.userService.delUserInState()
+    this.clientService.delClientInState()
+    await this.userService.logoutInApi()
+    this.view.setUser('user')
+    this.view.redirectPageFor('/login')
+  }
+}

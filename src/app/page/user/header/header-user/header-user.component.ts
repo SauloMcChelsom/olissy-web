@@ -33,10 +33,19 @@ export class HeaderUserComponent implements OnInit{
         this.router = event.url
       }
     })
-  }
+  } 
 
   public ngOnInit(){
     this.getScreen()
+    this.getOrderInLocalStorage()
+  }
+
+  public getOrderInLocalStorage(){
+    this.orderCreate$.pipe(takeUntil(this.unsubscribe$)).subscribe((order)=>{
+      if(Object.keys(order).length == 0){
+        this.orderService.setOrderInState(JSON.parse(localStorage.getItem('order')), 'create')
+      }
+    })
   }
  
   public getScreen(){

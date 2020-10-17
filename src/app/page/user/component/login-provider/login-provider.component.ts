@@ -36,6 +36,7 @@ export class LoginProviderComponent implements OnInit, OnDestroy {
   ){}
 
   public async ngOnInit() {
+    window.scroll(0,0);
     this.view.putLoader()
   }
 

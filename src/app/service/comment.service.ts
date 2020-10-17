@@ -6,7 +6,9 @@ import { CommentInterface as Comment } from '../interfaces/comment.interface';
 @Injectable({providedIn: 'root'})
 export class CommentService {
 
-  constructor(private api: api, private state: state) {}
+  constructor(private api: api, private state: state) {
+    
+  }
 
   public getCommentByForeignKeyUserInApi(comment: Comment){
     return this.api.getCommentByForeignKeyUser(comment)

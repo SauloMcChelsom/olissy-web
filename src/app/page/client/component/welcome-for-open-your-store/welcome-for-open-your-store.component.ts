@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { View } from '../../../../shared/view.shared';
 
 @Component({
   selector: 'app-welcome-for-open-your-store',
@@ -6,7 +7,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./welcome-for-open-your-store.component.css']
 })
 export class WelcomeForOpenYourStoreComponent {
-  public ngOnInit() {
+  constructor(
+    private view:View,
+  ){
+    this.view.setLoader(false)
     window.scroll(0,0);
   }
 }

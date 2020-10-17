@@ -1,0 +1,319 @@
+<div class="container">
+
+  <div *ngIf="false" class="col-md-12 col-xs-12 center" style="top: 5px; margin-bottom: 50px">
+    <section class="invoice box box-widget" id="print-section" style="margin: 20px 0px 10px 0px;">
+        <div class="row">
+            <div class="login-logo">
+                <i class="fa fa-refresh fa-spin fa-2x"></i>
+            </div>
+        </div>
+    </section>
+  </div>
+
+  <section  *ngFor="let order of order$ | async">
+    <div *ngIf="order?.PRIMARY_KEY == PRIMARY_KEY"  class="invoice box box-widget espacamentos-card" id="print-section">
+        <div class="row ">
+            <div class="col-sm-12 col-xs-12" style="display: flex; flex-wrap: nowrap;  justify-content: center;">
+                <img class="box-img-detail img-circle" [src]="order?.imageIconUrlOfStore" width="180px" height="180px" style="margin-bottom: 60px;"/>
+            </div> 
+        </div>
+        <div class="row invoice-info">
+            <div class="col-sm-4 invoice-col">
+                <strong>Loja</strong>
+                <address>
+                {{ order?.nameOfStore }}<br />
+                {{ order?.cityOfStore }} {{ order?.neighborhoodOfStore }} {{ order?.streetOfStore }}<br />        
+                {{ order?.cellPhoneOfStore | mask: '(00) 0 0000-0000'  }} <br /> 
+                {{ order?.cnpjOfStore | mask: '00.000.000/0000-00' }} <br /> 
+                {{ order?.emailOfStore }} 
+                </address>
+            </div>
+            <div class="col-sm-4 invoice-col">
+                <strong>Cliente</strong>
+                <address>
+                {{ order?.nameOfClient }} {{ order?.lastNameOfClient }}<br />
+                {{ order?.cellPhoneOfClient | mask: '(00) 0 0000-0000' }}<br />
+                <b>Endereço de Entrega</b><br />
+                {{ order?.addressFullOfClient }}<br />
+                </address>
+            </div>
+            <div class="col-sm-4 invoice-col">
+                <b>COD:</b> {{ order?.PRIMARY_KEY }}<br />
+                <b>Pagamento:</b> {{ order?.methodPayment | OrderPipe: 'formatMethodPayment' }}&nbsp;<span *ngIf="order?.clientMethodPayment == 'money'" class="label label-info" style="background-color: #565656 !important; color: #f0f0f1 !important;">{{ order?.informChange}}</span><br />
+                <b>Estado:</b> {{ order?.orderState | OrderPipe: 'formatOrderState'  }} <br />
+                <b>Taxa de Entrega:</b> {{ order?.taxaDeliverySelectByClient.description }} 
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-md-6 col-xs-12">
+                <span class="lead">Itens do Pedido:</span>
+            </div>
+        </div>      
+        <div class="row">
+            <div class="col-xs-12 table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Qtd</th>
+                            <th>Produto</th>
+                            <th>valor</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let product of order?.product">
+                        <tr (click)="setProduct(product)" data-keyboard="false" data-toggle="modal" data-target="#selecionadoProdutoCadastrar"  >
+                            <td>{{ product.quantities }}</td>
+                            <td>{{ product.name }}</td>
+                            <td>{{ product.price }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-xs-12">
+                <span class="lead">Estado do Pedido:</span>
+                <div class="text-muted well well-sm no-shadow" style="margin-top: 0px;">
+                    <div *ngIf="order?.orderState == 'reserved'">
+                        <b>
+                            Reservado:
+                        </b>
+                        <small>
+                            Você enviou um pedido, ao solicitar a reserva a loja {{ order?.nameOfStore }} deverá aceitar, deixar em pendente ou recusar seu pedido em até 24 horas antes que ele expire. <b>Por favor aguarde a resposta da loja</b>
+                        </small>
+                    </div>
+                    <div *ngIf="order?.orderState == 'accept'">
+                        <b>
+                            Aceito: 
+                        </b>
+                        <small>
+                            Seu pedido foi <b>ACEITO</b> com sucesso pela loja {{ order?.nameOfStore }}
+                        </small>
+                    </div>
+                    <div *ngIf="order?.orderState == 'pending'">
+                        <b>
+                            Pendente: 
+                        </b>
+                        <small>
+                            Seu pedido esta pedente, <b>Leia a NOTA, e atualize seu pedido para ser aceito</b>
+                        </small>
+                    </div>
+                    <div *ngIf="order?.orderState == 'refused'">
+                        <b>
+                            Recusado:
+                        </b>
+                        <small>
+                            Que pena, seu pedido foi recusado. Nenhuma cobrança sera feita, para saber mais <b>Leia a NOTA</b>
+                        </small>
+                    </div>
+                    <div *ngIf="order?.orderState == 'packaging'">
+                        <b>
+                            Empacotando:
+                        </b>
+                        <small>
+                            Seu produto esta sendo separado e embalado, para a entrega
+                        </small>
+                    </div>
+                    <div *ngIf="order?.orderState == 'delivering'">
+                        <b>
+                            Entregando:
+                        </b>
+                        <small>
+                            Produto separado e embalado, estamos entregando o seu produto! <b>Há, {{ order?.nameOfClient }} você poderar receber uma ligação da loja para confirmação do seu endereço</b>
+                        </small>
+                    </div>
+                    <div *ngIf="order?.orderState == 'realized'">
+                        <b>
+                            Recebido:
+                        </b>
+                        <small>
+                            Com produto recebido basta <b>marcar como <i style="color: green;">Recebido</i></b>
+                        </small>
+                    </div>
+                    <div *ngIf="order?.orderState == 'finished'">
+                        <b>
+                            Finalizado:
+                        </b>
+                        <small>
+                            Parabéns {{ order?.nameOfClient }}! esperamos que você esteja satisfeito com nosso serviço. <b>O nosso muito obrigado e ate a proxima \o/</b>
+                        </small>
+                    </div>
+                    <div *ngIf="order?.orderState == 'abandoned'">
+                        <b>
+                            Desistencia:
+                        </b>
+                        <small>
+                            Que pena, Você desistiu :(
+                        </small>
+                    </div>
+                </div>
+                <!--<app-note [orderForNote]="order" [nameNote]="order?.clientName+' '+order?.clientLastName" user="client" userView="store"></app-note>-->
+                
+            </div>
+            <div class="col-sm-6 col-xs-12">
+                <span class="lead">Montantes:</span>
+                <div class="table-responsive">
+                <table class="table">
+                    <tbody>
+                    <tr>
+                        <th>Produtos:</th>
+                        <td class="text-right">
+                        {{ order?.totalOrderValue | currency: "BRL" }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Plataforma:</th>
+                        <td class="text-right">{{ order?.taxaOfPlatform | currency: "BRL"}}</td>
+                    </tr>
+                    <tr>
+                        <th>Entrega:</th>
+                        <td class="text-right">{{ order?.taxaDeliverySelectByClient.taxa | currency: "BRL" }}</td>
+                    </tr>
+                    <tr>
+                        <th>Total:</th>
+                        <td class="text-right">
+                        {{ TOTAL(order?.totalOrderValue, order?.taxaOfPlatform,  order?.taxaDeliverySelectByClient.taxa, order?.taxaDeliverySelectByClient.value) | currency: "BRL"}}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </div> 
+        <div class="row no-print">
+            <div class="col-xs-12">
+                <div *ngIf=" order?.orderState == 'reserved'">
+                    <button type="button" class="btn btn-danger pull-right" (click)="abandoned(order?.PRIMARY_KEY)">
+                        Desistir
+                    </button>
+                </div>
+                <div *ngIf=" order?.orderState == 'pending'" style="display: flex; justify-content: space-between;">
+                    <button type="button" class="btn btn-danger" (click)="abandoned(order?.PRIMARY_KEY)">
+                        Desistir
+                    </button>
+                    <a type="button" class="btn btn-warning" [routerLink]="['/client-order-detail-alter', order?.PRIMARY_KEY]">
+                        Alter Pedido
+                    </a> 
+                    <button type="button" class="btn btn-success" (click)="accept(order?.PRIMARY_KEY)" >
+                        Aceitar
+                    </button>
+                </div>
+                <div *ngIf=" order?.orderState == 'accept'">
+                    <button type="button" class="btn btn-danger pull-right" (click)="abandoned(order?.PRIMARY_KEY)">
+                        Desistir
+                    </button>
+                </div>
+                <div *ngIf=" order?.orderState == 'packaging'">
+                    <button type="button" class="btn btn-danger pull-right" (click)="abandoned(order?.PRIMARY_KEY)">
+                        Desistir
+                    </button>
+                </div>
+                <div *ngIf=" order?.orderState == 'delivering'">
+                    <button type="button" class="btn btn-danger pull-right" (click)="abandoned(order?.PRIMARY_KEY)">
+                        Desistir
+                    </button>
+                </div>
+                <div *ngIf=" order?.orderState == 'realized'">
+                    <button type="button" class="btn btn-info pull-right" (click)="finished(order?.PRIMARY_KEY)">
+                        Recebido
+                    </button>
+                </div>
+                <div *ngIf=" order?.orderState == 'refused'">
+                    <button type="button" class="btn btn-danger pull-right" (click)="refused(order?.PRIMARY_KEY)">
+                        Cancelar
+                    </button>
+                </div>
+                <div>
+                    <button class="btn btn-default pull-left" [routerLink]="['/client-order-list']">
+                        <i class="fa fa fa-reply"></i> Voltar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+  </section>
+  <!--
+  <form  novalidate>
+      <div class="modal fade" id="selecionadoProdutoCadastrar">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                  <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                      </button>
+                      <h4 class="modal-title">
+                      Informações do produto
+                      </h4>
+                  </div>
+                  <div class="modal-body">
+                      <div *ngIf="loading" class="col-md-12 col-xs-12 center" style="top: 5px; margin-bottom: 50px">
+                          <div class="row">
+                              <div class="login-logo">
+                              <i class="fa fa-refresh fa-spin fa-2x"></i>
+                              </div>
+                          </div>
+                      </div>
+                      <div *ngIf="!loading">
+                          <span class="menu-item-info-box-detail" style="width:100%;">
+                              <img class="img-responsive center-block" style="margin-bottom: 15px"  [src]="product?.productImageUrl"   width="300" alt="User Avatar">
+                          </span>
+                          <span class="menu-item-info-box-detail" style="width:100%;">
+                              <label style="width:100%; font-weight: normal;">
+                              <p style="margin-bottom: 0px;">
+                                  <b>Produto:</b> {{ product?.productName }}
+                              </p>
+                              </label>
+                          </span>
+                          <span class="menu-item-info-box-detail" style="width:100%;">
+                              <label style="width:100%; font-weight: normal;">
+                              <p style="margin-bottom: 0px;">
+                                  <b>Sessão: </b>{{ product?.productSession }}
+                              </p>
+                              </label>
+                          </span>
+                          <span class="menu-item-info-box-detail" style="width:100%;">
+                              <label style="width:100%; font-weight: normal;">
+                              <p style="margin-bottom: 0px;">
+                                  <b>Categoria: </b>{{ product?.productCategory }}
+                              </p>
+                              </label>
+                          </span>
+                          <span class="menu-item-info-box-detail" style="width:100%;">
+                              <label style="width:100%; font-weight: normal;">
+                              <p style="margin-bottom: 0px;">
+                                  <b>Tipo: </b>{{ product?.productType }}
+                              </p>
+                              </label>
+                          </span>
+                          <span class="menu-item-info-box-detail" style="width:100%;">
+                              <label style="width:100%; font-weight: normal;">
+                              <p style="margin-bottom: 0px;">
+                                  <b>Generico: </b>{{ product?.andGeneric }}
+                              </p>
+                              </label>
+                          </span>
+                          <span class="menu-item-info-box-detail" style="width:100%;">
+                              <label style="width:100%; font-weight: normal;">
+                              <p style="margin-bottom: 0px;">
+                                  <b>Fornecedor: </b>{{ product?.provider }}
+                              </p>
+                              </label>
+                          </span>
+                          <span class="menu-item-info-box-detail" style="width:100%;">
+                              <label style="width:100%; font-weight: normal;">
+                                  <div [innerHTML]="product?.productDescription"> </div>
+                              </label>
+                          </span>
+                      </div>
+                  </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-warning pull-rigth" data-dismiss="modal">
+                      Ocultar Informaçāo
+                  </button>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </form>
+   -->
+</div>
