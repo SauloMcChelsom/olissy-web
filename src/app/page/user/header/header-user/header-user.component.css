@@ -1,10 +1,7 @@
 
 .svg-perfil {
-  background: #e4e6eb;
-  color: #000;
-  fill: #000;
   stroke: #000;
-  stroke-width: 40;
+  stroke-width: 0;
   width: 25px;
   height: 25px;
 }
@@ -15,6 +12,8 @@
   fill: #0095f6;
   stroke: #0095f6;
 }
+
+
 
 .svg-home {
   /*fill:  #000;
