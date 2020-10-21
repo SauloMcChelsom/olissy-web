@@ -78,7 +78,7 @@ export class HeaderClientComponent {
     
     this.orderUser$.pipe(takeUntil(this.unsubscribe$)).subscribe((order:Order[])=>{
       this.client.imageIconUrl = this.clientService.pullClientInState().imageIconUrl
-      if(Object.keys(order).length = 0){
+      if(Object.keys(order).length == 0){
         this.orderService.putOrderInState('user')
       }else{
         this.orderService.setOrderInState(order, 'user')

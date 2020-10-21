@@ -25,6 +25,10 @@ export class OrderApi {
     return this.db.collection<Order>('order', ref =>ref.where('FOREIGN_KEY_CLIENT', '==', order.FOREIGN_KEY_CLIENT).orderBy("AUTOINCREMENT", "desc")).valueChanges()
   }
 
+  public getOrderByForeignKeyStore(order: Order){
+    return this.db.collection<Order>('order', ref =>ref.where('FOREIGN_KEY_STORE', '==', order.FOREIGN_KEY_STORE).orderBy("AUTOINCREMENT", "desc")).valueChanges()
+  }
+
   public async createNewOrder(order: Order){
     order.AUTOINCREMENT = firebase.firestore.FieldValue.serverTimestamp()
     order.DATE = new Date().toString()
@@ -34,8 +38,8 @@ export class OrderApi {
     return order
   }
 
-  public delOrderByUid(order: Order){
-    return this.http.delete<Order>('/')
+  public async delOrderByUid(order: Order){
+    return await this.db.collection('order').doc(order.PRIMARY_KEY).delete()
   }
 
   public putOrderByUid(order: Order){

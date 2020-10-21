@@ -35,6 +35,14 @@ export class ProductService {
     return this.api.putProductByUid(product)
   }
 
+  public updateTotalOfSaleInApi(product: Product){
+    return this.api.updateTotalOfSale(product)
+  }
+
+  public updateQuantitiesInApi(product: Product){
+    return this.api.updateQuantities(product)
+  }
+
   public delProductByUidInApi(product: Product){
     return this.api.delProductByUid(product)
   }

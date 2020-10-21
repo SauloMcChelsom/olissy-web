@@ -1,11 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+
+import { AngularFirestore } from '@angular/fire/firestore';
+import { firebase } from '@firebase/app';
+import '@firebase/auth';
+import '@firebase/firestore';
+
 import { InvoiceInterface as Invoice } from '../interfaces/invoice.interface';
 
 @Injectable({providedIn: 'root'})
 export class InvoiceApi {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private db: AngularFirestore){}
 
   public getInvoiceByForeignKeyUser(invoice: Invoice){
     return this.http.get<Invoice[]>('/')
@@ -15,8 +21,12 @@ export class InvoiceApi {
     return this.http.get<Invoice>('/')
   }
 
-  public createNewInvoice(invoice: Invoice){
-    return this.http.post<Invoice>('/', null)
+  public async createNewInvoice(invoice: Invoice){
+    invoice.AUTOINCREMENT = firebase.firestore.FieldValue.serverTimestamp()
+    invoice.DATE = new Date().toString()
+
+    await this.db.collection('invoice').doc(invoice.PRIMARY_KEY).set(invoice)
+    return invoice
   }
 
   public delInvoiceByUid(invoice: Invoice){
@@ -26,5 +36,9 @@ export class InvoiceApi {
   public putInvoiceByUid(invoice: Invoice){
     return this.http.put<Invoice>('/', null)
   } 
+
+  public update(collection, pk, data: any) {
+    return this.db.collection(collection).doc(pk).update(data);
+  }
 
 }

@@ -1,0 +1,126 @@
+.info-box {
+  display: block;
+  min-height: 90px;
+  background: #fff;
+  width: 100%;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  box-shadow: 1px 1px 2px 0px #aaaaaa;
+  border-color: #aaaaaa00;
+}
+
+.viewed-Order{
+  color: #0095f6 !important
+}
+
+.order-reserved{
+  color: #fff;
+  background-color: #2cce2fd1 !important
+}
+
+.order-accept{
+  color: #fff;
+  background-color: #2cce2fd1 !important
+}
+
+.order-pending{
+  color: #fff;
+  background-color: #ffc900cf !important
+}
+
+.order-packaging{
+  color: #fff;
+  background-color: #0095f6 !important
+}
+
+.order-delivering{
+  color: #fff;
+  background-color: #0095f6 !important
+}
+
+.order-realized{
+  color: #fff;
+  background-color: #0095f6  !important
+}
+
+.order-finished{
+  color: #fff;
+  background-color: #9E9E9E  !important
+}
+
+.order-abandoned{
+  color: #fff;
+  background-color: #ff6451 !important
+}
+
+.order-refused{
+  color: #fff;
+  background-color: #ff6451 !important
+}
+
+.text-nome-pedido{
+  font-family: "Lucida Grande", Tahoma;
+  font-size: 14px;
+  font-weight: normal;
+  font-variant:small-caps;
+  color: #666;
+  margin-top: 7px;
+  letter-spacing: 0.2em;
+}
+
+.borderless table {
+  border-top-style: none;
+  border-left-style: none;
+  border-right-style: none;
+  border-bottom-style: none;
+  border: 0;
+}
+
+.borderless td, .borderless th {
+  border: none;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+}
+
+.box-footer {
+  margin-top: -25px;
+  border-top: 0px solid #f4f4f4;
+}
+.modal-body {
+  padding: 0px;
+}
+
+.notHaveOrder-main{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin: 0px;
+  padding: 0px;
+  margin-top: 10%;
+}
+
+.notHaveOrder-main img {
+  width: 200px;
+}
+
+.notHaveOrder-main span {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 20px;
+}
+
+@media only screen and (max-width: 767px) {
+  .info-box {
+    margin-top: 15px;
+    margin-bottom: 0px;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .info-box {
+    border-radius:0px;
+    margin-top: 15px;
+    margin-bottom: 0px;
+  }
+}

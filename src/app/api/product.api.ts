@@ -53,6 +53,16 @@ export class ProductApi {
     return this.db.collection(collection).doc(pk).update(data);
   }
 
+  public async updateTotalOfSale(product: Product){
+    const increment = firebase.firestore.FieldValue.increment(product.totalOfSale);
+    await this.db.collection('product').doc(product.PRIMARY_KEY).update({ totalOfSale : increment })
+  }
+
+  public async updateQuantities(product: Product){
+    const increment = firebase.firestore.FieldValue.increment(product.quantities);
+    await this.db.collection('product').doc(product.PRIMARY_KEY).update({ quantities : increment })
+  }
+
   public async increment() {
     const increment = firebase.firestore.FieldValue.increment(1);
     await this.db.collection('increment').doc("00").update({ product : increment })

@@ -78,6 +78,18 @@ export const ROUTES: Routes = [
     path: 'client-order-detail-alter/:id',
     loadChildren: () => import('./page/client/component/_order-detail-alter/order-detail-alter.module').then(m => m.OrderDetailAlterModule) 
   }, 
+  {
+    path: 'store-order-list',
+    loadChildren: () => import('./page/store/component/_order-list/order-list.module').then(m => m.OrderListModule) 
+  },
+  {
+    path: 'store-order-detail/:id',
+    loadChildren: () => import('./page/store/component/_order-detail/order-detail.module').then(m => m.OrderDetailModule) 
+  },
+  {
+    path: 'store-order-detail-alter/:id',
+    loadChildren: () => import('./page/store/component/_order-detail-alter/order-detail-alter.module').then(m => m.OrderDetailAlterModule) 
+  }, 
 ];
 
 @NgModule({

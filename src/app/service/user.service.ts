@@ -82,7 +82,7 @@ export class UserService {
       PRIMARY_KEY: '',
       password: '203327.Ss',
       retypePassword: '203327.Ss',
-      email: 'saulo@gmail.com',
+      email: 'cruzeiro@gmail.com',
       name: 'saulo',
       terms: false,
       type: 1,

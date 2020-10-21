@@ -1,61 +1,61 @@
 <br />
 <ul class="sidebar-menu" data-widget="tree">
   <li routerLinkActive="active">
-    <a routerLink="/store">
+    <a routerLink="store-panel" data-toggle="push-menu">
+      <i class="fa fa-user"></i>
+      <span>{{ store }}</span>
+    </a>
+  </li>
+  <li routerLinkActive="active">
+    <a routerLink="store-user-change-registration" data-toggle="push-menu">
+      <i class="fa fa-user"></i>
+      <span>{{ user }}</span>
+    </a>
+  </li>
+  <li routerLinkActive="active">
+    <a routerLink="/store" data-toggle="push-menu">
       <i class="fa fa-group"></i><span>Lojas</span>
     </a>
   </li>
   <li routerLinkActive="active">
-    <a routerLink="store-message-contact">
+    <a routerLink="store-message-contact" data-toggle="push-menu">
       <i class="fa fa-envelope"></i> <span>Mensagens</span>
     </a>
   </li>
   <li routerLinkActive="active">
-    <a routerLink="store-order">
+    <a routerLink="store-order" data-toggle="push-menu">
       <i class="fa fa-bell"></i>
       <span>Pedidos</span>
-      <span class="pull-right-container">
-        <small class="label pull-right bg-green"></small>
-      </span>
     </a>
   </li>
   <li routerLinkActive="active">
-    <a routerLink="new-product">
+    <a routerLink="new-product" data-toggle="push-menu">
       <i class="fa fa-plus"></i>
       <span>Novo produtos</span>
-      <span class="pull-right-container">
-        <small class="label pull-right bg-green"></small>
-      </span>
     </a>
   </li>
   <li routerLinkActive="active">
-    <a routerLink="store-product-record">
+    <a routerLink="store-product-record" data-toggle="push-menu">
       <i class="fa fa-tags"></i>
       <span>Meus produtos</span>
     </a>
   </li>
   <li routerLinkActive="active">
-    <a routerLink="store-panel">
-      <i class="fa fa-user"></i>
-      <span>Loja</span>
-    </a>
-  </li>
-  <li routerLinkActive="active">
-    <a routerLink="store-user-change-registration">
-      <i class="fa fa-user"></i>
-      <span>Usuario</span>
-    </a>
-  </li>
-  <li routerLinkActive="active">
-    <a routerLink="payment-list">
+    <a routerLink="payment-list" data-toggle="push-menu">
       <i class="fa fa-dollar"></i>
       <span>Pagamentos</span>
     </a>
   </li>
   <li routerLinkActive="active">
-    <a routerLink="invoice-list">
+    <a routerLink="invoice-list" data-toggle="push-menu">
       <i class="fa fa-folder-open"></i>
       <span>Documentos</span>
+    </a>
+  </li>
+  <li routerLinkActive="active">
+    <a (click)="signOut()" data-toggle="push-menu"   >
+      <i class="fa fa-power-off"></i>
+      <span>Sair</span>
     </a>
   </li>
 </ul>

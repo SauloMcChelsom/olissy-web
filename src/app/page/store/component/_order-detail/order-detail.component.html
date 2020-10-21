@@ -79,7 +79,7 @@
                             Reservado:
                         </b>
                         <small>
-                            Você enviou um pedido, ao solicitar a reserva a loja {{ order?.nameOfStore }} deverá aceitar, deixar em pendente ou recusar seu pedido em até 24 horas antes que ele expire. <b>Por favor aguarde a resposta da loja</b>
+                            O cliente {{ order?.nameOfClient }} {{ order?.lastNameOfClient }} lhe enviou um pedido, ao solicitar a reserva você deverá aceitar, deixar em pendente ou recusar o pedido em até 24 horas antes que ele expire.
                         </small>
                     </div>
                     <div *ngIf="order?.orderState == 'accept'">
@@ -87,7 +87,7 @@
                             Aceito: 
                         </b>
                         <small>
-                            Seu pedido foi <b>ACEITO</b> com sucesso pela loja {{ order?.nameOfStore }}
+                            Você aceitou o pedido do cliente {{ order?.nameOfClient }} {{ order?.lastNameOfClient }}
                         </small>
                     </div>
                     <div *ngIf="order?.orderState == 'pending'">
@@ -95,7 +95,7 @@
                             Pendente: 
                         </b>
                         <small>
-                            Seu pedido esta pedente, <b>Leia a NOTA, e atualize seu pedido para ser aceito</b>
+                            Você marcou este pedido como pedente, <b>Informe em NOTA porque esta pendente, para o cliente atualizar o pedido, para ser aceito</b>
                         </small>
                     </div>
                     <div *ngIf="order?.orderState == 'refused'">
@@ -103,7 +103,7 @@
                             Recusado:
                         </b>
                         <small>
-                            Que pena, seu pedido foi recusado. Nenhuma cobrança sera feita, para saber mais <b>Leia a NOTA</b>
+                            Você recusou o pedido de reserva do cliente. Nenhuma cobrança sera feita para {{ order?.nameOfClient }} {{ order?.lastNameOfClient }} 
                         </small>
                     </div>
                     <div *ngIf="order?.orderState == 'packaging'">
@@ -111,7 +111,7 @@
                             Empacotando:
                         </b>
                         <small>
-                            Seu produto esta sendo separado e embalado, para a entrega
+                            Por favor é ora de separar e embalar o produto para a entrega, pois o cliente esta aguardando!
                         </small>
                     </div>
                     <div *ngIf="order?.orderState == 'delivering'">
@@ -119,15 +119,15 @@
                             Entregando:
                         </b>
                         <small>
-                            Produto separado e embalado, estamos entregando o seu produto! <b>Há, {{ order?.nameOfClient }} você poderar receber uma ligação da loja para confirmação do seu endereço</b>
+                           Produto separado e embalado, confirar o enderenço do cliente e boa entrega! <b>Há, cuidado com o trânsito</b>
                         </small>
                     </div>
                     <div *ngIf="order?.orderState == 'realized'">
                         <b>
-                            Recebido:
+                            Realizado:
                         </b>
                         <small>
-                            Com produto recebido basta <b>marcar como <i style="color: green;">Recebido</i></b>
+                            Produto esta entregue e Realizado. Não requer nenhuma ação adicional. <b>Há, pergunte ao seu cliente para não esqueçer de marcar como <i style="color: green;">Recebido</i> </b>
                         </small>
                     </div>
                     <div *ngIf="order?.orderState == 'finished'">
@@ -135,7 +135,7 @@
                             Finalizado:
                         </b>
                         <small>
-                            Parabéns {{ order?.nameOfClient }}! esperamos que você esteja satisfeito com nosso serviço. <b>O nosso muito obrigado e ate a proxima \o/</b>
+                            Parabéns {{ order?.nameOfStore }}! esperamos que você esteja satisfeito com nosso serviço, por favor click no botão <b>Finalizar</b> para gerar um documento de certificação. <b>O nosso muito obrigado e ate a proxima \o/</b>
                         </small>
                     </div>
                     <div *ngIf="order?.orderState == 'abandoned'">
@@ -143,7 +143,7 @@
                             Desistencia:
                         </b>
                         <small>
-                            Que pena, Você desistiu :(
+                           Que pena o cliente desistiu :(
                         </small>
                     </div>
                 </div>
@@ -182,49 +182,64 @@
         </div> 
         <div class="row no-print">
             <div class="col-xs-12">
-                <div *ngIf=" order?.orderState == 'reserved'">
-                    <button type="button" class="btn btn-danger pull-right" (click)="abandoned(order?.PRIMARY_KEY)">
-                        Desistir
+                <div *ngIf="order?.orderState == 'reserved'" style="display: flex; justify-content: space-between;">
+                    <button type="button" class="btn btn-danger" (click)="refused(order?.PRIMARY_KEY)">
+                        Recusar
                     </button>
-                </div>
-                <div *ngIf=" order?.orderState == 'pending'" style="display: flex; justify-content: space-between;">
-                    <button type="button" class="btn btn-danger" (click)="abandoned(order?.PRIMARY_KEY)">
-                        Desistir
+                    <button type="button" class="btn btn-warning" (click)="pending(order?.PRIMARY_KEY)">
+                        Pendenciar
                     </button>
-                    <a type="button" class="btn btn-warning" [routerLink]="['/client-order-detail-alter', order?.PRIMARY_KEY]">
-                        Alter Pedido
-                    </a> 
-                    <button type="button" class="btn btn-success" (click)="accept(order?.PRIMARY_KEY)" >
+                    <button type="button" class="btn btn-success" (click)="accept(order?.PRIMARY_KEY)">
                         Aceitar
                     </button>
                 </div>
-                <div *ngIf=" order?.orderState == 'accept'">
-                    <button type="button" class="btn btn-danger pull-right" (click)="abandoned(order?.PRIMARY_KEY)">
-                        Desistir
+                <div *ngIf="order?.orderState == 'pending'"  style="display: flex; justify-content: space-between;">
+                    <button type="button" class="btn btn-danger" (click)="refused(order?.PRIMARY_KEY)">
+                        Recusar
+                    </button>
+                    <button type="button" class="btn btn-warning" disabled>
+                        Pendenciar
+                    </button>
+                    <button type="button" class="btn btn-success" disabled>
+                        Aceitar
                     </button>
                 </div>
-                <div *ngIf=" order?.orderState == 'packaging'">
-                    <button type="button" class="btn btn-danger pull-right" (click)="abandoned(order?.PRIMARY_KEY)">
-                        Desistir
+                <div *ngIf="order?.orderState == 'accept'" style="display: flex; justify-content: space-between;">
+                    <button type="button" class="btn btn-danger" (click)="refused(order?.PRIMARY_KEY)">
+                        Recusar
+                    </button>
+                    <button type="button" class="btn btn-primary" (click)="packaging(order?.PRIMARY_KEY)">
+                        Empacotar
                     </button>
                 </div>
-                <div *ngIf=" order?.orderState == 'delivering'">
-                    <button type="button" class="btn btn-danger pull-right" (click)="abandoned(order?.PRIMARY_KEY)">
-                        Desistir
+                <div *ngIf="order?.orderState == 'packaging'" style="display: flex; justify-content: space-between;">
+                    <button type="button" class="btn btn-danger" (click)="refused(order?.PRIMARY_KEY)">
+                        Recusar
+                    </button>
+                    <button type="button" class="btn btn-primary" (click)="delivering(order?.PRIMARY_KEY)">
+                        Entregar
                     </button>
                 </div>
-                <div *ngIf=" order?.orderState == 'realized'">
-                    <button type="button" class="btn btn-info pull-right" (click)="finished(order?.PRIMARY_KEY)">
-                        Recebido
+                <div *ngIf="order?.orderState == 'delivering'" style="display: flex; justify-content: space-between;">
+                    <button type="button" class="btn btn-danger" (click)="refused(order?.PRIMARY_KEY)">
+                        Recusar
+                    </button>
+                    <button type="button" class="btn btn-primary" (click)="realized(order?.PRIMARY_KEY)">
+                        Realizado
                     </button>
                 </div>
-                <div *ngIf=" order?.orderState == 'refused'">
-                    <button type="button" class="btn btn-danger pull-right" (click)="refused(order?.PRIMARY_KEY)">
+                <div *ngIf="order?.orderState == 'finished'">
+                    <button type="button" class="btn btn-info pull-right btn-finish" (click)="finished(order)">
+                        Finalizar
+                    </button>
+                </div>
+                <div *ngIf="order?.orderState == 'abandoned'">
+                    <button  type="button" class="btn btn-danger pull-right" (click)="cancel(order)">
                         Excluir
                     </button>
                 </div>
                 <div>
-                    <button class="btn btn-default pull-left" [routerLink]="['/client-order-list']">
+                    <button class="btn btn-default pull-left" [routerLink]="['/store-order-list']">
                         <i class="fa fa fa-reply"></i> Voltar
                     </button>
                 </div>

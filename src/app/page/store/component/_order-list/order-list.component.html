@@ -1,0 +1,43 @@
+  <div  *ngIf="(order$ | async) == false">
+    <div class="hello">
+      <i class="fa fa-bell" style="filter: grayscale(100%); font-size: 100px;"></i><br />
+      <span style=" color: #575757; font-size: x-large; ">
+        Você não possui pedidos
+      </span>
+    </div>
+  </div>
+  
+  <div *ngFor="let order of order$ | async" class="col-md-12 col-xs-12" style="top: 25px;" >
+    <div [routerLink]="['/store-order-detail', order.PRIMARY_KEY]"  class="info-box" style=" cursor: pointer; ">
+      <span class="info-box-icon no-padding" style="padding: 0px; background:  transparent; margin-top: 10px;">
+        <img [src]="order.imageIconUrlOfStore" width="60px" height="60px" class="img-circle" />
+      </span>
+      <div class="info-box-content" style=" margin-left: 0px;">
+        <div class="product-info" style=" margin-bottom: 20px; ">
+          <span class="label pull-right "
+            [ngClass]="{
+              'order-reserved'   : order.orderState == 'reserved',
+              'order-accept'     : order.orderState == 'accept',
+              'order-pending'    : order.orderState == 'pending',
+              'order-packaging'  : order.orderState == 'packaging',
+              'order-delivering' : order.orderState == 'delivering',
+              'order-realized'   : order.orderState == 'realized',
+              'order-finished'   : order.orderState == 'finished',
+              'order-abandoned'  : order.orderState == 'abandoned',
+              'order-refused'    : order.orderState == 'refused'
+            }">{{ order.orderState | OrderPipe: 'formatOrderState'}}
+          </span>
+        </div>
+        <span class="info-box-text text-nome-pedido font-weight-bold" [ngClass]="{ 'viewed-Order': order.storeViewedTheOrder == false }">
+          {{ order.nameOfStore }}
+        </span>
+        <span class="info-box-number" [ngClass]="{ 'viewed-Order': order.storeViewedTheOrder == false }">
+          {{ order.totalOrderValue | currency: "BRL" }}
+          
+        </span>
+        <span class="progress-description" [ngClass]="{ 'viewed-Order': order.storeViewedTheOrder == false }">
+          {{ order.DATE | OrderPipe: 'formatDataOrderList' }}
+        </span>
+      </div>
+    </div>
+  </div>

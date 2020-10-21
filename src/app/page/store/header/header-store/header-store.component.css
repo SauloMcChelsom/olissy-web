@@ -1,20 +1,85 @@
-.icon-home{
-    font-size: 27px;
-    padding-top: 16px !important;
+.main-header .sidebar-toggle:before {
+    content: initial
 }
 
-.icon-search{
-    font-size: 20px;
+.svg-home {
+    /*fill:  #000;
+    stroke: #000;*/
+    stroke-width: 1;
+    width: 25px;
+    height: 25px;
 }
 
-.icon-message{
-    font-size: 20px;
+.svg-search {
+    background: #e4e6eb;
+    color: #000;
+    fill: #000;
+    stroke: #000;
+    stroke-width: 35;
+    width: 25px;
+    height: 25px;
 }
 
-.icon-order{
-    font-size: 20px;
-
+.svg-search:hover{
+    background: #e4e6eb;
+    color: #0095f6;
+    fill: #0095f6;
+    stroke: #0095f6;
 }
+
+.svg-card {
+    background: #e4e6eb;
+    color: #000;
+    fill: #000;
+    stroke-width: 1;
+    width: 25px;
+    height: 25px;
+}
+
+.svg-card:hover{
+    background: #e4e6eb;
+    color: #0095f6;
+    fill: #0095f6;
+}
+
+.svg-card-ckeck {
+    color: #0095f6;
+    fill: #0095f6;
+}
+
+.svg-card-empty {
+    color: #999;
+    fill: #999;
+    stroke-width: 1;
+    width: 25px;
+    height: 25px;
+}
+
+.svg-bell {
+    background: #e4e6eb;
+    /*fill:  #000;
+    stroke: #000;*/
+    stroke-width: 1px;
+    width: 25px;
+    height: 25px;
+}
+
+.svg-send {
+    background: #e4e6eb;
+    fill:  #000;
+    stroke: #000;
+    stroke-width: 1px;
+    width: 25px;
+    height: 25px;
+}
+
+.svg-send:hover{
+    background: #e4e6eb;
+    color: #0095f6;
+    fill: #0095f6;
+    stroke: #0095f6;
+}
+
 
 .navbar-custom-menu .navbar-nav>li>a {
     padding-top: 20px;
@@ -113,30 +178,25 @@
     width: 100% !important;
     margin-bottom: 20px !important;
     padding: 15px !important;
-  }
-  
-  .btn-primary:hover {
+}
+
+.btn-primary:hover {
     background-color: #0095f6 !important;
     box-shadow: 1px 1px 2px 0px #004e82 !important;
     border-color: #4e96ff !important;
-  }
-  
-  .btn-primary.active.focus, .btn-primary.active:focus, .btn-primary.active:hover, .btn-primary:active.focus, .btn-primary:active:focus, .btn-primary:active:hover, .open>.dropdown-toggle.btn-primary.focus, .open>.dropdown-toggle.btn-primary:focus, .open>.dropdown-toggle.btn-primary:hover {
+}
+
+.btn-primary.active.focus, .btn-primary.active:focus, .btn-primary.active:hover, .btn-primary:active.focus, .btn-primary:active:focus, .btn-primary:active:hover, .open>.dropdown-toggle.btn-primary.focus, .open>.dropdown-toggle.btn-primary:focus, .open>.dropdown-toggle.btn-primary:hover {
     color: #fff !important;
     background-image: none !important;
     background-color: #038ae4 !important;
     box-shadow: 1px 1px 2px 0px #004e82 !important;
     border-color: #4e96ff !important;
-  }
+}
 
-  .navbar-nav>.user-menu>.dropdown-menu>li.user-header>img {
+.navbar-nav>.user-menu>.dropdown-menu>li.user-header>img {
     border-color: rgb(255 255 255);
-  }
-
-  .navbar-nav>.user-menu>.dropdown-menu>.user-body {
-    border-bottom: 0px solid #ededed;
-    border-top: 1px solid #ddd;
-  }
+}
 
 @media only screen and (max-width: 769px) {
     .icon-order > .label {
@@ -161,12 +221,74 @@
     .navbar-nav>.user-menu>.dropdown-menu>.user-footer {
         border-radius: 0px;
     }
+
 }
 
 /* nao quebrar menu com telas pequenas */
-@media only screen and (max-width: 280px) {
+@media only screen and (max-width: 351px) {
     .nav>li>a {
         padding: 10px 10px;
     }
 }
 
+
+/*modal*/
+.main-header .navbar .nav>li>a>.label {
+    padding: 3px 6px;
+}
+
+.bg-green, .callout.callout-success, .alert-success, .label-success, .modal-success .modal-body {
+    background-color: #52d755 !important;
+}
+
+.modal {
+    background: #fff;
+    backdrop-filter: blur(0px);
+}
+
+.modal-content {
+    box-shadow: 0 0px 0px rgb(0 0 0 / 0%);
+    border: 0px solid rgb(0 0 0 / 0%);
+    border-radius: 0px;
+    height: 100vh;
+}
+
+.box-footer {
+    background-color: #fff0;
+}
+
+.table-striped>tbody>tr:nth-of-type(odd) {
+    background-color: #fff0;
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 0px solid #ddd;
+}
+
+td, th  {
+    border-style : hidden!important;
+}
+
+.box-solid{
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: initial;
+}
+
+.box-solid{
+    width: 100%;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: initial;
+}
+
+.box-body {
+    padding: 0px;
+}

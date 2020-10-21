@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { View } from '../../../../shared/view.shared';
 import { UserService } from '../../../../service/user.service';
-import { Client, ClientService } from '../../../../service/client.service';
-import { OrderShared }  from'../../../../shared/order.shared';
-import { Order, OrderService } from '../../../../service/order.service';
+import { ClientService } from '../../../../service/client.service';
 
 @Component({
   selector: 'app-column-client',
@@ -30,5 +28,5 @@ export class ColumnClientComponent {
     await this.userService.logoutInApi()
     this.view.setUser('user')
     this.view.redirectPageFor('/login')
-  }
+  } 
 }

@@ -15,6 +15,10 @@ export class OrderService {
   public getOrderByForeignKeyClientInApi(order: Order){
     return this.api.getOrderByForeignKeyClient(order)
   }
+
+  public getOrderByForeignKeyStoreInApi(order: Order){
+    return this.api.getOrderByForeignKeyStore(order)
+  }
  
   public getOrderByUidInApi(order: Order){
     return this.api.getOrderByUid(order)
