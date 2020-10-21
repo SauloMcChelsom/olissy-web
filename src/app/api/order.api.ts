@@ -22,7 +22,7 @@ export class OrderApi {
   }
 
   public getOrderByForeignKeyClient(order: Order){
-    return this.db.collection<Order>('order', ref =>ref.where('FOREIGN_KEY_CLIENT', '==', order.FOREIGN_KEY_CLIENT)).valueChanges()
+    return this.db.collection<Order>('order', ref =>ref.where('FOREIGN_KEY_CLIENT', '==', order.FOREIGN_KEY_CLIENT).orderBy("AUTOINCREMENT", "desc")).valueChanges()
   }
 
   public async createNewOrder(order: Order){

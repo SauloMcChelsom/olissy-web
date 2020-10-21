@@ -26,7 +26,7 @@ export class ProductApi {
   }
 
   public getProductByUid(product: Product){
-    return this.http.get<Product>('/')
+    return this.db.collection<Product>('product', ref =>ref.where('PRIMARY_KEY', '==', product.PRIMARY_KEY)).valueChanges()
   }
 
   public async createNewProduct(product: Product){

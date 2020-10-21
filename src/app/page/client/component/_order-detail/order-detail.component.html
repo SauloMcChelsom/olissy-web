@@ -39,7 +39,7 @@
             </div>
             <div class="col-sm-4 invoice-col">
                 <b>COD:</b> {{ order?.PRIMARY_KEY }}<br />
-                <b>Pagamento:</b> {{ order?.methodPayment | OrderPipe: 'formatMethodPayment' }}&nbsp;<span *ngIf="order?.clientMethodPayment == 'money'" class="label label-info" style="background-color: #565656 !important; color: #f0f0f1 !important;">{{ order?.informChange}}</span><br />
+                <b>Pagamento:</b> {{ order?.methodPayment | OrderPipe: 'formatMethodPayment' }}&nbsp;<span *ngIf="order?.methodPayment == 'money'" class="label label-info" style="background-color: #565656 !important; color: #f0f0f1 !important;">{{ order?.informChange}}</span><br />
                 <b>Estado:</b> {{ order?.orderState | OrderPipe: 'formatOrderState'  }} <br />
                 <b>Taxa de Entrega:</b> {{ order?.taxaDeliverySelectByClient.description }} 
             </div>
@@ -61,7 +61,7 @@
                         </tr>
                     </thead>
                     <tbody *ngFor="let product of order?.product">
-                        <tr (click)="setProduct(product)" data-keyboard="false" data-toggle="modal" data-target="#selecionadoProdutoCadastrar"  >
+                        <tr>
                             <td>{{ product.quantities }}</td>
                             <td>{{ product.name }}</td>
                             <td>{{ product.price }}</td>
@@ -237,23 +237,18 @@
       <div class="modal fade" id="selecionadoProdutoCadastrar">
           <div class="modal-dialog">
               <div class="modal-content">
-                  <div class="modal-header">
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                      </button>
-                      <h4 class="modal-title">
-                      Informações do produto
-                      </h4>
-                  </div>
                   <div class="modal-body">
-                      <div *ngIf="loading" class="col-md-12 col-xs-12 center" style="top: 5px; margin-bottom: 50px">
+                      {{ ((product$ | async) == false) }}
+                      <div *ngIf="(product$ | async) == false" class="col-md-12 col-xs-12 center" style="top: 5px; margin-bottom: 50px">
                           <div class="row">
+                              espera
                               <div class="login-logo">
                               <i class="fa fa-refresh fa-spin fa-2x"></i>
                               </div>
                           </div>
                       </div>
-                      <div *ngIf="!loading">
+                      <div *ngFor="let product of product$ | async" >
+                          produtos
                           <span class="menu-item-info-box-detail" style="width:100%;">
                               <img class="img-responsive center-block" style="margin-bottom: 15px"  [src]="product?.productImageUrl"   width="300" alt="User Avatar">
                           </span>

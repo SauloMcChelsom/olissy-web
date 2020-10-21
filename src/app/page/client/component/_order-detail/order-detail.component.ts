@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router'
+import { ActivatedRoute } from '@angular/router'
 import { Subject, Observable } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { OrderService, Order } from '../../../../service/order.service';
 import { View } from '../../../../shared/view.shared';
 import { Money }  from'../../../../shared/money.shared';
-
 
 @Component({
   selector: 'app-order-detail',
@@ -17,7 +15,7 @@ export class OrderDetailComponent implements OnInit {
   public PRIMARY_KEY = this.route.snapshot.params['id']
 
   public order$: Observable<Order[]> = this.order.getOrderInState('user')
-
+  
   private unsubscribe$ = new Subject();
 
   constructor( 
@@ -61,10 +59,6 @@ export class OrderDetailComponent implements OnInit {
     const order_taxa =  this.money.addition(order, taxa)
     const result     =  this.money.addition(order_taxa, delivery) 
     return this.money.money(result)
-  }
-
-  setProduct(product){
-   console.log(product)
   }
 
   ngOnDestroy(){
