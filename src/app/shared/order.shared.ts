@@ -131,6 +131,19 @@ export class OrderShared {
       
     }
 
+    public canceltem(item){
+      this.order = this.orderService.pullOrderInState('create')
+      const foundProduct: any = this.order.product.find(items => items.FOREIGN_KEY_PRODUCT === item.FOREIGN_KEY_PRODUCT);
+  
+      foundProduct.quantity = this.money.subtract( foundProduct.quantity , foundProduct.quantity )
+      this.order.totalOrderValue =  this.money.subtract(this.order.totalOrderValue , foundProduct.totalOfPrice)
+      foundProduct.totalOfPrice =  this.money.subtract(foundProduct.totalOfPrice , foundProduct.totalOfPrice)
+      
+      localStorage.setItem('order', JSON.stringify([this.order]))
+      this.orderService.setOrderInState([this.order], 'create')
+      this.order = null
+    }
+
   public Total(){
       if(this.orderService.pullOrderInState('create') == null){
         return 0

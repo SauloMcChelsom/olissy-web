@@ -61,7 +61,12 @@
                         </tr>
                     </thead>
                     <tbody *ngFor="let product of order?.product">
-                        <tr>
+                        <tr *ngIf="product.quantity <= 0" style="background-color: #ff6451; color: white;">
+                            <td>{{ product.quantity }}</td>
+                            <td>{{ product.name }}</td>
+                            <td>{{ product.price }}</td>
+                        </tr>
+                        <tr *ngIf="product.quantity >= 1">
                             <td>{{ product.quantity }}</td>
                             <td>{{ product.name }}</td>
                             <td>{{ product.price }}</td>

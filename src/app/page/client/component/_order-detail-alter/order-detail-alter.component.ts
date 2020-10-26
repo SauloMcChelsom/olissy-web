@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder }  from '@angular/forms';
 import { View } from '../../../../shared/view.shared';
 import { StoreService, Store } from '../../../../service/store.service';
 import { ClientService, Client } from '../../../../service/client.service';
+import { ProductService, Product } from '../../../../service/product.service';
 import { UserService, User } from '../../../../service/user.service';
 import { OrderShared }  from'../../../../shared/order.shared';
 import { OrderService, Order } from '../../../../service/order.service';
@@ -32,6 +33,8 @@ export class OrderDetailAlterComponent implements OnInit, OnDestroy {
   public store:Store = this.storeService.store
 
   public formOrder: FormGroup = this.createForm(this.orderService.order);
+
+  public productUpdateQuantities = []
  
   constructor(
     private view:View,
@@ -41,6 +44,7 @@ export class OrderDetailAlterComponent implements OnInit, OnDestroy {
     private clientService:ClientService,
     private userService:UserService,
     private fb: FormBuilder,
+    private productService:ProductService,
     private route: ActivatedRoute
   ){}
 
@@ -77,12 +81,22 @@ export class OrderDetailAlterComponent implements OnInit, OnDestroy {
         if(this.formOrder.value.cellPhoneOfClient == ''){
           this.formOrder.patchValue({cellPhoneOfClient: this.clientService.pullClientInState().cellPhone})
         }
-  
+
+        this.setproductUpdateQuantities()
+
         localStorage.setItem('order', JSON.stringify([this.formOrder.value]))
         this.orderService.setOrderInState([this.formOrder.value], 'create')
         this.getStore(this.formOrder.value.FOREIGN_KEY_STORE)
       }
     })
+  }
+
+  public setproductUpdateQuantities(){
+    for (const key in this.formOrder.value.product) {
+      this.productUpdateQuantities[key] = this.formOrder.value.product[key]
+      this.productUpdateQuantities[key].updateQuantities = 0
+      this.productUpdateQuantities[key].quantityInit = this.formOrder.value.product[key].quantity
+    }
   }
 
   public getStore(PRIMARY_KEY){
@@ -189,28 +203,54 @@ export class OrderDetailAlterComponent implements OnInit, OnDestroy {
   }
 
   public encreaseItem(item, index){ 
-    this.orderShared.encreaseItem(item)
-    this.updateForm(this.orderService.pullOrderInState('create'))
+    if(item.quantity < item.quantityInit){
+      this.productUpdateQuantities[index].updateQuantities = 1 + this.productUpdateQuantities[index].updateQuantities
+
+      console.log(item.updateQuantities)
+      this.orderShared.encreaseItem(item)
+      this.updateForm(this.orderService.pullOrderInState('create'))
+    }
+
   }
 
   public decreaseItem(item, index){
+    if(item.quantity > 1){
+      this.productUpdateQuantities[index].updateQuantities = -1 + this.productUpdateQuantities[index].updateQuantities
+    }
+    console.log(item.updateQuantities)
     this.orderShared.decreaseItem(item)
     this.chooseDeliveryRate()
     this.updateForm(this.orderService.pullOrderInState('create'))
   }
 
-  public deleteItem(item, index){
-    console.log(item, index)
-    
-    /*this.orderShared.deleteItem(item, index, '/client-order-detail-alter')
-    if(this.orderService.pullOrderInState('create') != null){
-      this.chooseDeliveryRate()
-    }*/
+  public canceltem(item, index){
+    this.productUpdateQuantities[index].updateQuantities = -this.productUpdateQuantities[index].quantityInit
+    this.orderShared.canceltem(item)
+    this.chooseDeliveryRate()
+    this.updateForm(this.orderService.pullOrderInState('create'))
   }
 
   public back(){
     this.orderShared.deleteOrder()
     this.view.redirectPageFor(`/client-order-detail/${this.formOrder.value.PRIMARY_KEY}`)
+  }
+
+  public async UpdateQuantitiesInApi(){
+    for (const key in this.productUpdateQuantities){
+      //indentificar se o numero e positivo ou negativo
+      if(Math.sign(this.productUpdateQuantities[key].updateQuantities) == 1){
+        let product = this.productService.product
+        product.quantities = -Math.abs(this.productUpdateQuantities[key].updateQuantities)//converte negativo
+        product.PRIMARY_KEY = this.productUpdateQuantities[key].FOREIGN_KEY_PRODUCT
+        await this.productService.updateQuantitiesInApi(product)
+      }
+      if(Math.sign(this.productUpdateQuantities[key].updateQuantities) == -1){
+        let product = this.productService.product
+        product.quantities = Math.abs(this.productUpdateQuantities[key].updateQuantities)//converte negativo
+        product.PRIMARY_KEY = this.productUpdateQuantities[key].FOREIGN_KEY_PRODUCT
+        await this.productService.updateQuantitiesInApi(product)
+      }
+    } 
   }
 
   public validateForm(){
@@ -230,6 +270,8 @@ export class OrderDetailAlterComponent implements OnInit, OnDestroy {
   }
 
   public async sendOrder(){
+    this.view.setLoader(true)
+    await this.UpdateQuantitiesInApi()
     this.getClient()
     await this.orderService.putOrderByForeignKeyClientInApi(this.formOrder.value.PRIMARY_KEY, this.getForm()).then( v => v )
     this.orderShared.deleteOrder()

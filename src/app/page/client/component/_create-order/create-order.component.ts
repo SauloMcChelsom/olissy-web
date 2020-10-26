@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder }  from '@angular/forms';
 import { View } from '../../../../shared/view.shared';
 import { StoreService, Store } from '../../../../service/store.service';
 import { ClientService, Client } from '../../../../service/client.service';
+import { ProductService, Product } from '../../../../service/product.service';
 import { UserService, User } from '../../../../service/user.service';
 import { OrderShared }  from'../../../../shared/order.shared';
 import { OrderService, Order } from '../../../../service/order.service';
@@ -37,6 +38,7 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
     private orderService:OrderService,
     private clientService:ClientService,
     private userService:UserService,
+    private productService:ProductService,
     private fb: FormBuilder
   ){}
 
@@ -208,9 +210,19 @@ export class CreateOrderComponent implements OnInit, OnDestroy {
   }
 
   public async sendOrder(){
+    this.view.setLoader(true)
     this.formOrder.patchValue({ orderState: 'reserved' })
     this.getClient()
     await this.orderService.createNewOrderInApi(this.getForm()).then( v => v )
+    
+    for (const key in this.getForm().product) {
+      let product = this.productService.product
+      product.PRIMARY_KEY = this.getForm().product[key].FOREIGN_KEY_PRODUCT
+      product.quantities = -this.getForm().product[key].quantity
+      await this.productService.updateQuantitiesInApi(product)
+      console.log(product)
+    }
+
     this.orderShared.deleteOrder()
     this.view.redirectPageFor(`/order-send-sucess`)
   }
