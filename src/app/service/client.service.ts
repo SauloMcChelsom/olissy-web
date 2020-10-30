@@ -25,6 +25,14 @@ export class ClientService {
     return this.api.putClientByUid(client)
   }
 
+  public sendImagemStorageInApi(name:string, image: Blob | Uint8Array | ArrayBuffer){
+    return this.api.sendImagemStorage(name, image)
+  } 
+
+  public putImagemStorageInApi(name:string, image: Blob | Uint8Array | ArrayBuffer){
+    return this.api.putImagemStorage(name, image)
+  } 
+
   public delClientByUidInApi(client: Client){
     return this.api.delClientByUid(client)
   }
@@ -63,16 +71,16 @@ export class ClientService {
       birth: '',
       cellPhone: '',
       cep: '',
-      city: '',
-      country: '',
+      city: 'Acrelândia',
+      country: 'Brazil',
       email: '',
-      imageIconPath: '',
+      imageIconPath: 'email',
       imageIconUrl: '',
       lastName: '',
       name: '',
       neighborhood: '',
       sex: '',
-      stateFederal: '',
+      stateFederal: 'AC',
       street: '',
     }
   }

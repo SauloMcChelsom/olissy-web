@@ -17,7 +17,7 @@ declare var $: any;
   styleUrls: ["./open-my-store.component.css"],
 })
 export class OpenMyStoreComponent implements OnInit {
-  public stateCity = stateCity;
+  public stateCity = stateCity; 
 
   public active = {
     text: "",
@@ -361,6 +361,14 @@ export class OpenMyStoreComponent implements OnInit {
     this.storeForm.get("cep").markAsTouched();
   }
 
+  public setCity(value){
+    for (const key in stateCity) {
+        if (stateCity[key].sigla == value){
+            this.storeForm.patchValue({city:stateCity[key].cidades[0]})
+        }
+    }
+}
+
   public uploadImage(event: Event) {
     var file = (<HTMLInputElement>event.target).files[0];
     if (
@@ -382,9 +390,7 @@ export class OpenMyStoreComponent implements OnInit {
     const data = new Date();
 
     this.storeForm.patchValue({
-      imageIconPath: `icon/${data.getFullYear()}${
-        data.getMonth() + 1
-      }${data.getDate()}${data.getHours()}${data.getMinutes()}${data.getSeconds()}${data.getMilliseconds()}.jpg`,
+      imageIconPath: `icon/${data.getFullYear()}${data.getMonth()+1}${data.getDate()}${data.getHours()}${data.getMinutes()}${data.getSeconds()}${data.getMilliseconds()}.jpg`,
     });
 
     if (this.checkPaymentStatus == "clean") {

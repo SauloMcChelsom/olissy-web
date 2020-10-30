@@ -22,11 +22,11 @@ export class LoginProviderComponent implements OnInit, OnDestroy {
 
   public avatar:string = null
 
-  public user:User
+  public user:User = this.userService.user
 
-  public client:Client
+  public client:Client = this.clientService.client
   
-  public store:Store
+  public store:Store = this.storeService.store
   
   constructor(
     private view:View,

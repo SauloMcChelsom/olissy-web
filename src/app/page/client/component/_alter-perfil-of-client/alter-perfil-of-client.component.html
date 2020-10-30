@@ -1,0 +1,249 @@
+<div class="container">
+    <section class="content">
+      <div>
+        <div>
+          <div *ngIf="active.message" class="message">
+            <h4>{{ active.text }}</h4>
+          </div>
+          <img
+            class="img-responsive center-block img-circle"
+            autocomplete="off"
+            style="margin-bottom: 15px; margin-top: 30px"
+            [src]="imageDisplay"
+            width="200"
+            alt="User Avatar"
+            id="clientImageIconUrl"
+          />
+        </div>
+  
+        <label class="filebutton" style="width: 100%">
+          <div class="widget-user-image">
+            <div class="btn btn-light">
+              <b> altere a foto do perfil </b>
+            </div>
+          </div>
+          <span hidden>
+            <input
+              type="file"
+              class="filebutton2"
+              (change)="uploadImage($event)"
+            />
+          </span>
+        </label>
+      </div>
+      <form [formGroup]="clientForm" novalidate>
+        <div class="form-group">
+          <label for="email">Meu Email já Registrado</label>
+          <input
+            type="text"
+            disabled
+            class="form-control"
+            autocomplete="off"
+            formControlName="email"
+            value="email"
+          />
+        </div>  
+
+        <div class="form-group">
+          <label for="name">Meu nome</label>
+          <input
+            type="text"
+            class="form-control"
+            autocomplete="off"
+            formControlName="name"
+            required
+            placeholder="Ex: Cris"
+            value="name"
+          />
+          <span
+            class="help-block"
+            style="color: green"
+            *ngIf="
+              clientForm.controls.name.valid &&
+              (clientForm.controls.name.dirty || clientForm.controls.name.touched)
+            "
+            ><i class="fa fa-check"></i>Ok
+          </span>
+          <span
+            class="help-block"
+            style="color: red"
+            *ngIf="
+              clientForm.controls.name.invalid &&
+              (clientForm.controls.name.dirty || clientForm.controls.name.touched)
+            "
+            ><i class="fa fa-remove"></i>Campo Obrigatorio
+          </span>
+        </div>
+
+        <div class="form-group">
+            <label for="name">Meu sobrenome</label>
+            <input
+              type="text"
+              class="form-control"
+              autocomplete="off"
+              formControlName="lastName"
+              placeholder="Ex: Silva"
+              value="lastName"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="name">Meu Aniversario é</label>
+            <input
+              type="tel"
+              class="form-control"
+              autocomplete="off"
+              formControlName="birth"
+              placeholder="Ex: Cris"
+              value="birth"
+              [imask]="birth"
+              [unmask]="true"
+              minlength="8"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="name">Me identifico como</label>
+            <select *ngIf="this.clientForm.controls['sex'].value == 'male' || this.clientForm.controls['sex'].value == 'feminine'" (change)="identifyMyselfAs($event.target.value)" formControlName="sex" class="form-control" required>
+                <option  [value]="'male'">
+                  Masculino
+                </option>
+                <option  [value]="'feminine'">
+                    Feminino
+                </option>
+                <option  [value]="'other'">
+                  Outro
+              </option>
+            </select>
+            <div *ngIf="this.clientForm.controls['sex'].value != 'male' && this.clientForm.controls['sex'].value != 'feminine'" class="input-group">
+              <span (click)="identifyMyselfAs('removeSexOther')" class="input-group-addon" style="cursor: pointer;background-color: #f0f2f5;border: 0px;" ><i class="fa fa-chevron-left"></i></span>
+              <input
+                type="text"
+                class="form-control"
+                autocomplete="off"
+                formControlName="sex"
+                value="sex"
+                id="identifyMyselfAsSex"
+              />
+            </div>
+            <span
+              class="help-block"
+              style="color: green"
+              *ngIf="
+                clientForm.controls.sex.valid &&
+                (clientForm.controls.sex.dirty || clientForm.controls.sex.touched)
+              "
+              ><i class="fa fa-check"></i>Ok
+            </span>
+            <span
+              class="help-block"
+              style="color: red"
+              *ngIf="
+                clientForm.controls.sex.invalid &&
+                (clientForm.controls.sex.dirty || clientForm.controls.sex.touched)
+              "
+              ><i class="fa fa-remove"></i>Campo Obrigatorio
+            </span>
+          </div>
+  
+        <div class="form-group">
+          <label for="cep"> CEP </label>
+          <input
+            type="tel"
+            class="form-control"
+            (keyup)="validateCep($event.target.value)"
+            autocomplete="off"
+            [imask]="cepMask"
+            [unmask]="true"
+            minlength="8"
+            formControlName="cep"
+            placeholder="Enter cep"
+            value="cep"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="state"> Estados </label>
+          <select
+            formControlName="stateFederal"
+            (change)="setCity($event.target.value)"
+            class="form-control"
+          >
+            <option *ngFor="let state of stateCity" [value]="state.sigla">
+              {{ state.nome }}
+            </option>
+          </select>
+        </div>
+  
+        <div class="form-group">
+          <label for="city"> Cidade </label>
+          <div *ngFor="let state of stateCity">
+            <div
+              *ngIf="this.clientForm.controls['stateFederal'].value == state.sigla"
+            >
+              <select formControlName="city" class="form-control" id="city"> 
+                <option *ngFor="let cidade of state.cidades" [value]="cidade">
+                  {{ cidade }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+  
+        <div class="form-group">
+          <label for="neighborhood">Bairro</label>
+          <input
+            type="text"
+            class="form-control"
+            autocomplete="off"
+            formControlName="neighborhood"
+            placeholder="Enter bairro"
+            value="neighborhood"
+          />
+        </div>
+        <div class="form-group">
+          <label for="street">Rua</label>
+          <input
+            type="text"
+            class="form-control"
+            autocomplete="off"
+            formControlName="street"
+            placeholder="Enter rua"
+            value="street"
+          />
+        </div>
+        <div class="form-group">
+          <label for="cellPhone">Celular</label>
+          <input
+            type="tel"
+            class="form-control"
+            autocomplete="off"
+            [imask]="cellPhoneMask"
+            [unmask]="true"
+            minlength="11"
+            formControlName="cellPhone"
+            placeholder="Enter celular"
+            value="cellPhone"
+          />
+        </div>
+  
+        <div class="form-group">
+          <label for="exampleInputEmail1">Telefone</label>
+          <input
+            type="tel"
+            class="form-control"
+            autocomplete="off"
+            [imask]="phoneMask"
+            [unmask]="true"
+            minlength="10"
+            formControlName="telephone"
+            placeholder="Enter telefone"
+          />
+        </div>
+      </form>
+  
+      <button class="btn btn-primary" (click)="validateForm()">
+        <b> Salvar Alterações </b>
+      </button>
+    </section>
+</div>

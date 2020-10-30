@@ -1,7 +1,4 @@
 import { Component, OnDestroy } from '@angular/core';
-
-
-
 import { View } from './shared/view.shared';
 import { UserService, User } from './service/user.service';
 import { Client, ClientService } from './service/client.service';
@@ -63,13 +60,13 @@ export class AppComponent implements  OnDestroy {
   }
 
   private async userType(){
-    
+    console.log(this.user)
     if(this.user.type == 1){
       this.client.FOREIGN_KEY_USER = this.userService.pullUserInState().PRIMARY_KEY
       await this.clientService.getClientByForeignKeyUserInApi( this.client).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) =>  this.client = v[0]) ).toPromise()
       this.clientService.setClientInState([this.client])
       this.view.setUser('client')
-      //this.view.redirectPageFor('/client-home')
+      this.view.redirectPageFor('/client-home')
     }
 
     if(this.user.type == 2){
@@ -77,7 +74,7 @@ export class AppComponent implements  OnDestroy {
       await this.storeService.getStoreByForeignKeyUserInApi(this.store).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) => this.store = v[0]) ).toPromise()
       this.storeService.setStoreInState(this.store)
       this.view.setUser('store')
-      //this.view.redirectPageFor('/store-home')
+      this.view.redirectPageFor('/store-home')
     }
   }
 

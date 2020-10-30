@@ -25,7 +25,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   public avatar:string = null
 
-  public client:Client
+  public client:Client = this.clientService.client
 
   public userForm: FormGroup = this.createForm(this.userService.user);
 

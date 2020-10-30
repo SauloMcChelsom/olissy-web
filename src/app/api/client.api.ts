@@ -5,6 +5,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { firebase } from '@firebase/app';
 import '@firebase/auth';
 import '@firebase/firestore';
+import 'firebase/storage'; 
 
 import { ClientInterface as Client } from '../interfaces/client.interface';
 
@@ -22,9 +23,24 @@ export class ClientApi {
     return this.http.delete<Client>('/')
   }
 
-  public putClientByUid(client: Client){
-    return this.http.put<Client>('/',null)
+  public async putClientByUid(client: Client){
+    await this.update('client', client.PRIMARY_KEY, client)
   } 
+
+  public async sendImagemStorage(name, image){
+    await firebase.storage().ref().child(name).put(image)
+    return await firebase.storage().ref().child(name).getDownloadURL()
+  }
+
+  public async putImagemStorage(name, imagem){
+    return await firebase.storage().ref().child(name).put(imagem).then(async (r:any) =>{
+      return await this.getUrlImagemStorage(r.metadata.fullPath)
+    })
+  }
+
+  public async getUrlImagemStorage(path){
+    return await firebase.storage().ref().child(path).getDownloadURL()
+  }
 
   public getClientByForeignKeyUser(client: Client){
     return this.db.collection('client', ref =>ref.where('FOREIGN_KEY_USER', '==', client.FOREIGN_KEY_USER)).valueChanges()

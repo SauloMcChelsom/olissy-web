@@ -90,6 +90,10 @@ export const ROUTES: Routes = [
     path: 'store-order-detail-alter/:id',
     loadChildren: () => import('./page/store/component/_order-detail-alter/order-detail-alter.module').then(m => m.OrderDetailAlterModule) 
   }, 
+  {
+    path: 'alter-perfil-of-client',
+    loadChildren: () => import('./page/client/component/_alter-perfil-of-client/alter-perfil-of-client.module').then(m => m.AlterPerfilOfClientModule) 
+  },
 ];
 
 @NgModule({
