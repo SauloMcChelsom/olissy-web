@@ -11,14 +11,16 @@ import { ClientService } from '../../../../service/client.service';
 
 export class ColumnClientComponent {
 
-  public user:String = 'Usuario'
+  public nameUser:String = 'Usuario'
+  public lestNameUser:String = ''
 
   constructor(
     private view:View,
     private userService:UserService, 
     private clientService:ClientService, 
   ){
-    this.user = this.clientService.pullClientInState().name
+    this.nameUser = this.clientService.pullClientInState().name
+    this.lestNameUser = this.clientService.pullClientInState().lastName
   }
 
   public async signOut() {

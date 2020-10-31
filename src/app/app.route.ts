@@ -94,6 +94,30 @@ export const ROUTES: Routes = [
     path: 'alter-perfil-of-client',
     loadChildren: () => import('./page/client/component/_alter-perfil-of-client/alter-perfil-of-client.module').then(m => m.AlterPerfilOfClientModule) 
   },
+  {
+    path: 'client-list-of-all-store',
+    loadChildren: () => import('./page/client/component/_list-of-all-store/list-of-all-store.module').then(m => m.ListOfAllStoreModule) 
+  },
+  {
+    path: 'user-list-of-all-store',
+    loadChildren: () => import('./page/user/component/_list-of-all-store/list-of-all-store.module').then(m => m.ListOfAllStoreModule) 
+  },
+  {
+    path: 'configuration',
+    loadChildren: () => import('./page/client/component/_configuration/configuration.module').then(m => m.ConfigurationModule) 
+  },
+  {
+    path: 'message',
+    loadChildren: () => import('./page/client/component/_message/message.module').then(m => m.MessageModule) 
+  },
+  {
+    path: 'invoice-list',
+    loadChildren: () => import('./page/client/component/_invoice-list/invoice-list.module').then(m => m.InvoiceListModule) 
+  },
+  {
+    path: 'invoice-detail',
+    loadChildren: () => import('./page/client/component/_invoice-detail/invoice-detail.module').then(m => m.InvoiceDetailModule) 
+  },
 ];
 
 @NgModule({

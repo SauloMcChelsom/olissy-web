@@ -1,0 +1,97 @@
+.hello_{
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.row{
+    margin-top: 50px;
+}
+
+img{
+    width: 120px;
+    height: 118px;
+    border-radius: 5px;
+    margin-left: 1px;
+}
+
+.card{
+    background-color: white;
+    cursor: pointer;
+    box-shadow: 1px 1px 2px 0px #aaaaaa;
+    border-color: #aaaaaa00;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+}
+
+.logo{
+    border: 1px solid #ffffff;
+    width: 120px;
+    height: 120px;
+    border-radius: 5px;
+    margin-right: 3px;
+}
+
+.description{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    margin-left: 10px;
+}
+
+.description-name{
+    font-size: 18px;
+    font-weight: 700;
+    white-space: nowrap;
+    text-transform: uppercase;
+    color: #0095f6;
+}
+
+
+.description-address{
+    color: #333;
+    font-size: 12px;
+    font: caption;
+}
+
+
+.description-points{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    color: #333;
+    font-size: 12px;
+    font-weight: bold;
+    width: 100%;
+    padding-right: 5px;
+}
+
+@media only screen and (max-width: 600px) {
+    .card{
+        border-radius: 0px;
+    }
+
+    .row{
+        margin-top: 29px;
+    }
+
+    .logo{
+    border: 0px solid #ffffff;
+    width: 120px;
+    height: 120px;
+    border-radius: 0px; 
+    margin-right: 0px;
+    }
+
+    img{
+        width: 120px;
+        height: 120px;
+        border-radius: 0px; 
+        margin-left: 0px; 
+    }
+}

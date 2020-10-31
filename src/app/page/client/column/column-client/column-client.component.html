@@ -1,43 +1,44 @@
 <br />
 <ul class="sidebar-menu" data-widget="tree">
   <li routerLinkActive="active">
-    <a routerLink="alter-perfil-of-client" data-toggle="push-menu">
-      <i class="fa fa-user"></i> <span>{{ user }}</span>
+    <a routerLink="/alter-perfil-of-client" data-toggle="push-menu">
+      <i class="fa fa-user"></i> <span>{{ nameUser }}&nbsp;{{ lestNameUser }}</span>
     </a>
   </li>
   <li routerLinkActive="active">
-    <a routerLink="welcome-for-open-your-store" data-toggle="push-menu">
+    <a routerLink="/welcome-for-open-your-store" data-toggle="push-menu">
       <i class="fa fa-user-plus"></i>
       <span>Abrir Minha Loja</span>
     </a>
   </li>
   <li routerLinkActive="active">
-    <a routerLink="/store" data-toggle="push-menu">
+    <a routerLink="/client-list-of-all-store" data-toggle="push-menu">
       <i class="fa fa-group"></i><span>Lojas</span>
     </a>
   </li>
   <li routerLinkActive="active">
-    <a routerLink="client-message-contact" data-toggle="push-menu">
+    <a routerLink="/message" data-toggle="push-menu">
       <i class="fa fa-envelope"></i> <span>Mensagens</span>
     </a>
   </li>
   <li routerLinkActive="active">
-    <a routerLink="client-order" data-toggle="push-menu">
+    <a routerLink="/client-order-list" data-toggle="push-menu">
       <i class="fa fa-bell"></i> <span>Pedidos</span>
     </a>
   </li>
   <li routerLinkActive="active">
-    <a routerLink="invoice-list" data-toggle="push-menu">
+    <a routerLink="/invoice-list" data-toggle="push-menu">
       <i class="fa fa-folder-open"></i>
       <span>Documentos</span>
     </a>
   </li>
+  <!--
   <li routerLinkActive="active">
-    <a data-toggle="push-menu">
+    <a routerLink="configuration" data-toggle="push-menu">
       <i class="fa fa-gear"></i>
       <span>Configuração</span>
     </a>
-  </li>
+  </li>-->
   <li routerLinkActive="active">
     <a (click)="signOut()" data-toggle="push-menu"   >
       <i class="fa fa-power-off"></i>

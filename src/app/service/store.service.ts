@@ -17,6 +17,10 @@ export class StoreService {
     return this.api.getStoreByPrimaryKey(store)
   }
 
+  public getListOfAllStoreInApi(){
+    return this.api.getListOfAllStore()
+  }
+
   public createNewStoreInApi(store: Store){
     return this.api.createNewStore(store)
   }

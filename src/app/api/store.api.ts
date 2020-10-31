@@ -36,6 +36,10 @@ export class StoreApi {
     return this.http.delete<Store>('/')
   }
 
+  public getListOfAllStore(){
+    return this.db.collection<Store>('store', ref =>ref.orderBy("AUTOINCREMENT", "desc").limit(100)).valueChanges()
+  }
+
   public putStoreByUid(store: Store){
     return this.http.put<Store>('/', null)
   } 

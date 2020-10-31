@@ -60,13 +60,12 @@ export class AppComponent implements  OnDestroy {
   }
 
   private async userType(){
-    console.log(this.user)
     if(this.user.type == 1){
       this.client.FOREIGN_KEY_USER = this.userService.pullUserInState().PRIMARY_KEY
       await this.clientService.getClientByForeignKeyUserInApi( this.client).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) =>  this.client = v[0]) ).toPromise()
       this.clientService.setClientInState([this.client])
       this.view.setUser('client')
-      this.view.redirectPageFor('/client-home')
+      //this.view.redirectPageFor('/client-home')
     }
 
     if(this.user.type == 2){
