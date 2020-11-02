@@ -16,3 +16,5 @@ import { IMaskModule} from 'angular-imask';
 })
 
 export class InvoiceDetailModule {}
+
+

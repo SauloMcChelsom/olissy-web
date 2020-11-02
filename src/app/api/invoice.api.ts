@@ -18,7 +18,15 @@ export class InvoiceApi {
   }
 
   public getInvoiceByUid(invoice: Invoice){
-    return this.http.get<Invoice>('/')
+    return this.db.collection<Invoice>('invoice', ref =>ref.where('PRIMARY_KEY', '==', invoice.PRIMARY_KEY)).valueChanges()
+  }
+
+  public getInvoiceByForeignKeyClient(invoice: Invoice){
+    return this.db.collection<Invoice>('invoice', ref =>ref.where('FOREIGN_KEY_CLIENT', '==', invoice.FOREIGN_KEY_CLIENT).orderBy("AUTOINCREMENT", "desc")).valueChanges()
+  }
+
+  public getInvoiceByForeignKeyStore(invoice: Invoice){
+    return this.db.collection<Invoice>('invoice', ref =>ref.where('FOREIGN_KEY_STORE', '==', invoice.FOREIGN_KEY_STORE).orderBy("AUTOINCREMENT", "desc")).valueChanges()
   }
 
   public async createNewInvoice(invoice: Invoice){

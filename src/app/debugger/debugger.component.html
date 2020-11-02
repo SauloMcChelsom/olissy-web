@@ -44,5 +44,12 @@
       </div>
     </div>
 
+    <div>
+      <h2><b>invoice</b></h2>
+      <div *ngFor="let invoice of invoice$ | async">
+        <pre>{{ invoice | json }}</pre>
+      </div>
+    </div>
+
   </section>
 </div>

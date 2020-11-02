@@ -15,14 +15,6 @@ export const ROUTES: Routes = [
     loadChildren: () => import('./page/user/component/_home/home.module').then(m => m.HomeModule) 
   }, 
   {
-    path: 'client-home',
-    loadChildren: () => import('./page/client/component/_home/home.module').then(m => m.HomeModule) 
-  },
-  {
-    path: 'store-home',
-    loadChildren: () => import('./page/store/component/_home/home.module').then(m => m.HomeModule) 
-  },
-  {
     path: 'loginTest',
     loadChildren: () => import('./page/user/component/login/login.module').then(m => m.LoginModule) 
   },
@@ -31,8 +23,24 @@ export const ROUTES: Routes = [
     loadChildren: () => import('./page/user/component/register/register.module').then(m => m.RegisterModule) 
   },
   {
+    path: 'user-create-order',
+    loadChildren: () => import('./page/user/component/_create-order/create-order.module').then(m => m.CreateOrderModule) 
+  },
+  {
+    path: 'user-page-of-store/:id',
+    loadChildren: () => import('./page/user/component/_page-of-store/page-of-store.module').then(m => m.PageOfStoreModule) 
+  },
+  {
+    path: 'user-list-of-all-store',
+    loadChildren: () => import('./page/user/component/_list-of-all-store/list-of-all-store.module').then(m => m.ListOfAllStoreModule) 
+  },
+  {
     path: 'warehouse',
     loadChildren: () => import('./page/admin/component/warehouse/warehouse.module').then(m => m.WarehouseModule) 
+  },
+  {
+    path: 'client-home',
+    loadChildren: () => import('./page/client/component/_home/home.module').then(m => m.HomeModule) 
   },
   {
     path: 'welcome-for-open-your-store',
@@ -41,18 +49,6 @@ export const ROUTES: Routes = [
   {
     path: 'open-my-store',
     loadChildren: () => import('./page/client/component/open-my-store/open-my-store.module').then(m => m.OpenMyStoreModule) 
-  },
-  {
-    path: 'new-product',
-    loadChildren: () => import('./page/store/component/new-product/new-product.module').then(m => m.NewProductModule) 
-  },
-  {
-    path: 'user-create-order',
-    loadChildren: () => import('./page/user/component/_create-order/create-order.module').then(m => m.CreateOrderModule) 
-  },
-  {
-    path: 'user-page-of-store/:id',
-    loadChildren: () => import('./page/user/component/_page-of-store/page-of-store.module').then(m => m.PageOfStoreModule) 
   },
   {
     path: 'client-page-of-store/:id',
@@ -79,6 +75,38 @@ export const ROUTES: Routes = [
     loadChildren: () => import('./page/client/component/_order-detail-alter/order-detail-alter.module').then(m => m.OrderDetailAlterModule) 
   }, 
   {
+    path: 'alter-perfil-of-client',
+    loadChildren: () => import('./page/client/component/_alter-perfil-of-client/alter-perfil-of-client.module').then(m => m.AlterPerfilOfClientModule) 
+  },
+  {
+    path: 'client-list-of-all-store',
+    loadChildren: () => import('./page/client/component/_list-of-all-store/list-of-all-store.module').then(m => m.ListOfAllStoreModule) 
+  },
+  {
+    path: 'client-configuration',
+    loadChildren: () => import('./page/client/component/_configuration/configuration.module').then(m => m.ConfigurationModule) 
+  },
+  {
+    path: 'client-message',
+    loadChildren: () => import('./page/client/component/_message/message.module').then(m => m.MessageModule) 
+  },
+  {
+    path: 'client-invoice-list',
+    loadChildren: () => import('./page/client/component/_invoice-list/invoice-list.module').then(m => m.InvoiceListModule) 
+  },
+  {
+    path: 'client-invoice-detail/:id',
+    loadChildren: () => import('./page/client/component/_invoice-detail/invoice-detail.module').then(m => m.InvoiceDetailModule) 
+  },
+  {
+    path: 'store-home',
+    loadChildren: () => import('./page/store/component/_home/home.module').then(m => m.HomeModule) 
+  },
+  {
+    path: 'new-product',
+    loadChildren: () => import('./page/store/component/new-product/new-product.module').then(m => m.NewProductModule) 
+  },
+  {
     path: 'store-order-list',
     loadChildren: () => import('./page/store/component/_order-list/order-list.module').then(m => m.OrderListModule) 
   },
@@ -90,34 +118,6 @@ export const ROUTES: Routes = [
     path: 'store-order-detail-alter/:id',
     loadChildren: () => import('./page/store/component/_order-detail-alter/order-detail-alter.module').then(m => m.OrderDetailAlterModule) 
   }, 
-  {
-    path: 'alter-perfil-of-client',
-    loadChildren: () => import('./page/client/component/_alter-perfil-of-client/alter-perfil-of-client.module').then(m => m.AlterPerfilOfClientModule) 
-  },
-  {
-    path: 'client-list-of-all-store',
-    loadChildren: () => import('./page/client/component/_list-of-all-store/list-of-all-store.module').then(m => m.ListOfAllStoreModule) 
-  },
-  {
-    path: 'user-list-of-all-store',
-    loadChildren: () => import('./page/user/component/_list-of-all-store/list-of-all-store.module').then(m => m.ListOfAllStoreModule) 
-  },
-  {
-    path: 'configuration',
-    loadChildren: () => import('./page/client/component/_configuration/configuration.module').then(m => m.ConfigurationModule) 
-  },
-  {
-    path: 'message',
-    loadChildren: () => import('./page/client/component/_message/message.module').then(m => m.MessageModule) 
-  },
-  {
-    path: 'invoice-list',
-    loadChildren: () => import('./page/client/component/_invoice-list/invoice-list.module').then(m => m.InvoiceListModule) 
-  },
-  {
-    path: 'invoice-detail',
-    loadChildren: () => import('./page/client/component/_invoice-detail/invoice-detail.module').then(m => m.InvoiceDetailModule) 
-  },
 ];
 
 @NgModule({

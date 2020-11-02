@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { InvoiceApi as api } from '../api/invoice.api';
 import { InvoiceState as state } from '../state/invoice.state';
 import { InvoiceInterface as Invoice } from '../interfaces/invoice.interface';
-         
+export { Invoice }
 @Injectable({providedIn: 'root'})
 export class InvoiceService {
 
@@ -14,6 +14,14 @@ export class InvoiceService {
  
   public getInvoiceByUidInApi(invoice: Invoice){
     return this.api.getInvoiceByUid(invoice)
+  }
+
+  public getInvoiceByForeignKeyClientInApi(order: Invoice){
+    return this.api.getInvoiceByForeignKeyClient(order)
+  }
+
+  public getInvoiceByForeignKeyStoreInApi(order: Invoice){
+    return this.api.getInvoiceByForeignKeyStore(order)
   }
 
   public createNewInvoiceInApi(invoice: Invoice){
@@ -36,7 +44,7 @@ export class InvoiceService {
     return this.state.getInvoice()
   }
 
-  public setInvoiceInState(invoice: Invoice){
+  public setInvoiceInState(invoice: Invoice[]){
     this.state.setInvoice(invoice)
   }
 
@@ -50,5 +58,47 @@ export class InvoiceService {
 
   public delInvoiceInState(){
     return this.state.delInvoice()
+  }
+
+  public get invoice():Invoice{
+    return {
+      FOREIGN_KEY_CLIENT: '',
+      addressFullOfClient: '',
+      nameOfClient: '',
+      lastNameOfClient: '',
+      imageIconUrlOfClient: '',
+      emailOfClient: '',
+      cellPhoneOfClient: '',
+      cityOfClient: '',
+      neighborhoodOfClient: '',
+      streetOfClient: '',
+      FOREIGN_KEY_STORE: '',
+      nameOfStore: '',
+      imageIconUrlOfStore: '',
+      cellPhoneOfStore: '',
+      emailOfStore: '',
+      cityOfStore: '',
+      neighborhoodOfStore: '',
+      streetOfStore: '',
+      cnpjOfStore: '',
+      AUTOINCREMENT: '',
+      DATE: '',
+      PRIMARY_KEY: '',
+      methodPayment: '',
+      informChange: '',
+      orderState: 'reserved',
+      storeViewedTheOrder: false,
+      totalOrderValue: 0,
+      taxaOfPlatform: 0,
+      product: [],
+      note: [],
+      taxaDeliverySelectByClientStatus:'',
+      taxaDeliverySelectByClient:{
+        description:'Escolha a opção', 
+        value: '', 
+        taxa:0,
+        km:0
+      }
+    }
   }
 }
