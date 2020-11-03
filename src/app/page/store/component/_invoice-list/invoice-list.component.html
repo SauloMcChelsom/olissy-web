@@ -14,16 +14,16 @@
   </div>
   
   <div *ngFor="let invoice of invoice$ | async" class="col-md-12 col-xs-12" style="top: 25px;" >
-    <div [routerLink]="['/client-invoice-detail', invoice.PRIMARY_KEY]"  class="info-box" style=" cursor: pointer; ">
+    <div [routerLink]="['/store-invoice-detail', invoice.PRIMARY_KEY]"  class="info-box" style=" cursor: pointer; ">
       <span class="info-box-icon no-padding" style="padding: 0px; background:  transparent; margin-top: 10px;">
-        <img [src]="invoice.imageIconUrlOfStore" width="60px" height="60px" class="img-circle" />
+        <img [src]="invoice.imageIconUrlOfClient" width="60px" height="60px" class="img-circle" />
       </span>
       <div class="info-box-content" style=" margin-left: 0px;">
         <div class="product-info" style=" margin-bottom: 20px; ">
           <span class="label pull-right invoice-finished ">Finalizado</span>
         </div>
         <span class="info-box-text text-nome-pedido font-weight-bold" [ngClass]="{ 'viewed-Order': invoice.storeViewedTheOrder == false }">
-          {{ invoice.nameOfStore }}
+          {{ invoice.nameOfClient }} {{ invoice.lastNameOfClient }}
         </span>
         <span class="info-box-number" [ngClass]="{ 'viewed-Order': invoice.storeViewedTheOrder == false }">
           {{ invoice.totalOrderValue | currency: "BRL" }}

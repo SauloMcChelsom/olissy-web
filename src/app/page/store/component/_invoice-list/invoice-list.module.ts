@@ -5,7 +5,7 @@ import { InvoiceListRoute } from './invoice-list.route';
 import { InvoiceListComponent } from './invoice-list.component';
 import { NgxMaskModule } from 'ngx-mask';
 import { IMaskModule} from 'angular-imask';
-import { invoicePipe } from '../../../../shared/invoice.pipe'
+import { invoicePipe } from '../../../../shared/invoice-store.pipe'
 @NgModule({
   imports: [
     CommonModule,

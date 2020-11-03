@@ -6,9 +6,6 @@ import { InvoiceService, Invoice } from '../../../../service/invoice.service';
 import { View } from '../../../../shared/view.shared';
 import { Money }  from'../../../../shared/money.shared';
 
-
-
-
 @Component({
   selector: 'mt-invoice-detail',
   templateUrl: './invoice-detail.component.html',
