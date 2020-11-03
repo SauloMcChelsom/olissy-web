@@ -298,6 +298,7 @@ export class AlterPerfilOfClientComponent implements OnInit, OnDestroy {
     }
 
     public ngOnDestroy(){
-
+      this.unsubscribe$.next();
+      this.unsubscribe$.complete();
     }
 }

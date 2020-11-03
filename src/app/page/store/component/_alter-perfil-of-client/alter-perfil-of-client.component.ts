@@ -79,14 +79,23 @@ export class AlterPerfilOfClientComponent implements OnInit, OnDestroy {
       
     public ngOnInit(){
       window.scroll(0,0);
-      this.getClient()
+
+      this.userService.getUserInState().pipe(takeUntil(this.unsubscribe$)).subscribe((user)=>{
+        if(Object.keys(user).length != 0){
+          this.getClient()
+        }
+      })
     }
 
     public  getClient(){
-      this.clientService.getClientInState().pipe(takeUntil(this.unsubscribe$)).subscribe(c=>{
-        this.view.putLoader()
+      let ClientByForeignKey:Client = this.clientService.client
+          ClientByForeignKey.FOREIGN_KEY_USER = this.userService.pullUserInState().PRIMARY_KEY
+
+      this.clientService.getClientByForeignKeyUserInApi(ClientByForeignKey).pipe(takeUntil(this.unsubscribe$)).subscribe(c=>{
         if(Object.keys(c).length != 0){
+
           let client:Client = c[0]
+
           this.convertURLtoFile(client.imageIconUrl)
 
           if(client.email == ''){
@@ -109,6 +118,7 @@ export class AlterPerfilOfClientComponent implements OnInit, OnDestroy {
             client.sex = 'male'
           }
           this.updateForm(client)
+          this.view.putLoader()
         } 
       })
     }
@@ -194,7 +204,6 @@ export class AlterPerfilOfClientComponent implements OnInit, OnDestroy {
       reader.readAsDataURL(file);
     }
     
-
     public validateForm() {
       this.active.message = false;
   
@@ -216,11 +225,12 @@ export class AlterPerfilOfClientComponent implements OnInit, OnDestroy {
         this.salve()
         console.log(this.clientForm.value);
       }
-  
+
       window.scroll(0, 0);
     }
 
     public async salve(){
+      await this.alterarNameOfUser()
 
       if(this.clientImageIconUrl.uploadImage){
         if(this.clientForm.get("imageIconPath").value == 'google' || this.clientForm.get("imageIconPath").value == 'email')
@@ -251,7 +261,26 @@ export class AlterPerfilOfClientComponent implements OnInit, OnDestroy {
       });
     }
 
-    public ngOnDestroy(){
+    public async alterarNameOfUser(){
+      if(this.userService.pullUserInState().name != this.clientForm.value.name){
+        let user:User = this.userService.pullUserInState()
+            user.name = this.clientForm.value.name
 
+        delete user.DATE
+        delete user.AUTOINCREMENT
+        delete user.FOREIGN_KEY_UID
+        delete user.email
+        delete user.password
+        delete user.retypePassword
+        delete user.terms
+        delete user.type
+        
+        await this.userService.putUserByUidInApi(user)
+      }
+    }
+
+    public ngOnDestroy(){
+      this.unsubscribe$.next();
+      this.unsubscribe$.complete();
     }
 }

@@ -43,7 +43,7 @@ export class ClientApi {
   }
 
   public getClientByForeignKeyUser(client: Client){
-    return this.db.collection('client', ref =>ref.where('FOREIGN_KEY_USER', '==', client.FOREIGN_KEY_USER)).valueChanges()
+    return this.db.collection<Client>('client', ref =>ref.where('FOREIGN_KEY_USER', '==', client.FOREIGN_KEY_USER)).valueChanges()
   }
 
   public async createNewClient(client: Client){
