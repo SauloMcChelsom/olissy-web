@@ -38,8 +38,7 @@ export class HomeComponent implements OnInit {
   ){}
 
   public ngOnInit() {
-    setTimeout(() => { this.view.setLoader(false) }, 3000)
-    
+    this.view.setLoader(false)
     this.getProduct()
   }
 

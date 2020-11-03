@@ -73,7 +73,7 @@ export class AppComponent implements  OnDestroy {
       await this.storeService.getStoreByForeignKeyUserInApi(this.store).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) => this.store = v[0]) ).toPromise()
       this.storeService.setStoreInState(this.store)
       this.view.setUser('store')
-      this.view.redirectPageFor('/store-home')
+      //this.view.redirectPageFor('/store-home')
     }
   }
 

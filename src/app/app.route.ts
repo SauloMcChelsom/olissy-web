@@ -118,6 +118,30 @@ export const ROUTES: Routes = [
     path: 'store-order-detail-alter/:id',
     loadChildren: () => import('./page/store/component/_order-detail-alter/order-detail-alter.module').then(m => m.OrderDetailAlterModule) 
   }, 
+  {
+    path: 'store-message',
+    loadChildren: () => import('./page/store/component/_message/message.module').then(m => m.MessageModule) 
+  },
+  {
+    path: 'store-invoice-list',
+    loadChildren: () => import('./page/store/component/_invoice-list/invoice-list.module').then(m => m.InvoiceListModule) 
+  },
+  {
+    path: 'store-invoice-detail/:id',
+    loadChildren: () => import('./page/store/component/_invoice-detail/invoice-detail.module').then(m => m.InvoiceDetailModule) 
+  },
+  {
+    path: 'store-alter-perfil-of-client',
+    loadChildren: () => import('./page/store/component/_alter-perfil-of-client/alter-perfil-of-client.module').then(m => m.AlterPerfilOfClientModule) 
+  },
+  {
+    path: 'alter-perfil-of-store',
+    loadChildren: () => import('./page/store/component/alter-perfil-of-store/alter-perfil-of-store.module').then(m => m.AlterPerfilOfStoreModule) 
+  },
+  {
+    path: 'store-list-of-all-store',
+    loadChildren: () => import('./page/store/component/_list-of-all-store/list-of-all-store.module').then(m => m.ListOfAllStoreModule) 
+  },
 ];
 
 @NgModule({

@@ -1,0 +1,108 @@
+<div class="container">
+    <section  *ngFor="let invoice of invoice$ | async">
+      <div *ngIf="invoice?.PRIMARY_KEY == PRIMARY_KEY"  class="invoice box box-widget espacamentos-card" id="print-section">
+          <div class="row ">
+              <div class="col-sm-12 col-xs-12" style="display: flex; flex-wrap: nowrap;  justify-content: center;">
+                  <img class="box-img-detail img-circle" [src]="invoice?.imageIconUrlOfStore" width="180px" height="180px" style="margin-bottom: 60px;"/>
+              </div> 
+          </div>
+          <div class="row invoice-info">
+              <div class="col-sm-4 invoice-col">
+                  <strong>Loja</strong>
+                  <address>
+                  {{ invoice?.nameOfStore }}<br />
+                  {{ invoice?.cityOfStore }} {{ invoice?.neighborhoodOfStore }} {{ invoice?.streetOfStore }}<br />        
+                  {{ invoice?.cellPhoneOfStore | mask: '(00) 0 0000-0000'  }} <br /> 
+                  {{ invoice?.cnpjOfStore | mask: '00.000.000/0000-00' }} <br /> 
+                  {{ invoice?.emailOfStore }} 
+                  </address>
+              </div>
+              <div class="col-sm-4 invoice-col">
+                  <strong>Cliente</strong>
+                  <address>
+                  {{ invoice?.nameOfClient }} {{ invoice?.lastNameOfClient }}<br />
+                  {{ invoice?.cellPhoneOfClient | mask: '(00) 0 0000-0000' }}<br />
+                  <b>Endereço de Entrega</b><br />
+                  {{ invoice?.addressFullOfClient }}<br />
+                  </address>
+              </div>
+              <div class="col-sm-4 invoice-col">
+                  <b>COD:</b> {{ invoice?.PRIMARY_KEY }}<br />
+                  <b>Pagamento:</b> {{ invoice?.methodPayment }}&nbsp;<span *ngIf="invoice?.methodPayment == 'money'" class="label label-info" style="background-color: #565656 !important; color: #f0f0f1 !important;">{{ invoice?.informChange}}</span><br />
+                  <b>Estado:</b> Finalizado <br />
+                  <b>Taxa de Entrega:</b> {{ invoice?.taxaDeliverySelectByClient.description }} 
+              </div>
+          </div>
+          <br />
+          <div class="row">
+              <div class="col-md-6 col-xs-12">
+                  <span class="lead">Itens do Pedido:</span>
+              </div>
+          </div>      
+          <div class="row">
+              <div class="col-xs-12 table-responsive">
+                  <table class="table table-striped">
+                      <thead>
+                          <tr>
+                              <th>Qtd</th>
+                              <th>Produto</th>
+                              <th>valor</th>
+                          </tr>
+                      </thead>
+                      <tbody *ngFor="let product of invoice?.product">
+                          <tr *ngIf="product.quantity <= 0" style="background-color: #ff6451; color: white;">
+                              <td>{{ product.quantity }}</td>
+                              <td>{{ product.name }}</td>
+                              <td>{{ product.price }}</td>
+                          </tr>
+                          <tr *ngIf="product.quantity >= 1">
+                              <td>{{ product.quantity }}</td>
+                              <td>{{ product.name }}</td>
+                              <td>{{ product.price }}</td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-sm-6 col-xs-12">
+                  <span class="lead">Montantes:</span>
+                  <div class="table-responsive">
+                  <table class="table">
+                      <tbody>
+                      <tr>
+                          <th>Produtos:</th>
+                          <td class="text-right">
+                          {{ invoice?.totalOrderValue | currency: "BRL" }}
+                          </td>
+                      </tr>
+                      <tr>
+                          <th>Plataforma:</th>
+                          <td class="text-right">{{ invoice?.taxaOfPlatform | currency: "BRL"}}</td>
+                      </tr>
+                      <tr>
+                          <th>Entrega:</th>
+                          <td class="text-right">{{ invoice?.taxaDeliverySelectByClient.taxa | currency: "BRL" }}</td>
+                      </tr>
+                      <tr>
+                          <th>Total:</th>
+                          <td class="text-right">
+                          {{ TOTAL(invoice?.totalOrderValue, invoice?.taxaOfPlatform,  invoice?.taxaDeliverySelectByClient.taxa, invoice?.taxaDeliverySelectByClient.value) | currency: "BRL"}}
+                          </td>
+                      </tr>
+                      </tbody>
+                  </table>
+                  </div>
+              </div>
+          </div> 
+          <div class="row no-print">
+              <div class="col-xs-12">
+                <button class="btn btn-default pull-left" [routerLink]="['/client-invoice-list']">
+                    <i class="fa fa fa-reply"></i> Voltar
+                </button>
+              </div>
+          </div>
+      </div>
+    </section>
+  </div>
+  

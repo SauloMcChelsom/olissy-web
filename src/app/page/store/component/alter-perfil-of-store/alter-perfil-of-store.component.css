@@ -1,0 +1,57 @@
+  .hello{
+    display: flex;
+    flex: 1;
+    background-color: #f0f2f5;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 0%;
+    padding-top: 40vh;
+  }
+  
+  .message{
+    display: flex;
+    flex: 1;
+    background-color: #ff6451;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 10vh;
+    margin-bottom: 10px;
+    margin-top: 30px;
+    border-radius: 5px;
+    color: #fff;
+  }
+  
+  .profile-user-img {
+    border: 0px solid #d2d6de;
+  }
+
+  .text-muted {
+    color: #ee2778;
+  }
+  
+  .box.box-primary {
+    border-top-color: transparent;
+  }
+  
+  @media all and (max-width: 600px) {
+    .container {
+      padding-right: 0px; 
+      padding-left: 0px; 
+    }
+  
+    .box {
+      border-radius: 0px;
+      border-radius: 0px;
+      border-top: 0px;
+      margin-bottom: 0px;
+    } 
+    .margin-top-box{
+      margin-top: 0px !important;
+    }
+  }
+  
+  .margin-top-box{
+    margin-top: 30px;
+  }

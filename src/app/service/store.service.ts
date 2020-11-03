@@ -29,6 +29,10 @@ export class StoreService {
     return this.api.putStoreByUid(store)
   }
 
+  public putImagemStorageInApi(name:string, image: Blob | Uint8Array | ArrayBuffer){
+    return this.api.putImagemStorage(name, image)
+  } 
+
   public delStoreByUidInApi(store: Store){
     return this.api.delStoreByUid(store)
   }

@@ -40,9 +40,19 @@ export class StoreApi {
     return this.db.collection<Store>('store', ref =>ref.orderBy("AUTOINCREMENT", "desc").limit(100)).valueChanges()
   }
 
-  public putStoreByUid(store: Store){
-    return this.http.put<Store>('/', null)
+  public async putStoreByUid(store: Store){
+    await this.update('store', store.PRIMARY_KEY, store)
   } 
+
+  public async putImagemStorage(name, imagem){
+    return await firebase.storage().ref().child(name).put(imagem).then(async (r:any) =>{
+      return await this.getUrlImagemStorage(r.metadata.fullPath)
+    })
+  }
+
+  public async getUrlImagemStorage(path){
+    return await firebase.storage().ref().child(path).getDownloadURL()
+  }
 
   public async sendImagemStorage(name, image){
     await firebase.storage().ref().child(name).put(image)
