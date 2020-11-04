@@ -7,6 +7,11 @@ import { View } from "../../../../shared/view.shared";
 import { UserService, User } from "../../../../service/user.service";
 import { StoreService, Store } from "../../../../service/store.service";
 
+import { map } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+
 declare var $: any;
 
 @Component({
@@ -15,6 +20,9 @@ declare var $: any;
   styleUrls: ["./alter-perfil-of-store.component.css"],
 })
 export class AlterPerfilOfStoreComponent implements OnInit {
+
+  private unsubscribe$ = new Subject();
+
   public stateCity = stateCity; 
 
   public active = {
@@ -120,7 +128,7 @@ export class AlterPerfilOfStoreComponent implements OnInit {
   }
 
   public getStore(){
-    this.storeService.getStoreInState().subscribe((store)=>{
+    this.storeService.getStoreInState().pipe(takeUntil(this.unsubscribe$)).subscribe((store)=>{
       if(Object.keys(store).length != 0){
         let stores:Store = store[0]
         this.convertURLtoFile(stores.imageIconUrl)
@@ -560,6 +568,11 @@ public uploadImage(event: Event) {
     await this.storeService.sendImagemStorageInApi(this.storeForm.get("imageIconPath").value,this.imageNew).then(async (url: any) => {
       this.storeForm.patchValue({ imageIconUrl : await url })
     });
+  }
+
+  ngOnDestroy(){
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
 }

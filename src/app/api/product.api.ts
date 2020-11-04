@@ -25,6 +25,10 @@ export class ProductApi {
     return this.db.collection('product', ref =>ref.where('FOREIGN_KEY_WAREHOUSE', '==', product.FOREIGN_KEY_WAREHOUSE)).valueChanges()
   }
 
+  public getProductByForeignKeyStore(product: Product){
+    return this.db.collection<Product>('product', ref =>ref.where('FOREIGN_KEY_STORE', '==', product.FOREIGN_KEY_STORE)).valueChanges()
+  }
+
   public getProductByUid(product: Product){
     return this.db.collection<Product>('product', ref =>ref.where('PRIMARY_KEY', '==', product.PRIMARY_KEY)).valueChanges()
   }

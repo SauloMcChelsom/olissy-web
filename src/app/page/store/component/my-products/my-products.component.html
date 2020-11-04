@@ -1,0 +1,344 @@
+
+<div class="container">
+  <div class="col-md-12 col-xs-12 card-container">
+    <div 
+      *ngFor="let product of products" 
+      class="menu-item-info-box card"
+      [ngClass]="{
+        'yes-publish-for-sale': product.productForSale == true,
+        'no-publish-for-sale': product.productForSale == false
+      }"
+    >
+      <div class="card-header">
+      
+          <button 
+            type="button" 
+            class="btn btn-light btn-light-del" 
+            data-backdrop="static" 
+            (click)="selectProductDelete(product)" 
+            data-keyboard="false" 
+            data-toggle="modal" 
+            data-target="#selectProductDelete"
+            style=" width: 90px; height: 40px; background-color: #f44336;"
+          >
+            Excluir
+          </button>
+       
+      </div>
+      <div>
+        <div class="col-md-12 col-xs-12 card-content">
+          <span (click)="showDescription(warehouse.showDescription, i)" class="card-content-title">
+            {{ product.warehouse?.name }}
+          </span>
+          <div *ngIf="false" class="card-content-description">
+            <span class="menu-item-info-box-detail">
+              <label>
+                <p>
+                  <b>Sessão: </b> {{ product.warehouse?.session }}
+                </p>
+              </label>
+            </span>
+            <span class="menu-item-info-box-detail">
+              <label>
+                <p>
+                  <b>Categoria: </b> {{ product.warehouse?.category }}
+                </p>
+              </label>
+            </span>
+            <span class="menu-item-info-box-detail">
+              <label>
+                <p>
+                  <b>Tipo: </b> {{ product.warehouse?.type }}
+                </p>
+              </label>
+            </span>
+            <span class="menu-item-info-box-detail">
+              <label>
+                <p>
+                  <b>Generico: </b> {{ product.warehouse?.andGeneric? "Sim" : "Não" }}
+                </p>
+              </label>
+            </span>
+            <span class="menu-item-info-box-detail">
+              <label>
+                <p>
+                  <b>Fornecedor: </b> {{ product.warehouse?.company }}
+                </p>
+              </label>
+            </span>
+            <h5 style="margin-top: 0px;">
+              <div [innerHTML]="product.warehouse?.description"></div>
+            </h5>
+          </div>
+        </div>
+        <div class="card-publication">
+          <div class="card-publication-container"> 
+            <a target="_blank">
+              <img style="width: 100%" [src]="product.warehouse?.imageUrl" alt="Photo">
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="card-sales">
+        <span class="menu-item-info-box-price card-sales-price">
+          {{ product.price | currency: 'BRL'}} 
+          <span>
+            <b>
+              {{ product.quantities }}  Unidades
+            </b>
+          </span>
+        </span>
+        <span class="card-sales-purchase">
+          <button 
+          *ngIf="product.productForSale == true"
+            (click)="selectProductUpdate(product)" 
+            data-keyboard="false" 
+            data-backdrop="static" 
+            data-toggle="modal" 
+            data-target="#selectProductUpdate" 
+            type="button" 
+            class="btn btn-default btn-xs pull-right"
+          >
+            <b>Atualizar</b>
+          </button>
+          <button 
+          *ngIf="product.productForSale == false"
+            (click)="publishForSale(product)" 
+            data-keyboard="false" 
+            data-backdrop="static" 
+            data-toggle="modal" 
+            data-target="#selectProductUpdate" 
+            type="button" 
+            class="btn btn-default btn-xs pull-right button-alert"
+          >
+            <b style="font-size: 20px;">Publicar pra venda</b>
+          </button>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <form [formGroup]="productForm">
+    <div class="modal fade" id="selectProductUpdate">
+      <div *ngIf="productSelect" class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title">
+              Atualizar Produto
+            </h4>
+          </div>
+          <div class="modal-body">
+            <span class="menu-item-info-box-detail" style="width:100%;">
+                <img class="img-responsive center-block" style="margin-bottom: 15px"  [src]="productSelect.warehouse?.imageUrl"   width="300" alt="User Avatar">
+            </span>
+            <span  class="card-content-title">
+              {{ productSelect.warehouse?.name }}
+            </span>
+            <span class="menu-item-info-box-detail">
+              <label>
+                <p>
+                  <b>Sessão: </b> {{ productSelect.warehouse?.session }}
+                </p>
+              </label>
+            </span>
+            <span class="menu-item-info-box-detail">
+              <label>
+                <p>
+                  <b>Categoria: </b> {{ productSelect.warehouse?.category }}
+                </p>
+              </label>
+            </span>
+            <span class="menu-item-info-box-detail">
+              <label>
+                <p>
+                  <b>Tipo: </b> {{ productSelect.warehouse?.type }}
+                </p>
+              </label>
+            </span>
+            <span class="menu-item-info-box-detail">
+              <label>
+                <p>
+                  <b>Generico: </b> {{ productSelect.warehouse?.andGeneric? "Sim" : "Não" }}
+                </p>
+              </label>
+            </span>
+            <br>
+            <span class="menu-item-info-box-detail">
+              <label>
+                <p>
+                  <b>Fornecedor: </b> {{ productSelect.warehouse?.company }}
+                </p>
+              </label>
+            </span>
+            <h5 style="margin-top: 0px;">
+              <div [innerHTML]="productSelect.warehouse?.description"></div>
+            </h5>
+
+            <span class="menu-item-info-box-detail" style="width:100%;">
+              <label style="width:100%;">
+                Preco
+                <input type="tel" class="form-control" [imask]="currencyMask" [unmask]="true"  style="font-weight: 500;" autocomplete="off" formControlName="price">
+              </label>
+              <span class="help-block" style="color:green" *ngIf="this.productForm.controls['price'].valid && (this.productForm.controls['price'].dirty || this.productForm.controls['price'].touched)">
+                <i class="fa fa-check"></i>
+                Ok
+              </span>
+              <span class="help-block" style="color:red" *ngIf="this.productForm.controls['price'].invalid && (this.productForm.controls['price'].dirty || this.productForm.controls['price'].touched)">
+                <i class="fa fa-remove"></i>
+                Campo Obrigatorio
+              </span>
+            </span>
+
+            <span class="menu-item-info-box-detail" style="width:100%;">
+              <label style="width:100%;">
+                Quantidades
+                <input type="number" min="1" class="form-control"  style="font-weight: 500;" autocomplete="off" formControlName="quantities">
+              </label>
+              <span class="help-block" style="color:green" *ngIf="this.productForm.controls['quantities'].valid && (this.productForm.controls['quantities'].dirty || this.productForm.controls['quantities'].touched)">
+                <i class="fa fa-check"></i>
+                Ok
+              </span>
+              <span class="help-block" style="color:red" *ngIf="this.productForm.controls['quantities'].invalid && (this.productForm.controls['quantities'].dirty || this.productForm.controls['quantities'].touched)">
+                <i class="fa fa-remove"></i>
+                Campo Obrigatorio
+              </span>
+            </span>
+
+            <span class="menu-item-info-box-detail" style="width:100%;">
+              <label>
+                Publicar pra venda?
+              </label>
+              <select class="form-control" formControlName="productForSale">
+                <option  value="null" disabled hidden>
+                  << Em Vendas? >>
+                </option>
+                <option *ngFor="let emVendas of emVendas" [value]="emVendas">
+                  {{ emVendas? "Sim" : "Não" }}
+                </option>
+              </select>
+              <span class="help-block" style="color:green" *ngIf="this.productForm.controls['productForSale'].valid && (this.productForm.controls['productForSale'].dirty || this.productForm.controls['productForSale'].touched)">
+                <i class="fa fa-check"></i>
+                Ok
+              </span>
+              <span class="help-block" style="color:red" *ngIf="this.productForm.controls['productForSale'].invalid && (this.productForm.controls['productForSale'].dirty || this.productForm.controls['productForSale'].touched)">
+                <i class="fa fa-remove"></i>
+                Campo Obrigatorio
+              </span>
+            </span>
+
+          </div>
+          <div class="modal-footer" style="border-top: 0px solid #e5e5e5;">
+            <button type="button" (click)="cancelUpdateProduct()" class="btn btn-Secondary" data-dismiss="modal">
+              Cancelar
+            </button>
+            
+            <button type="submit" (click)="saveUpdateProduct()" class="btn btn-primary">
+              Savar Atualização
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <form [formGroup]="productForm">
+    <div class="modal fade" id="selectProductDelete">
+      <div *ngIf="productSelect" class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title">
+              Excluir Produto
+            </h4>
+          </div>
+          <div class="modal-body">
+            <span class="menu-item-info-box-detail" style="width:100%;">
+                <img class="img-responsive center-block" style="margin-bottom: 15px"  [src]="productSelect.warehouse?.imageUrl"   width="300" alt="User Avatar">
+            </span>
+            <span  class="card-content-title">
+              {{ productSelect.warehouse?.name }}
+            </span>
+            <span class="menu-item-info-box-detail">
+              <label>
+                <p>
+                  <b>Sessão: </b> {{ productSelect.warehouse?.session }}
+                </p>
+              </label>
+            </span>
+            <span class="menu-item-info-box-detail">
+              <label>
+                <p>
+                  <b>Categoria: </b> {{ productSelect.warehouse?.category }}
+                </p>
+              </label>
+            </span>
+            <span class="menu-item-info-box-detail">
+              <label>
+                <p>
+                  <b>Tipo: </b> {{ productSelect.warehouse?.type }}
+                </p>
+              </label>
+            </span>
+            <span class="menu-item-info-box-detail">
+              <label>
+                <p>
+                  <b>Generico: </b> {{ productSelect.warehouse?.andGeneric? "Sim" : "Não" }}
+                </p>
+              </label>
+            </span>
+            <br>
+            <span class="menu-item-info-box-detail">
+              <label>
+                <p>
+                  <b>Fornecedor: </b> {{ productSelect.warehouse?.company }}
+                </p>
+              </label>
+            </span>
+            <h5 style="margin-top: 0px;">
+              <div [innerHTML]="productSelect.warehouse?.description"></div>
+            </h5>
+
+            <span class="menu-item-info-box-detail">
+              <label>
+                <p>
+                  <b>Preco: </b> {{ productSelect.price }}
+                </p>
+              </label>
+            </span>
+            <br>
+            <span class="menu-item-info-box-detail">
+              <label>
+                <p>
+                  <b>Quantidades: </b> {{ productSelect.quantities }}
+                </p>
+              </label>
+            </span>
+            <br>
+            <span class="menu-item-info-box-detail">
+              <label>
+                <p>
+                  <b>Publicar pra venda: </b> {{ productSelect.productForSale ? "Sim" : "Não"}}
+                </p>
+              </label>
+            </span>
+            <br>
+          </div>
+          <div class="modal-footer" style="border-top: 0px solid #e5e5e5;">
+            <button type="button" (click)="cancelDeleteProduct()" class="btn btn-Secondary" data-dismiss="modal">
+              Cancelar
+            </button>
+            <button type="submit" (click)="deletarProduct()" class="btn btn-primary btn-del">
+              Excluir Produto
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>

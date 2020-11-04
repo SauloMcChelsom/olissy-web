@@ -142,6 +142,10 @@ export const ROUTES: Routes = [
     path: 'store-list-of-all-store',
     loadChildren: () => import('./page/store/component/_list-of-all-store/list-of-all-store.module').then(m => m.ListOfAllStoreModule) 
   },
+  {
+    path: 'my-products',
+    loadChildren: () => import('./page/store/component/my-products/my-products.module').then(m => m.MyProductsModule) 
+  },
 ];
 
 @NgModule({

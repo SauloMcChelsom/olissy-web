@@ -22,7 +22,7 @@ export class WarehouseApi {
   }
 
   public getWarehouseByPrimaryKey(warehouse: Warehouse){
-    return this.db.collection('warehouse', ref =>ref.where('PRIMARY_KEY', '==', warehouse.PRIMARY_KEY)).valueChanges()
+    return this.db.collection<Warehouse>('warehouse', ref =>ref.where('PRIMARY_KEY', '==', warehouse.PRIMARY_KEY)).valueChanges()
   }
 
   public async createNewWarehouse(warehouse: Warehouse){

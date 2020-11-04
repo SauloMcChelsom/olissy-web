@@ -22,6 +22,10 @@ export class ProductService {
   public getProductByForeignKeyUserInApi(product: Product){
     return this.api.getProductByForeignKeyUser(product)
   }
+
+  public getProductByForeignKeyStoreInApi(product: Product){
+    return this.api.getProductByForeignKeyStore(product)
+  }
  
   public getProductByUidInApi(product: Product){
     return this.api.getProductByUid(product)
