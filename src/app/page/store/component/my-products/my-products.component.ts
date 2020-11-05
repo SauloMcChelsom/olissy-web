@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder }  from '@angular/forms';
 
+import { HostListener } from '@angular/core';
+import { LocationStrategy } from '@angular/common';
+
 import { View } from '../../../../shared/view.shared';
 import { ClientService } from '../../../../service/client.service';
 import { StoreService, Store } from '../../../../service/store.service';
@@ -11,6 +14,8 @@ import { map } from 'rxjs/operators';
 import { take } from 'rxjs/operators';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+
+declare var $: any;
 
 @Component({
   selector: 'mt-my-products',
@@ -28,6 +33,8 @@ export class MyProductsComponent implements OnInit {
 
   public emVendas = [true,false];
 
+  public modal = true
+
   public productForm: FormGroup = this.createForm(this.productService.product)
 
   public currencyMask : any = {
@@ -41,13 +48,16 @@ export class MyProductsComponent implements OnInit {
   };
 
   constructor(
+    private locationStrategy: LocationStrategy,
     private view:View,
     private clientService:ClientService,
     private storeService:StoreService,
     private productService:ProductService,
     private warehouseService:WarehouseService,
     private fb: FormBuilder
-  ){}
+  ){
+    this.preventBackButton()
+  }
 
   private createForm (product: Product): FormGroup { 
     return this.fb.group(product); 
@@ -115,6 +125,44 @@ export class MyProductsComponent implements OnInit {
 
   public publishForSale(product){
     console.log(product)
+  }
+
+  @HostListener('window:popstate', ['$event'])
+  public onBackButton(event) {
+   this.disableScrolling()
+   $("#selectProductUpdate").modal("hide");
+   $("#selectProductDelete").modal("hide")
+  }
+
+  @HostListener('mousewheel', ['$event']) 
+  public onMousewheel(event) {
+    this.enableScrolling()
+  }
+
+  @HostListener('touchmove', ['$event']) 
+  public onTouchMove(event) {
+    this.enableScrolling()
+  }
+  @HostListener('touchend', ['$event']) 
+  public onTouchEnd(event) {
+    this.enableScrolling()
+  }
+
+  public preventBackButton(){
+    history.pushState(null, null, location.href);
+    this.locationStrategy.onPopState(() => {
+      history.pushState(null, null, location.href);
+    })
+  }
+
+  public disableScrolling(){
+    var x=window.scrollX;
+    var y=window.scrollY;
+    window.onscroll=function(){window.scrollTo(x, y);};
+  }
+
+  public enableScrolling(){
+    window.onscroll=function(){};
   }
 
   ngOnDestroy(){

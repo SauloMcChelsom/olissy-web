@@ -2,35 +2,30 @@
 <div class="container">
   <div class="col-md-12 col-xs-12 card-container">
     <div 
-      *ngFor="let product of products" 
+      *ngFor="let product of products; let i = index" 
       class="menu-item-info-box card"
       [ngClass]="{
         'yes-publish-for-sale': product.productForSale == true,
         'no-publish-for-sale': product.productForSale == false
       }"
     >
-      <div class="card-header">
-      
-          <button 
-            type="button" 
-            class="btn btn-light btn-light-del" 
-            data-backdrop="static" 
-            (click)="selectProductDelete(product)" 
-            data-keyboard="false" 
-            data-toggle="modal" 
-            data-target="#selectProductDelete"
-            style=" width: 90px; height: 40px; background-color: #f44336;"
-          >
-            Excluir
-          </button>
-       
+      <div 
+        class="card-header" 
+        (click)="selectProductDelete(product)" 
+        data-backdrop="static" 
+        data-keyboard="false" 
+        data-toggle="modal" 
+        data-target="#selectProductDelete"
+      >
+        Excluir
       </div>
       <div>
         <div class="col-md-12 col-xs-12 card-content">
-          <span (click)="showDescription(warehouse.showDescription, i)" class="card-content-title">
+          <span (click)="showSection ? (showSection == product.PRIMARY_KEY ? showSection = false : showSection = product.PRIMARY_KEY) : showSection = product.PRIMARY_KEY;"  class="card-content-title">
             {{ product.warehouse?.name }}
           </span>
-          <div *ngIf="false" class="card-content-description">
+          
+          <div *ngIf="showSection == product.PRIMARY_KEY" class="card-content-description">
             <span class="menu-item-info-box-detail">
               <label>
                 <p>
