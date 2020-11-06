@@ -169,27 +169,27 @@
 
 
 @-webkit-keyframes glowing {
-  0% { color: blue }
-  50% { color: wheat;}
-  100% { color: red;}
+  0% { color: #000;}
+  50% {color: #999}
+  100% {color: #000}
 }
 
 @-moz-keyframes glowing {
-  0% { color: blue }
-  50% { color: wheat;}
-  100% { color: red;}
+  0% { color: #000;}
+  50% {color: #999}
+  100% {color: #000}
 }
 
 @-o-keyframes glowing {
-  0% { color: blue }
-  50% { color: wheat;}
-  100% { color: red;}
+  0% { color: #000;}
+  50% {color: #999}
+  100% {color: #000}
 }
 
 @keyframes glowing {
-  0% { color: blue }
-  50% { color: wheat;}
-  100% { color: red;}
+  0% { color: #000;}
+  50% {color: #999}
+  100% {color: #000}
 }
 
 .button-alert { 

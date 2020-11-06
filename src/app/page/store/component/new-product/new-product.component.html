@@ -1,167 +1,201 @@
-<link href="https://fonts.googleapis.com/css?family=Thasadith&display=swap" rel="stylesheet" />
-<div class="container">
 
+<div class="container">
   <div class="col-md-12 col-xs-12 card-container">
-    <div *ngFor="let warehouse of warehouses; let i = index" >
-      <div *ngIf="warehouse.registration == true" data-keyboard="false" data-backdrop="static" data-toggle="modal" data-target="#selectProduct" (click)="selectProduct(warehouse)" class="menu-item-info-box card">
+    <div 
+      *ngFor="let warehouse of warehouses; let i = index" 
+      class="menu-item-info-box card yes-publish-for-sale"
+      [ngClass]="{
+        'no-publish-for-sale': warehouse.registration == false
+      }"
+    >
+      <div>
         <div class="col-md-12 col-xs-12 card-content">
-          <span class="card-content-title">
+          <span (click)="showSection ? (showSection == warehouse.PRIMARY_KEY ? showSection = false : showSection = warehouse.PRIMARY_KEY) : showSection = warehouse.PRIMARY_KEY;"  class="card-content-title">
             {{ warehouse.name }}
           </span>
-          <span class="menu-item-info-box-text card-content-sub-title">
-            {{ warehouse?.session }}, {{ warehouse?.type }} <b>marca {{ warehouse?.company }}</b>
-          </span>
+          
+          <div *ngIf="showSection == warehouse.PRIMARY_KEY" class="card-content-description">
+            <span class="menu-item-info-box-detail">
+              <label>
+                <p>
+                  <b>Sessão: </b> {{ warehouse.session }}
+                </p>
+              </label>
+            </span>
+            <span class="menu-item-info-box-detail">
+              <label>
+                <p>
+                  <b>Categoria: </b> {{ warehouse.category }}
+                </p>
+              </label>
+            </span>
+            <span class="menu-item-info-box-detail">
+              <label>
+                <p>
+                  <b>Tipo: </b> {{ warehouse.type }}
+                </p>
+              </label>
+            </span>
+            <span class="menu-item-info-box-detail">
+              <label>
+                <p>
+                  <b>Generico: </b> {{ warehouse.andGeneric? "Sim" : "Não" }}
+                </p>
+              </label>
+            </span>
+            <span class="menu-item-info-box-detail">
+              <label>
+                <p>
+                  <b>Fornecedor: </b> {{ warehouse.company }}
+                </p>
+              </label>
+            </span>
+            <h5 style="margin-top: 0px;">
+              <div [innerHTML]="warehouse.description"></div>
+            </h5>
+          </div>
         </div>
         <div class="card-publication">
-          <div class="card-publication-container">
+          <div class="card-publication-container"> 
             <a target="_blank">
-              <img style="width: 100%" [src]="warehouse.imageUrl[0]" alt="Photo">
+              <img style="width: 100%" [src]="warehouse.imageUrl" alt="Photo">
             </a>
           </div>
         </div>
       </div>
-      <div *ngIf="warehouse.registration == false" style="opacity: 0.5;" class="menu-item-info-box card">
-        <div class="col-md-12 col-xs-12 card-content">
-          <span class="card-content-title">
-            {{ warehouse.name }}
+      <div class="card-sales" *ngIf="warehouse.registration == true">
+        <span class="menu-item-info-box-price card-sales-price">
+          {{ warehouse.price | currency: 'BRL'}} 
+        </span>
+        <span class="card-sales-purchase">
+          <button 
+            (click)="selectProduct(warehouse)" 
+            data-keyboard="false" 
+            data-backdrop="static" 
+            data-toggle="modal" 
+            data-target="#selectProduct" 
+            type="button" 
+            class="btn btn-default btn-xs pull-right button-alert"
+          >
+            <b style="font-size: 20px;">Publicar pra venda</b>
+          </button>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<form [formGroup]="productForm" novalidate>
+  <div class="modal fade" id="selectProduct">
+    <div class="modal-dialog">
+      <div *ngIf="active.loading" class="modal-content">
+        <div class="hello"> 
+           <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" width="160px" height="20px" viewBox="0 0 128 16" xml:space="preserve"><path fill="#94d3fb" fill-opacity="0.42" d="M6.4,4.8A3.2,3.2,0,1,1,3.2,8,3.2,3.2,0,0,1,6.4,4.8Zm12.8,0A3.2,3.2,0,1,1,16,8,3.2,3.2,0,0,1,19.2,4.8ZM32,4.8A3.2,3.2,0,1,1,28.8,8,3.2,3.2,0,0,1,32,4.8Zm12.8,0A3.2,3.2,0,1,1,41.6,8,3.2,3.2,0,0,1,44.8,4.8Zm12.8,0A3.2,3.2,0,1,1,54.4,8,3.2,3.2,0,0,1,57.6,4.8Zm12.8,0A3.2,3.2,0,1,1,67.2,8,3.2,3.2,0,0,1,70.4,4.8Zm12.8,0A3.2,3.2,0,1,1,80,8,3.2,3.2,0,0,1,83.2,4.8ZM96,4.8A3.2,3.2,0,1,1,92.8,8,3.2,3.2,0,0,1,96,4.8Zm12.8,0A3.2,3.2,0,1,1,105.6,8,3.2,3.2,0,0,1,108.8,4.8Zm12.8,0A3.2,3.2,0,1,1,118.4,8,3.2,3.2,0,0,1,121.6,4.8Z"/><g><path fill="#0095f6" fill-opacity="1" d="M-42.7,3.84A4.16,4.16,0,0,1-38.54,8a4.16,4.16,0,0,1-4.16,4.16A4.16,4.16,0,0,1-46.86,8,4.16,4.16,0,0,1-42.7,3.84Zm12.8-.64A4.8,4.8,0,0,1-25.1,8a4.8,4.8,0,0,1-4.8,4.8A4.8,4.8,0,0,1-34.7,8,4.8,4.8,0,0,1-29.9,3.2Zm12.8-.64A5.44,5.44,0,0,1-11.66,8a5.44,5.44,0,0,1-5.44,5.44A5.44,5.44,0,0,1-22.54,8,5.44,5.44,0,0,1-17.1,2.56Z"/><animateTransform attributeName="transform" type="translate" values="23 0;36 0;49 0;62 0;74.5 0;87.5 0;100 0;113 0;125.5 0;138.5 0;151.5 0;164.5 0;178 0" calcMode="discrete" dur="1170ms" repeatCount="indefinite"/></g></svg>
+        </div>
+      </div>
+      <div *ngIf="!active.loading" class="modal-content">
+        <div class="modal-body">
+          <div *ngIf="active.message" class="message">
+            <h4>{{ active.text }}</h4>
+          </div>
+          <span class="menu-item-info-box-detail" style="width:100%;">
+            <img class="img-responsive center-block" style="margin-bottom: 15px"  [src]="warehouseSelectedProduct?.imageUrl"   width="300" alt="User Avatar">
           </span>
-          <span class="menu-item-info-box-text card-content-sub-title">
-            {{ warehouse?.session }}, {{ warehouse?.type }} <b>marca {{ warehouse?.company }}</b>
+          <span class="menu-item-info-box-detail" style="width:100%;">
+            <label style="width:100%; font-weight: normal;">
+              <p style="margin-bottom: 0px;">
+                <b>Produto: </b>{{ warehouseSelectedProduct?.name}}
+              </p>
+            </label>
+          </span>
+          <span class="menu-item-info-box-detail" style="width:100%;">
+            <label style="width:100%; font-weight: normal;">
+              <p style="margin-bottom: 0px;">
+                <b>Sessão: </b>{{ warehouseSelectedProduct?.session }}
+              </p>
+            </label>
+          </span>
+          <span class="menu-item-info-box-detail" style="width:100%;">
+            <label style="width:100%; font-weight: normal;">
+              <p style="margin-bottom: 0px;">
+                <b>Categoria: </b>{{ warehouseSelectedProduct?.category}}
+              </p>
+            </label>
+          </span>
+          <span class="menu-item-info-box-detail" style="width:100%;">
+            <label style="width:100%; font-weight: normal;">
+              <p style="margin-bottom: 0px;">
+                <b>Tipo: </b>{{ warehouseSelectedProduct?.type}}
+              </p>
+            </label>
+          </span>
+          <span class="menu-item-info-box-detail" style="width:100%;">
+            <label style="width:100%; font-weight: normal;">
+              <p style="margin-bottom: 0px;">
+                <b>Generico: </b>{{ warehouseSelectedProduct?.andGeneric}}
+              </p>
+            </label>
+          </span>
+          <span class="menu-item-info-box-detail" style="width:100%;">
+            <label style="width:100%; font-weight: normal;">
+              <p style="margin-bottom: 0px;">
+                <b>Fornecedor: </b>{{ warehouseSelectedProduct?.company}}
+              </p>
+            </label>
+          </span>
+          <span class="menu-item-info-box-detail" style="width:100%;">
+            <label style="width:100%; font-weight: normal;">
+              <div [innerHTML]="warehouseSelectedProduct?.description"></div>
+            </label>
+          </span>
+          <span class="menu-item-info-box-detail product-content">
+            <label style="width:100%;">
+              Preco
+              <input type="text"class="form-control" [imask]="currencyMask" [unmask]="true"  style="font-weight: 500;" autocomplete="off" formControlName="price">
+            </label>
+            <span class="help-block" style="color:red" *ngIf="this.productForm.controls['price'].value <= 0 && (this.productForm.controls['price'].dirty || this.productForm.controls['price'].touched)">
+              <i class="fa fa-remove"></i>
+              Campo Obrigatorio
+            </span>
+          </span>
+          <span class="menu-item-info-box-detail product-content">
+            <label style="width:100%;">
+              Quantidades
+              <input type="number" min="1" class="form-control"  style="font-weight: 500;" autocomplete="off" formControlName="quantities">
+            </label>
+            <span class="help-block" style="color:red" *ngIf="this.productForm.controls['quantities'].value <= 0 && (this.productForm.controls['quantities'].dirty || this.productForm.controls['quantities'].touched)">
+              <i class="fa fa-remove"></i>
+              Campo Obrigatorio
+            </span>
+          </span>
+          <span class="menu-item-info-box-detail product-content">
+            <label>
+              Publicar pra venda?
+            </label>
+            <select class="form-control" formControlName="productForSale">
+              <option  value="null" disabled hidden>
+                << Em Vendas? >>
+              </option>
+              <option *ngFor="let emVendas of emVendas" [value]="emVendas">
+                {{ emVendas? "Sim" : "Não" }}
+              </option>
+            </select>
           </span>
         </div>
-        <div class="card-publication">
-          <div class="card-publication-container">
-            <a target="_blank">
-              <img style="width: 100%" [src]="warehouse.imageUrl[0]" alt="Photo">
-            </a>
-          </div>
+        <div class="modal-footer">
+          <button type="button" (click)="cancelSelectProduct()" class="btn btn-Secondary btn-footer" data-dismiss="modal">
+              Cancelar
+          </button>
+          <button type="button" (click)="validateForm()" class="btn btn-primary btn-footer" >
+              Cadastrar Produto
+          </button>
         </div>
       </div>
     </div>
   </div>
+</form>
+    
 
-
-
-
-  <form [formGroup]="productForm" novalidate>
-    <div class="modal fade" id="selectProduct">
-      <div class="modal-dialog">
-        <div *ngIf="active.loading" class="modal-content">
-          <div class="hello"> 
-            <span class="loader"></span>
-          </div>
-        </div>
-        <div *ngIf="!active.loading" class="modal-content">
-          <!--<div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-              </button>
-              <h4 class="modal-title">
-                Cadastrar Produto
-              </h4>
-          </div>-->
-          <div class="modal-body">
-            <div *ngIf="active.message" class="message">
-              <h4>{{ active.text }}</h4>
-            </div>
-            <span class="menu-item-info-box-detail" style="width:100%;">
-              <img class="img-responsive center-block" style="margin-bottom: 15px"  [src]="selectedProduct?.imageUrl"   width="300" alt="User Avatar">
-            </span>
-            <span class="menu-item-info-box-detail" style="width:100%;">
-              <label style="width:100%; font-weight: normal;">
-                <p style="margin-bottom: 0px;">
-                  <b>Produto: </b>{{ selectedProduct?.name}}
-                </p>
-              </label>
-            </span>
-            <span class="menu-item-info-box-detail" style="width:100%;">
-              <label style="width:100%; font-weight: normal;">
-                <p style="margin-bottom: 0px;">
-                  <b>Sessão: </b>{{ selectedProduct?.session }}
-                </p>
-              </label>
-            </span>
-            <span class="menu-item-info-box-detail" style="width:100%;">
-              <label style="width:100%; font-weight: normal;">
-                <p style="margin-bottom: 0px;">
-                  <b>Categoria: </b>{{ selectedProduct?.category}}
-                </p>
-              </label>
-            </span>
-            <span class="menu-item-info-box-detail" style="width:100%;">
-              <label style="width:100%; font-weight: normal;">
-                <p style="margin-bottom: 0px;">
-                  <b>Tipo: </b>{{ selectedProduct?.type}}
-                </p>
-              </label>
-            </span>
-            <span class="menu-item-info-box-detail" style="width:100%;">
-              <label style="width:100%; font-weight: normal;">
-                <p style="margin-bottom: 0px;">
-                  <b>Generico: </b>{{ selectedProduct?.andGeneric}}
-                </p>
-              </label>
-            </span>
-            <span class="menu-item-info-box-detail" style="width:100%;">
-              <label style="width:100%; font-weight: normal;">
-                <p style="margin-bottom: 0px;">
-                  <b>Fornecedor: </b>{{ selectedProduct?.company}}
-                </p>
-              </label>
-            </span>
-            <span class="menu-item-info-box-detail" style="width:100%;">
-              <label style="width:100%; font-weight: normal;">
-                <div [innerHTML]="selectedProduct?.description"></div>
-              </label>
-            </span>
-            <span class="menu-item-info-box-detail product-content">
-              <label style="width:100%;">
-                Preco
-                <input type="text"class="form-control" [imask]="currencyMask" [unmask]="true"  style="font-weight: 500;" autocomplete="off" formControlName="price">
-              </label>
-              <span class="help-block" style="color:red" *ngIf="this.productForm.controls['price'].value <= 0 && (this.productForm.controls['price'].dirty || this.productForm.controls['price'].touched)">
-                <i class="fa fa-remove"></i>
-                Campo Obrigatorio
-              </span>
-            </span>
-            <span class="menu-item-info-box-detail product-content">
-              <label style="width:100%;">
-                Quantidades
-                <input type="number" min="1" class="form-control"  style="font-weight: 500;" autocomplete="off" formControlName="quantities">
-              </label>
-              <span class="help-block" style="color:red" *ngIf="this.productForm.controls['quantities'].value <= 0 && (this.productForm.controls['quantities'].dirty || this.productForm.controls['quantities'].touched)">
-                <i class="fa fa-remove"></i>
-                Campo Obrigatorio
-              </span>
-            </span>
-            <span class="menu-item-info-box-detail product-content">
-              <label>
-                Publicar pra venda?
-              </label>
-              <select class="form-control" formControlName="productForSale">
-                <option value="true">
-                  Sim
-                </option>
-                <option value="false">
-                  Não
-                </option>
-              </select>
-            </span>
-          </div>
-          <div class="modal-footer">
-            <button type="button" (click)="cancelSelectProduct()" class="btn btn-Secondary btn-footer" data-dismiss="modal">
-                Cancelar
-            </button>
-            <button type="button" (click)="validateForm()" class="btn btn-primary btn-footer" >
-                Cadastrar Produto
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </form>
-      
-</div>
 
 
 

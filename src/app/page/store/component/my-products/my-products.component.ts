@@ -6,12 +6,10 @@ import { LocationStrategy } from '@angular/common';
 
 import { View } from '../../../../shared/view.shared';
 import { ClientService } from '../../../../service/client.service';
-import { StoreService, Store } from '../../../../service/store.service';
+import { StoreService } from '../../../../service/store.service';
 import { ProductService, Product } from '../../../../service/product.service';
 import { WarehouseService, Warehouse } from '../../../../service/warehouse.service';
 
-import { map } from 'rxjs/operators';
-import { take } from 'rxjs/operators';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
@@ -32,8 +30,6 @@ export class MyProductsComponent implements OnInit {
   public productSelect = {}
 
   public emVendas = [true,false];
-
-  public modal = true
 
   public productForm: FormGroup = this.createForm(this.productService.product)
 
