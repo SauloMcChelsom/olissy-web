@@ -26,7 +26,7 @@ export class ProductApi {
   }
 
   public getProductByForeignKeyStore(product: Product){
-    return this.db.collection<Product>('product', ref =>ref.where('FOREIGN_KEY_STORE', '==', product.FOREIGN_KEY_STORE)).valueChanges()
+    return this.db.collection<Product>('product', ref =>ref.where('FOREIGN_KEY_STORE', '==', product.FOREIGN_KEY_STORE).orderBy("AUTOINCREMENT", "desc")).valueChanges()
   }
 
   public getProductByUid(product: Product){
@@ -45,12 +45,12 @@ export class ProductApi {
     return product
   }
 
-  public delProductByUid(product: Product){
-    return this.http.delete<Product>('/')
+  public async delProductByUid(product: Product){
+    return await this.db.collection('product').doc(product.PRIMARY_KEY).delete()
   }
 
   public putProductByUid(product: Product){
-    return this.http.put<Product>('/', null)
+    return this.db.collection('product').doc(product.PRIMARY_KEY).update(product);
   } 
 
   public update(collection, pk, data: any) {

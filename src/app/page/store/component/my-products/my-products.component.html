@@ -3,10 +3,9 @@
   <div class="col-md-12 col-xs-12 card-container">
     <div 
       *ngFor="let product of products; let i = index" 
-      class="menu-item-info-box card"
+      class="menu-item-info-box card yes-publish-for-sale"
       [ngClass]="{
-        'yes-publish-for-sale': product.productForSale == true,
-        'no-publish-for-sale': product.productForSale == false
+        'no-publish-for-sale': (product.productForSale == false || product.quantities <= 0 || product.price =='' || product.price =='0' || product.price.length == 0)
       }"
     >
       <div 
@@ -85,7 +84,7 @@
         </span>
         <span class="card-sales-purchase">
           <button 
-          *ngIf="product.productForSale == true"
+          *ngIf="!(product.productForSale == false || product.quantities <= 0 || product.price =='' || product.price =='0' || product.price.length == 0)"
             (click)="selectProductUpdate(product)" 
             data-keyboard="false" 
             data-backdrop="static" 
@@ -97,7 +96,7 @@
             <b>Atualizar</b>
           </button>
           <button 
-          *ngIf="product.productForSale == false"
+          *ngIf="(product.productForSale == false || product.quantities <= 0 || product.price =='' || product.price =='0' || product.price.length == 0)"
             (click)="publishForSale(product)" 
             data-keyboard="false" 
             data-backdrop="static" 
@@ -179,14 +178,6 @@
                 Preco
                 <input type="tel" class="form-control" [imask]="currencyMask" [unmask]="true"  style="font-weight: 500;" autocomplete="off" formControlName="price">
               </label>
-              <span class="help-block" style="color:green" *ngIf="this.productForm.controls['price'].valid && (this.productForm.controls['price'].dirty || this.productForm.controls['price'].touched)">
-                <i class="fa fa-check"></i>
-                Ok
-              </span>
-              <span class="help-block" style="color:red" *ngIf="this.productForm.controls['price'].invalid && (this.productForm.controls['price'].dirty || this.productForm.controls['price'].touched)">
-                <i class="fa fa-remove"></i>
-                Campo Obrigatorio
-              </span>
             </span>
 
             <span class="menu-item-info-box-detail" style="width:100%;">
@@ -194,14 +185,6 @@
                 Quantidades
                 <input type="number" min="1" class="form-control"  style="font-weight: 500;" autocomplete="off" formControlName="quantities">
               </label>
-              <span class="help-block" style="color:green" *ngIf="this.productForm.controls['quantities'].valid && (this.productForm.controls['quantities'].dirty || this.productForm.controls['quantities'].touched)">
-                <i class="fa fa-check"></i>
-                Ok
-              </span>
-              <span class="help-block" style="color:red" *ngIf="this.productForm.controls['quantities'].invalid && (this.productForm.controls['quantities'].dirty || this.productForm.controls['quantities'].touched)">
-                <i class="fa fa-remove"></i>
-                Campo Obrigatorio
-              </span>
             </span>
 
             <span class="menu-item-info-box-detail" style="width:100%;">
@@ -216,14 +199,6 @@
                   {{ emVendas? "Sim" : "Não" }}
                 </option>
               </select>
-              <span class="help-block" style="color:green" *ngIf="this.productForm.controls['productForSale'].valid && (this.productForm.controls['productForSale'].dirty || this.productForm.controls['productForSale'].touched)">
-                <i class="fa fa-check"></i>
-                Ok
-              </span>
-              <span class="help-block" style="color:red" *ngIf="this.productForm.controls['productForSale'].invalid && (this.productForm.controls['productForSale'].dirty || this.productForm.controls['productForSale'].touched)">
-                <i class="fa fa-remove"></i>
-                Campo Obrigatorio
-              </span>
             </span>
 
           </div>

@@ -67,7 +67,7 @@ export class MyProductsComponent implements OnInit {
     return this.productForm.value
   }
 
-  private updateForm(product: Partial<Product>): void {
+  private updateForm(product: Partial<Product>): void {     
     this.productForm.patchValue(product)
   }
 
@@ -104,8 +104,21 @@ export class MyProductsComponent implements OnInit {
   }
 
   public saveUpdateProduct(){
-    console.log(this.getForm())
-    console.log( this.productSelect)
+    this.disableScrolling()
+
+    let product = this.getForm()
+    delete product.AUTOINCREMENT
+    delete product.DATE
+    delete product.FOREIGN_KEY_STORE
+    delete product.FOREIGN_KEY_USER
+    delete product.FOREIGN_KEY_WAREHOUSE
+    delete product.totalOfComment
+    delete product.totalOfLove
+    delete product.totalOfSale
+    product.productForSale = (String(product.productForSale) == "true")
+
+    this.productService.putProductByUidInApi(product)
+    $("#selectProductUpdate").modal("hide");
   }
 
   public selectProductDelete(product){
@@ -119,17 +132,20 @@ export class MyProductsComponent implements OnInit {
   }
 
   public deletarProduct(){
-    console.log(this.getForm())
-    console.log( this.productSelect)
+    this.productService.delProductByUidInApi(this.getForm())
+    $("#selectProductDelete").modal("hide")
   }
 
   public publishForSale(product){
-    console.log(product)
+    this.productSelect = product
+    this.updateForm(product)
   }
 
   @HostListener('window:popstate', ['$event'])
   public onBackButton(event) {
    this.disableScrolling()
+   this.productSelect = []
+   this.productForm.reset()
    $("#selectProductUpdate").modal("hide");
    $("#selectProductDelete").modal("hide")
   }
