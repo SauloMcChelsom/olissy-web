@@ -41,6 +41,10 @@ export class StoreService {
     return this.api.updateQuantityOfProductInStoreForPlus(store)
   }
 
+  public updateQuantityOfProductInStoreForLessInApi(store: Store){
+    return this.api.updateQuantityOfProductInStoreForLess(store)
+  }
+
   public updateTotalOfSaleInApi(store: Store){
     return this.api.updateTotalOfSale(store)
   }

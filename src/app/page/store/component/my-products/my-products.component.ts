@@ -6,7 +6,7 @@ import { LocationStrategy } from '@angular/common';
 
 import { View } from '../../../../shared/view.shared';
 import { ClientService } from '../../../../service/client.service';
-import { StoreService } from '../../../../service/store.service';
+import { Store, StoreService } from '../../../../service/store.service';
 import { ProductService, Product } from '../../../../service/product.service';
 import { WarehouseService, Warehouse } from '../../../../service/warehouse.service';
 
@@ -43,6 +43,12 @@ export class MyProductsComponent implements OnInit {
     }
   };
 
+  public active = {
+    text: "",
+    message: false,
+    loading:false
+  };
+
   constructor(
     private locationStrategy: LocationStrategy,
     private view:View,
@@ -70,11 +76,18 @@ export class MyProductsComponent implements OnInit {
   public ngOnInit() {
     this.view.setLoader(false)
     window.scroll(0, 0);
-    this.getAds()
+    this.getStore()
   }
 
-  public getAds(){
-    const PRIMARY_KEY = 'mw6QcFXgT1Qxzx681n8x'
+  public getStore(){
+    this.storeService.getStoreInState().pipe(takeUntil(this.unsubscribe$)).subscribe((store:Store[])=>{
+      if(Object.keys(store).length != 0 ){
+        this.getAds(store[0].PRIMARY_KEY)
+      }
+    })
+  }
+
+  public getAds(PRIMARY_KEY){
     let store = this.productService.product
         store.FOREIGN_KEY_STORE = PRIMARY_KEY
     this.productService.getProductByForeignKeyStoreInApi(store).pipe(takeUntil(this.unsubscribe$)).subscribe((resultProduct:Product[])=>{
@@ -99,7 +112,8 @@ export class MyProductsComponent implements OnInit {
     this.productForm.reset()
   }
 
-  public saveUpdateProduct(){
+  public async saveUpdateProduct(){
+    this.active.loading = true;
     this.disableScrolling()
 
     let product = this.getForm()
@@ -113,7 +127,8 @@ export class MyProductsComponent implements OnInit {
     delete product.totalOfSale
     product.productForSale = (String(product.productForSale) == "true")
 
-    this.productService.putProductByUidInApi(product)
+    await this.productService.putProductByUidInApi(product)
+    this.active.loading = false;
     $("#selectProductUpdate").modal("hide");
   }
 
@@ -127,8 +142,11 @@ export class MyProductsComponent implements OnInit {
     this.productForm.reset()
   }
 
-  public deletarProduct(){
-    this.productService.delProductByUidInApi(this.getForm())
+  public async deletarProduct(){
+    this.active.loading = true;
+    await this.productService.delProductByUidInApi(this.getForm())
+    await  this.storeService.updateQuantityOfProductInStoreForLessInApi(this.storeService.pullStoreInState())
+    this.active.loading = false;
     $("#selectProductDelete").modal("hide")
   }
 
