@@ -32,7 +32,7 @@ export class UserApi {
   }
 
   public async createNewUserWithEmailAndPasswordInFirebase(user: User){
-    await firebase.auth().createUserWithEmailAndPassword(user.email, user.password).then(res => user.FOREIGN_KEY_UID = res.user.uid)
+    await firebase.auth().createUserWithEmailAndPassword(user.email, user.password).then(res => user.foreign_key_uid = res.user.uid)
     return user
   }
 

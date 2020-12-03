@@ -88,6 +88,7 @@ export class UserService {
       FOREIGN_KEY_UID : '',
       PRIMARY_KEY: 0,
       retypePassword: '203327.Ss',
+      provide:'olissy'
     }
   }
 }

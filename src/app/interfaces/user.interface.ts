@@ -1,5 +1,5 @@
 export interface UserInterface {
-  timestamp       :string;
+  timestamp       : string;
   PRIMARY_KEY     : number;
   FOREIGN_KEY_UID : string;
   password        : string;
@@ -10,5 +10,6 @@ export interface UserInterface {
   email           : string;
 	primary_key     : number;
 	foreign_key_uid : string;
-	retype_password : string;
+  retype_password : string;
+  provide         : string;
 }

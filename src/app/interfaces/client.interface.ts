@@ -3,9 +3,7 @@ export interface ClientInterface {
 	foreign_key_user : number;
 	last_name        : string; 
 	image_icon_path  : string; 
-	image_icon_url   : string; 
-	cell_phone       : string; 
-	tele_phone       : string; 
+	image_icon_url   : string;  
 	state_federal    : string; 
   timestamp        : string;
   PRIMARY_KEY      : number;
@@ -19,6 +17,7 @@ export interface ClientInterface {
   email            : string;
   cellPhone        : string;
   telephone        : string;
+  cellphone        : string;
   country          : string;
   stateFederal     : string;
   city             : string;

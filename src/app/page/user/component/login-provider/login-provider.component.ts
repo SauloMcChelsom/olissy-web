@@ -56,10 +56,10 @@ export class LoginProviderComponent implements OnInit, OnDestroy {
         this.user.email = res.user.email
         this.user.name = res.user.displayName
         this.client.name = res.user.displayName
-        this.client.cell_phone = res.user.phoneNumber
+        this.client.cellphone = res.user.phoneNumber
         this.client.image_icon_url = res.user.photoURL
         this.client.image_icon_path = 'google'
-    
+        this.user.provide = 'google'
         await this.verifyEmailExisted()
       }),
       ((err)=>{

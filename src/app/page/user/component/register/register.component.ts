@@ -128,7 +128,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   public async createNewUser(){
     let newUser:User
     await this.userService.createNewUserWithEmailAndPasswordInFirebaseInApi(this.getForm()).then( 
-      (async(res)=>{newUser = res, await this.createNewAccount(newUser)}),
+      (async(res)=>{newUser = res, console.log(res), await this.createNewAccount(newUser)}),
       ((err)=>{
         this.active.text = `Houve um erro inesperado ao criar um usuario, Por favor tente novamente`
         if(err.code == 'auth/email-already-in-use'){
@@ -144,7 +144,16 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
   public async createNewAccount(newUser){
     await this.userService.createNewAccountInOlisyInApi(newUser).then(
-      ((res)=>this.accountCreateWithSuccess(res, newUser)),
+      ((res)=>{
+        if(res[0].status_message == 'CREATE_NEW_ACCOUNT_SUCCESS'){
+          this.accountCreateWithSuccess(res, newUser)
+        }else{
+          this.active.text = `Erro em criar sua conta, atualiza a pagina e tente novamente.<br \/><br \/> Codigo do erro caso precise<br \/><br \/>${res[0].status_message}`
+          this.active.message = true
+          this.view.setLoader(false)
+          this.userService.deleteUserInFirebaseInApi()
+        } 
+      }),
       ((err)=>{ 
         this.userService.deleteUserInFirebaseInApi().then(()=> {
           this.active.text = `Erro em criar sua conta, nós deletemos sua informaçãoes para você tentar novamente`
