@@ -11,7 +11,8 @@ import { View } from '../../../../shared/view.shared';
 
 export class OrderListComponent {
 
-  public order$: Observable<Order[]> = this.order.getOrderInState('user')
+  //public order$: Observable<Order[]> = this.order.getOrderInState('user')
+  public order$: Observable<Order[]>  | any  =  (this.order.getOrderInState('user') ? this.order.getOrderInState('user') : false)
 
   constructor( 
     private view:View,

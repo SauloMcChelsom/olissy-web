@@ -27,6 +27,8 @@ export class NewProductComponent implements OnInit {
 
   public warehouses = []
 
+  public showSection
+
   public active = {
     text: "",
     message: false,

@@ -1,6 +1,15 @@
 <div class="container">
   <section class="content">
 
+      <div *ngIf="active.message" class="col-xs-12 col-sm-offset-3 col-sm-6 alert-message">
+        <div class="box-body">
+          <div class="callout callout-danger">
+            <h4> Atenção! </h4>
+            <p [innerHTML]="active.text"></p>
+          </div>
+        </div>
+      </div>
+    
       <div class="font-olissy">
         olissy
       </div>

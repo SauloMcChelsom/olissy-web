@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder }  from '@angular/forms';
-import firebase from "@firebase/app";
-import "@firebase/storage";
+import * as firebase from 'firebase/app';
 
 import stateCity from "./state-city.type";
 
@@ -497,10 +496,10 @@ export class OpenMyStoreComponent implements OnInit {
         this.storeService.setStoreInState(store)
         let user = this.userService.user
         user.type = 2
-        this.userService.putUserByUidInApi(user).then((user) => {
+        /*this.userService.putUserByUidInApi(user).then((user) => {
           this.view.setUser("store");
           this.view.redirectPageFor("/store-home");
-        });
+        });*/
       });
     });
   }

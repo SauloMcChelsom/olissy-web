@@ -1,10 +1,14 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { Observable, Observer, throwError } from 'rxjs';
+import { retry, catchError } from 'rxjs/operators';
+
+import { environment } from '../../environments/environment';
 
 import { AngularFirestore } from '@angular/fire/firestore';
-import { firebase } from '@firebase/app';
-import '@firebase/auth';
-import '@firebase/firestore';
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/firestore';
 import 'firebase/storage'; 
 
 import { ClientInterface as Client } from '../interfaces/client.interface';
@@ -12,6 +16,13 @@ import { ClientInterface as Client } from '../interfaces/client.interface';
 
 @Injectable({providedIn: 'root'})
 export class ClientApi {
+
+  readonly url = `${environment}${'users/'}` ;
+
+  // Headers
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  }
 
   constructor(private http: HttpClient, private db: AngularFirestore){}
 
@@ -47,9 +58,6 @@ export class ClientApi {
   }
 
   public async createNewClient(client: Client){
-    client.AUTOINCREMENT = firebase.firestore.FieldValue.serverTimestamp()
-    client.DATE = new Date().toString()
-
     await this.db.collection('client').add(client).then((res: any) => client.PRIMARY_KEY = res.id);
     await this.update('client', client.PRIMARY_KEY, { PRIMARY_KEY: client.PRIMARY_KEY })
     await this.increment()
@@ -64,5 +72,19 @@ export class ClientApi {
   public update(collection, pk, data: any) {
     return this.db.collection(collection).doc(pk).update(data);
   }
+
+  // Manipulação de erros
+  public handleError(error: HttpErrorResponse) {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+      // Erro ocorreu no lado do client
+      errorMessage = error.error.message;
+    } else {
+      // Erro ocorreu no lado do servidor
+      errorMessage = `Código do erro: ${error.status}, ` + `menssagem: ${error.message}`;
+    }
+    console.log(errorMessage);
+    return throwError(errorMessage);
+  };
 
 }

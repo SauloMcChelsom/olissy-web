@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder }  from '@angular/forms';
 
 import { Observable } from 'rxjs';
-import firebase from '@firebase/app';
-import '@firebase/storage';
+import * as firebase from 'firebase/app';
+
 
 import { View } from '../../../../shared/view.shared';
 import { CompanyService, Company } from '../../../../service/company.service';

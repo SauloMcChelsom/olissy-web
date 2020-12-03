@@ -24,10 +24,12 @@ declare var $: any;
 export class MyProductsComponent implements OnInit {
 
   private unsubscribe$ = new Subject();
+
+  public showSection
   
   public products = []
 
-  public productSelect = {}
+  public productSelect:any
 
   public emVendas = [true,false];
 

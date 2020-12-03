@@ -42,7 +42,7 @@ export class InvoiceListComponent implements OnInit, OnDestroy {
     this.clientService.getClientInState().pipe(takeUntil(this.unsubscribe$)).subscribe((client)=>{
       if(Object.keys(client).length != 0){
         let invoice = this.invoiceService.invoice
-        invoice.FOREIGN_KEY_CLIENT = this.clientService.pullClientInState().PRIMARY_KEY
+        //invoice.FOREIGN_KEY_CLIENT = this.clientService.pullClientInState().PRIMARY_KEY
         this.invoiceService.getInvoiceByForeignKeyClientInApi(invoice).pipe(takeUntil(this.unsubscribe$)).subscribe((invoices:Invoice[])=>{
           if(Object.keys(invoices).length != 0){
             this.invoiceScreen = 'YouHaveInvoices'

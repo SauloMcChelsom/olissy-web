@@ -27,7 +27,8 @@ export class ColumnClientComponent {
     this.view.setLoader(true)
     this.userService.delUserInState()
     this.clientService.delClientInState()
-    await this.userService.logoutInApi()
+    await this.userService.logoutInFirebaseInApi()
+    this.view.putLoader()
     this.view.setUser('user')
     this.view.redirectPageFor('/login')
   } 

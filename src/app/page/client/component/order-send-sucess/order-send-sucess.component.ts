@@ -36,7 +36,7 @@ export class OrderSendSucessComponent {
     animationItem.loop = false
   }
 
-  public onLoopComplete(): void {
+  public onLoopComplete(event): void {
     NgZone.assertNotInAngularZone();
       if(NgZone.isInAngularZone() == false){
         this.zone.run(() => {

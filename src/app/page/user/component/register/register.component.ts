@@ -1,17 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder }  from '@angular/forms';
 
-import firebase from '@firebase/app';
-import '@firebase/storage';
-
 import { Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { take } from 'rxjs/operators';
-import { takeUntil } from 'rxjs/operators'
 
 import { View } from '../../../../shared/view.shared';
 import { UserService, User } from '../../../../service/user.service';
-import { ClientService, Client } from '../../../../service/client.service';
+import { Client, ClientService } from '../../../../service/client.service';
 
 @Component({
   selector: 'app-register',
@@ -42,7 +36,6 @@ export class RegisterComponent implements OnInit, OnDestroy {
   ){}
 
   public ngOnInit(){
-    this.view.putLoader()
     window.scroll(0,0);
     this.setAvatar()
   }
@@ -64,8 +57,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
     if(avatar){
       this.avatar = avatar
     }else{
-      var storage = firebase.storage();
-      await storage.ref('plataform/avatar.png').getDownloadURL().then(url => this.avatar = url )
+      //var storage = firebase.storage();
+      //await storage.ref('plataform/avatar.png').getDownloadURL().then(url => this.avatar = url )
       localStorage.setItem('avatar', this.avatar)
     }
   }
@@ -101,34 +94,77 @@ export class RegisterComponent implements OnInit, OnDestroy {
     if(this.userForm.valid &&  this.active.message == false){
       this.active.message = false
       this.view.setLoader(true)
-      this.verifyEemailExisted()
+      this.verifyEmailExisted()
     }
     window.scroll(0,0);
   }
 
-  public async verifyEemailExisted(){
-    let emailExisted = null
-    await this.userService.getUserByEmailInApi(this.getForm()).pipe(takeUntil(this.unsubscribe$),take(1), map(v => emailExisted = v) ).toPromise()
+  public async verifyEmailExisted(){
+   
+    let errorServer:boolean = false
+    let email:any = [{existed:true}]
 
-    if(Object.keys(emailExisted).length == 0){
+    await this.userService.emailInformedExistsInApi(this.getForm()).then( 
+      ((res)=>{email = res}),
+      ((err)=>{errorServer = true})
+    ).finally(
+      ()=>{} 
+    )
+
+    if(email[0].existed == false){
       this.createNewUser()
+      this.active.text = `email valido para o registro`
     }else{
-      this.active.text = `email ${ this.userForm.value.email} ja em uso`
+      //this.active.text = `email ${ this.userForm.value.email} ja em uso`
+      this.active.text = `O endereço de e-mail ${ this.userForm.value.email} já está sendo usado por outra conta.<br \/><br \/> Caso seja dono deste e-mail, ou se esqueceu da sua senha. <br \/><br \/> <a href=\"https://www.olissy.com/recuperar-email\"\/>Clicar aqui para recupera-lo<\/a>`
       this.active.message = true
       this.view.setLoader(false)
+      if(errorServer){
+       this.active.text = 'Error na comunicação com o servidor, GUARDE! estamos trabalhando nisso'
+      }
     }
   }
 
   public async createNewUser(){
     let newUser:User
-    await this.userService.createNewUserWithEmailAndPasswordInApi(this.getForm()).then( v => newUser = v )
+    await this.userService.createNewUserWithEmailAndPasswordInFirebaseInApi(this.getForm()).then( 
+      (async(res)=>{newUser = res, await this.createNewAccount(newUser)}),
+      ((err)=>{
+        this.active.text = `Houve um erro inesperado ao criar um usuario, Por favor tente novamente`
+        if(err.code == 'auth/email-already-in-use'){
+          this.active.text = "O endereço de e-mail já está sendo usado por outra conta.<br \/><br \/> Caso seja dono deste e-mail, ou se esqueceu da sua senha. <br \/><br \/> <a href=\"https://www.olissy.com/recuperar-email\"\/>Clicar aqui para recupera-lo<\/a>"
+         }
+        this.active.message = true
+        this.view.setLoader(false)
+      })
+    ).finally(
+      ()=>{} 
+    )
+  }
 
-    this.client.name = this.userForm.value.name
-    this.client.FOREIGN_KEY_USER = newUser.PRIMARY_KEY
+  public async createNewAccount(newUser){
+    await this.userService.createNewAccountInOlisyInApi(newUser).then(
+      ((res)=>this.accountCreateWithSuccess(res, newUser)),
+      ((err)=>{ 
+        this.userService.deleteUserInFirebaseInApi().then(()=> {
+          this.active.text = `Erro em criar sua conta, nós deletemos sua informaçãoes para você tentar novamente`
+          this.active.message = true
+          this.view.setLoader(false)
+        }).catch((error)=>{
+          this.active.text = `Erro em criar sua conta, nós não conseguimos deletar seu e-mail, nós mande um email para <contado@olissy.com>`
+          this.active.message = true
+          this.view.setLoader(false)
+        });
+      })
+    ).finally(
+      ()=>{} 
+    )
+  }
 
-    let newClient:Client
-    this.client.imageIconUrl = this.avatar
-    await this.clientService.createNewClientInApi(this.client).then( v => newClient = v )
+  public accountCreateWithSuccess(newAccount, newUser){
+    let newClient:Client = this.clientService.client
+    newClient.primary_key = newAccount[0].primary_key_client
+    newClient.foreign_key_user = newAccount[0].primary_key_user
 
     this.userService.setUserInState([newUser])
     this.clientService.setClientInState([newClient])

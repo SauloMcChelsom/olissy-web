@@ -26,7 +26,7 @@ export class ColumnStoreComponent {
     this.view.setLoader(true)
     this.userService.delUserInState()
     this.storeService.delStoreInState()
-    await this.userService.logoutInApi()
+    await this.userService.logoutInFirebaseInApi()
     this.view.setUser('user')
     this.view.redirectPageFor('/login')
   }

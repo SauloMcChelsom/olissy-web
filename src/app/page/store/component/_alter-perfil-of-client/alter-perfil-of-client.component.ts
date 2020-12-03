@@ -265,17 +265,13 @@ export class AlterPerfilOfClientComponent implements OnInit, OnDestroy {
       if(this.userService.pullUserInState().name != this.clientForm.value.name){
         let user:User = this.userService.pullUserInState()
             user.name = this.clientForm.value.name
-
-        delete user.DATE
-        delete user.AUTOINCREMENT
-        delete user.FOREIGN_KEY_UID
         delete user.email
         delete user.password
         delete user.retypePassword
         delete user.terms
         delete user.type
         
-        await this.userService.putUserByUidInApi(user)
+        //await this.userService.putUserByUidInApi(user)
       }
     }
 

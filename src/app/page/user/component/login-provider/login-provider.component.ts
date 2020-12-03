@@ -9,6 +9,7 @@ import { View } from '../../../../shared/view.shared';
 import { UserService, User } from '../../../../service/user.service';
 import { ClientService, Client } from '../../../../service/client.service';
 import { StoreService, Store } from '../../../../service/store.service';
+import { async } from 'rxjs/internal/scheduler/async';
 
 @Component({
   selector: 'app-login',
@@ -27,6 +28,11 @@ export class LoginProviderComponent implements OnInit, OnDestroy {
   public client:Client = this.clientService.client
   
   public store:Store = this.storeService.store
+
+  public active = {
+    text: "",
+    message:false,
+  }
   
   constructor(
     private view:View,
@@ -37,30 +43,40 @@ export class LoginProviderComponent implements OnInit, OnDestroy {
 
   public async ngOnInit() {
     window.scroll(0,0);
-    this.view.putLoader()
   }
 
   public async logout() {
-    await this.userService.logoutInApi()
+    await this.userService.logoutInFirebaseInApi()
   }
 
   public async signInWithGoogle(){
-    let token = null
-    await this.userService.signInWithPopupInApi().then(v => token = v)
-
-     this.user.FOREIGN_KEY_UID = token.user.uid
-     this.user.email = token.user.email
-     this.user.name = token.user.displayName
-     this.client.name = token.user.displayName
-     this.client.cellPhone = token.user.phoneNumber
-     this.client.imageIconUrl = token.user.photoURL
-     this.client.imageIconPath = 'google'
-
-    await this.verifyEmailExisted()
+    await this.userService.createNewOrSignInUserWithPopupInFirebaseInApi().then(
+      (async(res) =>{
+        this.user.foreign_key_uid = res.user.uid
+        this.user.email = res.user.email
+        this.user.name = res.user.displayName
+        this.client.name = res.user.displayName
+        this.client.cell_phone = res.user.phoneNumber
+        this.client.image_icon_url = res.user.photoURL
+        this.client.image_icon_path = 'google'
+    
+        await this.verifyEmailExisted()
+      }),
+      ((err)=>{
+        if(err.code == 'auth/wrong-password'){
+          this.active.text = "A senha é inválida.<br \/><br \/> Caso seja dono deste e-mail, ou se esqueceu da sua senha. <br \/><br \/> <a href=\"https://www.olissy.com/recuperar-email\"\/>Clicar aqui para recupera-lo<\/a>"
+        }
+        if(err.code == 'auth/network-request-failed'){
+          this.active.text = "Sem Acesso a internet"
+        }
+        this.active.message = true
+        this.view.setLoader(false)
+      })
+    )
   }
 
   public signInWithMicrosoft(){
-    //  this.userService.authenticationByGoogleInApi()
+    //this.userService.authenticationByGoogleInApi()
   }
 
   public signInWithApple(){
@@ -69,37 +85,61 @@ export class LoginProviderComponent implements OnInit, OnDestroy {
 
   public async verifyEmailExisted(){
     this.view.setLoader(true)
-    let user:User
-    await this.userService.getUserByEmailInApi(this.user).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) => user = v) ).toPromise()
+ 
+    let email:any = [{existed:true}]
+    
+    await this.userService.emailInformedExistsInApi(this.user).then( 
+      ((res)=>{email = res}),
+      ((err)=>{
+        this.view.setLoader(false)
+        this.active.message = true
+        this.active.text = 'Error na comunicação com o servidor, GUARDE! estamos trabalhando nisso'
+      })
+    )
 
-    if(Object.keys(user).length == 0){
+    if(email[0].existed == false){
       await this.createNewUser()
     }else{
-      this.user = user[0]
-      this.userService.setUserInState([user[0]])
-      await this.userType()
+      await this.getUser()
     }
   }
 
   public async createNewUser(){
-    let newUser:User
-    this.user.type = 1
-    await this.userService.createNewUserWithPopupInApi( this.user).then( v => newUser = v )
-    this.userService.setUserInState([newUser])
-
-    this.client.FOREIGN_KEY_USER = newUser.PRIMARY_KEY
-
-    let newClient:Client
-    await this.clientService.createNewClientInApi(this.client).then( v => newClient = v )
-    this.client = newClient
-    await this.userType()
+    console.log(this.user)
+    await this.userService.createNewAccountInOlisyInApi(this.user).then(
+      (async()=> { await this.getUser()}),
+      ((err)=>{ 
+        this.userService.deleteUserInFirebaseInApi().then(()=> {
+          this.active.text = `Erro em criar sua conta, nós deletemos sua informaçãoes para você tentar novamente`
+          this.active.message = true
+          this.view.setLoader(false)
+        }).catch((error)=>{
+          this.active.text = `Erro em criar sua conta, nós não conseguimos deletar seu e-mail, nós mande um email para <contado@olissy.com>`
+          this.active.message = true
+          this.view.setLoader(false)
+        });
+      })
+    )
   }
 
-  public async userType(){
+  public async getUser(){
+    await this.userService.informationOfUserInApi(this.user).then(
+      (async(res)=>{ 
+        console.log(res)
+        this.userService.setUserInState([res[0].user[0]])
+        await this.userType(res) 
+      }),
+      ((err)=>{ 
+        this.active.text = "Falhou em recuperar suas informações, por favor tente novamente" 
+        this.active.message = true
+        this.view.setLoader(false)
+      })
+    )
+  }
+
+  public async userType(user){
     if(this.user.type == 1){
-      this.client.FOREIGN_KEY_USER = this.userService.pullUserInState().PRIMARY_KEY
-      await this.clientService.getClientByForeignKeyUserInApi( this.client).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) =>  this.client = v[0]) ).toPromise()
-      this.clientService.setClientInState([ this.client])
+      this.clientService.setClientInState([user[0].client[0]])
       this.view.setUser('client')
 
       if(this.userHaveOrderInOpen())
@@ -107,9 +147,7 @@ export class LoginProviderComponent implements OnInit, OnDestroy {
     }
 
     if(this.user.type == 2){
-      this.store.FOREIGN_KEY_USER = this.userService.pullUserInState().PRIMARY_KEY
-      await this.storeService.getStoreByForeignKeyUserInApi( this.store).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) =>  this.store = v[0]) ).toPromise()
-      this.storeService.setStoreInState(this.store)
+      this.storeService.setStoreInState(user[0].store[0])
       this.view.setUser('store')
       this.view.redirectPageFor('/store-home')
     }

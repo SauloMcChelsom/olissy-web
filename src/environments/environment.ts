@@ -4,6 +4,9 @@ export const environment = {
   heroku:{  
     url:"http://localhost:8080/product"
   },
+  node:{
+    host:"http://127.0.0.1:3000/api/"
+  },
   firebase:{
     apiKey: "AIzaSyDRWpn-yAXQxofx0Fv344-V2i6gawuqsK4",
     authDomain: "olissy-web-test.firebaseapp.com",

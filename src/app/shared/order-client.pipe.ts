@@ -1,10 +1,10 @@
-/*import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'OrderPipe',
+  name: 'OrderClientPipe',
   pure: true
 })
-export class OrderPipe implements PipeTransform {
+export class OrderClientPipe implements PipeTransform {
 
   transform(value, method): any {
 
@@ -100,4 +100,4 @@ export class OrderPipe implements PipeTransform {
       return "este pedido esta cancelado"
     }
   }
-}*/
+}

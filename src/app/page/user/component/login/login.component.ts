@@ -42,7 +42,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     window.scroll(0,0);
-    this.view.setLoader(false)
   }
 
   private createForm (user: User): FormGroup { 
@@ -81,49 +80,75 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   public async verifyEmailExisted(){
-    let user = []
-    
-    await this.userService.getUserByEmailInApi(this.getForm()).pipe(takeUntil(this.unsubscribe$), take(1), map(v => user = v) ).toPromise()
 
-    if(Object.keys(user).length != 0){
+    let errorServer:boolean = false
+    let email:any = [{existed:false}]
+    
+    await this.userService.emailInformedExistsInApi(this.getForm()).then( 
+      ((res)=>{email = res}),
+      ((err)=>{errorServer = true})
+    ).finally(
+      ()=>{} 
+    )
+   
+    if(email[0].existed){
       await this.authentication()
     }else{
       this.active.text = `email ${this.userForm.value.email} não esta cadastrado`
       this.active.message = true
       this.view.setLoader(false)
+      if(errorServer){
+        this.active.text = 'Error na comunicação com o servidor, GUARDE! estamos trabalhando nisso'
+       }
     }
   }
 
   public async authentication(){ 
-    let userIsLogged = null
-    await this.userService.signInWithEmailAndPasswordInApi(this.getForm()).then( v =>  userIsLogged = v ).catch(()=> userIsLogged = false )
-    if(userIsLogged){
-      this.userForm.patchValue({FOREIGN_KEY_UID:userIsLogged.uid})  
-      await this.userService.getUserByEmailInApi(this.getForm()).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) => this.userForm.patchValue(v[0])) ).toPromise()
-      this.userService.setUserInState([this.getForm()])
-      await this.userType()
-    }else{
-      this.active.text = "senha errada" 
-      this.active.message = true
-      this.view.setLoader(false)
-    }
+    await this.userService.signInWithEmailAndPasswordInFirebaseInApi(this.getForm()).then(
+      ((res) =>this.getUser(res)),
+      ((err)=>{
+        if(err.code == 'auth/wrong-password'){
+          this.active.text = "A senha é inválida.<br \/><br \/> Caso seja dono deste e-mail, ou se esqueceu da sua senha. <br \/><br \/> <a href=\"https://www.olissy.com/recuperar-email\"\/>Clicar aqui para recupera-lo<\/a>"
+        }
+        if(err.code == 'auth/network-request-failed'){
+          this.active.text = "Sem Acesso a internet"
+        }
+        this.active.message = true
+        this.view.setLoader(false)
+      })
+    ).finally(
+      ()=>{}
+    )
   }
 
-  public async userType(){
-    if(this.userForm.value.type == 1){
-      this.client.FOREIGN_KEY_USER = this.userService.pullUserInState().PRIMARY_KEY
-      await this.clientService.getClientByForeignKeyUserInApi(this.client).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) => this.client = v[0]) ).toPromise()
-      this.clientService.setClientInState([this.client])
-      this.view.setUser('client')
+  public async getUser(userIsLogged){
+    this.userForm.patchValue({foreign_key_uid:userIsLogged.user.uid})  
+    await this.userService.informationOfUserInApi(this.getForm()).then(
+      (async(res)=>{ 
+        this.userForm.patchValue(res[0].user[0]), 
+        this.userService.setUserInState([this.getForm()])
+        await this.userType(res) 
+      }),
+      ((err)=>{ 
+        this.active.text = "Falhou em recuperar suas informações, por favor tente novamente" 
+        this.active.message = true
+        this.view.setLoader(false)
+      })
+    ).finally(
+      ()=>{}
+    )
+  }
 
+  public async userType(user){
+    if(this.userForm.value.type == 1){
+      this.clientService.setClientInState([user[0].client[0]])
+      this.view.setUser('client')
       if(this.userHaveOrderInOpen())
       this.view.redirectPageFor('/client-home')
     }
 
     if(this.userForm.value.type == 2){
-       this.store.FOREIGN_KEY_USER = this.userService.pullUserInState().PRIMARY_KEY
-      await this.storeService.getStoreByForeignKeyUserInApi( this.store).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) =>  this.store = v[0]) ).toPromise()
-      this.storeService.setStoreInState(this.store)
+      this.storeService.setStoreInState(user[0].store[0])
       this.view.setUser('store')
       this.view.redirectPageFor('/store-home')
     }

@@ -17,3 +17,16 @@
   align-items: center;
   height: 90vh;
 } 
+
+.box-body {
+  padding: 30px 0px 0px 0px;
+}
+
+.callout {
+  border-left: 0px solid #eee;
+}
+
+.alert-message{
+padding-left: 0px;
+padding-right: 0px;
+}

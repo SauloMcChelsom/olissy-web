@@ -144,7 +144,7 @@
                         <tbody  *ngFor="let item of orderCreate$ | async">
                           <tr *ngFor="let item of item?.product; let itemIndex = index">
                             <td class="text-center">
-                              <a (click)="decreaseItem(item)" class="btn btn-sm" style="color:red">
+                              <a (click)="decreaseItem(item, itemIndex)" class="btn btn-sm" style="color:red">
                                 <i class="fa fa-minus"></i>
                               </a>
                               {{ item.quantity }}

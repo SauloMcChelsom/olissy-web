@@ -1,4 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
+/*import { Pipe, PipeTransform } from '@angular/core';
 import * as timeago from 'timeago.js';
 
 @Pipe({
@@ -36,4 +36,4 @@ export class TimeagoPipe implements PipeTransform {
 
     return timeago.format(date_frinend, 'pt_BR');
   }
-}
+}*/

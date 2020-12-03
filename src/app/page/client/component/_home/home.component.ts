@@ -48,7 +48,6 @@ export class HomeComponent implements OnInit {
   ){}
 
   public ngOnInit() {
-    this.view.setLoader(false)
     this.getProduct()
   }
 
@@ -63,6 +62,7 @@ export class HomeComponent implements OnInit {
         this.warehouse.PRIMARY_KEY = product[index].FOREIGN_KEY_WAREHOUSE
         await this.getWarehouse(this.warehouse)
       }
+      this.view.setLoader(false)
     })
   }
 

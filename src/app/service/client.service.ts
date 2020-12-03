@@ -63,10 +63,9 @@ export class ClientService {
 
   public get client():Client{
     return {
-      AUTOINCREMENT: new Date(),
-      DATE: '',
-      FOREIGN_KEY_USER: '',
-      PRIMARY_KEY: '',
+      timestamp: '',
+      FOREIGN_KEY_USER: 0,
+      PRIMARY_KEY: 0,
       telephone: '',
       birth: '',
       cellPhone: '',
@@ -82,6 +81,14 @@ export class ClientService {
       sex: '',
       stateFederal: 'AC',
       street: '',
+      foreign_key_user: 0,
+      primary_key: 0,
+      tele_phone: '',
+      cell_phone: '',
+      image_icon_path: 'email',
+      image_icon_url: '',
+      last_name: '',
+      state_federal: 'AC'
     }
   }
 }

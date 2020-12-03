@@ -10,44 +10,44 @@ export class UserService {
 
   constructor(private api: api, private state: state) {}
 
-  public getUserByEmailInApi(user: User){
-    return this.api.getUserByEmail(user)
+  public emailInformedExistsInApi(user: User){
+    return this.api.emailInformedExists(user)
   }
 
-  public signInWithEmailAndPasswordInApi(user: User){
-    return this.api.signInWithEmailAndPassword(user)
+  public signInWithEmailAndPasswordInFirebaseInApi(user: User){
+    return this.api.signInWithEmailAndPasswordInFirebase(user)
   }
 
   public getUserByUidInApi(user: User){
     return this.api.getUserByUid(user)
   }
 
-  public createNewUserWithPopupInApi(user: User){
-    return this.api.createNewUserWithPopup(user)
+  public informationOfUserInApi(user: User){
+    return this.api.informationOfUser(user)
   }
 
-  public createNewUserWithEmailAndPasswordInApi(user: User){
-    return this.api.createNewUserWithEmailAndPassword(user)
+  public createNewAccountInOlisyInApi(user: User){
+    return this.api.createNewAccountInOlisy(user)
   }
 
-  public putUserByUidInApi(user: User){
-    return this.api.putUserByUid(user)
+  public createNewUserWithEmailAndPasswordInFirebaseInApi(user: User){
+    return this.api.createNewUserWithEmailAndPasswordInFirebase(user)
   }
 
-  public delUserByUidInApi(user: User){
-    return this.api.delUserByUid(user)
+  public deleteUserInFirebaseInApi(){
+    return this.api.deleteUserInFirebase()
   }
 
-  public isLoggedInApi(){
-    return this.api.isLogged()
+  public isLoggedInFirebaseInApi(){
+    return this.api.isLoggedInFirebase()
   }
 
-  public logoutInApi() {
-    return this.api.logout()
+  public logoutInFirebaseInApi() {
+    return this.api.logoutInFirebase()
   }
 
-  public signInWithPopupInApi(){
-    return this.api.signInWithPopup()
+  public createNewOrSignInUserWithPopupInFirebaseInApi(){
+    return this.api.createNewOrSignInUserWithPopupInFirebase()
   }
 
   public  pullUserInState(){
@@ -76,16 +76,18 @@ export class UserService {
 
   public get user():User{
     return {
-      AUTOINCREMENT: null,
-      DATE: '',
-      FOREIGN_KEY_UID : '',
-      PRIMARY_KEY: '',
+      timestamp: '',
+      foreign_key_uid : '',
+      primary_key: 0,
       password: '203327.Ss',
-      retypePassword: '203327.Ss',
-      email: 'cruzeiro@gmail.com',
-      name: 'saulo',
-      terms: false,
+      retype_password: '203327.Ss',
+      email: 'karla@gmail.com',
+      name: 'karla',
+      terms: true,
       type: 1,
+      FOREIGN_KEY_UID : '',
+      PRIMARY_KEY: 0,
+      retypePassword: '203327.Ss',
     }
   }
 }

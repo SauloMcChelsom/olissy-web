@@ -25,7 +25,7 @@
               'order-finished'   : order.orderState == 'finished',
               'order-abandoned'  : order.orderState == 'abandoned',
               'order-refused'    : order.orderState == 'refused'
-            }">{{ order.orderState | OrderPipe: 'formatOrderState'}}
+            }">{{ order.orderState | OrderStorePipe: 'formatOrderState'}}
           </span>
         </div>
         <span class="info-box-text text-nome-pedido font-weight-bold" [ngClass]="{ 'viewed-Order': order.storeViewedTheOrder == false }">
@@ -36,7 +36,7 @@
           
         </span>
         <span class="progress-description" [ngClass]="{ 'viewed-Order': order.storeViewedTheOrder == false }">
-          {{ order.DATE | OrderPipe: 'formatDataOrderList' }}
+          {{ order.DATE | OrderStorePipe: 'formatDataOrderList' }}
         </span>
       </div>
     </div>

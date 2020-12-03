@@ -7,10 +7,10 @@ import { BehaviorSubject } from 'rxjs';
 export class View {
 
     constructor(private redirect: Router){}
+    
+    private readonly _loader = new BehaviorSubject<Boolean>(true);
 
-    public loader:Boolean =  true;
-
-    private readonly _user = new BehaviorSubject<any[]>(['user']);
+    private readonly _user = new BehaviorSubject<String>('user');
     
     public redirectPageFor(page:string){
         this.redirect.navigate([page])
@@ -21,18 +21,19 @@ export class View {
     }
 
     public setUser(user:String){
-        this._user.next([user])
+        this._user.next(user)
     }
 
     public getLoader(){
-        return this.loader
+        return this._loader.asObservable();
     }
 
     public setLoader(loader:Boolean){
-        this.loader = loader
+        this._loader.next(loader)
     }
 
     public putLoader(){
-        setTimeout(() => { this.setLoader(false) }, 3000)
+        setTimeout(() => { this.setLoader(false) }, 1000)
     }
+
 } 

@@ -7,9 +7,7 @@ export { Product}
 @Injectable({providedIn: 'root'})
 export class ProductService {
 
-  constructor(private api: api, private state: state) {
-    console.log('ProductService')
-  }
+  constructor(private api: api, private state: state) {}
 
   public getProductByIndexInApi(){
     return this.api.getProductByIndex()

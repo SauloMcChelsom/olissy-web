@@ -8,6 +8,7 @@ import { map } from 'rxjs/operators';
 import { take } from 'rxjs/operators';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,7 @@ import { Subject } from 'rxjs';
   styleUrls: ['app.component.css']
 })
 
-export class AppComponent implements  OnDestroy {
+export class AppComponent implements  OnDestroy{
 
   public user:User = this.userService.user
 
@@ -25,55 +26,58 @@ export class AppComponent implements  OnDestroy {
 
   private unsubscribe$ = new Subject();
 
-  public view$ = "user"
+  public page: Observable<String> = this.viewService.getUser()
+
+  public window: Observable<Boolean> = this.viewService.getLoader()
+
+  public view;
 
   constructor(
-    private view:View,
+    private viewService:View,
     private userService:UserService,
     private clientService:ClientService,
     private storeService:StoreService
-  ){}
-
-  async ngOnInit() {
-    this.viewUser()
-    await this.getUserLogged()
+  ){
+    this.view = this.viewService
   }
 
-  public viewUser(){
-    this.view.getUser().pipe(takeUntil(this.unsubscribe$)).subscribe((v)=>{
-      this.view$ = v[0]
-    })
+  async ngOnInit() {
+
+    await this.getUserLogged()
   }
 
   private async getUserLogged(){
     let user = null
-    await this.userService.isLoggedInApi().pipe(takeUntil(this.unsubscribe$), take(1), map(u => user = u ) ).toPromise()
-   
+    await this.userService.isLoggedInFirebaseInApi().pipe(takeUntil(this.unsubscribe$), take(1), map(u => user = u ) ).toPromise()
+    
     if(user != null){
-      this.user.FOREIGN_KEY_UID = user.uid
+      this.user.foreign_key_uid = user.uid
       this.user.email = user.email
-
-      await this.userService.getUserByUidInApi(this.user).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) => this.user = v[0]) ).toPromise()
-      this.userService.setUserInState([this.user])
-      await this.userType()
+      await this.userService.informationOfUserInApi(this.user).then(
+        (async(res)=>{ 
+          this.userService.setUserInState([res[0].user[0]])
+          await this.userType(res) 
+        }),
+        ((err)=>{})
+      ).finally(
+        ()=>{}
+      )
+    }else{
+      this.viewService.setLoader(false)
     }
   }
 
-  private async userType(){
+  private async userType(user){
     if(this.user.type == 1){
-      this.client.FOREIGN_KEY_USER = this.userService.pullUserInState().PRIMARY_KEY
-      await this.clientService.getClientByForeignKeyUserInApi( this.client).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) =>  this.client = v[0]) ).toPromise()
-      this.clientService.setClientInState([this.client])
+      this.clientService.setClientInState([user[0].client[0]])
       this.view.setUser('client')
-      //this.view.redirectPageFor('/client-home')
+      this.view.redirectPageFor('/client-home')
     }
 
     if(this.user.type == 2){
-      this.store.FOREIGN_KEY_USER = this.userService.pullUserInState().PRIMARY_KEY
-      await this.storeService.getStoreByForeignKeyUserInApi(this.store).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) => this.store = v[0]) ).toPromise()
-      this.storeService.setStoreInState(this.store)
+      this.storeService.setStoreInState(user[0].store[0])
       this.view.setUser('store')
-      //this.view.redirectPageFor('/store-home')
+      this.view.redirectPageFor('/store-home')
     }
   }
 

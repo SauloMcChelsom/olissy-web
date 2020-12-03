@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { AngularFirestore } from '@angular/fire/firestore';
-import { firebase } from '@firebase/app';
-import '@firebase/auth';
-import '@firebase/firestore';
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/firestore';
 
 import { WarehouseInterface as Warehouse } from '../interfaces/warehouse.interface';
 

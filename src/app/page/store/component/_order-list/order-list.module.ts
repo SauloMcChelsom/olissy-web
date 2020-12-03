@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OrderListRoute } from './order-list.route';
 import { OrderListComponent } from './order-list.component';
-import { OrderPipe } from '../../../../shared/order.pipe'
+import { OrderStorePipe } from '../../../../shared/order-store.pipe' 
 
 @NgModule({
   imports: [
@@ -10,7 +10,7 @@ import { OrderPipe } from '../../../../shared/order.pipe'
     OrderListRoute
   ],
   declarations: [ 
-    OrderListComponent, OrderPipe
+    OrderListComponent, OrderStorePipe
   ]
 })
 export class OrderListModule { }

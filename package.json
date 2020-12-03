@@ -23,7 +23,7 @@
     "@angular/router": "~8.2.11",
     "admin-lte": "^2.4.18",
     "angular-imask": "^5.2.1",
-    "firebase": "^7.2.1",
+    "firebase": "^7.24.0",
     "jquery": "^3.4.1",
     "lottie-web": "^5.7.3",
     "ngx-lottie": "^6.4.0",

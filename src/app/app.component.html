@@ -1,4 +1,4 @@
-<body [hidden]="!view.loader">
+<body [hidden]="(window | async) == !true">
   <div class="hello"> 
     <span class="font-olissy">
       olissy
@@ -7,22 +7,23 @@
   </div>
 </body>
 
- <body [hidden]="view.loader" class="skin-red fixed sidebar-mini sidebar-mini-expand-feature sidebar-collapse">
+ <body [hidden]="(window | async) == !false" class="skin-red fixed sidebar-mini sidebar-mini-expand-feature sidebar-collapse">
   <div class="wrapper">
-    <app-header-user *ngIf="view$ == 'user'"></app-header-user>
-    <app-header-client *ngIf="view$ == 'client'"></app-header-client>
-    <app-header-store *ngIf="view$ == 'store'"></app-header-store>
+    <app-header-user *ngIf="(page | async) == 'user'"></app-header-user>
+    <app-header-client *ngIf="(page | async) == 'client'"></app-header-client>
+    <app-header-store *ngIf="(page | async) == 'store'"></app-header-store>
     <aside class="main-sidebar" style="padding-top: 50px;">
       <section class="sidebar">
-        <app-column-user *ngIf="view$ == 'user'"></app-column-user>
-        <app-column-client *ngIf="view$ == 'client'"></app-column-client>
-        <app-column-store *ngIf="view$ == 'store'"></app-column-store>
+        <app-column-user *ngIf="(page | async) == 'user'"></app-column-user>
+        <app-column-client *ngIf="(page | async) == 'client'"></app-column-client>
+        <app-column-store *ngIf="(page | async) == 'store'"></app-column-store>
       </section>
     </aside>
     <div class="content-wrapper"> 
       <router-outlet></router-outlet>
     </div>
-    <!--<debugger></debugger>-->
+    
     <div class="control-sidebar-bg"></div>
   </div>
-</body>
+</body><!---->
+<debugger></debugger>

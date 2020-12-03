@@ -21,7 +21,8 @@ export class HeaderStoreComponent {
 
   private unsubscribe$ = new Subject();
 
-  public orderUser$: Observable<Order[]> = this.orderService.getOrderInState('user')
+  public orderUser$: Observable<Order[]>  | any  =  (this.orderService.getOrderInState('user') ? this.orderService.getOrderInState('user') : false)
+  //public orderUser$: Observable<Order[]> = this.orderService.getOrderInState('user')
 
   public store = { imageIconUrl : "/assets/img/avatar.png"}
 

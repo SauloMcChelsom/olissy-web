@@ -1,0 +1,162 @@
+-------- git --------
+
+#LOCAL
+
+git init
+-cria um diretorio e arquivos para usar o git
+
+git add .
+-adiciona os arquivos no stege area
+
+git commit -m "text o que foi feito"
+-vai salvar sua versao no repositorio local
+
+git status
+-verifica como esta os status
+
+git diff
+-consultar alteracao do arquivo nao comitado
+
+git diff --staged
+-consultar aquivos no stage
+
+git log
+-mosta os log de todos os commits
+
+git log -p -1
+-mostra os logs e tambem os diffs num registro
+
+git log --pretty=oneline
+-exibir chave e mensagem
+
+git commit --amend -m "estou editando"
+-editar o ultimo commit
+
+git restore --staged <arquivo>
+-remover da estege are
+
+git restore <aquivo>
+-restaura arquivo salvo
+
+#BRANCHES-----------------
+
+git checkout <chave do commit>
+-vai para a versao do commit
+
+git checkout -b test
+-criando novo branch
+
+git checkout master
+-votar ao branch master
+
+git merge test
+-mesclar branch dos repositorio maste e test
+
+#SERVER-----------------------
+
+ssh-keygen
+
+git remote add origin https://github.com/caifnet/olissy.git
+-criar origem no servido com login/senha
+
+git clone git@github.com:caifnet/olissy.git
+-fazer uma copiar do servido local
+
+git pull origin master
+-buscar arquivo no servidor, para seu local
+
+git push origin master
+-enviar os arquivo pro servidor
+
+-------- faribase --------
+npm install -g firebase-tools
+
+firebase login
+firebase logout
+firebase init
+firebase deploy
+
+
+-------- heroku --------
+npm install -g heroku
+
+heroku login
+
+cd my-project/
+git init
+heroku git:remote -a olissy
+
+git add .
+git commit -am "make it better"
+git push heroku master
+
+heroku git:remote -a olissy
+
+
+-------- banco dados feke --------
+npm install -g json-server
+json-server --watch db.json
+
+
+-------- servidor feke --------
+npm install http-server -g
+http-server
+"http-server": "^0.11.1",
+
+-------- download de ferramenta para desenvolvimento em Angular --------
+https://nodejs.org/en/download/
+npm install -g @angular/cli@7.3.9
+npm install -g @angular/cli
+npm install -g typescript
+
+
+-------- comandos principais Angular --------
+ng new my-app
+cd my-app
+ng serve --open
+
+ng generate module     cursos
+ng generate component  cursos --spec=false
+ng generate service    cursos/cursos
+ng generate directive  minha-diretiva
+ng generate pipe       meu-pipe
+ng generate class      minha-classe
+ng generate interface  minha-interface
+ng generate enum       meu-enum
+
+ng new my-app --style=sass
+ng new my-app --style=less
+ng new my-app --style=stylus
+
+ng set defaults.styleExt scss
+ng set defaults.styleExt less
+ng set defaults.styleExt styl
+
+ng build
+ng build --prod
+
+-------- obter versao -----------
+node -v
+npm -v
+ng version
+ng help
+tsc -v
+
+------ remover --------
+npm uninstall -g @angular/cli
+
+-------- plugin para Visual Studio Code / frontEnd -----------
+plugin para Visual Studio Code / frontEnd
+#Angular 2, 4 and upcoming latest TypeScript HTML Snippets
+#HTML Snippets
+#vscode-icons
+#dracula oficial
+
+-------- enviar para producao -----------
+git status
+
+ng build --prod
+
+git push origin master
+
+cd dist/olissy
