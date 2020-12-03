@@ -170,7 +170,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
     )
   }
 
-  public accountCreateWithSuccess(newAccount, newUser){
+  public async accountCreateWithSuccess(newAccount, newUser){
+
+   await this.userService.incrementInApi()
+
     let newClient:Client = this.clientService.client
     newClient.primary_key = newAccount[0].primary_key_client
     newClient.foreign_key_user = newAccount[0].primary_key_user

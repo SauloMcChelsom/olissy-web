@@ -30,6 +30,10 @@ export class UserService {
     return this.api.createNewAccountInOlisy(user)
   }
 
+  public incrementInApi(){
+    return this.api.increment()
+  }
+
   public createNewUserWithEmailAndPasswordInFirebaseInApi(user: User){
     return this.api.createNewUserWithEmailAndPasswordInFirebase(user)
   }

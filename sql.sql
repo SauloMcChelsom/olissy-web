@@ -267,7 +267,7 @@ create table "app"."public"."invoice" (
 
 
 
-insert into "increment" ("store","warehouse","client","user") values (1,1,2,3);
+insert into "increment" ("store","warehouse","client","user") values (0,0,0,0);
 
 insert into "company" ("timestamp","name","name_search") values (current_timestamp,'néstle','nestle');
 insert into "company" ("timestamp","name","name_search") values (current_timestamp,'kibóm','kibom');
@@ -495,7 +495,34 @@ AND
 
 END;
 $$ LANGUAGE plpgsql;
+
 /*   -----------      */ 
+
+CREATE OR REPLACE FUNCTION increment_fn(entity text)RETURNS boolean AS $$
+begin  
+
+    IF entity = 'store' THEN
+      UPDATE public.increment SET store = (store + 1);
+      RETURN true;
+    END IF;
+
+    IF entity = 'warehouse' THEN
+      UPDATE public.increment SET warehouse = (warehouse + 1);
+      RETURN true;
+    END IF;
+
+    IF entity = 'createNewAccount' THEN
+      UPDATE public.increment SET "user" = ("user" + 1);
+      UPDATE public.increment SET client = (client + 1);
+      RETURN true;
+    END IF;
+
+RETURN false;
+
+END;
+$$ LANGUAGE plpgsql;
+
+/*   -----------      */
 
 select * from get_order_client_view where "foreign_key_client" = 3;
 select * from get_order_client_fn(3);

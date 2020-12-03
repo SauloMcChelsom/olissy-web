@@ -82,6 +82,14 @@ export class UserApi {
     ).toPromise()
   }
 
+  public async increment(){
+    return this.http.get<Boolean>(`${this.url}increment`, this.httpOptions)
+    .pipe( 
+      retry(10), 
+      catchError(this.handleError)
+    ).toPromise()
+  }
+
   public async informationOfUser(user: User){
     return this.http.get<any>(`${this.url}info/${user.foreign_key_uid}`, this.httpOptions)
     .pipe( 

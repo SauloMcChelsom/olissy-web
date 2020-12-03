@@ -107,7 +107,7 @@ export class LoginProviderComponent implements OnInit, OnDestroy {
   public async createNewUser(){
     console.log(this.user)
     await this.userService.createNewAccountInOlisyInApi(this.user).then(
-      (async()=> { await this.getUser()}),
+      (async()=> { await this.userService.incrementInApi(), await this.getUser()}),
       ((err)=>{ 
         this.userService.deleteUserInFirebaseInApi().then(()=> {
           this.active.text = `Erro em criar sua conta, nós deletemos sua informaçãoes para você tentar novamente`
