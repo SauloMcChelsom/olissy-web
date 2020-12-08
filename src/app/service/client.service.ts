@@ -78,7 +78,7 @@ export class ClientService {
       lastName: '',
       name: '',
       neighborhood: '',
-      sex: '',
+      sex: 'male',
       stateFederal: 'AC',
       street: '',
       foreign_key_user: 0,

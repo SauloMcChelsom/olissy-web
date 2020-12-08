@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder }  from '@angular/forms';
 
-import { map } from 'rxjs/operators';
-import { take } from 'rxjs/operators';
-import { takeUntil } from 'rxjs/operators';
+//import { map } from 'rxjs/operators';
+//import { take } from 'rxjs/operators';
+//import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
 import { View } from '../../../../shared/view.shared';

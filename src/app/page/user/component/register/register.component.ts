@@ -128,7 +128,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   public async createNewUser(){
     let newUser:User
     await this.userService.createNewUserWithEmailAndPasswordInFirebaseInApi(this.getForm()).then( 
-      (async(res)=>{newUser = res, console.log(res), await this.createNewAccount(newUser)}),
+      (async(res)=>{newUser = res, await this.createNewAccount(newUser)}),
       ((err)=>{
         this.active.text = `Houve um erro inesperado ao criar um usuario, Por favor tente novamente`
         if(err.code == 'auth/email-already-in-use'){

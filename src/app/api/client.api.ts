@@ -17,10 +17,10 @@ import { ClientInterface as Client } from '../interfaces/client.interface';
 @Injectable({providedIn: 'root'})
 export class ClientApi {
 
-  readonly url = `${environment}${'users/'}` ;
 
-  // Headers
-  httpOptions = {
+  readonly url = `${environment.node.host}${'clients/'}` ;
+
+  public httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
   }
 
@@ -35,7 +35,37 @@ export class ClientApi {
   }
 
   public async putClientByUid(client: Client){
-    await this.update('client', client.PRIMARY_KEY, client)
+
+
+    delete client.email;
+    delete client.FOREIGN_KEY_USER;
+    delete client.PRIMARY_KEY;
+    delete client.cellPhone;
+    delete client.imageIconPath;
+    delete client.imageIconUrl;
+    delete client.lastName;
+    delete client.stateFederal;
+ 
+
+    console.log(client.birth)
+    
+
+      client =  [client].find((element, index, array) =>{
+        for (const key in element) {
+          if(element[key] == null){
+            element[key] = ""
+          }
+        }
+        return element
+      })
+
+      console.log(client)
+
+    return this.http.put<Client>(this.url+client.primary_key, JSON.stringify(client), this.httpOptions)
+    .pipe( 
+      retry(0),
+      catchError(this.handleError)
+    ).toPromise()
   } 
 
   public async sendImagemStorage(name, image){

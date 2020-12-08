@@ -1,15 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
-import { takeUntil } from 'rxjs/operators';
+//import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { take } from 'rxjs/operators';
+//import { map } from 'rxjs/operators';
+//import { take } from 'rxjs/operators';
 
 import { View } from '../../../../shared/view.shared';
 import { UserService, User } from '../../../../service/user.service';
 import { ClientService, Client } from '../../../../service/client.service';
 import { StoreService, Store } from '../../../../service/store.service';
-import { async } from 'rxjs/internal/scheduler/async';
+//import { async } from 'rxjs/internal/scheduler/async';
 
 @Component({
   selector: 'app-login',
@@ -105,7 +105,6 @@ export class LoginProviderComponent implements OnInit, OnDestroy {
   }
 
   public async createNewUser(){
-    console.log(this.user)
     await this.userService.createNewAccountInOlisyInApi(this.user).then(
       (async()=> { await this.userService.incrementInApi(), await this.getUser()}),
       ((err)=>{ 
@@ -125,7 +124,6 @@ export class LoginProviderComponent implements OnInit, OnDestroy {
   public async getUser(){
     await this.userService.informationOfUserInApi(this.user).then(
       (async(res)=>{ 
-        console.log(res)
         this.userService.setUserInState([res[0].user[0]])
         await this.userType(res) 
       }),

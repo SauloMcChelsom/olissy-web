@@ -12,7 +12,7 @@
             [src]="imageDisplay"
             width="200"
             alt="User Avatar"
-            id="clientImageIconUrl"
+            id="image_icon_url"
           />
         </div>
   
@@ -32,7 +32,7 @@
         </label>
       </div>
       <form [formGroup]="clientForm" novalidate>
-        <div class="form-group">
+        <div class="form-group" formGroupName="user">
           <label for="email">Meu Email já Registrado</label>
           <input
             type="text"
@@ -43,8 +43,7 @@
             value="email"
           />
         </div>  
-
-        <div class="form-group">
+        <div class="form-group" formGroupName="client">
           <label for="name">Meu nome</label>
           <input
             type="text"
@@ -59,8 +58,8 @@
             class="help-block"
             style="color: green"
             *ngIf="
-              clientForm.controls.name.valid &&
-              (clientForm.controls.name.dirty || clientForm.controls.name.touched)
+              clientForm.controls.client.controls.name.valid &&
+              (clientForm.controls.client.controls.name.dirty || clientForm.controls.client.controls.name.touched)
             "
             ><i class="fa fa-check"></i>Ok
           </span>
@@ -68,26 +67,26 @@
             class="help-block"
             style="color: red"
             *ngIf="
-              clientForm.controls.name.invalid &&
-              (clientForm.controls.name.dirty || clientForm.controls.name.touched)
+              clientForm.controls.client.controls.name.invalid &&
+              (clientForm.controls.client.controls.name.dirty || clientForm.controls.client.controls.name.touched)
             "
             ><i class="fa fa-remove"></i>Campo Obrigatorio
           </span>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" formGroupName="client">
             <label for="name">Meu sobrenome</label>
             <input
               type="text"
               class="form-control"
               autocomplete="off"
-              formControlName="lastName"
+              formControlName="last_name"
               placeholder="Ex: Silva"
               value="lastName"
             />
           </div>
 
-          <div class="form-group">
+          <div class="form-group" formGroupName="client">
             <label for="name">Meu Aniversario é</label>
             <input
               type="tel"
@@ -102,9 +101,9 @@
             />
           </div>
 
-          <div class="form-group">
+          <div class="form-group" formGroupName="client">
             <label for="name">Me identifico como</label>
-            <select *ngIf="this.clientForm.controls['sex'].value == 'male' || this.clientForm.controls['sex'].value == 'feminine'" (change)="identifyMyselfAs($event.target.value)" formControlName="sex" class="form-control" required>
+            <select *ngIf="this.clientForm.controls.client.controls.sex.value == 'male' || this.clientForm.controls.client.controls.sex.value == 'feminine'" (change)="identifyMyselfAs($event.target.value)" formControlName="sex" class="form-control" required>
                 <option  [value]="'male'">
                   Masculino
                 </option>
@@ -115,7 +114,7 @@
                   Outro
               </option>
             </select>
-            <div *ngIf="this.clientForm.controls['sex'].value != 'male' && this.clientForm.controls['sex'].value != 'feminine'" class="input-group">
+            <div *ngIf="this.clientForm.controls.client.controls.sex.value != 'male' && this.clientForm.controls.client.controls.sex.value != 'feminine'" class="input-group">
               <span (click)="identifyMyselfAs('removeSexOther')" class="input-group-addon" style="cursor: pointer;background-color: #f0f2f5;border: 0px;" ><i class="fa fa-chevron-left"></i></span>
               <input
                 type="text"
@@ -130,8 +129,8 @@
               class="help-block"
               style="color: green"
               *ngIf="
-                clientForm.controls.sex.valid &&
-                (clientForm.controls.sex.dirty || clientForm.controls.sex.touched)
+                clientForm.controls.client.controls.sex.valid &&
+                (clientForm.controls.client.controls.sex.dirty || clientForm.controls.client.controls.sex.touched)
               "
               ><i class="fa fa-check"></i>Ok
             </span>
@@ -139,14 +138,14 @@
               class="help-block"
               style="color: red"
               *ngIf="
-                clientForm.controls.sex.invalid &&
-                (clientForm.controls.sex.dirty || clientForm.controls.sex.touched)
+                clientForm.controls.client.controls.sex.invalid &&
+                (clientForm.controls.client.controls.sex.dirty || clientForm.controls.client.controls.sex.touched)
               "
               ><i class="fa fa-remove"></i>Campo Obrigatorio
             </span>
           </div>
   
-        <div class="form-group">
+        <div class="form-group" formGroupName="client">
           <label for="cep"> CEP </label>
           <input
             type="tel"
@@ -162,10 +161,10 @@
           />
         </div>
 
-        <div class="form-group">
+        <div class="form-group" formGroupName="client">
           <label for="state"> Estados </label>
           <select
-            formControlName="stateFederal"
+            formControlName="state_federal" 
             (change)="setCity($event.target.value)"
             class="form-control"
           >
@@ -175,11 +174,11 @@
           </select>
         </div>
   
-        <div class="form-group">
+        <div class="form-group" formGroupName="client">
           <label for="city"> Cidade </label>
           <div *ngFor="let state of stateCity">
-            <div
-              *ngIf="this.clientForm.controls['stateFederal'].value == state.sigla"
+            <div 
+              *ngIf="this.clientForm.controls.client.controls.state_federal.value == state.sigla"
             >
               <select formControlName="city" class="form-control" id="city"> 
                 <option *ngFor="let cidade of state.cidades" [value]="cidade">
@@ -190,7 +189,7 @@
           </div>
         </div>
   
-        <div class="form-group">
+        <div class="form-group" formGroupName="client">
           <label for="neighborhood">Bairro</label>
           <input
             type="text"
@@ -201,7 +200,7 @@
             value="neighborhood"
           />
         </div>
-        <div class="form-group">
+        <div class="form-group" formGroupName="client">
           <label for="street">Rua</label>
           <input
             type="text"
@@ -212,22 +211,22 @@
             value="street"
           />
         </div>
-        <div class="form-group">
-          <label for="cellPhone">Celular</label>
+        <div class="form-group" formGroupName="client">
+          <label for="cellphone">Celular</label>
           <input
             type="tel"
             class="form-control"
             autocomplete="off"
-            [imask]="cellPhoneMask"
+            [imask]="cellphoneMask"
             [unmask]="true"
             minlength="11"
-            formControlName="cellPhone"
+            formControlName="cellphone"
             placeholder="Enter celular"
-            value="cellPhone"
+            value="cellphone"
           />
         </div>
   
-        <div class="form-group">
+        <div class="form-group" formGroupName="client">
           <label for="exampleInputEmail1">Telefone</label>
           <input
             type="tel"
@@ -239,11 +238,12 @@
             formControlName="telephone"
             placeholder="Enter telefone"
           />
-        </div>
+        </div>   
       </form>
-  
+
       <button class="btn btn-primary" (click)="validateForm()">
         <b> Salvar Alterações </b>
       </button>
+      
     </section>
 </div>

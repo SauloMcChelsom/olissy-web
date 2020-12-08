@@ -6,7 +6,7 @@ import { UserInterface as User } from '../interfaces/user.interface';
 @Injectable({providedIn: 'root'})
 export class UserState {
 
-  private readonly _user = new BehaviorSubject<any[]>([]);
+  private readonly _user = new BehaviorSubject<User[]>([]);
 
   public pullUser(){
     return this._user.value[0] 

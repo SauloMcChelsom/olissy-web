@@ -5,7 +5,7 @@ export const environment = {
     url:"http://localhost:8080/product"
   },
   node:{
-    host:"http://127.0.0.1:3000/api/"
+    host:"http://192.168.43.230:3000/api/"
   },
   firebase:{
     apiKey: "AIzaSyDRWpn-yAXQxofx0Fv344-V2i6gawuqsK4",

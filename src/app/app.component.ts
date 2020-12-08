@@ -71,13 +71,13 @@ export class AppComponent implements  OnDestroy{
     if(this.user.type == 1){
       this.clientService.setClientInState([user[0].client[0]])
       this.view.setUser('client')
-      this.view.redirectPageFor('/client-home')
+    //  this.view.redirectPageFor('/client-home')
     }
 
     if(this.user.type == 2){
       this.storeService.setStoreInState(user[0].store[0])
       this.view.setUser('store')
-      this.view.redirectPageFor('/store-home')
+     // this.view.redirectPageFor('/store-home')
     }
   }
 

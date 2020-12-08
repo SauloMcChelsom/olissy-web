@@ -6,7 +6,7 @@ DROP FUNCTION public.email_informed_exists_fn(text) CASCADE;
 DROP FUNCTION public.get_user_client_store_fn(text) cascade;
 
 DROP TYPE type_order_client cascade;
-DROP TYPE type_create_new_account cascade;
+DROP TYPE type_create_new_account cascade; 
 
 DROP TABLE public.increment cascade;
 DROP TABLE public.company cascade;
@@ -77,8 +77,8 @@ create table "app"."public"."client" (
 	"image_icon_url"   text          null, 
 	"sex"              text          null, 
 	"birth"            date          null, 
-	"cellphone"       text          null, 
-	"telephone"       text          null, 
+	"cellphone"        text          null, 
+	"telephone"        text          null, 
 	"country"          text          null, 
 	"state_federal"    text          null, 
 	"city"             text          null, 
@@ -424,6 +424,8 @@ CREATE TYPE type_create_new_account AS
 
 
 /*   -----------      */ 
+
+
 CREATE OR REPLACE FUNCTION create_new_account_fn(primary_key_uid text, name text, email text, password text, provider text)RETURNS SETOF type_create_new_account AS $$
 DECLARE
     primary_key_user   int := 0;
@@ -443,7 +445,7 @@ BEGIN
 	RETURNING  primary_key INTO  primary_key_user;
 	
 	INSERT INTO "client" ("foreign_key_user","timestamp","name","last_name","image_icon_path","image_icon_url","sex","birth","cellphone","telephone","country","state_federal","city","neighborhood","street","cep") 
-	VALUES (primary_key_user,current_timestamp,name, null, null, null, null, null, null, null, null, null, null, null, null, null) 
+	VALUES (primary_key_user,current_timestamp,name, null, 'icon/avatar.png','https://firebasestorage.googleapis.com/v0/b/olissy-web-test.appspot.com/o/plataform%2Favatar.png?alt=media&token=93cf2089-ee1d-4ccb-b88b-b210583889c6', null, null, null, null, null, null, null, null, null, null) 
 	RETURNING  primary_key INTO  primary_key_client;
 
 	return query select   primary_key_user, primary_key_client, upper('create_new_account_success'), '200'::INTEGER;
@@ -472,6 +474,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 /*   -----------      */ 
+/*
 CREATE OR REPLACE FUNCTION get_user_client_store_fn(foreign_key_uid_user text)RETURNS TABLE("user" json, client json, store json) AS $$
 DECLARE
 
@@ -492,6 +495,37 @@ WHERE
 	app.public.client."foreign_key_user" = app.public.user."primary_key"
 AND     
 	app.public.user."foreign_key_uid" = foreign_key_uid_user;
+
+END;
+$$ LANGUAGE plpgsql;
+*/
+CREATE OR REPLACE FUNCTION get_user_client_store_fn(foreign_key_uid_user text)RETURNS TABLE("user" json, client json, store json) AS $$
+DECLARE
+
+begin  
+
+return query select 
+			json_agg(users.*),
+			json_agg(client.*),
+			json_agg(store.*)
+	from(
+	   select app.public.user.* from "app"."public".user
+	)users
+
+	LEFT OUTER JOIN 
+	(     
+	  select  app.public.client.*, TO_CHAR(app.public.client.birth, 'YYYY.MM.DD') as birth from "app"."public".client
+	 
+	) client
+	on (users.primary_key = client.foreign_key_user)
+
+	LEFT OUTER JOIN 
+	(     
+	  select app.public.store.* from "app"."public".store
+	) store
+	on (store.foreign_key_user = users.primary_key)
+
+	WHERE users."foreign_key_uid" = foreign_key_uid_user;
 
 END;
 $$ LANGUAGE plpgsql;
