@@ -16,7 +16,8 @@ import { InvoiceService, Invoice } from '../service/invoice.service';
 
 export class DebuggerComponent{
 
-  public view$: Observable<Boolean> = this.view.getLoader()
+  public load$: Observable<Boolean> = this.view.getLoader()
+  public view$: Observable<String> = this.view.getUser()
   public user$: Observable<User[]> = this.user.getUserInState()
   public client$: Observable<Client[]> = this.client.getClientInState()
   public store$: Observable<Store[]> = this.store.getStoreInState()

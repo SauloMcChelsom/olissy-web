@@ -3,7 +3,7 @@ import { FormGroup, FormControl }  from '@angular/forms';
 //import { FormGroup, FormBuilder, FormControl, FormArray }  from '@angular/forms';
 import { View } from '../../../../shared/view.shared';
 import { ClientService, Client } from '../../../../service/client.service';
-import { UserService } from '../../../../service/user.service';
+import { UserService, User } from '../../../../service/user.service';
 import stateCity from "./state-city.type";
 
 import { Subject } from 'rxjs';
@@ -40,7 +40,7 @@ export class AlterPerfilOfClientComponent implements OnInit, OnDestroy {
   
     public imageNew: Blob | Uint8Array | ArrayBuffer;
   
-    public imageDisplay: any = 'assets/img/avatar.png'
+    public imageDisplay: any = '/assets/browser/img/platform/avatar.png'
   
     public phoneMask: any = {
       mask: "(00) 0000-0000",
@@ -78,7 +78,7 @@ export class AlterPerfilOfClientComponent implements OnInit, OnDestroy {
     ){}
 
     private createForm (client, user): FormGroup { 
-      var userGroup = {};
+      var userGroup:any = {};
       var clientGroup = {};
 
       for (const key in client) {
@@ -86,7 +86,11 @@ export class AlterPerfilOfClientComponent implements OnInit, OnDestroy {
       }
 
       for (const key in user) {
-        userGroup[key] = new FormControl(user[key]);
+        if(key == 'email'){
+          userGroup[key] = new FormControl({value:user[key], disabled: true});
+        }else{
+          userGroup[key] = new FormControl(user[key]);
+        }
       }
     
       return new FormGroup({
@@ -290,7 +294,6 @@ export class AlterPerfilOfClientComponent implements OnInit, OnDestroy {
       if (this.clientForm.valid && this.imageNew) {
         this.view.setLoader(true);
         this.salve()
-       //console.log(this.clientForm.value);
       }
   
       window.scroll(0, 0);

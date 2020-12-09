@@ -5,7 +5,7 @@ import { HostListener } from '@angular/core';
 import { LocationStrategy } from '@angular/common';
 
 import { View } from '../../../../shared/view.shared';
-import { UserService } from '../../../../service/User.service';
+import { UserService } from '../../../../service/user.service';
 import { StoreService, Store } from '../../../../service/store.service';
 import { ProductService, Product } from '../../../../service/product.service';
 import { WarehouseService, Warehouse } from '../../../../service/warehouse.service';
@@ -20,7 +20,7 @@ declare var $ :any;
   templateUrl: './new-product.component.html',
   styleUrls: ['./new-product.component.css']
 })
-
+ 
 export class NewProductComponent implements OnInit {
 
   private unsubscribe$ = new Subject();

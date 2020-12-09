@@ -21,13 +21,11 @@ export class HeaderClientComponent {
 
   private unsubscribe$ = new Subject();
 
-  //public orderCreate$: Observable<Order[]> = this.orderService.getOrderInState('create') 
   public orderCreate$: Observable<Order[]>  | any  =  (this.orderService.getOrderInState('create') ? this.orderService.getOrderInState('create') : false)
   
-  //public orderUser$: Observable<Order[]>   = this.orderService.getOrderInState('user')
   public orderUser$: Observable<Order[]>  | any  =  (this.orderService.getOrderInState('user') ? this.orderService.getOrderInState('user') : false)
 
-  public client = { imageIconUrl : "/assets/img/avatar.png"}
+  public client = { imageIconUrl : "/assets/browser/img/platform/avatar.png"}
 
   public router = this.route.url
 
@@ -79,7 +77,8 @@ export class HeaderClientComponent {
     this.orderUser$ = this.orderService.getOrderByForeignKeyClientInApi(order)
     
     this.orderUser$.pipe(takeUntil(this.unsubscribe$)).subscribe((order:Order[])=>{
-      this.client.imageIconUrl = this.clientService.pullClientInState().imageIconUrl
+
+      this.client.imageIconUrl = this.clientService.pullClientInState().image_icon_url
       if(Object.keys(order).length == 0){
         this.orderService.putOrderInState('user')
       }else{

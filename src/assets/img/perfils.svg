@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<svg  class="svg-perfil" viewBox="523.26 194.785 96.421 96.052" xmlns="http://www.w3.org/2000/svg">
-  <circle style="fill: rgb(255, 255, 255);" cx="572.206" cy="242.995" r="48.182"/>
-  <g transform="matrix(0.988565, 0, 0, 0.995044, 524.15509, 203.645538)" style="">
-    <circle cx="48" cy="30" r="16" style="stroke-miterlimit: 2;"/>
-    <path d="M 78.89 88.256 L 80 66 C 80 63.6 78.793 61.2 76.782 59.6 C 72.356 56 66.724 53.6 61.092 52 C 57.069 50.8 52.644 50 47.816 50 C 43.391 50 38.965 50.8 34.54 52 C 28.908 53.6 23.276 56.4 18.85 59.6 C 16.839 61.2 15.632 63.6 15.632 66 L 16.002 88.257 L 78.89 88.256 Z" style="stroke-miterlimit: 2;"/>
-  </g>
-  <path d="M 341 162 m -63.58 0 a 63.58 64.5 0 1 0 127.16 0 a 63.58 64.5 0 1 0 -127.16 0 Z M 341 162 m -47.006 0 a 47.006 46.788 0 0 1 94.012 0 a 47.006 46.788 0 0 1 -94.012 0 Z" style="stroke-miterlimit: 1; stroke: rgb(0, 0, 0); stroke-width: 0px; fill-rule: evenodd; paint-order: fill; fill: rgb(228, 230, 235);" transform="matrix(-0.809475, 0.587154, -0.587154, -0.809475, 942.661621, 173.782242)"/>
-</svg>

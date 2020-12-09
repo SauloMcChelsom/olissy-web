@@ -445,7 +445,7 @@ BEGIN
 	RETURNING  primary_key INTO  primary_key_user;
 	
 	INSERT INTO "client" ("foreign_key_user","timestamp","name","last_name","image_icon_path","image_icon_url","sex","birth","cellphone","telephone","country","state_federal","city","neighborhood","street","cep") 
-	VALUES (primary_key_user,current_timestamp,name, null, 'icon/avatar.png','https://firebasestorage.googleapis.com/v0/b/olissy-web-test.appspot.com/o/plataform%2Favatar.png?alt=media&token=93cf2089-ee1d-4ccb-b88b-b210583889c6', null, null, null, null, null, null, null, null, null, null) 
+	VALUES (primary_key_user,current_timestamp,name, null, '/assets/browser/img/platform/avatar.png','/assets/browser/img/platform/avatar.png', null, null, null, null, null, null, null, null, null, null) 
 	RETURNING  primary_key INTO  primary_key_client;
 
 	return query select   primary_key_user, primary_key_client, upper('create_new_account_success'), '200'::INTEGER;

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" width= "25px" height="25px" >
-  <g transform="matrix(1.448105, 0, 0, 1.395321, -116.546974, 29.337851)">
-    <title>Layer 1</title>
-    <ellipse stroke="#575757" ry="132.684" rx="125.5" id="svg_1" cy="130.324" cx="226.5" fill-opacity="null" stroke-opacity="null" fill="none" style="stroke-width: 30px; stroke-miterlimit: 5; stroke-linecap: round;"/>
-  </g>
-  <line stroke="#575757" style="stroke-width: 50px; stroke-linecap: round;" x1="349.693" y1="339.468" x2="460.123" y2="461.145"/>
-</svg>
