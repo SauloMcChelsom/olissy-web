@@ -98,7 +98,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.active.message = true
       this.view.setLoader(false)
       if(errorServer){
-        this.active.text = 'Error na comunicação com o servidor, GUARDE! estamos trabalhando nisso'
+        this.active.text = 'Error na comunicação com o servidor, AGUARDE! estamos trabalhando nisso'
        }
     }
   }
@@ -112,6 +112,9 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
         if(err.code == 'auth/network-request-failed'){
           this.active.text = "Sem Acesso a internet"
+        }
+        if(err.code == 'auth/user-not-found'){
+          this.active.text = `Não há registro de usuário correspondente a este ${this.userForm.value.email}. O usuário pode ter sido excluído..<br \/><br \/> Codigo do erro caso precise<br \/><br \/>auth/user-not-found`
         }
         this.active.message = true
         this.view.setLoader(false)

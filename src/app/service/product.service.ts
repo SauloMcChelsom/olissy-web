@@ -4,10 +4,14 @@ import { ProductState as state } from '../state/product.state';
 import { ProductInterface as Product } from '../interfaces/product.interface';
 export { Product}
          
-@Injectable({providedIn: 'root'})
+@Injectable({providedIn: 'root'}) 
 export class ProductService {
 
   constructor(private api: api, private state: state) {}
+
+  public queryProductByUserInApi(){
+    return this.api.queryProductByUser()
+  }
 
   public getProductByIndexInApi(){
     return this.api.getProductByIndex()

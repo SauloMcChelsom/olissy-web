@@ -33,9 +33,13 @@ export class HomeComponent implements OnInit {
 
   public stores = []
   public warehouses = []
-  public products = []
+  public products = [{
+    product:null,
+    warehouse:null,
+    store:null
+  }]
   public pages = 0
-  public showCardBy = "product"
+  public showCardBy = "product" 
   
   constructor(
     private view:View,
@@ -50,54 +54,19 @@ export class HomeComponent implements OnInit {
   public ngOnInit() {
     this.view.setLoader(false)
     this.getProduct()
-  }
+  } 
   
-
   public  getProduct() {
-    this.productService.getProductByIndexInApi().pipe(takeUntil(this.unsubscribe$)).subscribe(async(product:Product[])=>{
-      for (const index in product) {
-        this.products.push(product[index])
-
-        this.store.PRIMARY_KEY = product[index].FOREIGN_KEY_STORE
-        await this.getStore(this.store)
-  
-        this.warehouse.PRIMARY_KEY = product[index].FOREIGN_KEY_WAREHOUSE
-        await this.getWarehouse(this.warehouse)
-      }
+    this.productService.queryProductByUserInApi().subscribe((res)=>{
+      this.products = res
+      console.log(res)
     })
   }
 
-  public async getStore(store:Store){
-    let getStore:boolean = true
-    for (const i in this.stores) {//listar todas lojas no array de this.stores
-      if(this.stores[i].PRIMARY_KEY == store.PRIMARY_KEY){//tenho a loja no array de this.stores
-        getStore = false//nao buscar no banco de dados
-      }
-      break
-    }
-    if(getStore){
-      await this.storeService.getStoreByPrimaryKeyInApi(store).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) => this.stores.push(v[0]) ) ).toPromise()
-    }
-  }
-
-  public async getWarehouse(warehouse:Warehouse){
-    let getWarehouse:boolean = true
-    for (const i in this.warehouses) {
-      if(this.warehouses[i].PRIMARY_KEY == warehouse.PRIMARY_KEY){
-        getWarehouse = false
-      }
-      break
-    }
-    if(getWarehouse){
-      let wh
-      await this.warehouseService.getWarehouseByPrimaryKeyInApi(warehouse).pipe(takeUntil(this.unsubscribe$), take(1), map( (v:any) => wh = v[0] ) ).toPromise()
-      wh.showDescription = false
-      this.warehouses.push(wh)
-    }
-  }
-
   public showDescription(value,index){
-    this.warehouses[index].showDescription = !value
+    console.log(value,index)
+    this.products[index].warehouse.showDescription = !value
+    console.log(this.products[index].warehouse.showDescription)
   }
 
   public sedOrder(product:Product){

@@ -4,9 +4,11 @@ DROP FUNCTION public.get_order_client_fn(integer) cascade;
 DROP FUNCTION public.create_new_account_fn(text, text, text, text, text) CASCADE;
 DROP FUNCTION public.email_informed_exists_fn(text) CASCADE;
 DROP FUNCTION public.get_user_client_store_fn(text) cascade;
+DROP FUNCTION public.query_product() cascade;
 
 DROP TYPE type_order_client cascade;
 DROP TYPE type_create_new_account cascade; 
+DROP TYPE type_query_product cascade; 
 
 DROP TABLE public.increment cascade;
 DROP TABLE public.company cascade;
@@ -269,37 +271,34 @@ create table "app"."public"."invoice" (
 
 insert into "increment" ("store","warehouse","client","user") values (0,0,0,0);
 
-insert into "company" ("timestamp","name","name_search") values (current_timestamp,'néstle','nestle');
-insert into "company" ("timestamp","name","name_search") values (current_timestamp,'kibóm','kibom');
+insert into "company" ("timestamp","name","name_search") values (current_timestamp,'NIVEA','nivea');
+insert into "company" ("timestamp","name","name_search") values (current_timestamp,'NESTLÉ','nestle');
 
-insert into "warehouse" ("timestamp","company","image_url","image_path","price","name","name_for_search","description","description_for_search","session","category","type","and_generic") values (current_timestamp,1,'src/1','hhh/img2225.jpg',23.35,'leite em pó','leite em po','leite ninho em pó da néstle ...','leite ninho em po da nestle ...','alimentos','emlatados','leite','0');
-insert into "warehouse" ("timestamp","company","image_url","image_path","price","name","name_for_search","description","description_for_search","session","category","type","and_generic") values (current_timestamp,1,'src/1','hhh/img2225.jpg',17.10,'sorvete de chocolate','sorvete de chocolate','sabor gelado ...','sabor gelado ...','alimentos','gelados','sorvete','0');
+insert into "warehouse" ("timestamp","company","image_url","image_path","price","name","name_for_search","description","description_for_search","session","category","type","and_generic") values (current_timestamp,1,'https://firebasestorage.googleapis.com/v0/b/olissy-web-test.appspot.com/o/werehouse%2F2020828165511124.jpg?alt=media&token=1324348f-a3ae-4743-9669-47e513a9ed11','/assets/olissy/img/warehouse/6666t6rt6rrt6ytUIO54.png',24.2,'CREME FACIAL NIVEA ANTISSINAIS 100G','creme facial nivea antissinais 100g','<p>O <b>Creme Facial Antissinais Nivea</b> possui fórmula ultra leve com Tecnologia <b>Hydro-Waxes</b> à base de água e vitamina E, além de proporcionar hidratação intensa sem deixar sensação oleosa na pele. Firma e reduz linhas de expressão para uma pele bonita e com aspecto saudável.<br><br><b>Benefícios:</b><br><br>- Antissinais;<br>- Hidratação intensa;<br>- Firma e reduz linhas de expressão;<br>- Protege contra os raios UVA/UVB;<br>- Fórmula leve de rápida absorção;<br>- Sensação não oleosa.<br><br><b>Precauções:</b> Uso externo. Evite contato com os olhos. Caso aconteça, enxágue com água em abundância. Em caso de irritação, suspenda o uso e procure orientação médica. Manter em local seco e arejado, ao abrigo de luz e fora do alcance de crianças. Este produto não é um protetor solar.<br><br></p>','<p>o <b>creme facial antissinais nivea</b> possui formula ultra leve com tecnologia <b>hydro-waxes</b> a base de agua e vitamina e, alem de proporcionar hidratacao intensa sem deixar sensacao oleosa na pele. firma e reduz linhas de expressao para uma pele bonita e com aspecto saudavel.<br><br><b>beneficios:</b><br><br>- antissinais;<br>- hidratacao intensa;<br>- firma e reduz linhas de expressao;<br>- protege contra os raios uva/uvb;<br>- formula leve de rapida absorcao;<br>- sensacao nao oleosa.<br><br><b>precaucoes:</b> uso externo. evite contato com os olhos. caso aconteca, enxague com agua em abundancia. em caso de irritacao, suspenda o uso e procure orientacao medica. manter em local seco e arejado, ao abrigo de luz e fora do alcance de criancas. este produto nao e um protetor solar.<br><br></p>','beleza','Rosto','Loção/Óleo/Creme/Gel/Hidratantes/Spray','0');
+insert into "warehouse" ("timestamp","company","image_url","image_path","price","name","name_for_search","description","description_for_search","session","category","type","and_generic") values (current_timestamp,1,'https://firebasestorage.googleapis.com/v0/b/olissy-web-test.appspot.com/o/werehouse%2F202083195946401.jpg?alt=media&token=bcc4b3b0-9cde-4355-9ef8-a054e57211f1','/assets/olissy/img/warehouse/6666t6rt6rrt6ytUIO54.png',3.8,'BALA DE GELATINA FINI BERRI OX VITAMINA E 18G','bala de gelatina fini berri ox vitamina e 18g','<p>Balas de gelatina para dietas de ingestão controlada de açúcares , sabores sortidos. Contém aromatizante<br></p>','<p>balas de gelatina para dietas de ingestao controlada de acucares , sabores sortidos. contem aromatizante<br></p>','saude','Alimentos','Balas','0');
+insert into "warehouse" ("timestamp","company","image_url","image_path","price","name","name_for_search","description","description_for_search","session","category","type","and_generic") values (current_timestamp,2,'https://firebasestorage.googleapis.com/v0/b/olissy-web-test.appspot.com/o/werehouse%2F2020828165039324.jpg?alt=media&token=eb70706a-e5ec-49e0-83c5-885aad6c1d4c','/assets/olissy/img/warehouse/6666t6rt6rrt6ytUIO54.png',18,'LEITE NESTLÉ EM PÓ','leite nestle em po','<p><b></b><u></u>Ninho <u></u>Zero<b></b> Lactose Forti+ é fortificado com Ferro, Zinco e Vitaminas A, C e D, essenciais para a nutrição das crianças.<br><br><b>Ingredientes:</b> Leite integral, maltodextrina, soro de leite, enzima lactase, vitaminas (A, D e C), minerais (ferro e zinco) e emulsificante lecitina de soja. NÃO CONTÉM GLÚTEN.<br><br><b>Modo de Preparo:</b> Para 1 copo (200 mL): Em um copo com água morna ou fria (180 mL), coloque 2 colheres de sopa (26 g) de Ninho Forti+ Zero Lactose e misture bem. Para 1 Litro: Em uma jarra com água morna ou fria (900 mL), coloque 10 colheres de sopa (130 g) de Ninho Forti+ Zero Lactose e misture bem. Utilizar somente água previamente fervida ou filtrada. Rendimento: 380 g = 2,9 Litros (14 copos).<br><br><br></p>','<p><b></b><u></u>ninho <u></u>zero<b></b> lactose forti+ e fortificado com ferro, zinco e vitaminas a, c e d, essenciais para a nutricao das criancas.<br><br><b>ingredientes:</b> leite integral, maltodextrina, soro de leite, enzima lactase, vitaminas (a, d e c), minerais (ferro e zinco) e emulsificante lecitina de soja. nao contem gluten.<br><br><b>modo de preparo:</b> para 1 copo (200 ml): em um copo com agua morna ou fria (180 ml), coloque 2 colheres de sopa (26 g) de ninho forti+ zero lactose e misture bem. para 1 litro: em uma jarra com agua morna ou fria (900 ml), coloque 10 colheres de sopa (130 g) de ninho forti+ zero lactose e misture bem. utilizar somente agua previamente fervida ou filtrada. rendimento: 380 g = 2,9 litros (14 copos).<br><br><br></p>','saude','Alimentos','Leite','0');
 
-insert into "user" ("foreign_key_uid","timestamp","password","terms","type","email", "provider") values ('a0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',current_timestamp,md5('123'),'1',1,'saulo@mail','olissy');
-insert into "user" ("foreign_key_uid","timestamp","password","terms","type","email", "provider") values ('b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',current_timestamp,md5('123'),'1',2,'ana@mail','olissy');
-insert into "user" ("foreign_key_uid","timestamp","password","terms","type","email", "provider") values ('c0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11',current_timestamp,md5('123'),'1',1,'maelly@mail','olissy');
+insert into "user" ("foreign_key_uid","timestamp","password","terms","type","email", "provider") values ('b0eeb6bb9bd380a11',current_timestamp,md5('123456789'),'1',2,'ana@mail','olissy');
 
-insert into "client" ("foreign_key_user","timestamp","name","last_name","image_icon_path","image_icon_url","sex","birth","cellphone","telephone","country","state_federal","city","neighborhood","street","cep") values (1,current_timestamp,'saulo','silva','/src/client','https://cdn.com/14556456466fr56f65f56ff.jpg','m','1990-10-27','5527999041192','2732620415','brasil','espirito santo','guarapari','bela vista','rua itapemirim','29211350');
-insert into "client" ("foreign_key_user","timestamp","name","last_name","image_icon_path","image_icon_url","sex","birth","cellphone","telephone","country","state_federal","city","neighborhood","street","cep") values (2,current_timestamp,'ana','camargo','/src/client','https://cdn.com/566fg5g6f5ggf56g565.jpg','f','1990-10-27','5527999066698','2732655548','brasil','espirito santo','guarapari','bela vista','rua itapemirim','29211350');
-insert into "client" ("foreign_key_user","timestamp","name","last_name","image_icon_path","image_icon_url","sex","birth","cellphone","telephone","country","state_federal","city","neighborhood","street","cep") values (3,current_timestamp,'maelly','batista','/src/client','https://cdn.com/56456g4gfgf56gruyipo.jpg','f','1993-09-11','552799333655','2732625559','brasil','espirito santo','guarapari','ipiranga','rua azul claro','29116325');
+insert into "client" ("foreign_key_user","timestamp","name","last_name","image_icon_path","image_icon_url","sex","birth","cellphone","telephone","country","state_federal","city","neighborhood","street","cep") values (1,current_timestamp,'ana','camargo','/assets/browser/img/platform/avatar.png','/assets/browser/img/platform/avatar.png','f','1990-10-27','5527999066698','2732655548','brasil','espirito santo','guarapari','bela vista','rua itapemirim','29211350');
 
-insert into "store" ("foreign_key_user","timestamp","name","image_icon_path","image_icon_url","image_back_ground_path","image_back_ground_url","country","state_federal","city","neighborhood","street","cep","hours_of_work","email","cellphone","telephone","about","cnpj","quantity_of_product","follow","store_open_or_closed","total_of_sale","authorization_for_open_store","credit","debit","money","delivery_by","delivery_free_above","negotiaterate_delivery","only_in_neighborhood") values (2,current_timestamp,'perto de casa','/src/store','https://cdn.com/hg5h4ghg45h45g4h45gh45.jpg','/src/store','https://cdn.com/ghgh5454gh5gh5g5tt9ghg.jpg','brasil','es','guarapari','bela vista','rua itapemirim','29211350','25 mi','pdc@mail.com','27999665458','2736326226','somos a ....','256625000129',0,0,'1',0,'1','1','1','1','{true,5.88}','{5,25}','{true}','{true}');
+insert into "store" ("foreign_key_user","timestamp","name","image_icon_path","image_icon_url","image_back_ground_path","image_back_ground_url","country","state_federal","city","neighborhood","street","cep","hours_of_work","email","cellphone","telephone","about","cnpj","quantity_of_product","follow","store_open_or_closed","total_of_sale","authorization_for_open_store","credit","debit","money","delivery_by","delivery_free_above","negotiaterate_delivery","only_in_neighborhood") values (1,current_timestamp,'perto de casa','/assets/browser/img/platform/avatar.png','/assets/browser/img/platform/avatar.png','/src/store','https://cdn.com/ghgh5454gh5gh5g5tt9ghg.jpg','brasil','es','guarapari','bela vista','rua itapemirim','29211350','25 mi','pdc@mail.com','27999665458','2736326226','somos a ....','256625000129',0,0,'1',0,'1','1','1','1','{true,5.88}','{5,25}','{true}','{true}');
 
-insert into "product" ("timestamp","foreign_key_user","foreign_key_warehouse","foreign_key_store","price","product_for_sale","quantities","total_of_love","total_of_sale","total_of_comment") values (current_timestamp,2,1,1,29.35,'1',6,0,0,0);
-insert into "product" ("timestamp","foreign_key_user","foreign_key_warehouse","foreign_key_store","price","product_for_sale","quantities","total_of_love","total_of_sale","total_of_comment") values (current_timestamp,2,2,1,17.35,'1',19,0,0,0);
+insert into "product" ("timestamp","foreign_key_user","foreign_key_warehouse","foreign_key_store","price","product_for_sale","quantities","total_of_love","total_of_sale","total_of_comment") values (current_timestamp,1,1,1,24.2,'1',6,0,0,0);
+insert into "product" ("timestamp","foreign_key_user","foreign_key_warehouse","foreign_key_store","price","product_for_sale","quantities","total_of_love","total_of_sale","total_of_comment") values (current_timestamp,1,2,1,03.8,'1',19,0,0,0);
+insert into "product" ("timestamp","foreign_key_user","foreign_key_warehouse","foreign_key_store","price","product_for_sale","quantities","total_of_love","total_of_sale","total_of_comment") values (current_timestamp,1,3,1,18.0,'1',19,0,0,0);
 
+--insert into "order" ("timestamp","foreign_key_store","foreign_key_client","addressfullofclient","name_of_client","last_name_of_client","image_icon_url_of_client","email_of_client","cellphone_of_client","city_of_client","neighborhood_of_client","street_of_client","order_state","name_of_store","image_icon_url_of_store","cellphone_of_store","email_of_store","city_of_store","neighborhood_of_store","street_of_store","cnpj_of_store","store_viewed_the_order","method_payment","inform_change","taxa_of_platform","taxa_delivery_select_by_client_status") values (current_timestamp,1,1,'rua itapemirim sem num','saulo','silva','src/','saulo@mail.com','99041192','guarapari','bela vista','rua itapemirim','send','perto de casa','img.jpg','2799659555','pdc@mail.com','guarapari','bela vista','ariacica','100001250000','1','credit','',0.40,'delivery_by');
+--insert into "order" ("timestamp","foreign_key_store","foreign_key_client","addressfullofclient","name_of_client","last_name_of_client","image_icon_url_of_client","email_of_client","cellphone_of_client","city_of_client","neighborhood_of_client","street_of_client","order_state","name_of_store","image_icon_url_of_store","cellphone_of_store","email_of_store","city_of_store","neighborhood_of_store","street_of_store","cnpj_of_store","store_viewed_the_order","method_payment","inform_change","taxa_of_platform","taxa_delivery_select_by_client_status") values (current_timestamp,1,3,'rua azul claro, ipiranga','maelly','batista','src/','maelly@mail.com','552799333655','guarapari','ipiranga','rua azul claro','send','perto de casa','img.jpg','2799659555','pdc@mail.com','guarapari','bela vista','ariacica','100001250000','1','credit','',0.40,'delivery_free_above');
 
-insert into "order" ("timestamp","foreign_key_store","foreign_key_client","addressfullofclient","name_of_client","last_name_of_client","image_icon_url_of_client","email_of_client","cellphone_of_client","city_of_client","neighborhood_of_client","street_of_client","order_state","name_of_store","image_icon_url_of_store","cellphone_of_store","email_of_store","city_of_store","neighborhood_of_store","street_of_store","cnpj_of_store","store_viewed_the_order","method_payment","inform_change","taxa_of_platform","taxa_delivery_select_by_client_status") values (current_timestamp,1,1,'rua itapemirim sem num','saulo','silva','src/','saulo@mail.com','99041192','guarapari','bela vista','rua itapemirim','send','perto de casa','img.jpg','2799659555','pdc@mail.com','guarapari','bela vista','ariacica','100001250000','1','credit','',0.40,'delivery_by');
-insert into "order" ("timestamp","foreign_key_store","foreign_key_client","addressfullofclient","name_of_client","last_name_of_client","image_icon_url_of_client","email_of_client","cellphone_of_client","city_of_client","neighborhood_of_client","street_of_client","order_state","name_of_store","image_icon_url_of_store","cellphone_of_store","email_of_store","city_of_store","neighborhood_of_store","street_of_store","cnpj_of_store","store_viewed_the_order","method_payment","inform_change","taxa_of_platform","taxa_delivery_select_by_client_status") values (current_timestamp,1,3,'rua azul claro, ipiranga','maelly','batista','src/','maelly@mail.com','552799333655','guarapari','ipiranga','rua azul claro','send','perto de casa','img.jpg','2799659555','pdc@mail.com','guarapari','bela vista','ariacica','100001250000','1','credit','',0.40,'delivery_free_above');
+--insert into "order_note" ("timestamp","foreign_key_order","name","text","view") values (current_timestamp,1,'saulo','ola','0');
 
-insert into "order_note" ("timestamp","foreign_key_order","name","text","view") values (current_timestamp,1,'saulo','ola','0');
+--insert into "order_product" ("timestamp","foreign_key_order","foreign_key_product","name","price","quantity","stayed_in_store") values (current_timestamp,1,1,'leite em pó',29.35,1,1);
+--insert into "order_product" ("timestamp","foreign_key_order","foreign_key_product","name","price","quantity","stayed_in_store") values (current_timestamp,2,1,'leite em pó',29.35,2,1);
+--insert into "order_product" ("timestamp","foreign_key_order","foreign_key_product","name","price","quantity","stayed_in_store") values (current_timestamp,2,2,'sorvete de chocolate',17.35,2,1);
 
-insert into "order_product" ("timestamp","foreign_key_order","foreign_key_product","name","price","quantity","stayed_in_store") values (current_timestamp,1,1,'leite em pó',29.35,1,1);
-insert into "order_product" ("timestamp","foreign_key_order","foreign_key_product","name","price","quantity","stayed_in_store") values (current_timestamp,2,1,'leite em pó',29.35,2,1);
-insert into "order_product" ("timestamp","foreign_key_order","foreign_key_product","name","price","quantity","stayed_in_store") values (current_timestamp,2,2,'sorvete de chocolate',17.35,2,1);
-
-insert into "order_taxa_delivery_select_by_client" ("timestamp","foreign_key_order","description","value","taxa","km") values (current_timestamp,1,'entrega por 9 por quilômetro 15 km`','delivery_by',9,15);
-insert into "order_taxa_delivery_select_by_client" ("timestamp","foreign_key_order","description","value","taxa","km") values (current_timestamp,2,'entrega grátis acima de r$30 por 10km quilômetro`','delivery_free_above',0,10);
+--insert into "order_taxa_delivery_select_by_client" ("timestamp","foreign_key_order","description","value","taxa","km") values (current_timestamp,1,'entrega por 9 por quilômetro 15 km`','delivery_by',9,15);
+--insert into "order_taxa_delivery_select_by_client" ("timestamp","foreign_key_order","description","value","taxa","km") values (current_timestamp,2,'entrega grátis acima de r$30 por 10km quilômetro`','delivery_free_above',0,10);
 
 
 create or replace view get_order_client_view as 
@@ -557,10 +556,38 @@ END;
 $$ LANGUAGE plpgsql;
 
 /*   -----------      */
+CREATE TYPE type_query_product AS 
+(
+	"product"   jsonb,
+	"warehouse" jsonb,
+	"store"     jsonb
+);
+CREATE OR REPLACE FUNCTION query_product()RETURNS SETOF type_query_product AS $$
+DECLARE
+    primary_key_user   int := 0;
 
+begin  
+	return query select to_jsonb(product), to_jsonb(warehouse),  to_jsonb(store)
+	    from product, warehouse, store  
+        where product.foreign_key_warehouse = warehouse.primary_key 
+		and   product.foreign_key_user = store.foreign_key_user;
+
+END;
+$$ LANGUAGE plpgsql;
+
+/*
+//array_to_json
+//array_agg
+//to_jsonb
+//to_json
+//row_to_json
+//json_agg
+//json_build_object('warehouse',warehouse) 
+*/
 select * from get_order_client_view where "foreign_key_client" = 3;
 select * from get_order_client_fn(3);
 select * from email_informed_exists_fn('saulo@mail') as existed;
 select * from create_new_account_fn('d0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11', 'maike', 'may@gmail.com', '98456321', 'olissy') LIMIT 1;
 select * from public.user order by primary_key desc;
-select * from get_user_client_store_fn('b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11')
+select * from get_user_client_store_fn('b0eebc99-9c0b-4ef8-bb6d-6bb9bd380a11');
+select product, (warehouse || jsonb_build_object('showDescription', false)) as warehouse,store from query_product();

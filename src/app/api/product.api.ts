@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { Observable, Observer, throwError } from 'rxjs';
+import { retry,delay, catchError } from 'rxjs/operators';
+
+import { environment } from '../../environments/environment';
 
 import { AngularFirestore } from '@angular/fire/firestore';
 import * as firebase from 'firebase/app';
@@ -11,7 +15,23 @@ import { ProductInterface as Product } from '../interfaces/product.interface';
 @Injectable({providedIn: 'root'})
 export class ProductApi {
 
+  readonly url = `${environment.node.host}${'products/'}` ;
+
+  public httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  }
+
   constructor(private http: HttpClient, private db: AngularFirestore){}
+
+  public queryProductByUser(){
+    return this.http.get<any>(`${this.url}query`, this.httpOptions)
+    .pipe( 
+     //delay(5000),
+      retry(10), 
+      catchError(this.handleError)
+    )
+  }
+
 
   public getProductByIndex(){
     return this.db.collection<Product>('product', ref =>ref.orderBy("AUTOINCREMENT", "desc").limit(5)).valueChanges()
@@ -71,5 +91,18 @@ export class ProductApi {
     const increment = firebase.firestore.FieldValue.increment(1);
     await this.db.collection('increment').doc("00").update({ product : increment })
   }
+
+  // Manipulação de erros
+  public handleError(error: HttpErrorResponse) {
+    let errorMessage = '';
+    if (error.error instanceof ErrorEvent) {
+      // Erro ocorreu no lado do client
+      errorMessage = error.error.message;
+    } else {
+      // Erro ocorreu no lado do servidor
+      errorMessage = `Código do erro: ${error.status}, ` + `menssagem: ${error.message}`;
+    }
+    return throwError(errorMessage);
+  };
 
 }

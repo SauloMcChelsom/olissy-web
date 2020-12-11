@@ -1,30 +1,30 @@
 
 <div class="container">
   <div class="col-md-12 col-xs-12 card-container">
-    <div *ngFor="let product of products" class="menu-item-info-box card">
+    <div *ngFor="let result of products; let i = index" class="menu-item-info-box card">
 
-      <div *ngIf="!stores?.length" class="card-header">
+      <div *ngIf="!result.store" class="card-header">
         <span class="card-header-loader"></span>
       </div>
-      <div *ngFor="let store of stores">
-        <div *ngIf="product.FOREIGN_KEY_STORE == store.PRIMARY_KEY" class="card-header">
-          <span id="card-header-left" [routerLink]="['/user-page-of-store', store?.PRIMARY_KEY]">
+      <div *ngIf="result.store">
+        <div class="card-header">
+          <span id="card-header-left" [routerLink]="['/user-page-of-store', result.store?.primary_key]">
             <span>
-              <img class="img-circle" width="40px" [src]="store.imageIconUrl" alt="User Image" />
+              <img class="img-circle" width="40px" [src]="result.store.image_icon_url" alt="User Image" />
             </span>
-            <span *ngIf="store.storeOpenOrClosed" class="card-header-left-store-open">
+            <span *ngIf="result.store.store_open_or_closed" class="card-header-left-store-open">
               <i class="fa fa-circle"></i>
             </span>
-            <span *ngIf="!store.storeOpenOrClosed" class="card-header-left-store-closed">
+            <span *ngIf="!result.store.store_open_or_closed" class="card-header-left-store-closed">
               <i class="fa fa-circle"></i>
             </span>
             <span class="card-header-left-store-container">
-              <a class="card-header-left-store-container-name">{{ store.name }}</a>
+              <a class="card-header-left-store-container-name">{{ result.store.name }}</a>
               <i class="fa fa-circle" style="font-size: 10px; margin-right: 5px;"></i>
-              <a class="card-header-left-store-container-neighborhood">{{ store.neighborhood }}</a>
+              <a class="card-header-left-store-container-neighborhood">{{ result.store.neighborhood }}</a>
             </span>
             <span class="card-header-left-phone-container">
-              {{ store.cellPhone | mask: '(00) 0 000-0000' }}
+              {{ result.store.cellphone | mask: '(00) 0 000-0000' }}
             </span>
           </span>
           <span class="card-header-right">
@@ -34,75 +34,75 @@
           </span>
         </div>
       </div>
-
-      <div *ngIf="!warehouses?.length" class="col-md-12 col-xs-12 card-content">
+ 
+      <div *ngIf="!result.warehouse" class="col-md-12 col-xs-12 card-content">
         <span class="card-content-loader"></span>
       </div>
-      <div *ngFor="let warehouse of warehouses ; let i = index">
-        <div *ngIf="product.FOREIGN_KEY_WAREHOUSE == warehouse.PRIMARY_KEY">
+      <div *ngIf="result.warehouse">
+        <div>
           <div class="col-md-12 col-xs-12 card-content">
-            <span (click)="showDescription(warehouse.showDescription, i)" class="card-content-title">
-              {{ warehouse.name }}
+            <span (click)="showDescription(result.warehouse.showDescription, i)" class="card-content-title">
+              {{ result.warehouse.name }}
             </span>
-            <div *ngIf="warehouse.showDescription" class="card-content-description">
+            <div *ngIf="result.warehouse.showDescription" class="card-content-description">
               <span class="menu-item-info-box-detail">
                 <label>
                   <p>
-                    <b>Sessão: </b> {{ warehouse.session }}
+                    <b>Sessão: </b> {{ result.warehouse.session }}
                   </p>
                 </label>
               </span>
               <span class="menu-item-info-box-detail">
                 <label>
                   <p>
-                    <b>Categoria: </b> {{ warehouse.category }}
+                    <b>Categoria: </b> {{ result.warehouse.category }}
                   </p>
                 </label>
               </span>
               <span class="menu-item-info-box-detail">
                 <label>
                   <p>
-                    <b>Tipo: </b> {{ warehouse.type }}
+                    <b>Tipo: </b> {{ result.warehouse.type }}
                   </p>
                 </label>
               </span>
               <span class="menu-item-info-box-detail">
                 <label>
                   <p>
-                    <b>Generico: </b> {{ warehouse.andGeneric? "Sim" : "Não" }}
+                    <b>Generico: </b> {{ result.warehouse.and_generic? "Sim" : "Não" }}
                   </p>
                 </label>
               </span>
               <span class="menu-item-info-box-detail">
                 <label>
                   <p>
-                    <b>Fornecedor: </b> {{ warehouse.company }}
+                    <b>Fornecedor: </b> {{ result.warehouse.company }}
                   </p>
                 </label>
               </span>
               <h5 style="margin-top: 0px;">
-                <div [innerHTML]="warehouse.description"></div>
+                <div [innerHTML]="result.warehouse.description"></div>
               </h5>
             </div>
           </div>
           
           <div class="card-publication">
-            <!--<span class="card-content-loader"></span>-->
+
             <div class="card-publication-container"> 
               <a target="_blank">
-                
-                <img style="width: 100%" [src]="warehouse.imageUrl[0]" alt="Photo">
+                <img style="width: 100%" [src]="result.warehouse.image_url" alt="Photo">
               </a>
             </div>
           </div>
         </div>
       </div>
-      <div class="card-sales">
+      
+      <div *ngIf="result.product" class="card-sales">
         <span class="menu-item-info-box-price card-sales-price">
-          {{ product.price | currency: 'BRL'}} 
+          {{ result.product.price | currency: 'BRL'}} 
           <span>
             <b>
-              {{ product.quantities }}  Unidades
+              {{ result.product.quantities }}  Unidades
             </b>
           </span>
         </span>
@@ -112,18 +112,18 @@
           </button>
         </span>
       </div>
-      <div class="card-react">
+      <div *ngIf="result.product" class="card-react">
         <div class="card-react-love">
           <i class="fa  fa-heart-o"></i>
-          <b>{{ product.totalOfLove }}</b>   
+          <b>{{ result.product.total_of_love }}</b>   
         </div>
         <div class="card-react-commit">        
           <i class="fa  fa-comment-o"></i>
-          <b>{{ product.totalOfComment }}</b>   
+          <b>{{ result.product.total_of_comment }}</b>   
         </div>
         <div class="card-react-sale">      
           <i class="fa  fa-star-o"></i>
-          <b>{{ product.totalOfSale }}</b>   
+          <b>{{ result.product.total_of_sale }}</b>   
         </div>
       </div>
     </div>
